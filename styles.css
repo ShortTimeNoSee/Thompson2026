@@ -367,3 +367,51 @@ iframe {
     margin: 0 auto 30px;
     color: rgb(200, 195, 188);
 }
+
+/* Sitemap Styles */
+.sitemap-content {
+    padding: 100px 0;
+    background-color: rgb(24, 26, 27);
+    color: rgb(200, 195, 188);
+    text-align: center;
+}
+
+.sitemap-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sitemap-list li {
+    margin: 20px 0;
+    font-size: 1.5em;
+}
+
+.sitemap-list li a {
+    color: rgb(150, 145, 138);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.sitemap-list li a:hover {
+    color: rgb(200, 195, 188);
+    text-decoration: underline;
+}
+
+/* Header Styling for Sitemap */
+#header h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: rgb(200, 195, 188);
+    text-transform: uppercase;
+}
+
+/* General Footer Styling */
+footer {
+    background-color: rgb(32, 35, 36);
+    color: rgb(200, 195, 188);
+    text-align: center;
+    padding: 40px 0;
+    margin-top: 20px;
+    font-size: 0.9em;
+}
