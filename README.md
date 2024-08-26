@@ -1,6 +1,6 @@
 Muh campaign website.
 
-Visit it here](https://shorttimenosee.github.io/Thompson2026/)
+Visit it [here](https://shorttimenosee.github.io/Thompson2026/)
 
 In development. Just finished trying to highly optimize the home page.
 
