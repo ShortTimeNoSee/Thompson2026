@@ -397,11 +397,3 @@ iframe {
     color: rgb(200, 195, 188);
     text-decoration: underline;
 }
-
-/* Header Styling for Sitemap */
-#header h1 {
-    font-size: 2.5em;
-    margin-bottom: 20px;
-    color: rgb(200, 195, 188);
-    text-transform: uppercase;
-}
