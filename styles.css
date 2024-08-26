@@ -405,13 +405,3 @@ iframe {
     color: rgb(200, 195, 188);
     text-transform: uppercase;
 }
-
-/* General Footer Styling */
-footer {
-    background-color: rgb(32, 35, 36);
-    color: rgb(200, 195, 188);
-    text-align: center;
-    padding: 40px 0;
-    margin-top: 20px;
-    font-size: 0.9em;
-}
