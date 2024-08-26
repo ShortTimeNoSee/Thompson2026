@@ -1,11 +1,14 @@
 /* General Styles */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: rgb(24, 26, 27);
+    color: rgb(200, 195, 188);
     margin: 0;
     padding: 0;
     line-height: 1.6;
+    color-scheme: dark;
+    scrollbar-color: rgb(69, 74, 77) rgb(32, 35, 36);
+    transition: all 0.3s ease;
 }
 
 /* Container */
@@ -17,8 +20,8 @@ body {
 
 /* Header */
 header {
-    background: #333;
-    color: #fff;
+    background-color: rgb(32, 35, 36);
+    color: rgb(200, 195, 188);
     padding: 10px 0;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -30,7 +33,7 @@ header {
 }
 
 header.sticky {
-    background: #555;
+    background-color: rgb(24, 26, 27);
 }
 
 header h1 {
@@ -44,11 +47,7 @@ header h2 {
     margin: 5px 0 0;
     font-size: 1.2em;
     font-weight: 300;
-    color: #ccc;
-}
-
-nav {
-    position: relative;
+    color: rgb(150, 145, 138);
 }
 
 nav ul {
@@ -63,7 +62,7 @@ nav ul li {
 }
 
 nav ul li a {
-    color: #fff;
+    color: rgb(200, 195, 188);
     text-decoration: none;
     font-weight: bold;
     text-transform: uppercase;
@@ -73,8 +72,8 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    background: #fff;
-    color: #333;
+    background: rgb(32, 35, 36);
+    color: rgb(200, 195, 188);
 }
 
 /* Hamburger Menu */
@@ -82,7 +81,7 @@ nav ul li a:hover {
     display: none;
     font-size: 1.8em;
     cursor: pointer;
-    color: #fff;
+    color: rgb(200, 195, 188);
     position: absolute;
     top: 10px;
     right: 10px;
@@ -98,7 +97,7 @@ nav ul.active {
     position: absolute;
     top: 50px;
     right: 10px;
-    background: #333;
+    background: rgb(32, 35, 36);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -112,13 +111,14 @@ nav ul.active li {
 /* Sections */
 .section {
     padding: 100px 0;
-    background-color: #fff;
+    background-color: rgb(24, 26, 27);
+    color: rgb(200, 195, 188);
     transition: all 0.3s ease;
 }
 
 .dark-section {
-    background-color: #222;
-    color: #fff;
+    background-color: rgb(32, 35, 36);
+    color: rgb(200, 195, 188);
 }
 
 .section h3 {
@@ -126,25 +126,25 @@ nav ul.active li {
     margin-bottom: 20px;
     text-align: center;
     position: relative;
-    color: #333;
+    color: rgb(200, 195, 188);
 }
 
 .dark-section h3 {
-    color: #fff;
+    color: rgb(200, 195, 188);
 }
 
 .section h3::after {
     content: '';
     width: 60px;
     height: 4px;
-    background-color: #333;
+    background-color: rgb(150, 145, 138);
     display: block;
     margin: 20px auto 0;
     border-radius: 2px;
 }
 
 .dark-section h3::after {
-    background-color: #fff;
+    background-color: rgb(150, 145, 138);
 }
 
 .section p {
@@ -201,7 +201,7 @@ nav ul.active li {
 }
 
 .issue-card {
-    background: #fff;
+    background: rgb(32, 35, 36);
     border-radius: 10px;
     padding: 20px;
     text-align: center;
@@ -217,13 +217,13 @@ nav ul.active li {
 .issue-card i {
     font-size: 3em;
     margin-bottom: 10px;
-    color: #333;
+    color: rgb(200, 195, 188);
 }
 
 /* Footer */
 footer {
-    background: #333;
-    color: #fff;
+    background: rgb(32, 35, 36);
+    color: rgb(200, 195, 188);
     text-align: center;
     padding: 40px 0;
     margin-top: 20px;
@@ -232,13 +232,13 @@ footer {
 }
 
 footer a {
-    color: #fff;
+    color: rgb(200, 195, 188);
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 footer a:hover {
-    color: #ddd;
+    color: rgb(150, 145, 138);
 }
 
 .social-media {
@@ -246,7 +246,7 @@ footer a:hover {
 }
 
 .social-icon {
-    color: #fff;
+    color: rgb(200, 195, 188);
     font-size: 1.5em;
     margin: 0 10px;
     transition: transform 0.3s ease, color 0.3s ease;
@@ -254,12 +254,12 @@ footer a:hover {
 
 .social-icon:hover {
     transform: scale(1.2);
-    color: #ddd;
+    color: rgb(150, 145, 138);
 }
 
 /* Sticky Header */
 .sticky {
-    background: #555;
+    background-color: rgb(24, 26, 27);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
