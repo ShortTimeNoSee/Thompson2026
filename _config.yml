@@ -1,0 +1,18 @@
+title: "Nicholas A. Thompson - 2026 Campaign"
+description: "Official website for Nicholas A. Thompson's 2026 California Governor Campaign."
+baseurl: "/Thompson2026"
+url: "https://yourusername.github.io" # The base hostname & protocol for your site
+permalink: /:basename/
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+  auto_ids: true
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+github:
+  is_project_page: true
