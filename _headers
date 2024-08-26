@@ -1,0 +1,8 @@
+/Thompson2026/styles.css
+  Cache-Control: public, no-cache, must-revalidate
+
+/Thompson2026/script.js
+  Cache-Control: public, no-cache, must-revalidate
+
+/resources/Nicholas%20Thompson.webp
+  Cache-Control: public, max-age=2419200, immutable
