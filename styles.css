@@ -116,10 +116,13 @@ nav ul.active li {
 
 /* Sections */
 .section {
-    padding: 80px 0;
     background-color: rgb(24, 26, 27);
     color: rgb(200, 195, 188);
     transition: all 0.3s ease;
+}
+
+.section:first-of-type {
+    padding-top: 100px; /* Added top padding to accommodate the fixed header */
 }
 
 .section h3 {
