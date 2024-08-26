@@ -160,10 +160,22 @@ nav ul.active li {
 /* About Section */
 .about-content {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     flex-wrap: wrap;
     text-align: left;
+    margin-top: 40px;
+}
+
+.about-text {
+    flex: 3;
+    max-width: 700px;
+    padding-left: 20px;
+}
+
+.about-text p {
+    margin-bottom: 20px;
+    line-height: 1.8;
 }
 
 .portrait-container {
@@ -184,16 +196,6 @@ nav ul.active li {
 .portrait:hover {
     transform: scale(1.1);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-}
-
-.about-text {
-    flex: 2;
-    max-width: 700px;
-}
-
-.about-text p {
-    font-size: 1.2em;
-    line-height: 1.6;
 }
 
 /* Issues Section */
