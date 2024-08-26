@@ -281,8 +281,9 @@ footer a:hover {
 
 .social-icon {
     color: rgb(200, 195, 188);
-    font-size: 1.5em;
-    margin: 0 10px;
+    font-size: 2em;
+    margin: 0 15px;
+    padding: 10px;
     transition: transform 0.3s ease, color 0.3s ease;
 }
 
