@@ -322,3 +322,37 @@ iframe {
     filter: invert(1) hue-rotate(180deg); /* Apply invert filter */
     transition: all 0.3s ease;
 }
+
+/* Ensure the active page is highlighted */
+nav ul li a.active {
+    background-color: rgb(150, 145, 138);
+    color: rgb(24, 26, 27);
+}
+
+/* Issue Cards Styles */
+.issue-card {
+    background: rgb(32, 35, 36);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: rgb(200, 195, 188);
+}
+
+.issue-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.issue-card i {
+    font-size: 3em;
+    margin-bottom: 10px;
+    color: rgb(150, 145, 138);
+}
+
+/* Dark Section for Issues */
+.dark-section {
+    background-color: rgb(24, 26, 27);
+    color: rgb(200, 195, 188);
+}
