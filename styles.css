@@ -50,6 +50,7 @@ header h2 {
     color: rgb(150, 145, 138);
 }
 
+/* Navigation */
 nav ul {
     list-style-type: none;
     margin: 10px 0 0;
@@ -74,6 +75,11 @@ nav ul li a {
 nav ul li a:hover {
     background: rgb(32, 35, 36);
     color: rgb(200, 195, 188);
+}
+
+nav ul li a.active {
+    background-color: rgb(150, 145, 138);
+    color: rgb(24, 26, 27);
 }
 
 /* Hamburger Menu */
@@ -116,20 +122,11 @@ nav ul.active li {
     transition: all 0.3s ease;
 }
 
-.dark-section {
-    background-color: rgb(32, 35, 36);
-    color: rgb(200, 195, 188);
-}
-
 .section h3 {
     font-size: 2.5em;
     margin-bottom: 20px;
     text-align: center;
     position: relative;
-    color: rgb(200, 195, 188);
-}
-
-.dark-section h3 {
     color: rgb(200, 195, 188);
 }
 
@@ -143,15 +140,21 @@ nav ul.active li {
     border-radius: 2px;
 }
 
-.dark-section h3::after {
-    background-color: rgb(150, 145, 138);
-}
-
 .section p {
     font-size: 1.2em;
     text-align: center;
     max-width: 800px;
     margin: 0 auto 30px;
+}
+
+/* Dark Sections */
+.dark-section {
+    background-color: rgb(32, 35, 36);
+    color: rgb(200, 195, 188);
+}
+
+.dark-section h3::after {
+    background-color: rgb(150, 145, 138);
 }
 
 /* About Section */
@@ -207,6 +210,7 @@ nav ul.active li {
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: rgb(200, 195, 188);
 }
 
 .issue-card:hover {
@@ -217,7 +221,23 @@ nav ul.active li {
 .issue-card i {
     font-size: 3em;
     margin-bottom: 10px;
+    color: rgb(150, 145, 138);
+}
+
+/* Vision Content Styles */
+.vision-content {
+    background: rgb(32, 35, 36);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     color: rgb(200, 195, 188);
+    font-size: 1.2em;
+    line-height: 1.8em;
+    transition: all 0.3s ease;
+}
+
+.vision-content p {
+    margin-bottom: 20px;
 }
 
 /* Footer */
@@ -319,57 +339,6 @@ html {
 
 /* Dark Mode for Google Form */
 iframe {
-    filter: invert(1) hue-rotate(180deg); /* Apply invert filter */
+    filter: invert(1) hue-rotate(180deg);
     transition: all 0.3s ease;
 }
-
-/* Ensure the active page is highlighted */
-nav ul li a.active {
-    background-color: rgb(150, 145, 138);
-    color: rgb(24, 26, 27);
-}
-
-/* Issue Cards Styles */
-.issue-card {
-    background: rgb(32, 35, 36);
-    border-radius: 10px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    color: rgb(200, 195, 188);
-}
-
-.issue-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.issue-card i {
-    font-size: 3em;
-    margin-bottom: 10px;
-    color: rgb(150, 145, 138);
-}
-
-/* Dark Section for Issues */
-.dark-section {
-    background-color: rgb(24, 26, 27);
-    color: rgb(200, 195, 188);
-}
-
-/* Vision Content Styles */
-.vision-content {
-    background: rgb(32, 35, 36);
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    color: rgb(200, 195, 188);
-    font-size: 1.2em;
-    line-height: 1.8em;
-    transition: all 0.3s ease;
-}
-
-.vision-content p {
-    margin-bottom: 20px;
-}
-
