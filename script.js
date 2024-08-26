@@ -12,13 +12,16 @@ function stickyHeader() {
   }
 }
 
-// Smooth Scroll for Anchors
+// Smooth Scroll for Anchors within the Same Page
 document.querySelectorAll('nav a').forEach(anchor => {
   anchor.addEventListener('click', function(e) {
-    e.preventDefault();
-    document.querySelector(this.getAttribute('href')).scrollIntoView({
-      behavior: 'smooth'
-    });
+    const targetId = this.getAttribute('href');
+    if (targetId.startsWith('#')) {
+      e.preventDefault();
+      document.querySelector(targetId).scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
   });
 });
 
