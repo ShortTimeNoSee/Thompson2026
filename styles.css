@@ -316,3 +316,9 @@ html {
         grid-template-columns: 1fr;
     }
 }
+
+/* Dark Mode for Google Form */
+iframe {
+    filter: invert(1) hue-rotate(180deg); /* Apply invert filter */
+    transition: all 0.3s ease;
+}
