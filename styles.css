@@ -409,3 +409,38 @@ iframe {
     color: rgb(200, 195, 188);
     text-decoration: underline;
 }
+
+/* Social Media Section */
+#social-media {
+    text-align: center;
+    padding: 50px 0;
+}
+
+#social-media h3 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: rgb(200, 195, 188);
+}
+
+#social-media p {
+    font-size: 1.2em;
+    color: rgb(150, 145, 138);
+    margin-bottom: 30px;
+}
+
+.social-media-icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.social-media-icons .social-icon {
+    color: rgb(200, 195, 188);
+    font-size: 2em;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-media-icons .social-icon:hover {
+    transform: scale(1.2);
+    color: rgb(150, 145, 138);
+}
