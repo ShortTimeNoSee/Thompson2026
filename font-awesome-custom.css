@@ -12,6 +12,10 @@
     content: "\f0b1";
 }
 
+.fa-graduation-cap:before,.fa-mortar-board:before {
+    content: "\f19d"
+}
+
 .fa-leaf:before {
     content: "\f06c";
 }
