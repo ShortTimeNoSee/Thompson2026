@@ -344,3 +344,26 @@ iframe {
     filter: invert(1) hue-rotate(180deg);
     transition: all 0.3s ease;
 }
+
+.contact-form-container {
+    margin-top: 40px;
+    background-color: rgb(32, 35, 36);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#contact h3 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-align: center;
+    color: rgb(200, 195, 188);
+}
+
+#contact p {
+    font-size: 1.2em;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 30px;
+    color: rgb(200, 195, 188);
+}
