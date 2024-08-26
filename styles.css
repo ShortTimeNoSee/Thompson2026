@@ -71,6 +71,11 @@ nav ul li a {
     transition: background 0.3s ease, color 0.3s ease;
 }
 
+nav ul li a.active {
+    background: rgb(32, 35, 36);
+    color: rgb(200, 195, 188);
+}
+
 nav ul li a:hover {
     background: rgb(32, 35, 36);
     color: rgb(200, 195, 188);
@@ -152,45 +157,6 @@ nav ul.active li {
     text-align: center;
     max-width: 800px;
     margin: 0 auto 30px;
-}
-
-/* About Section */
-.about-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    text-align: left;
-}
-
-.portrait-container {
-    flex: 1;
-    max-width: 300px;
-    margin-right: 20px;
-    text-align: center;
-}
-
-.portrait {
-    width: 100%;
-    max-width: 250px;
-    border-radius: 50%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.portrait:hover {
-    transform: scale(1.1);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-}
-
-.about-text {
-    flex: 2;
-    max-width: 700px;
-}
-
-.about-text p {
-    font-size: 1.2em;
-    line-height: 1.6;
 }
 
 /* Issues Section */
@@ -315,10 +281,4 @@ html {
     .issues-grid {
         grid-template-columns: 1fr;
     }
-}
-
-/* Dark Mode for Google Form */
-iframe {
-    filter: invert(1) hue-rotate(180deg); /* Apply invert filter */
-    transition: all 0.3s ease;
 }
