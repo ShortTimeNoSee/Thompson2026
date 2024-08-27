@@ -302,8 +302,12 @@ footer a:hover {
     color: rgb(200, 195, 188);
     font-size: 2em;
     margin: 0 15px;
-    padding: 15px;
+    padding: 20px;
     transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-media .fab {
+    padding: 15px;
 }
 
 .social-icon:hover {
@@ -461,16 +465,17 @@ iframe {
 .social-media-icons {
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: 20px;
 }
 
-.social-media-icons .social-icon {
+.social-media-icons .social-icon, .social-media .fab {
     color: rgb(200, 195, 188);
     font-size: 2em;
+    padding: 15px;
     transition: transform 0.3s ease, color 0.3s ease;
 }
 
-.social-media-icons .social-icon:hover {
+.social-media-icons .social-icon:hover, .social-media .fab:hover {
     transform: scale(1.2);
     color: rgb(150, 145, 138);
 }
