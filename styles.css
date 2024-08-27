@@ -208,6 +208,7 @@ nav ul.active li {
     max-width: 300px;
     margin-right: 20px;
     text-align: center;
+    aspect-ratio: 1 / 1;
 }
 
 .portrait {
