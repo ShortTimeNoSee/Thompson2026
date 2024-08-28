@@ -15,8 +15,7 @@ Explore the website [here](https://www.thompson2026.com).
 - **Design**: The site’s current grayscale aesthetic will soon be updated with a more colorful and inviting look.
 
 ### Contributing
-If you'd like to contribute or have any suggestions, feel free to open an issue or submit a pull request.
-
+If you would like to contribute or have any suggestions, feel free to open an issue or submit a pull request.
 ---
 
 *Thompson 2026 - Californians Choose Liberty*
