@@ -480,3 +480,20 @@ iframe {
     transform: scale(1.2);
     color: rgb(150, 145, 138);
 }
+
+/* About Section for Experience Speech */
+.speech-text {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: left;
+}
+
+#new-leadership h3 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#new-leadership .section {
+    padding: 40px 0;
+}
