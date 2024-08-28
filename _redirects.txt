@@ -1,0 +1,5 @@
+/about    /about.html    200
+/vision   /vision.html   200
+/issues   /issues.html   200
+/contact  /contact.html  200
+/         /index.html    200
