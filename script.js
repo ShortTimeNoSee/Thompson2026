@@ -40,4 +40,17 @@ document.addEventListener("DOMContentLoaded", function() {
     footer.className = "sticky-footer";
     footer.innerHTML = `<p><a href="https://registertovote.ca.gov/" target="_blank">Click here</a> to register to vote in California; support Nicholas A. Thompson in 2026!</p>`;
     document.body.appendChild(footer);
+
+    const stickyFooter = document.querySelector('.sticky-footer');
+    const footerObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                stickyFooter.classList.add('hidden');
+            } else {
+                stickyFooter.classList.remove('hidden');
+            }
+        });
+    }, { threshold: 1.0 });
+
+    footerObserver.observe(document.querySelector('footer'));
 });

@@ -498,7 +498,6 @@ iframe {
     padding: 40px 0;
 }
 
-/* Sticky Footer */
 .sticky-footer {
     position: fixed;
     bottom: 0;
@@ -509,6 +508,11 @@ iframe {
     padding: 10px;
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1001;
+    transition: transform 0.3s ease;
+}
+
+.sticky-footer.hidden {
+    transform: translateY(100%);
 }
 
 .sticky-footer a {
