@@ -1,5 +1,5 @@
 // *******************************************************
-// !!!!!! Go to https://thompson2026.com/styles.css !!!!!!
+// !!!!!! Go to https://thompson2026.com/script.js !!!!!!
 // *******************************************************
 
 // Sticky Header on Scroll
