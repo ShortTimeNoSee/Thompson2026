@@ -38,6 +38,6 @@ hamburger.addEventListener('click', function() {
 document.addEventListener("DOMContentLoaded", function() {
     const footer = document.createElement("div");
     footer.className = "sticky-footer";
-    footer.innerHTML = `<p>Register to vote in California and support Nicholas A. Thompson in 2026. <a href="https://registertovote.ca.gov/" target="_blank">Register here</a>.</p>`;
+    footer.innerHTML = `<p><a href="https://registertovote.ca.gov/" target="_blank">Click here</a> to register to vote in California; support Nicholas A. Thompson in 2026!</p>`;
     document.body.appendChild(footer);
 });
