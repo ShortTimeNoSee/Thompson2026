@@ -1,3 +1,7 @@
+// *******************************************************
+// !!!!!! Go to https://thompson2026.com/styles.css !!!!!!
+// *******************************************************
+
 // Sticky Header on Scroll
 window.onscroll = function() {stickyHeader()};
 
