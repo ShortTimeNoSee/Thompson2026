@@ -1,9 +1,4 @@
-{
-  rewrites [
-    { source about, destination about.html },
-    { source vision, destination vision.html },
-    { source issues, destination issues.html },
-    { source contact, destination contact.html },
-    { source , destination index.html }
-  ]
-}
+<!DOCTYPE html>
+<html lang="en">
+Go here: https://thompson2026.com/sitemap.xml
+</html>
