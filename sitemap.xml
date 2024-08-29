@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>https://www.thompson2026.com/Thompson2026/</loc>
+        <loc>https://thompson2026.com/Thompson2026/</loc>
         <lastmod>2024-08-28</lastmod>
         <changefreq>monthly</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
-        <loc>https://www.thompson2026.com/Thompson2026/about</loc>
+        <loc>https://thompson2026.com/Thompson2026/about</loc>
         <lastmod>2024-08-28</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.thompson2026.com/issues</loc>
+        <loc>https://thompson2026.com/issues</loc>
         <lastmod>2024-08-28</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://www.thompson2026.com/Thompson2026/vision</loc>
+        <loc>https://thompson2026.com/Thompson2026/vision</loc>
         <lastmod>2024-08-28</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://www.thompson2026.com/Thompson2026/contact</loc>
+        <loc>https://thompson2026.com/Thompson2026/contact</loc>
         <lastmod>2024-08-28</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>

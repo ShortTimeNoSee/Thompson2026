@@ -8,7 +8,7 @@ This site serves as the digital home for Nicholas A. Thompson's 2026 California 
 The homepage has been optimized for performance and accessibility, and everything has hopefully been pushed to the custom domain. Next steps include enhancing the design with color so it isn't a gaveyard.
 
 ### Visit the Site
-Explore the website [here](https://www.thompson2026.com).
+Explore the website [here](https://thompson2026.com).
 
 ### Development Notes
 - **Optimization**: Initial efforts have focused on making the homepage lightweight and fast.
