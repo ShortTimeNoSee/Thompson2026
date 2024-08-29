@@ -1,15 +1,16 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- REDIRECT -->
-    <meta http-equiv="refresh" content="0; url=https://thompson2026.com">
+    <meta http-equiv="refresh" content="0; url=https://thompson2026.com" />
     <title>Redirecting...</title>
-        <!-- Non-critical styles, loaded asynchronously -->
-    <link rel="preload" href="styles.css" as="style" onload="this.rel='stylesheet'">
+    <!-- Non-critical styles, loaded asynchronously -->
+    <link rel="preload" href="styles.css" as="style" onload="this.rel='stylesheet'" />
     <noscript><link rel="stylesheet" href="styles.css"></noscript>
     <!-- Preload the Font Awesome CSS -->
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"></noscript>
 </head>
 <body>
@@ -24,3 +25,4 @@
     </section>
     <script src="script.js" defer></script>
 </body>
+</html>
