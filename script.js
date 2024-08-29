@@ -42,15 +42,19 @@ document.addEventListener("DOMContentLoaded", function() {
     document.body.appendChild(footer);
 
     const stickyFooter = document.querySelector('.sticky-footer');
-    const footerObserver = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                stickyFooter.classList.add('hidden');
-            } else {
-                stickyFooter.classList.remove('hidden');
-            }
-        });
-    }, { threshold: 1.0 });
+    const pageFooter = document.querySelector('footer');
 
-    footerObserver.observe(document.querySelector('footer'));
+    if (pageFooter) {
+        const footerObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    stickyFooter.classList.add('hidden');
+                } else {
+                    stickyFooter.classList.remove('hidden');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        footerObserver.observe(pageFooter);
+    }
 });
