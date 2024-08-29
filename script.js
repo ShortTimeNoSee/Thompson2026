@@ -33,3 +33,11 @@ hamburger.addEventListener('click', function() {
   navLinks.classList.toggle('active');
   hamburger.classList.toggle('active');
 });
+
+// Sticky Footer
+document.addEventListener("DOMContentLoaded", function() {
+    const footer = document.createElement("div");
+    footer.className = "sticky-footer";
+    footer.innerHTML = `<p>Register to vote in California and support Nicholas A. Thompson in 2026. <a href="https://registertovote.ca.gov/" target="_blank">Register here</a>.</p>`;
+    document.body.appendChild(footer);
+});

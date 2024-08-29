@@ -497,3 +497,22 @@ iframe {
 #new-leadership .section {
     padding: 40px 0;
 }
+
+/* Sticky Footer */
+.sticky-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #202324;
+    color: #c8c3bc;
+    text-align: center;
+    padding: 10px;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+}
+
+.sticky-footer a {
+    color: #96918a;
+    text-decoration: none;
+    font-weight: bold;
+}
