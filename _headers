@@ -1,8 +1,8 @@
 /styles.css
-  Cache-Control: public, max-age=60
+  Cache-Control: no-cache
 
 /script.js
-  Cache-Control: public, max-age=60
+  Cache-Control: no-cache
 
 /images/*
   Cache-Control: public, max-age=315360, immutable
