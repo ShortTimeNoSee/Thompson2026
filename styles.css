@@ -269,20 +269,6 @@ nav ul.active li {
     color: rgba(255, 223, 0, 0.8);
 }
 
-/* Issue voting */
-.upvote-button {
-    background-color: #ccc;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.upvote-button.upvoted {
-    background-color: #4CAF50;
-    color: white;
-}
-
 /* Vision Content Styles */
 .vision-content {
     background: rgb(32, 35, 36);
@@ -548,4 +534,36 @@ iframe {
     color: #96918a;
     text-decoration: none;
     font-weight: bold;
+}
+
+
+
+
+.upvote-btn {
+    background: none;
+    border: none;
+    color: #c8c3bc;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 1.2em;
+    transition: color 0.3s ease;
+}
+
+.upvote-btn .upvote-count {
+    margin-right: 8px;
+    font-weight: bold;
+}
+
+.upvote-btn.voted {
+    color: #ffd700; /* Yellow color for upvoted button */
+}
+
+.issue-card {
+    position: relative;
+    transition: transform 0.5s ease, order 0.5s ease;
+}
+
+.issue-card[data-id="1"] {
+    order: 1;
 }

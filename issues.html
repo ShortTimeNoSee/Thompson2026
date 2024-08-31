@@ -50,82 +50,107 @@
     <section id="issues" class="section dark-section">
         <div class="container">
             <h3>Key Issues</h3>
-            <div class="issues-grid">
-                <div class="issue-card" data-id="issue-1" data-votes="0">
+            <div class="issues-grid" id="issues-grid">
+                <div class="issue-card" data-id="1">
                     <i class="fas fa-briefcase"></i>
                     <h4>Economic Growth and Regulatory Reform</h4>
                     <p>Supporting business growth by simplifying taxes and regulations, creating an environment where innovation can thrive and jobs can be created.</p>
-                    <button class="upvote-button" data-id="issue-1">Upvote</button>
+                    <button class="upvote-btn" onclick="upvoteIssue(1)">
+                        <span class="upvote-count" id="upvote-count-1">0</span> <i class="fas fa-thumbs-up"></i>
+                    </button>
                 </div>
-                <div class="issue-card" data-id="2" data-votes="0">
+                <div class="issue-card" data-id="2">
                     <i class="fas fa-stethoscope"></i>
                     <h4>Healthcare Reform</h4>
                     <p>Lowering healthcare costs and improving access by reducing unnecessary regulations and fostering innovation in the healthcare sector.</p>
-                    <button class="upvote-button" data-id="issue-2">Upvote</button>
+                    <button class="upvote-btn" onclick="upvoteIssue(2)">
+                        <span class="upvote-count" id="upvote-count-2">0</span> <i class="fas fa-thumbs-up"></i>
+                    </button>
                 </div>
-                <div class="issue-card" data-id="3" data-votes="0">
+                <div class="issue-card" data-id="3">
                     <i class="fas fa-handshake"></i>
                     <h4>Private Property Rights</h4>
                     <p>Defending private property rights against eminent domain abuse and ensuring landowners have full control over their property.</p>
-                    <button class="upvote-button" data-id="issue-3">Upvote</button>
+                    <button class="upvote-btn" onclick="upvoteIssue(3)">
+                        <span class="upvote-count" id="upvote-count-3">0</span> <i class="fas fa-thumbs-up"></i>
+                    </button>
                 </div>
-                <div class="issue-card" data-id="4" data-votes="0">
+                <div class="issue-card" data-id="4">
                     <i class="fas fa-dollar-sign"></i>
                     <h4>Fiscal Responsibility</h4>
                     <p>Advocating for prudent state budgeting and spending, ensuring that taxpayer money is used efficiently and that California’s finances are sustainable long-term.</p>
-                    <button class="upvote-button" data-id="issue-4">Upvote</button>
+                    <button class="upvote-btn" onclick="upvoteIssue(4)">
+                        <span class="upvote-count" id="upvote-count-4">0</span> <i class="fas fa-thumbs-up"></i>
+                    </button>
                 </div>
-                <div class="issue-card" data-id="5" data-votes="0">
+                <div class="issue-card" data-id="5">
                     <i class="fas fa-users"></i>
                     <h4>Liberty and Accountability</h4>
                     <p>Protecting personal freedoms and privacy while ensuring government operations are transparent and accountable to the public.</p>
-                    <button class="upvote-button" data-id="issue-5">Upvote</button>
+                    <button class="upvote-btn" onclick="upvoteIssue(5)">
+                        <span class="upvote-count" id="upvote-count-5">0</span> <i class="fas fa-thumbs-up"></i>
+                    </button>
                 </div>
-                <div class="issue-card" data-id="6" data-votes="0">
+                <div class="issue-card" data-id="6">
                     <i class="fas fa-shield-alt"></i>
                     <h4>Second Amendment Rights</h4>
                     <p>Protecting the right to bear arms and ensuring that responsible citizens have the freedom to defend themselves.</p>
-                    <button class="upvote-button" data-id="issue-6">Upvote</button>
+                    <button class="upvote-btn" onclick="upvoteIssue(6)">
+                        <span class="upvote-count" id="upvote-count-6">0</span> <i class="fas fa-thumbs-up"></i>
+                    </button>
                 </div>
-                <div class="issue-card" data-id="7" data-votes="0">
+                <div class="issue-card" data-id="7">
                     <i class="fas fa-vote-yea"></i>
                     <h4>Election Integrity and Reform</h4>
                     <p>Advocating for secure and transparent elections, exploring alternative voting systems to enhance fairness and ensure every vote counts.</p>
-                    <button class="upvote-button" data-id="issue-7">Upvote</button>
+                    <button class="upvote-btn" onclick="upvoteIssue(7)">
+                        <span class="upvote-count" id="upvote-count-7">0</span> <i class="fas fa-thumbs-up"></i>
+                    </button>
                 </div>
-                <div class="issue-card" data-id="8" data-votes="0">
+                <div class="issue-card" data-id="8">
                     <i class="fas fa-home"></i>
                     <h4>Housing Affordability</h4>
                     <p>Making housing more affordable by encouraging development and reducing restrictive zoning practices.</p>
-                    <button class="upvote-button" data-id="issue-8">Upvote</button>
+                    <button class="upvote-btn" onclick="upvoteIssue(8)">
+                        <span class="upvote-count" id="upvote-count-8">0</span> <i class="fas fa-thumbs-up"></i>
+                    </button>
                 </div>
-                <div class="issue-card" data-id="9" data-votes="0">
+                <div class="issue-card" data-id="9">
                     <i class="fas fa-sitemap"></i>
                     <h4>Decentralization</h4>
                     <p>Empowering local communities by increasing their control over decisions that directly affect them.</p>
-                    <button class="upvote-button" data-id="issue-9">Upvote</button>
+                    <button class="upvote-btn" onclick="upvoteIssue(9)">
+                        <span class="upvote-count" id="upvote-count-9">0</span> <i class="fas fa-thumbs-up"></i>
+                    </button>
                 </div>
-                <div class="issue-card" data-id="10" data-votes="0">
+                <div class="issue-card" data-id="10">
                     <i class="fas fa-graduation-cap"></i>
                     <h4>Education</h4>
                     <p>Empowering families with more educational choices, encouraging competition to enhance quality and affordability.</p>
-                    <button class="upvote-button" data-id="issue-10">Upvote</button>
+                    <button class="upvote-btn" onclick="upvoteIssue(10)">
+                        <span class="upvote-count" id="upvote-count-10">0</span> <i class="fas fa-thumbs-up"></i>
+                    </button>
                 </div>
-                <div class="issue-card" data-id="11" data-votes="0">
+                <div class="issue-card" data-id="11">
                     <i class="fas fa-leaf"></i>
                     <h4>Environmental Stewardship</h4>
                     <p>Encouraging sustainable practices through innovative solutions and partnerships that balance growth with environmental responsibility.</p>
-                    <button class="upvote-button" data-id="issue-11">Upvote</button>
+                    <button class="upvote-btn" onclick="upvoteIssue(11)">
+                        <span class="upvote-count" id="upvote-count-11">0</span> <i class="fas fa-thumbs-up"></i>
+                    </button>
                 </div>
-                <div class="issue-card" data-id="12" data-votes="0">
+                <div class="issue-card" data-id="12">
                     <i class="fas fa-gavel"></i>
                     <h4>Criminal Justice Reform</h4>
                     <p>Reforming the criminal justice system to focus on fair sentencing and effective rehabilitation programs.</p>
-                    <button class="upvote-button" data-id="issue-12">Upvote</button>
+                    <button class="upvote-btn" onclick="upvoteIssue(12)">
+                        <span class="upvote-count" id="upvote-count-12">0</span> <i class="fas fa-thumbs-up"></i>
+                    </button>
                 </div>
             </div>
         </div>
-    </section> 
+    </section>
+     
     
 
     <footer>
