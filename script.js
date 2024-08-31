@@ -81,3 +81,51 @@ document.addEventListener("DOMContentLoaded", function() {
         footerObserver.observe(pageFooter); // Start observing the page footer
     }
 });
+
+// Issue voting
+document.addEventListener('DOMContentLoaded', () => {
+  const issueCards = document.querySelectorAll('.issue-card');
+
+  issueCards.forEach(card => {
+      const button = card.querySelector('.upvote-button');
+      button.addEventListener('click', async () => {
+          const issueId = button.getAttribute('data-id');
+
+          try {
+              const response = await fetch(`https://yourworker.yourdomain.com/vote?id=${issueId}`, {
+                  method: 'GET',
+              });
+              const data = await response.json();
+
+              if (data.success) {
+                  // Update button visual feedback
+                  button.classList.add('upvoted');
+                  button.textContent = `Upvoted (${data.count})`;
+
+                  // Update the card's vote count
+                  card.setAttribute('data-votes', data.count);
+
+                  // Reorder the cards
+                  sortIssueCards();
+              } else {
+                  alert('Error: ' + data.message);
+              }
+          } catch (error) {
+              console.error('Error:', error);
+          }
+      });
+  });
+
+  function sortIssueCards() {
+      const container = document.querySelector('.issues-grid');
+      const cards = Array.from(container.children);
+
+      cards.sort((a, b) => {
+          return b.getAttribute('data-votes') - a.getAttribute('data-votes');
+      });
+
+      cards.forEach(card => {
+          container.appendChild(card); // This will reorder the cards
+      });
+  }
+});
