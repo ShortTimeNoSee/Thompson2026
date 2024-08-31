@@ -52,6 +52,21 @@ header {
 
 header.sticky {
     background-color: rgb(24, 26, 27);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 5px 0;
+    transition: padding 0.3s ease, background-color 0.3s ease;
+}
+
+header h1, header h2 {
+    transition: font-size 0.3s ease;
+}
+
+header.sticky h1 {
+    font-size: 1.5em;
+}
+
+header.sticky h2 {
+    font-size: 1em;
 }
 
 header h1 {
@@ -140,7 +155,7 @@ nav ul.active li {
 }
 
 .section:first-of-type {
-    padding-top: 100px; /* Added top padding to accommodate the fixed header */
+    padding-top: 120px; /* Added top padding to accommodate the fixed header */
 }
 
 .section h3 {
@@ -505,7 +520,6 @@ iframe {
     background-color: #202324;
     color: #c8c3bc;
     text-align: center;
-    padding: 10px;
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1001;
     transition: transform 0.3s ease;
