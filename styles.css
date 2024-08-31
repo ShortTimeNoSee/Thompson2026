@@ -535,3 +535,13 @@ iframe {
     text-decoration: none;
     font-weight: bold;
 }
+
+
+
+
+
+
+
+.issue-card {
+    transition: transform 0.3s ease;
+}

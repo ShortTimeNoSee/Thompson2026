@@ -1,3 +1,4 @@
+updateVoteCounts(); // Initial call to set up the vote counts and order
 // Sticky Header on Scroll with Shrinking Effect
 window.onscroll = function() {
   stickyHeader(); // Call stickyHeader function when the user scrolls
