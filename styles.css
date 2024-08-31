@@ -138,7 +138,7 @@ nav ul.active li {
 }
 
 .section:first-of-type {
-    padding-top: 120px; /* Added top padding to accommodate the fixed header */
+    padding-top: 120px; /* Top padding to accommodate the fixed header */
 }
 
 .section h3 {
