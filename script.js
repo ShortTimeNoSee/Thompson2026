@@ -11,7 +11,7 @@ var h2 = header.querySelector("h2");
 
 function stickyHeader() {
   // Check if the page has been scrolled past the header's initial position
-  if (window.pageYOffset > sticky) {
+  if (window.scrollY > sticky) {
       header.classList.add("sticky"); // Add 'sticky' class to header when it becomes sticky
 
       // Calculate the scroll progress (0 to 1) to dynamically adjust the font-size and padding
