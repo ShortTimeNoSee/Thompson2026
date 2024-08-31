@@ -535,35 +535,3 @@ iframe {
     text-decoration: none;
     font-weight: bold;
 }
-
-
-
-
-.upvote-btn {
-    background: none;
-    border: none;
-    color: #c8c3bc;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    font-size: 1.2em;
-    transition: color 0.3s ease;
-}
-
-.upvote-btn .upvote-count {
-    margin-right: 8px;
-    font-weight: bold;
-}
-
-.upvote-btn.voted {
-    color: #ffd700; /* Yellow color for upvoted button */
-}
-
-.issue-card {
-    position: relative;
-    transition: transform 0.5s ease, order 0.5s ease;
-}
-
-.issue-card[data-id="1"] {
-    order: 1;
-}
