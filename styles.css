@@ -147,6 +147,13 @@ nav ul.active li {
     text-align: center;
     position: relative;
     color: rgb(200, 195, 188);
+    transition: color 0.3s ease;
+}
+
+.section h3::after {
+    content: '';
+    display: inline-block;
+    width: 0;
 }
 
 .section h3::after {
@@ -164,6 +171,29 @@ nav ul.active li {
     text-align: center;
     max-width: 800px;
     margin: 0 auto 20px;
+}
+
+/** Learn more arrow icons **/
+.section h3 i {
+    margin-left: 10px;
+    font-size: 0.8em;
+    color: #fed000;
+    transition: transform 0.3s ease;
+}
+
+.section a {
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+    width: 100%;
+}
+
+.section a:hover h3 i {
+    transform: translateX(5px);
+}
+
+.section a:hover h3 {
+    color: #fed000 !important;
 }
 
 /* Dark Sections */
@@ -398,13 +428,6 @@ iframe {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-#contact h3 {
-    font-size: 2.5em;
-    margin-bottom: 20px;
-    text-align: center;
-    color: rgb(200, 195, 188);
-}
-
 #contact p {
     font-size: 1.2em;
     text-align: center;
@@ -517,3 +540,4 @@ iframe {
     text-decoration: none;
     font-weight: bold;
 }
+
