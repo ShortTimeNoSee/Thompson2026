@@ -1,3 +1,4 @@
+/*    https://thompson2026.com/:splat   301!
 /about    /about.html    200
 /vision   /vision.html   200
 /issues   /issues.html   200
