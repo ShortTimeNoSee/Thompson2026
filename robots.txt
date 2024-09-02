@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://thompson2026.com/sitemap.xml
