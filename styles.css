@@ -250,25 +250,6 @@ nav ul.active li {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
-/* Responsive Layout for Small Screens */
-@media (max-width: 768px) {
-    .about-content {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .portrait-container {
-        margin-right: 0;
-        margin-bottom: 20px;
-    }
-
-    .about-text {
-        text-align: center;
-        padding-left: 0;
-    }
-}
-
 /* Issues Section */
 .issues-grid {
     display: grid;
@@ -392,6 +373,22 @@ html {
     header h2 {
         font-size: 1em;
     }
+
+    .about-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .portrait-container {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .about-text {
+        text-align: center;
+        padding-left: 0;
+    }
 }
 
 @media (max-width: 576px) {
@@ -427,6 +424,10 @@ html {
     
     .social-media-icons {
         gap: 40px;
+    }
+
+    header {
+        font-size: 75% !important;
     }
 }
 
