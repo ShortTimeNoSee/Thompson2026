@@ -8,7 +8,7 @@ body {
     line-height: 1.6;
     color-scheme: dark;
     scrollbar-color: rgb(69, 74, 77) rgb(32, 35, 36);
-    transition: all 0.3s ease;
+    /* transition: all 0.3s ease; */
 }
 
 /* Container */
@@ -141,7 +141,7 @@ nav ul.active li {
 .section {
     background-color: rgb(24, 26, 27);
     color: rgb(200, 195, 188);
-    transition: all 0.3s ease;
+   /* transition: all 0.3s ease; */
 }
 
 .section:first-of-type {
