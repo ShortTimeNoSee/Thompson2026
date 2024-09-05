@@ -98,6 +98,13 @@ nav ul li a.active {
     color: rgb(24, 26, 27);
 }
 
+nav ul li a:focus, 
+nav ul li a:active {
+    outline: none;
+    color: inherit;
+    background: inherit;     
+}
+
 /* Hamburger Menu */
 .hamburger {
     display: none;
