@@ -5,7 +5,7 @@ export default {
         const name = formData.get('name');
         const comment = formData.get('comment') || '';
   
-        // Insert the signature into D1
+        // Insert data into the D1 database
         const query = `
           INSERT INTO signatures (name, comment)
           VALUES (?, ?)
@@ -16,5 +16,5 @@ export default {
       }
   
       return new Response('Method not allowed', { status: 405 });
-    },
+    }
   };  
