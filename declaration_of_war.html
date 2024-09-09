@@ -119,5 +119,31 @@
     </footer>
 
     <script defer src="script.js"></script>
+    <script>
+        const form = document.getElementById('signature-form');
+        const responseMessage = document.getElementById('response-message');
+      
+        form.addEventListener('submit', async function (e) {
+          e.preventDefault(); // Prevent the form from reloading the page
+      
+          const formData = new FormData(form);
+          const name = formData.get('name');
+          const comment = formData.get('comment');
+      
+          const response = await fetch('/submit-signature', {
+            method: 'POST',
+            body: formData,
+          });
+      
+          if (response.ok) {
+            responseMessage.textContent = 'Thank you for signing!';
+            responseMessage.style.color = 'green';
+            form.reset(); // Optionally clear the form after a successful submission
+          } else {
+            responseMessage.textContent = 'There was an error. Please try again.';
+            responseMessage.style.color = 'red';
+          }
+        });
+      </script>      
 </body>
 </html>

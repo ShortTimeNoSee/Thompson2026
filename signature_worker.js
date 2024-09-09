@@ -7,17 +7,24 @@ export default {
         const name = formData.get('name');
         const comment = formData.get('comment') || '';
   
-        // Insert the signature into D1
+        console.log(`Received signature: ${name}, comment: ${comment}`);
+  
         const query = `
           INSERT INTO signatures (name, comment)
           VALUES (?, ?)
         `;
-        await env.DB.prepare(query).bind(name, comment).run();
+        
+        try {
+          await env.DB.prepare(query).bind(name, comment).run();
+          console.log("Signature inserted into database successfully.");
+        } catch (err) {
+          console.error("Error inserting signature into database:", err);
+          return new Response('Error inserting signature', { status: 500 });
+        }
   
         return new Response('Thank you for signing!', { status: 200 });
       }
   
-      // Handle other methods or routes
       return new Response('Method not allowed', { status: 405 });
     }
   };  
