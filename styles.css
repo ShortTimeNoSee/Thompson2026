@@ -564,3 +564,32 @@ iframe {
     text-decoration: none;
     font-weight: bold;
 }
+
+/* Declaration of War */
+#declaration p {
+    font-size: 1.2em;
+    line-height: 1.8;
+    text-align: justify;
+    max-width: 900px;
+    margin: 20px auto;
+}
+
+#declaration ol {
+    font-size: 1.2em;
+    text-align: left;
+    margin: 20px auto;
+    max-width: 900px;
+    list-style: decimal;
+    padding-left: 1.5em;
+}
+
+#declaration ol li {
+    margin-bottom: 15px;
+}
+
+#declaration strong {
+    font-weight: bold;
+    font-size: 1.5em;
+    margin-top: 20px;
+    color: rgb(254, 208, 0);
+}
