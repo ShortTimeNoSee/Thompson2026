@@ -4,7 +4,7 @@
     { "source": "vision", "destination": "vision.html" },
     { "source": "issues", "destination": "issues.html" },
     { "source": "contact", "destination": "contact.html" },
-    { "source": "declaration_of_war", "destination": "declaration_of_war.html" }
+    { "source": "declaration_of_war", "destination": "declaration_of_war.html" },
     { "source": "", "destination": "index.html" }
   ]
 }

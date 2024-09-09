@@ -1,0 +1,18 @@
+name = "thompson2026-worker"
+
+type = "javascript"
+
+main = "signature_worker.js"
+
+workers_dev = true
+compatibility_date = "2024-09-08"
+
+# Binding the D1 database to the Worker
+[[d1_databases]]
+binding = "DB" 
+database_name = "signature_database"
+database_id = "80f203b7-7503-4542-9978-4b064ab0a56d"
+
+# Environment variables (optional, if I have other settings)
+# [[vars]]
+#   MY_VAR = "some_value"
