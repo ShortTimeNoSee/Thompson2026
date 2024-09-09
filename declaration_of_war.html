@@ -93,43 +93,8 @@
             <p><strong>Signed this day, by the free people of California, in unwavering commitment to liberty.</strong></p>
 
             <p>Let this declaration serve as a warning to those in power: The era of unchecked government expansion is over. The People are awake, and we are prepared to fight for the rights that are inherently ours.</p>
-        </div>
-        <form id="signature-form" action="/submit-signature" method="POST">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-            
-            <label for="comment">Comment (optional):</label>
-            <textarea id="comment" name="comment"></textarea>
-            
-            <button type="submit">Sign the Declaration</button>
-        </form>             
-        <p id="response-message"></p>        
+        </div>    
     </section>
-    <section id="signatures" class="section">
-        <div class="container">
-          <h3>Signatures</h3>
-          <ul id="signature-list"></ul>
-        </div>
-      </section>
-      <script>
-        async function fetchSignatures() {
-          const response = await fetch('/get-signatures');
-          const signatures = await response.json();
-          const signatureList = document.getElementById('signature-list');
-      
-          signatureList.innerHTML = ''; // Clear the list before appending
-      
-          signatures.forEach(signature => {
-            const li = document.createElement('li');
-            li.textContent = `${signature.name}: ${signature.comment || 'No comment'}`;
-            signatureList.appendChild(li);
-          });
-        }
-      
-        // Fetch signatures when the page loads
-        document.addEventListener('DOMContentLoaded', fetchSignatures);
-      </script>      
-
     <footer>
         <div class="container">
             <div class="social-media">
@@ -142,31 +107,6 @@
         </div>
     </footer>
 
-    <script defer src="script.js"></script>
-    <script>
-        const form = document.getElementById('signature-form');
-        const responseMessage = document.getElementById('response-message');
-      
-        form.addEventListener('submit', async function (e) {
-          e.preventDefault(); // Prevent the form from reloading the page
-      
-          const formData = new FormData(form);
-          const response = await fetch('/submit-signature', {
-            method: 'POST',
-            body: formData,
-          });
-      
-          if (response.ok) {
-            responseMessage.textContent = 'Thank you for signing!';
-            responseMessage.style.color = 'green';
-            form.reset();
-            fetchSignatures(); // Reload the signature list after submitting
-          } else {
-            responseMessage.textContent = 'There was an error. Please try again.';
-            responseMessage.style.color = 'red';
-          }
-        });
-      </script>
-      
+    <script defer src="script.js"></script>      
 </body>
 </html>
