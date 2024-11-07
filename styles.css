@@ -1,13 +1,13 @@
 /* General Styles */
 body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background-color: rgb(24, 26, 27);
-    color: rgb(200, 195, 188);
+    background-color: #111133;
+    color: #CCCCBB;
     margin: 0;
     padding: 0;
     line-height: 1.6;
     color-scheme: dark;
-    scrollbar-color: rgb(69, 74, 77) rgb(32, 35, 36);
+    scrollbar-color: #444455 #222244;
     /* transition: all 0.3s ease; */
 }
 
@@ -20,22 +20,22 @@ body {
 
 /* Header */
 header {
-    background-color: rgb(32, 35, 36);
-    color: rgb(200, 195, 188);
+    background-color: #222244;
+    color: #CCCCBB;
     padding: 10px 0;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px #00000033;
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
     transition: all 0.3s ease;
-    border-bottom: 2px solid rgba(254, 208, 0, 0.1);
+    border-bottom: 2px solid #FED00022;
 }
 
 header.sticky {
-    background-color: rgb(24, 26, 27);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #111133;
+    box-shadow: 0 4px 8px #00000033;
     padding: 5px 0;
     transition: padding 0.3s ease, background-color 0.3s ease;
 }
@@ -63,7 +63,7 @@ header h2 {
     margin: 5px 0 0;
     font-size: 1.2em;
     font-weight: 300;
-    color: rgb(150, 145, 138);
+    color: #999988;
 }
 
 /* Navigation */
@@ -79,7 +79,7 @@ nav ul li {
 }
 
 nav ul li a {
-    color: rgb(200, 195, 188);
+    color: #CCCCBB;
     text-decoration: none;
     font-weight: bold;
     text-transform: uppercase;
@@ -89,13 +89,13 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    background: rgba(254, 208, 0, 0.1);
-    color: rgb(254, 208, 0);
+    background: #FED00022;
+    color: #FED000;
 }
 
 nav ul li a.active {
-    background-color: rgba(254, 208, 0);
-    color: rgb(24, 26, 27);
+    background-color: #FED000;
+    color: #111133;
 }
 
 nav ul li a:focus, 
@@ -105,12 +105,88 @@ nav ul li a:active {
     background: inherit;     
 }
 
+/** Dropdown Menu **/
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    background-color: #222244;
+    min-width: 160px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    z-index: 1000;
+    transform: translateY(15px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+}   
+
+.dropdown:hover .dropdown-content {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(5px);
+}
+
+.dropdown-content a {
+    color: #CCCCBB;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.dropdown-content a:hover {
+    background: #FED00022;
+    color: #FED000;
+}
+
+.dropdown-content a.active {
+    background-color: #FED000;
+    color: #111133;
+}
+
+.dropdown-content a.active:hover {
+    background-color: #FED000;
+    color: #111133;
+}
+
+
+/* Platform Link with Dropdown Icon */
+.dropbtn {
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 7px 15px;
+    border-radius: 5px;
+    color: #CCCCBB;
+    text-decoration: none;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.dropbtn:hover {
+    background: #FED00022;
+    color: #FED000;
+}
+
+.dropdown-icon {
+    font-size: 0.75em;
+    margin-left: 5px;
+    color: #CCCCBB;
+}
+
+.dropbtn:hover .dropdown-icon {
+    color: #FED000;
+}
+
 /* Hamburger Menu */
 .hamburger {
     display: none;
     font-size: 1.8em;
     cursor: pointer;
-    color: rgb(200, 195, 188);
+    color: #CCCCBB;
     position: absolute;
     top: 10px;
     right: 10px;
@@ -126,10 +202,10 @@ nav ul.active {
     position: absolute;
     top: 50px;
     right: 10px;
-    background: rgb(32, 35, 36);
+    background: #222244;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px #00000033;
 }
 
 nav ul.active li {
@@ -139,8 +215,8 @@ nav ul.active li {
 
 /* Sections */
 .section {
-    background-color: rgb(24, 26, 27);
-    color: rgb(200, 195, 188);
+    background-color: #111133;
+    color: #CCCCBB;
    /* transition: all 0.3s ease; */
 }
 
@@ -153,7 +229,7 @@ nav ul.active li {
     margin-bottom: 20px;
     text-align: center;
     position: relative;
-    color: rgb(200, 195, 188);
+    color: #CCCCBB;
     transition: color 0.3s ease;
 }
 
@@ -167,7 +243,7 @@ nav ul.active li {
     content: '';
     width: 60px;
     height: 4px;
-    background-color: rgb(254, 208, 0);
+    background-color: #FED000;
     display: block;
     margin: 20px auto 0;
     border-radius: 2px;
@@ -184,7 +260,7 @@ nav ul.active li {
 .section h3 i {
     margin-left: 10px;
     font-size: 0.8em;
-    color: #fed000;
+    color: #FED000;
     transition: transform 0.3s ease;
 }
 
@@ -200,17 +276,17 @@ nav ul.active li {
 }
 
 .section a:hover h3 {
-    color: #fed000 !important;
+    color: #FED000 !important;
 }
 
 /* Dark Sections */
 .dark-section {
-    background-color: rgb(32, 35, 36);
-    color: rgb(200, 195, 188);
+    background-color: #222244;
+    color: #CCCCBB;
 }
 
 .dark-section h3::after {
-    background-color: rgb(150, 145, 138);
+    background-color: #999988;
 }
 
 /* About Section */
@@ -248,13 +324,13 @@ nav ul.active li {
     width: 100%;
     height: auto;
     border-radius: 50%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px #00000033;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .portrait:hover {
     transform: scale(1.1);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 16px #00000055;
 }
 
 /* Issues Section */
@@ -265,33 +341,33 @@ nav ul.active li {
 }
 
 .issue-card {
-    background: rgb(32, 35, 36);
+    background: #222244;
     border-radius: 10px;
     padding: 20px;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px #00000022;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    color: rgb(200, 195, 188);
+    color: #CCCCBB;
 }
 
 .issue-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px #00000033;
 }
 
 .issue-card i {
     font-size: 3em;
     margin-bottom: 10px;
-    color: rgba(254, 208, 0, 0.8);
+    color: #FED000cc;
 }
 
 /* Vision Content Styles */
 .vision-content {
-    background: rgb(32, 35, 36);
+    background: #222244;
     border-radius: 10px;
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    color: rgb(200, 195, 188);
+    box-shadow: 0 4px 8px #00000022;
+    color: #CCCCBB;
     font-size: 1.2em;
     line-height: 1.8em;
     transition: all 0.3s ease;
@@ -308,23 +384,23 @@ nav ul.active li {
 
 /* Footer */
 footer {
-    background: rgb(32, 35, 36);
-    color: rgb(200, 195, 188);
+    background: #222244;
+    color: #CCCCBB;
     text-align: center;
     padding: 40px 0;
     margin-top: 20px;
     font-size: 0.9em;
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 -4px 8px #00000033;
 }
 
 footer a {
-    color: rgb(200, 195, 188);
+    color: #CCCCBB;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 footer a:hover {
-    color: rgb(150, 145, 138);
+    color: #999988;
 }
 
 .social-media {
@@ -332,7 +408,7 @@ footer a:hover {
 }
 
 .social-icon {
-    color: rgb(200, 195, 188);
+    color: #CCCCBB;
     font-size: 2em;
     margin: 0 15px;
     padding: 20px;
@@ -345,13 +421,13 @@ footer a:hover {
 
 .social-icon:hover {
     transform: scale(1.2);
-    color: rgb(254, 208, 0);
+    color: #FED000;
 }
 
 /* Sticky Header */
 .sticky {
-    background-color: rgb(24, 26, 27);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #111133;
+    box-shadow: 0 4px 8px #00000033;
 }
 
 /* Smooth Scrolling */
@@ -446,10 +522,10 @@ iframe {
 
 .contact-form-container {
     margin-top: 40px;
-    background-color: rgb(32, 35, 36);
+    background-color: #222244;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px #00000022;
 }
 
 #contact p {
@@ -457,14 +533,14 @@ iframe {
     text-align: center;
     max-width: 800px;
     margin: 0 auto 30px;
-    color: rgb(200, 195, 188);
+    color: #CCCCBB;
 }
 
 /* Sitemap Styles */
 .sitemap-content {
     padding: 100px 0;
-    background-color: rgb(24, 26, 27);
-    color: rgb(200, 195, 188);
+    background-color: #111133;
+    color: #CCCCBB;
     text-align: center;
 }
 
@@ -480,13 +556,13 @@ iframe {
 }
 
 .sitemap-list li a {
-    color: rgb(150, 145, 138);
+    color: #999988;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .sitemap-list li a:hover {
-    color: rgb(200, 195, 188);
+    color: #CCCCBB;
     text-decoration: underline;
 }
 
@@ -499,12 +575,12 @@ iframe {
 #social-media h3 {
     font-size: 2.5em;
     margin-bottom: 20px;
-    color: rgb(200, 195, 188);
+    color: #CCCCBB;
 }
 
 #social-media p {
     font-size: 1.2em;
-    color: rgb(150, 145, 138);
+    color: #999988;
     margin-bottom: 30px;
 }
 
@@ -515,7 +591,7 @@ iframe {
 }
 
 .social-media-icons .social-icon, .social-media .fab {
-    color: rgb(200, 195, 188);
+    color: #CCCCBB;
     font-size: 2em;
     padding: 15px;
     transition: transform 0.3s ease, color 0.3s ease;
@@ -523,7 +599,7 @@ iframe {
 
 .social-media-icons .social-icon:hover, .social-media .fab:hover {
     transform: scale(1.2);
-    color: rgb(150, 145, 138);
+    color: #999988;
 }
 
 /* About Section for Experience Speech */
@@ -547,10 +623,10 @@ iframe {
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color: #202324;
+    background-color: #111122;
     color: #c8c3bc;
     text-align: center;
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 -4px 8px #00000033;
     z-index: 1001;
     transition: transform 0.3s ease;
 }
@@ -591,5 +667,5 @@ iframe {
     font-weight: bold;
     font-size: 1.5em;
     margin-top: 20px;
-    color: rgb(254, 208, 0);
+    color: #FED000;
 }
