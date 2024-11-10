@@ -1,90 +1,91 @@
-// Header HTML
-fetch('header.html')
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById('header-container').innerHTML = data;
-        setActiveLink();
-    })
-    .catch(error => console.error('Error loading header:', error));
+// Load header HTML and set up active link and hamburger toggle
+document.addEventListener("DOMContentLoaded", function () {
+    fetch('header.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('header-container').innerHTML = data;
 
-// Function to set the active link based on the current URL
+            // Once header is loaded, set up the active link and hamburger toggle
+            setActiveLink();
+            setupHamburgerToggle();
+        })
+        .catch(error => console.error('Error loading header:', error));
+});
+
+// Set active link based on current URL
 function setActiveLink() {
     const path = window.location.pathname;
     const navLinks = document.querySelectorAll('nav ul li a');
-    
+
     navLinks.forEach(link => {
-        // only add the active class if the path exactly matches the href attribute
         if (link.getAttribute('href') === path) {
             link.classList.add('active');
         } else {
-            link.classList.remove('active'); // remove active class if it doesn't match
+            link.classList.remove('active');
         }
     });
 }
 
-// Sticky Header on Scroll with Shrinking Effect
-window.onscroll = throttle(stickyHeader, 100); 
+// Sticky Header with Shrink Effect
+window.onscroll = throttle(stickyHeader, 100);
 
-// Get references to header and its elements
-var header = document.getElementById("header");
-var h1, h2;
-var sticky = header ? header.offsetTop : 0;
+let header = document.getElementById("header");
+let h1, h2;
+let sticky = header ? header.offsetTop : 0;
 
-// Manage sticky header behavior and size adjustments
 function stickyHeader() {
-  if (window.scrollY > sticky && header) {
-      header.classList.add("sticky");
-      h1 = h1 || header.querySelector("h1");
-      h2 = h2 || header.querySelector("h2");
-      let scrollProgress = Math.min(window.scrollY / sticky, 1); 
-      h1.style.fontSize = (2 - 0.5 * scrollProgress) + "em";
-      h2.style.fontSize = (1.2 - 0.2 * scrollProgress) + "em";
-      header.style.padding = (10 - 5 * scrollProgress) + "px 0";
-  } else if (header) {
-      header.classList.remove("sticky");
-      h1.style.fontSize = "2em";
-      h2.style.fontSize = "1.2em";
-      header.style.padding = "10px 0";
-  }
+    if (window.scrollY > sticky && header) {
+        header.classList.add("sticky");
+        h1 = h1 || header.querySelector("h1");
+        h2 = h2 || header.querySelector("h2");
+        let scrollProgress = Math.min(window.scrollY / sticky, 1);
+        h1.style.fontSize = (2 - 0.5 * scrollProgress) + "em";
+        h2.style.fontSize = (1.2 - 0.2 * scrollProgress) + "em";
+        header.style.padding = (10 - 5 * scrollProgress) + "px 0";
+    } else if (header) {
+        header.classList.remove("sticky");
+        h1.style.fontSize = "2em";
+        h2.style.fontSize = "1.2em";
+        header.style.padding = "10px 0";
+    }
 }
 
-// Throttle function to limit execution frequency
+// Throttle function to control execution rate
 function throttle(func, limit) {
-  let lastFunc;
-  let lastRan;
-
-  return function(...args) {
-      const context = this;
-      if (!lastRan) {
-          func.apply(context, args);
-          lastRan = Date.now();
-      } else {
-          clearTimeout(lastFunc);
-          lastFunc = setTimeout(function() {
-              if ((Date.now() - lastRan) >= limit) {
-                  func.apply(context, args);
-                  lastRan = Date.now();
-              }
-          }, limit - (Date.now() - lastRan));
-      }
-  };
+    let lastFunc;
+    let lastRan;
+    return function (...args) {
+        const context = this;
+        if (!lastRan) {
+            func.apply(context, args);
+            lastRan = Date.now();
+        } else {
+            clearTimeout(lastFunc);
+            lastFunc = setTimeout(function () {
+                if ((Date.now() - lastRan) >= limit) {
+                    func.apply(context, args);
+                    lastRan = Date.now();
+                }
+            }, limit - (Date.now() - lastRan));
+        }
+    };
 }
 
-// Hamburger Menu Toggle
-document.addEventListener("DOMContentLoaded", function() {
+// Set up hamburger menu toggle after header is loaded
+function setupHamburgerToggle() {
     const hamburger = document.getElementById('hamburger');
     const navLinks = document.getElementById('nav-links');
 
     if (hamburger && navLinks) {
-        hamburger.addEventListener('click', function() {
+        hamburger.addEventListener('click', function () {
             navLinks.classList.toggle('active');
             hamburger.classList.toggle('active');
         });
     }
-});
+}
 
-// Sticky Footer
-document.addEventListener("DOMContentLoaded", function() {
+// Sticky footer setup
+document.addEventListener("DOMContentLoaded", function () {
     const footer = document.createElement("div");
     footer.className = "sticky-footer";
     footer.innerHTML = `<p><a href="https://registertovote.ca.gov/" target="_blank" style="color: #FED000;">Click here</a> to register to vote in California; support Nicholas in 2026!</p>`;
