@@ -1,16 +1,27 @@
+/* Variables */
+:root {
+    --primary-color: #113;
+    --secondary-color: #224;
+    --tertiary-color: #002;
+    --accent-color: #FED000;
+    --accent-alpha: #FED00022;
+    --text-color: #CCB;
+    --highlight-color: #998;
+    --shadow-color: #0003;
+}
+
 /* =====================================
    General Styles
    ===================================== */
 
 body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #111133;
-    color: #CCCCBB;
+    background-color: var(--primary-color);
+    color: var(--text-color);
     margin: 0;
     padding: 0;
     line-height: 1.6;
     color-scheme: dark;
-    scrollbar-color: #444455 #222244;
     /* transition: all 0.3s ease; */
 }
 
@@ -29,22 +40,22 @@ body {
    ===================================== */
 
 header {
-    background-color: #222244;
-    color: #CCCCBB;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
     padding: 10px 0;
     text-align: center;
-    box-shadow: 0 4px 8px #00000033;
+    box-shadow: 0 4px 8px var(--shadow-color);
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
     transition: all 0.3s ease;
-    border-bottom: 2px solid #FED00022;
+    border-bottom: 2px solid var(--accent-alpha);
 }
 
 header.sticky {
-    background-color: #111133;
-    box-shadow: 0 4px 8px #00000033;
+    background-color: var(--primary-color);
+    box-shadow: 0 4px 8px var(--shadow-color);
     padding: 5px 0;
     transition: padding 0.3s ease, background-color 0.3s ease;
 }
@@ -72,7 +83,7 @@ header h2 {
     margin: 5px 0 0;
     font-size: 1.2em;
     font-weight: 300;
-    color: #999988;
+    color: var(--highlight-color);
 }
 
 /* =====================================
@@ -92,7 +103,7 @@ nav ul li {
 }
 
 nav ul li a {
-    color: #CCCCBB;
+    color: var(--text-color);
     text-decoration: none;
     font-weight: bold;
     text-transform: uppercase;
@@ -102,13 +113,13 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    background: #FED00022;
-    color: #FED000;
+    background: var(--accent-alpha);
+    color: var(--accent-color);
 }
 
 nav ul li a.active {
-    background-color: #FED000;
-    color: #111133;
+    background-color: var(--accent-color);
+    color: var(--primary-color);
 }
 
 nav ul li a:focus,
@@ -129,7 +140,7 @@ nav ul li a:active {
     opacity: 0;
     visibility: hidden;
     position: absolute;
-    background-color: #222244;
+    background-color: var(--secondary-color);
     min-width: 160px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     border-radius: 5px;
@@ -145,7 +156,7 @@ nav ul li a:active {
 }
 
 .dropdown-content a {
-    color: #CCCCBB;
+    color: var(--text-color);
     padding: 10px 15px;
     text-decoration: none;
     display: block;
@@ -153,18 +164,18 @@ nav ul li a:active {
 }
 
 .dropdown-content a:hover {
-    background: #FED00022;
-    color: #FED000;
+    background: var(--accent-alpha);
+    color: var(--accent-color);
 }
 
 .dropdown-content a.active {
-    background-color: #FED000;
-    color: #111133;
+    background-color: var(--accent-color);
+    color: var(--primary-color);
 }
 
 .dropdown-content a.active:hover {
-    background-color: #FED000;
-    color: #111133;
+    background-color: var(--accent-color);
+    color: var(--primary-color);
 }
 
 /* Platform Link with Dropdown Icon */
@@ -173,24 +184,24 @@ nav ul li a:active {
     text-transform: uppercase;
     padding: 7px 15px;
     border-radius: 5px;
-    color: #CCCCBB;
+    color: var(--text-color);
     text-decoration: none;
     transition: background 0.3s ease, color 0.3s ease;
 }
 
 .dropbtn:hover {
-    background: #FED00022;
-    color: #FED000;
+    background: var(--accent-alpha);
+    color: var(--accent-color);
 }
 
 .dropdown-icon {
     font-size: 0.75em;
     margin-left: 5px;
-    color: #CCCCBB;
+    color: var(--text-color);
 }
 
 .dropbtn:hover .dropdown-icon {
-    color: #FED000;
+    color: var(--accent-color);
 }
 
 /* Hamburger Menu Styles */
@@ -198,7 +209,7 @@ nav ul li a:active {
     display: none;
     font-size: 1.8em;
     cursor: pointer;
-    color: #CCCCBB;
+    color: var(--text-color);
     position: absolute;
     top: 10px;
     right: 10px;
@@ -216,8 +227,8 @@ nav ul li a:active {
 
 /* General Section Styles */
 .section {
-    background-color: #111133;
-    color: #CCCCBB;
+    background-color: var(--primary-color);
+    color: var(--text-color);
     /* transition: all 0.3s ease; */
 }
 
@@ -230,7 +241,7 @@ nav ul li a:active {
     margin-bottom: 20px;
     text-align: center;
     position: relative;
-    color: #CCCCBB;
+    color: var(--text-color);
     transition: color 0.3s ease;
 }
 
@@ -238,7 +249,7 @@ nav ul li a:active {
     content: '';
     width: 60px;
     height: 4px;
-    background-color: #FED000;
+    background-color: var(--accent-color);
     display: block;
     margin: 20px auto 0;
     border-radius: 2px;
@@ -255,7 +266,7 @@ nav ul li a:active {
 .section h3 i {
     margin-left: 10px;
     font-size: 0.8em;
-    color: #FED000;
+    color: var(--accent-color);
     transition: transform 0.3s ease;
 }
 
@@ -271,17 +282,17 @@ nav ul li a:active {
 }
 
 .section a:hover h3 {
-    color: #FED000 !important;
+    color: var(--accent-color) !important;
 }
 
 /* Dark Sections */
 .dark-section {
-    background-color: #222244;
-    color: #CCCCBB;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
 }
 
 .dark-section h3::after {
-    background-color: #999988;
+    background-color: var(--highlight-color);
 }
 
 /* =====================================
@@ -322,13 +333,13 @@ nav ul li a:active {
     width: 100%;
     height: auto;
     border-radius: 50%;
-    box-shadow: 0 4px 8px #00000033;
+    box-shadow: 0 4px 8px var(--shadow-color);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .portrait:hover {
     transform: scale(1.1);
-    box-shadow: 0 8px 16px #00000055;
+    box-shadow: 0 8px 16px var(--shadow-color);
 }
 
 /* =====================================
@@ -342,24 +353,24 @@ nav ul li a:active {
 }
 
 .issue-card {
-    background: #222244;
+    background: var(--secondary-color);
     border-radius: 10px;
     padding: 20px;
     text-align: center;
-    box-shadow: 0 4px 8px #00000022;
+    box-shadow: 0 4px 8px var(--shadow-color);;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    color: #CCCCBB;
+    color: var(--text-color);
 }
 
 .issue-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 8px 16px #00000033;
+    box-shadow: 0 8px 16px var(--shadow-color);
 }
 
 .issue-card i {
     font-size: 3em;
     margin-bottom: 10px;
-    color: #FED000cc;
+    color: var(--accent-color);
 }
 
 /* =====================================
@@ -368,11 +379,11 @@ nav ul li a:active {
 
 /* Vision Content Styles */
 .vision-content {
-    background: #222244;
+    background: var(--secondary-color);
     border-radius: 10px;
     padding: 20px;
-    box-shadow: 0 4px 8px #00000022;
-    color: #CCCCBB;
+    box-shadow: 0 4px 8px var(--shadow-color);;
+    color: var(--text-color);
     font-size: 1.2em;
     line-height: 1.8em;
     transition: all 0.3s ease;
@@ -391,23 +402,23 @@ nav ul li a:active {
    ===================================== */
 
 footer {
-    background: #222244;
-    color: #CCCCBB;
+    background: var(--secondary-color);
+    color: var(--text-color);
     text-align: center;
     padding: 40px 0;
     margin-top: 20px;
     font-size: 0.9em;
-    box-shadow: 0 -4px 8px #00000033;
+    box-shadow: 0 -4px 8px var(--shadow-color);
 }
 
 footer a {
-    color: #CCCCBB;
+    color: var(--text-color);
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 footer a:hover {
-    color: #999988;
+    color: var(--highlight-color);
 }
 
 .social-media {
@@ -415,7 +426,7 @@ footer a:hover {
 }
 
 .social-icon {
-    color: #CCCCBB;
+    color: var(--text-color);
     font-size: 2em;
     margin: 0 15px;
     padding: 20px;
@@ -428,7 +439,7 @@ footer a:hover {
 
 .social-icon:hover {
     transform: scale(1.2);
-    color: #FED000;
+    color: var(--accent-color);
 }
 
 /* =====================================
@@ -436,8 +447,8 @@ footer a:hover {
    ===================================== */
 
 .sticky {
-    background-color: #111133;
-    box-shadow: 0 4px 8px #00000033;
+    background-color: var(--primary-color);
+    box-shadow: 0 4px 8px var(--shadow-color);
 }
 
 /* =====================================
@@ -459,10 +470,10 @@ html {
         position: absolute;
         top: 60px;
         right: 0px; /* Add some spacing from the right edge */
-        background: #222244;
+        background: var(--secondary-color);
         padding: 0px;
         border-radius: 10px;
-        box-shadow: 0 4px 8px #00000033;
+        box-shadow: 0 4px 8px var(--shadow-color);
         width: calc(100% - 80px); /* Narrower width for smaller screens */
         max-width: 200px; /* Set a maximum width */
     }
@@ -492,7 +503,7 @@ html {
     .dropdown-content a {
         padding: 1px;
         padding-right: 10px; /* Extra right padding for spacing from edge */
-        color: #CCCCBB;
+        color: var(--text-color);
         text-decoration: none;
         display: block;
         text-align: right;
@@ -586,10 +597,10 @@ iframe {
 
 .contact-form-container {
     margin-top: 40px;
-    background-color: #222244;
+    background-color: var(--secondary-color);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px #00000022;
+    box-shadow: 0 4px 8px var(--shadow-color);;
 }
 
 #contact p {
@@ -597,7 +608,7 @@ iframe {
     text-align: center;
     max-width: 800px;
     margin: 0 auto 30px;
-    color: #CCCCBB;
+    color: var(--text-color);
 }
 
 /* =====================================
@@ -606,8 +617,8 @@ iframe {
 
 .sitemap-content {
     padding: 100px 0;
-    background-color: #111133;
-    color: #CCCCBB;
+    background-color: var(--primary-color);
+    color: var(--text-color);
     text-align: center;
 }
 
@@ -623,13 +634,13 @@ iframe {
 }
 
 .sitemap-list li a {
-    color: #999988;
+    color: var(--highlight-color);
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .sitemap-list li a:hover {
-    color: #CCCCBB;
+    color: var(--text-color);
     text-decoration: underline;
 }
 
@@ -645,12 +656,12 @@ iframe {
 #social-media h3 {
     font-size: 2.5em;
     margin-bottom: 20px;
-    color: #CCCCBB;
+    color: var(--text-color);
 }
 
 #social-media p {
     font-size: 1.2em;
-    color: #999988;
+    color: var(--highlight-color);
     margin-bottom: 30px;
 }
 
@@ -662,7 +673,7 @@ iframe {
 
 .social-media-icons .social-icon,
 .social-media .fab {
-    color: #CCCCBB;
+    color: var(--text-color);
     font-size: 2em;
     padding: 15px;
     transition: transform 0.3s ease, color 0.3s ease;
@@ -671,7 +682,7 @@ iframe {
 .social-media-icons .social-icon:hover,
 .social-media .fab:hover {
     transform: scale(1.2);
-    color: #999988;
+    color: var(--highlight-color);
 }
 
 /* =====================================
@@ -682,10 +693,10 @@ iframe {
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color: #111122;
-    color: #c8c3bc;
+    background-color: var(--tertiary-color);
+    color: var(--text-color);
     text-align: center;
-    box-shadow: 0 -4px 8px #00000033;
+    box-shadow: 0 -4px 8px var(--shadow-color);
     z-index: 1001;
     transition: transform 0.3s ease;
 }
@@ -695,7 +706,6 @@ iframe {
 }
 
 .sticky-footer a {
-    color: #96918a;
     text-decoration: none;
     font-weight: bold;
 }
@@ -747,5 +757,5 @@ iframe {
     font-weight: bold;
     font-size: 1.5em;
     margin-top: 20px;
-    color: #FED000;
+    color: var(--accent-color);
 }
