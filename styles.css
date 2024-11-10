@@ -39,11 +39,10 @@ body {
    Header
    ===================================== */
 
-header {
+   header {
     background-color: var(--secondary-color);
     color: var(--text-color);
     padding: 10px 0;
-    text-align: center;
     box-shadow: 0 4px 8px var(--shadow-color);
     position: fixed;
     width: 100%;
@@ -53,6 +52,12 @@ header {
     border-bottom: 2px solid var(--accent-alpha);
 }
 
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 header.sticky {
     background-color: var(--primary-color);
     box-shadow: 0 4px 8px var(--shadow-color);
@@ -60,8 +65,25 @@ header.sticky {
     transition: padding 0.3s ease, background-color 0.3s ease;
 }
 
-header h1, header h2 {
-    transition: font-size 0.3s ease;
+.branding {
+    display: flex;
+    flex-direction: column;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: left;
+}
+
+header h2 {
+    margin: 5px 0 0;
+    font-size: 1.2em;
+    font-weight: 300;
+    color: var(--highlight-color);
+    text-align: left;
 }
 
 header.sticky h1 {
@@ -72,33 +94,24 @@ header.sticky h2 {
     font-size: 1em;
 }
 
-header h1 {
-    margin: 0;
-    font-size: 2em;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-header h2 {
-    margin: 5px 0 0;
-    font-size: 1.2em;
-    font-weight: 300;
-    color: var(--highlight-color);
-}
-
 /* =====================================
    Navigation Styles
    ===================================== */
 
 /* General Navigation Styles */
+nav {
+    display: flex;
+    align-items: center;
+}
+
 nav ul {
+    display: flex;
     list-style-type: none;
     margin: 10px 0 0;
     padding: 0;
 }
 
 nav ul li {
-    display: inline;
     margin-right: 20px;
 }
 
@@ -463,6 +476,22 @@ html {
    Mobile Styles (768px and Below)
    ===================================== */
    @media (max-width: 768px) {
+        /* Responsive Navigation */
+        .header-content {
+            flex-direction: column;
+            align-items: center;
+        }
+    
+        .branding {
+            align-items: center;
+            text-align: center;
+        }
+    
+        nav ul li {
+            margin-right: 0;
+            margin-bottom: 10px;
+        }
+
     /* Adjust the main navigation pop-out */
     nav ul {
         display: none;
