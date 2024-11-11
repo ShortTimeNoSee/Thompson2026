@@ -34,12 +34,12 @@ body {
     background-size: cover;
 }
 
-#about_page #about {
+/** #about_page #about {
     background: 
         linear-gradient(to bottom, var(--primary-alpha), var(--primary-color) 50%),
         url("https://i.ibb.co/J2SxWmr/IMG-20230812-194722914-PORTRAIT.jpg") no-repeat center top;
     background-size: contain;
-}
+} **/
 
 /* =====================================
    Container
@@ -513,10 +513,10 @@ html {
         display: none;
         flex-direction: column;
         position: absolute;
-        top: 60px;
+        top: 50px;
         right: 0px; /* Add some spacing from the right edge */
         background: var(--secondary-color);
-        padding: 0px;
+        padding-top: 15px;
         border-radius: 10px;
         box-shadow: 0 4px 8px var(--shadow-color);
         width: calc(100% - 80px); /* Narrower width for smaller screens */
