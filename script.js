@@ -1,18 +1,18 @@
-// Load header HTML and set up active link and hamburger toggle
+// load header HTML, set active link, setup hamburger toggle
 document.addEventListener("DOMContentLoaded", function () {
     fetch('header.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('header-container').innerHTML = data;
 
-            // Once header is loaded, set up the active link and hamburger toggle
+            // set active link, setup hamburger toggle after header load
             setActiveLink();
             setupHamburgerToggle();
         })
         .catch(error => console.error('Error loading header:', error));
 });
 
-// Set active link based on current URL
+// set active nav link based on current URL
 function setActiveLink() {
     const path = window.location.pathname;
     const navLinks = document.querySelectorAll('nav ul li a');
@@ -26,7 +26,7 @@ function setActiveLink() {
     });
 }
 
-// Sticky Header with Shrink Effect
+// sticky header with shrink effect
 window.onscroll = throttle(stickyHeader, 100);
 
 let header = document.getElementById("header");
@@ -50,7 +50,7 @@ function stickyHeader() {
     }
 }
 
-// Throttle function to control execution rate
+// throttle function for execution rate control
 function throttle(func, limit) {
     let lastFunc;
     let lastRan;
@@ -71,7 +71,7 @@ function throttle(func, limit) {
     };
 }
 
-// Set up hamburger menu toggle after header is loaded
+// setup hamburger menu toggle after header load
 function setupHamburgerToggle() {
     const hamburger = document.getElementById('hamburger');
     const navLinks = document.getElementById('nav-links');
@@ -84,7 +84,7 @@ function setupHamburgerToggle() {
     }
 }
 
-// Sticky footer setup
+// sticky footer setup
 document.addEventListener("DOMContentLoaded", function () {
     const footer = document.createElement("div");
     footer.className = "sticky-footer";

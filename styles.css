@@ -261,7 +261,7 @@ nav ul li a:active {
 }
 
 .section:first-of-type {
-    padding-top: 120px; /* Top padding to accommodate the fixed header */
+    padding-top: 120px;
 }
 
 .section h3 {
@@ -514,13 +514,13 @@ html {
         flex-direction: column;
         position: absolute;
         top: 50px;
-        right: 0px; /* Add some spacing from the right edge */
+        right: 0px;
         background: var(--secondary-color);
         padding-top: 15px;
         border-radius: 10px;
         box-shadow: 0 4px 8px var(--shadow-color);
-        width: calc(100% - 80px); /* Narrower width for smaller screens */
-        max-width: 200px; /* Set a maximum width */
+        width: calc(100% - 80px);
+        max-width: 200px;
     }
 
     /* Show nav links when hamburger is active */
@@ -547,7 +547,7 @@ html {
 
     .dropdown-content a {
         padding: 1px;
-        padding-right: 10px; /* Extra right padding for spacing from edge */
+        padding-right: 10px;
         color: var(--text-color);
         text-decoration: none;
         display: block;
