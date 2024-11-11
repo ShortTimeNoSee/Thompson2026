@@ -29,21 +29,21 @@ body {
 /* Background images */
 #vision {
     background: 
-        linear-gradient(to bottom, var(--primary-alpha), var(--primary-color) 100%), /* Darker gradient overlay */
+        linear-gradient(to bottom, var(--primary-alpha), var(--primary-color) 100%),
         url("https://images.pexels.com/photos/11838861/pexels-photo-11838861.jpeg?auto=compress&cs=tinysrgb") no-repeat center top;
     background-size: cover;
 }
 
 #index_page #about {
     background: 
-        linear-gradient(to bottom, var(--primary-alpha), var(--primary-color) 100%), /* Darker gradient overlay */
-        url("https://i.ibb.co/J2SxWmr/IMG-20230812-194722914-PORTRAIT.jpg") no-repeat center center;
+        linear-gradient(to bottom, var(--primary-alpha), var(--primary-color) 100%),
+        url("https://i.ibb.co/J2SxWmr/IMG-20230812-194722914-PORTRAIT.jpg") no-repeat center top;
     background-size: cover;
 }
 
 #about_page #about {
     background: 
-        linear-gradient(to bottom, var(--primary-alpha), var(--primary-color) 50%), /* Darker gradient overlay */
+        linear-gradient(to bottom, var(--primary-alpha), var(--primary-color) 50%),
         url("https://i.ibb.co/J2SxWmr/IMG-20230812-194722914-PORTRAIT.jpg") no-repeat center top;
     background-size: contain;
 }
