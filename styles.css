@@ -804,3 +804,11 @@ iframe {
     margin-top: 20px;
     color: var(--accent-color);
 }
+
+/* =====================================
+   AFTER CSS LOADS
+   ===================================== */
+
+body {
+    display:block !important
+}
