@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(response => response.text())
         .then(data => {
             document.getElementById('header-container').innerHTML = data;
-
             // set active link, setup hamburger toggle after header load
             setActiveLink();
             setupHamburgerToggle();
@@ -18,7 +17,9 @@ function setActiveLink() {
     const navLinks = document.querySelectorAll('nav ul li a');
 
     navLinks.forEach(link => {
-        if (link.getAttribute('href') === path) {
+        const href = link.getAttribute('href');
+        // Check if link matches current path or if home page
+        if ((href === path) || (path === '/' && href === '/index.html')) {
             link.classList.add('active');
         } else {
             link.classList.remove('active');
@@ -34,18 +35,24 @@ let h1, h2;
 let sticky = header ? header.offsetTop : 0;
 
 function stickyHeader() {
-    if (window.scrollY > sticky && header) {
+    if (!header) {
+        header = document.getElementById("header");
+        if (!header) return;
+        sticky = header.offsetTop;
+    }
+
+    if (window.scrollY > sticky) {
         header.classList.add("sticky");
         h1 = h1 || header.querySelector("h1");
         h2 = h2 || header.querySelector("h2");
         let scrollProgress = Math.min(window.scrollY / sticky, 1);
-        h1.style.fontSize = (2 - 0.5 * scrollProgress) + "em";
-        h2.style.fontSize = (1.2 - 0.2 * scrollProgress) + "em";
+        if (h1) h1.style.fontSize = (2 - 0.5 * scrollProgress) + "em";
+        if (h2) h2.style.fontSize = (1.2 - 0.2 * scrollProgress) + "em";
         header.style.padding = (10 - 5 * scrollProgress) + "px 0";
-    } else if (header) {
+    } else {
         header.classList.remove("sticky");
-        h1.style.fontSize = "2em";
-        h2.style.fontSize = "1.2em";
+        if (h1) h1.style.fontSize = "2em";
+        if (h2) h2.style.fontSize = "1.2em";
         header.style.padding = "10px 0";
     }
 }
@@ -71,16 +78,75 @@ function throttle(func, limit) {
     };
 }
 
-// setup hamburger menu toggle after header load
+// Mobile menu
 function setupHamburgerToggle() {
     const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('nav-links');
+    const nav = document.querySelector('nav ul');
+    const body = document.body;
 
-    if (hamburger && navLinks) {
-        hamburger.addEventListener('click', function () {
-            navLinks.classList.toggle('active');
-            hamburger.classList.toggle('active');
+    if (hamburger && nav) {
+        // Create hamburger lines
+        hamburger.innerHTML = '<div></div>';
+
+        // Setup toggle functionality
+        hamburger.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleMenu();
         });
+
+        // Remove click handler from Platform button on mobile
+        const dropBtn = document.querySelector('.dropbtn');
+        if (dropBtn) {
+            dropBtn.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                }
+            });
+        }
+
+        // Close menu when clicking a link (except Platform)
+        const navLinks = nav.querySelectorAll('a:not(.dropbtn)');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                closeMenu();
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (nav.classList.contains('active') && 
+                !nav.contains(e.target) && 
+                !hamburger.contains(e.target)) {
+                closeMenu();
+            }
+        });
+
+        // Close menu on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && nav.classList.contains('active')) {
+                closeMenu();
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                closeMenu();
+            }
+        });
+
+        function toggleMenu() {
+            hamburger.classList.toggle('active');
+            nav.classList.toggle('active');
+            body.style.overflow = nav.classList.contains('active') ? 'hidden' : '';
+        }
+
+        function closeMenu() {
+            hamburger.classList.remove('active');
+            nav.classList.remove('active');
+            body.style.overflow = '';
+        }
     }
 }
 
@@ -94,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const stickyFooter = document.querySelector('.sticky-footer');
     const pageFooter = document.querySelector('footer');
 
-    if (pageFooter) {
+    if (pageFooter && stickyFooter) {
         const footerObserver = new IntersectionObserver(entries => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
