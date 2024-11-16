@@ -77,25 +77,38 @@ class DeclarationComponent {
         const container = document.getElementById('signatures-list');
         if (!container || !this.signaturesList.length) return;
 
+        // Check if we're on the index page
+        const isIndexPage = window.location.pathname === '/' || window.location.pathname === '/index.html';
+        const displayCount = isIndexPage ? 5 : this.signaturesList.length;
+        const signatures = this.signaturesList.slice(0, displayCount);
+
         const listHtml = `
             <div class="signatures-list-container">
                 <h4>Signed by the People</h4>
                 <div class="signatures-grid">
-                    ${this.signaturesList.map(sig => `
+                    ${signatures.map(sig => `
                         <div class="signature-entry">
                             <span class="signer-name">${sig.name}</span>
                             <span class="signer-county">${sig.county} County</span>
+                            ${sig.comment ? `<span class="signer-comment">${sig.comment}</span>` : ''}
                             <span class="sign-date">${this.formatDate(sig.timestamp)}</span>
                         </div>
                     `).join('')}
                 </div>
+                ${isIndexPage && this.signaturesList.length > displayCount ? `
+                    <div class="view-all-signatures">
+                        <a href="/declaration_of_war#signatures-list" class="view-all-button">
+                            View All ${this.signaturesList.length} Signatures
+                        </a>
+                    </div>
+                ` : ''}
             </div>
         `;
 
         container.innerHTML = listHtml;
     }
 
-    async signDeclaration(county, name) {
+    async signDeclaration(county, name, comment) {
         try {
             const response = await fetch(`${WORKER_URL}/api/sign-declaration`, {
                 method: 'POST',
@@ -103,7 +116,11 @@ class DeclarationComponent {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
-                body: JSON.stringify({ county, name: name.trim() })
+                body: JSON.stringify({ 
+                    county, 
+                    name: name?.trim() || 'Citizen',
+                    comment: comment?.trim() || ''
+                })
             });
 
             if (!response.ok) {
@@ -171,10 +188,18 @@ class DeclarationComponent {
                             <span class="sign-subtitle">Publicly join the citizens below in standing for liberty</span>
                         </div>
                         <input type="text" 
-                               class="name-field" 
-                               placeholder="Your Name (Optional)" 
-                               maxlength="50"
+                            class="name-field" 
+                            placeholder="Your Name (Optional)" 
+                            maxlength="50"
                         />
+                        <div class="name-dependent-fields" style="display: none;">
+                            <textarea 
+                                class="comment-field" 
+                                placeholder="Add a comment (Optional)" 
+                                maxlength="280"
+                            ></textarea>
+                            <div class="char-count">0/280</div>
+                        </div>
                         <div class="county-selector"></div>
                         <button class="sign-button">Sign the Declaration</button>
                     </div>
@@ -218,21 +243,42 @@ class DeclarationComponent {
             
             const signButton = this.container.querySelector('.sign-button');
             const nameField = this.container.querySelector('.name-field');
+            const commentContainer = this.container.querySelector('.name-dependent-fields');
+            const commentField = this.container.querySelector('.comment-field');
+            const charCount = this.container.querySelector('.char-count');
             const countySelect = this.container.querySelector('.county-select');
 
-            nameField.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter' && countySelect.value) {
-                    this.signDeclaration(countySelect.value, nameField.value);
+            nameField.addEventListener('input', () => {
+                commentContainer.style.display = nameField.value.trim() ? 'block' : 'none';
+            });
+            
+            commentField?.addEventListener('input', (e) => {
+                const count = e.target.value.length;
+                charCount.textContent = `${count}/280`;
+                
+                // Prevent typing beyond 280 chars
+                if (count > 280) {
+                    e.target.value = e.target.value.slice(0, 280);
+                    charCount.textContent = "280/280";
                 }
             });
 
             signButton.addEventListener('click', () => {
                 if (countySelect.value) {
-                    this.signDeclaration(countySelect.value, nameField.value);
+                    const comment = commentField?.value || '';
+                    this.signDeclaration(countySelect.value, nameField.value, comment);
                 } else {
                     alert('Please select your county');
                 }
             });
+
+            nameField.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && countySelect.value) {
+                    const comment = commentField?.value || '';
+                    this.signDeclaration(countySelect.value, nameField.value, comment);
+                }
+            });
+
         } else {
             const shareButtons = this.container.querySelectorAll('.share-button');
             shareButtons.forEach(button => {

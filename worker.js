@@ -52,46 +52,48 @@ export default {
       // Admin endpoint for editing signatures
       if (request.url.includes('/api/admin/edit-signature')) {
         try {
-          if (request.method !== "POST") {
-            return new Response(
-              JSON.stringify({ error: "Method not allowed" }), 
-              { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders }}
-            );
-          }
-  
-          const { oldTimestamp, name, county, timestamp } = await request.json();
-          
-          // Input validation
-          if (!oldTimestamp || !county || !timestamp) {
-            return new Response(
-              JSON.stringify({ error: "Missing required fields" }), 
-              { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders }}
-            );
-          }
-  
-          // Get and update signatures list
-          let signaturesList = [];
-          try {
-            signaturesList = JSON.parse(await env.DECLARATION_KV.get('signatures_list') || '[]');
-          } catch (e) {
-            console.error('Error parsing signatures list:', e);
-            signaturesList = [];
-          }
-  
-          // Find and update the signature
-          const signatureIndex = signaturesList.findIndex(sig => sig.timestamp === oldTimestamp);
-          if (signatureIndex === -1) {
-            return new Response(
-              JSON.stringify({ error: "Signature not found" }), 
-              { status: 404, headers: { "Content-Type": "application/json", ...corsHeaders }}
-            );
-          }
-  
-          signaturesList[signatureIndex] = {
-            name: name?.trim() || 'Anonymous Citizen',
-            county,
-            timestamp
-          };
+            if (request.method !== "POST") {
+                return new Response(
+                    JSON.stringify({ error: "Method not allowed" }), 
+                    { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders }}
+                );
+            }
+    
+            const { oldTimestamp, name, county, timestamp, comment } = await request.json();
+            
+            // Input validation
+            if (!oldTimestamp || !county || !timestamp) {
+                return new Response(
+                    JSON.stringify({ error: "Missing required fields" }), 
+                    { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders }}
+                );
+            }
+    
+            // Get and update signatures list
+            let signaturesList = [];
+            try {
+                signaturesList = JSON.parse(await env.DECLARATION_KV.get('signatures_list') || '[]');
+            } catch (e) {
+                console.error('Error parsing signatures list:', e);
+                signaturesList = [];
+            }
+    
+            // Find and update the signature
+            const signatureIndex = signaturesList.findIndex(sig => sig.timestamp === oldTimestamp);
+            if (signatureIndex === -1) {
+                return new Response(
+                    JSON.stringify({ error: "Signature not found" }), 
+                    { status: 404, headers: { "Content-Type": "application/json", ...corsHeaders }}
+                );
+            }
+    
+            signaturesList[signatureIndex] = {
+                name: name?.trim() || 'Anonymous Citizen',
+                county,
+                comment: comment?.trim() || '',  // Add comment field
+                timestamp,
+                metadata: signaturesList[signatureIndex].metadata || {} // Preserve metadata
+            };  
   
           // Update signatures list
           await env.DECLARATION_KV.put('signatures_list', JSON.stringify(signaturesList));
@@ -200,7 +202,7 @@ export default {
             }
           }
   
-          const { county, name } = await request.json();
+          const { county, name, comment } = await request.json();
           
           if (!county) {
             return new Response(
@@ -236,9 +238,10 @@ export default {
           // Create signature object with enhanced data
           const signature = {
             county,
-            name: name?.trim() || 'Anonymous Citizen',
+            name: name?.trim() || 'Citizen',
+            comment: comment?.trim() || '',
             timestamp: now,
-            metadata: {
+            metadata: {      
               ip: clientIP,
               userAgent: request.headers.get('User-Agent'),
               referrer: request.headers.get('Referer'),
