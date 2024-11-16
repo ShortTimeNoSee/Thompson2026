@@ -286,7 +286,7 @@ class DeclarationComponent {
             window.location.href = mailtoLink;
         } else if (platform === 'discord' || platform === 'copy') {
             const textToCopy = `${shareText}\n\n${shareUrl}`;
-            this.copyToClipboard(textToCopy);
+            await this.copyToClipboard(textToCopy);
             if (platform === 'discord') {
                 this.showShareConfirmation('Text copied to clipboard! Paste it into Discord.');
             } else {
@@ -295,7 +295,21 @@ class DeclarationComponent {
         }
     }
 
-    copyToClipboard(text) {
+    async copyToClipboard(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            try {
+                await navigator.clipboard.writeText(text);
+                console.log('Copied to clipboard using navigator.clipboard.writeText:', text);
+            } catch (err) {
+                console.error('Failed to copy using navigator.clipboard:', err);
+                this.copyToClipboardFallback(text);
+            }
+        } else {
+            this.copyToClipboardFallback(text);
+        }
+    }
+
+    copyToClipboardFallback(text) {
         const textarea = document.createElement('textarea');
         textarea.value = text;
         textarea.style.position = 'fixed'; // Prevent scrolling to bottom of page in Microsoft Edge.
@@ -307,8 +321,9 @@ class DeclarationComponent {
             if (!successful) {
                 throw new Error('Failed to copy text.');
             }
+            console.log('Copied to clipboard using execCommand:', text);
         } catch (err) {
-            console.error('Failed to copy:', err);
+            console.error('Failed to copy using execCommand:', err);
             alert('Failed to copy text. Please copy it manually.');
         }
         document.body.removeChild(textarea);
