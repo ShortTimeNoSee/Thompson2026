@@ -11,6 +11,8 @@ const CALIFORNIA_COUNTIES = [
     'Tuolumne', 'Ventura', 'Yolo', 'Yuba'
 ];
 
+const WORKER_URL = 'https://declaration-signatures.theedenwatcher.workers.dev';
+
 class DeclarationComponent {
     constructor(containerId) {
         this.container = document.getElementById(containerId);
@@ -24,7 +26,17 @@ class DeclarationComponent {
 
     async fetchStats() {
         try {
-            const response = await fetch('https://declaration-signatures.theedenwatcher.workers.dev/api/declaration-stats');
+            const response = await fetch(`${WORKER_URL}/api/declaration-stats`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
             const data = await response.json();
             this.signatures = data.signatures || 0;
             this.counties = data.counties || 0;
@@ -48,29 +60,34 @@ class DeclarationComponent {
 
     async signDeclaration(county) {
         try {
-            const response = await fetch('https://declaration-signatures.theedenwatcher.workers.dev/api/sign-declaration', {
+            const response = await fetch(`${WORKER_URL}/api/sign-declaration`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 },
                 body: JSON.stringify({ county })
             });
 
-            if (response.ok) {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            
+            if (result.success) {
                 localStorage.setItem('hasSignedDeclaration', 'true');
                 localStorage.setItem('signedCounty', county);
-                await this.fetchStats();
+                this.signatures = result.signatures;
+                this.counties = result.counties;
                 this.hasSignedBefore = true;
                 this.render();
+            } else {
+                throw new Error('Failed to sign declaration');
             }
         } catch (error) {
             console.error('Failed to sign:', error);
-            // Show fallback success UI anyway
-            localStorage.setItem('hasSignedDeclaration', 'true');
-            localStorage.setItem('signedCounty', county);
-            this.signatures++;
-            this.hasSignedBefore = true;
-            this.render();
+            alert('There was an error signing the declaration. Please try again later.');
         }
     }
 
