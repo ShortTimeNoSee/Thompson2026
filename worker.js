@@ -349,25 +349,32 @@ export default {
       // Stats endpoint
       if (request.url.includes('/api/declaration-stats')) {
         try {
-          const signatures = await env.DECLARATION_KV.get('total_signatures') || '0';
-          const counties = await env.DECLARATION_KV.get('counties_represented') || '0';
-          const signaturesList = JSON.parse(await env.DECLARATION_KV.get('signatures_list') || '[]');
-          
-          return new Response(
-            JSON.stringify({
-              signatures: parseInt(signatures),
-              counties: parseInt(counties),
-              signaturesList: signaturesList.sort((a, b) => b.timestamp - a.timestamp)
-            }), 
-            { headers: { "Content-Type": "application/json", ...corsHeaders }}
-          );
+            const signatures = await env.DECLARATION_KV.get('total_signatures') || '0';
+            const counties = await env.DECLARATION_KV.get('counties_represented') || '0';
+            let signaturesList = [];
+            try {
+                signaturesList = JSON.parse(await env.DECLARATION_KV.get('signatures_list') || '[]');
+            } catch (e) {
+                console.error('Error parsing signatures list:', e);
+                signaturesList = [];
+            }
+            
+            // Return all signature data, sorted by timestamp
+            return new Response(
+                JSON.stringify({
+                    signatures: parseInt(signatures),
+                    counties: parseInt(counties),
+                    signaturesList: signaturesList.sort((a, b) => b.timestamp - a.timestamp)
+                }), 
+                { headers: { "Content-Type": "application/json", ...corsHeaders }}
+            );
         } catch (error) {
-          return new Response(
-            JSON.stringify({ error: "Failed to fetch stats", details: error.message }), 
-            { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders }}
-          );
-        }
+            return new Response(
+                JSON.stringify({ error: "Failed to fetch stats", details: error.message }), 
+                { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders }}
+            );
       }
+    }
   
       // Admin verification endpoint
       if (request.url.includes('/api/admin/verify')) {

@@ -38,9 +38,18 @@ class DeclarationComponent {
             }
             
             const data = await response.json();
+            console.log('Fetched stats data:', data);
+            console.log('Signatures list:', data.signaturesList);
             this.signatures = data.signatures || 0;
             this.counties = data.counties || 0;
             this.signaturesList = data.signaturesList || [];
+            
+            console.log('After assignment:', {
+                signatures: this.signatures,
+                counties: this.counties,
+                signaturesList: this.signaturesList
+            });
+            
             this.updateStats();
             this.renderSignaturesList();
         } catch (error) {
@@ -75,7 +84,13 @@ class DeclarationComponent {
 
     renderSignaturesList() {
         const container = document.getElementById('signatures-list');
-        if (!container || !this.signaturesList.length) return;
+        console.log('Container found:', !!container);  // Add this log
+        console.log('Signatures list length:', this.signaturesList.length);  // Add this log
+        
+        if (!container || !this.signaturesList.length) {
+            console.log('Early return - container or signatures missing');  // Add this log
+            return;
+        }
 
         // Check if we're on the index page
         const isIndexPage = window.location.pathname === '/' || window.location.pathname === '/index.html';
@@ -88,9 +103,9 @@ class DeclarationComponent {
                 <div class="signatures-grid">
                     ${signatures.map(sig => `
                         <div class="signature-entry">
-                            <span class="signer-name">${sig.name}</span>
+                            <span class="signer-name">${sig.name || 'Citizen'}</span>
                             <span class="signer-county">${sig.county} County</span>
-                            ${sig.comment ? `<span class="signer-comment">${sig.comment}</span>` : ''}
+                            ${sig.comment ? `<span class="signer-comment">"${sig.comment}"</span>` : ''}
                             <span class="sign-date">${this.formatDate(sig.timestamp)}</span>
                         </div>
                     `).join('')}
