@@ -188,6 +188,30 @@ class DeclarationComponent {
                         <div class="share-prompt">
                             Share your stand: Rally others to join the cause for liberty
                         </div>
+                        <div class="share-buttons">
+                            <button class="share-button primary-share" data-platform="native">
+                                <!-- Share SVG Icon -->
+                                Share
+                            </button>
+                            <div class="secondary-share-buttons">
+                                <button class="share-button twitter" data-platform="twitter">
+                                    <!-- Twitter SVG Icon -->
+                                </button>
+                                <button class="share-button facebook" data-platform="facebook">
+                                    <!-- Facebook SVG Icon -->
+                                </button>
+                                <button class="share-button email" data-platform="email">
+                                    <!-- Email SVG Icon -->
+                                </button>
+                                <button class="share-button discord" data-platform="discord">
+                                    <!-- Discord SVG Icon -->
+                                </button>
+                                <button class="share-button copy" data-platform="copy">
+                                    <!-- Copy SVG Icon -->
+                                </button>
+                            </div>
+                        </div>
+                        <div class="share-confirmation"></div>
                     </div>
                 `}
             </div>
@@ -217,6 +241,78 @@ class DeclarationComponent {
                     alert('Please select your county');
                 }
             });
+        } else {
+            // Add event listeners to the share buttons
+            const shareButtons = this.container.querySelectorAll('.share-button');
+            shareButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const platform = button.getAttribute('data-platform');
+                    this.shareDeclaration(platform);
+                });
+            });
+        }
+    }
+
+    async shareDeclaration(platform) {
+        const shareUrl = window.location.href;
+        const shareText = "I just signed the California Declaration of Constitutional Liberty! Join me in standing for our rights.";
+
+        if (platform === 'native') {
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: 'California Declaration of Constitutional Liberty',
+                        text: shareText,
+                        url: shareUrl
+                    });
+                    this.showShareConfirmation('Thanks for sharing!');
+                } catch (err) {
+                    console.error('Error sharing:', err);
+                }
+            } else {
+                // Fallback if Web Share API not supported
+                this.shareDeclaration('copy');
+            }
+        } else if (platform === 'twitter') {
+            const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}%20${encodeURIComponent(shareUrl)}`;
+            window.open(twitterUrl, '_blank');
+        } else if (platform === 'facebook') {
+            const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`;
+            window.open(facebookUrl, '_blank');
+        } else if (platform === 'email') {
+            const emailSubject = 'Join me in standing for our rights!';
+            const emailBody = `${shareText}\n\n${shareUrl}`;
+            const mailtoLink = `mailto:?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+            window.location.href = mailtoLink;
+        } else if (platform === 'discord') {
+            const discordText = `${shareText}\n\n${shareUrl}`;
+            try {
+                await navigator.clipboard.writeText(discordText);
+                this.showShareConfirmation('Text copied to clipboard! Paste it into Discord.');
+                // Optionally, you can attempt to open Discord if possible
+            } catch (err) {
+                console.error('Failed to copy:', err);
+                alert('Failed to copy text. Please copy it manually.');
+            }
+        } else if (platform === 'copy') {
+            try {
+                await navigator.clipboard.writeText(`${shareText}\n\n${shareUrl}`);
+                this.showShareConfirmation('Link and message copied to clipboard!');
+            } catch (err) {
+                console.error('Failed to copy:', err);
+                alert('Failed to copy link. Please copy it manually.');
+            }
+        }
+    }
+
+    showShareConfirmation(message) {
+        const confirmationDiv = this.container.querySelector('.share-confirmation');
+        if (confirmationDiv) {
+            confirmationDiv.textContent = message;
+            confirmationDiv.style.opacity = '1';
+            setTimeout(() => {
+                confirmationDiv.style.opacity = '0';
+            }, 3000); // Hide after 3 seconds
         }
     }
 }
