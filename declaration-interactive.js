@@ -245,8 +245,8 @@ class DeclarationComponent {
             // Add event listeners to the share buttons
             const shareButtons = this.container.querySelectorAll('.share-button');
             shareButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const platform = button.getAttribute('data-platform');
+                button.addEventListener('click', (event) => {
+                    const platform = event.currentTarget.getAttribute('data-platform');
                     this.shareDeclaration(platform);
                 });
             });
@@ -284,25 +284,34 @@ class DeclarationComponent {
             const emailBody = `${shareText}\n\n${shareUrl}`;
             const mailtoLink = `mailto:?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
             window.location.href = mailtoLink;
-        } else if (platform === 'discord') {
-            const discordText = `${shareText}\n\n${shareUrl}`;
-            try {
-                await navigator.clipboard.writeText(discordText);
+        } else if (platform === 'discord' || platform === 'copy') {
+            const textToCopy = `${shareText}\n\n${shareUrl}`;
+            this.copyToClipboard(textToCopy);
+            if (platform === 'discord') {
                 this.showShareConfirmation('Text copied to clipboard! Paste it into Discord.');
-                // Optionally, you can attempt to open Discord if possible
-            } catch (err) {
-                console.error('Failed to copy:', err);
-                alert('Failed to copy text. Please copy it manually.');
-            }
-        } else if (platform === 'copy') {
-            try {
-                await navigator.clipboard.writeText(`${shareText}\n\n${shareUrl}`);
+            } else {
                 this.showShareConfirmation('Link and message copied to clipboard!');
-            } catch (err) {
-                console.error('Failed to copy:', err);
-                alert('Failed to copy link. Please copy it manually.');
             }
         }
+    }
+
+    copyToClipboard(text) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed'; // Prevent scrolling to bottom of page in Microsoft Edge.
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        try {
+            const successful = document.execCommand('copy');
+            if (!successful) {
+                throw new Error('Failed to copy text.');
+            }
+        } catch (err) {
+            console.error('Failed to copy:', err);
+            alert('Failed to copy text. Please copy it manually.');
+        }
+        document.body.removeChild(textarea);
     }
 
     showShareConfirmation(message) {
