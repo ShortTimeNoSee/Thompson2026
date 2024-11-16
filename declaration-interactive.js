@@ -1,4 +1,4 @@
-// California counties array
+// Array of California counties
 const CALIFORNIA_COUNTIES = [
     'Alameda', 'Alpine', 'Amador', 'Butte', 'Calaveras', 'Colusa', 'Contra Costa',
     'Del Norte', 'El Dorado', 'Fresno', 'Glenn', 'Humboldt', 'Imperial', 'Inyo',
@@ -30,9 +30,7 @@ class DeclarationComponent {
         try {
             const response = await fetch(`${WORKER_URL}/api/declaration-stats`, {
                 method: 'GET',
-                headers: {
-                    'Accept': 'application/json'
-                }
+                headers: { 'Accept': 'application/json' }
             });
             
             if (!response.ok) {
@@ -47,7 +45,6 @@ class DeclarationComponent {
             this.renderSignaturesList();
         } catch (error) {
             console.error('Failed to fetch stats:', error);
-            // Fallback numbers if API fails
             this.signatures = 42;
             this.counties = 12;
             this.updateStats();
@@ -55,7 +52,6 @@ class DeclarationComponent {
     }
 
     initializeSignaturesList() {
-        // Create signatures list container if it doesn't exist
         if (!document.getElementById('signatures-list')) {
             const signaturesContainer = document.createElement('div');
             signaturesContainer.id = 'signatures-list';
@@ -203,9 +199,6 @@ class DeclarationComponent {
                                 <button class="share-button email" data-platform="email">
                                     <!-- Email SVG Icon -->
                                 </button>
-                                <button class="share-button discord" data-platform="discord">
-                                    <!-- Discord SVG Icon -->
-                                </button>
                                 <button class="share-button copy" data-platform="copy">
                                     <!-- Copy SVG Icon -->
                                 </button>
@@ -227,7 +220,6 @@ class DeclarationComponent {
             const nameField = this.container.querySelector('.name-field');
             const countySelect = this.container.querySelector('.county-select');
 
-            // Add enter key support
             nameField.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter' && countySelect.value) {
                     this.signDeclaration(countySelect.value, nameField.value);
@@ -242,7 +234,6 @@ class DeclarationComponent {
                 }
             });
         } else {
-            // Add event listeners to the share buttons
             const shareButtons = this.container.querySelectorAll('.share-button');
             shareButtons.forEach(button => {
                 button.addEventListener('click', (event) => {
@@ -270,7 +261,6 @@ class DeclarationComponent {
                     console.error('Error sharing:', err);
                 }
             } else {
-                // Fallback if Web Share API not supported
                 this.shareDeclaration('copy');
             }
         } else if (platform === 'twitter') {
@@ -299,7 +289,6 @@ class DeclarationComponent {
         if (navigator.clipboard && navigator.clipboard.writeText) {
             try {
                 await navigator.clipboard.writeText(text);
-                console.log('Copied to clipboard using navigator.clipboard.writeText:', text);
             } catch (err) {
                 console.error('Failed to copy using navigator.clipboard:', err);
                 this.copyToClipboardFallback(text);
@@ -312,7 +301,7 @@ class DeclarationComponent {
     copyToClipboardFallback(text) {
         const textarea = document.createElement('textarea');
         textarea.value = text;
-        textarea.style.position = 'fixed'; // Prevent scrolling to bottom of page in Microsoft Edge.
+        textarea.style.position = 'fixed'; // Prevent scrolling to bottom in Edge
         document.body.appendChild(textarea);
         textarea.focus();
         textarea.select();
@@ -321,7 +310,6 @@ class DeclarationComponent {
             if (!successful) {
                 throw new Error('Failed to copy text.');
             }
-            console.log('Copied to clipboard using execCommand:', text);
         } catch (err) {
             console.error('Failed to copy using execCommand:', err);
             alert('Failed to copy text. Please copy it manually.');
@@ -336,7 +324,7 @@ class DeclarationComponent {
             confirmationDiv.style.opacity = '1';
             setTimeout(() => {
                 confirmationDiv.style.opacity = '0';
-            }, 3000); // Hide after 3 seconds
+            }, 3000);
         }
     }
 }

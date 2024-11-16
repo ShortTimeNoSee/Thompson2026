@@ -1,5 +1,12 @@
-// load header HTML, set active link, setup hamburger toggle, preload setup
-document.addEventListener("DOMContentLoaded", function () {
+// Global constants and variables
+const pageCache = new Map();
+let header = document.getElementById("header");
+let h1, h2;
+let sticky = header ? header.offsetTop : 0;
+
+// Event listeners
+document.addEventListener("DOMContentLoaded", () => {
+    // Load header and initialize functionalities
     fetch('header.html')
         .then(response => response.text())
         .then(data => {
@@ -9,17 +16,29 @@ document.addEventListener("DOMContentLoaded", function () {
             setupPreloadListeners();
         })
         .catch(error => console.error('Error loading header:', error));
+
+    // Setup sticky footer
+    setupStickyFooter();
+
+    // Initialize DeclarationComponent if element exists
+    if (document.getElementById('declaration-interactive')) {
+        new DeclarationComponent('declaration-interactive');
+    }
 });
 
-// set active nav link based on current URL
+// Throttle scroll events for sticky header
+window.onscroll = throttle(stickyHeader, 100);
+
+/**
+ * Sets the active navigation link based on the current URL.
+ */
 function setActiveLink() {
     const path = window.location.pathname;
     const navLinks = document.querySelectorAll('nav ul li a');
 
     navLinks.forEach(link => {
         const href = link.getAttribute('href');
-        // Check if link matches current path or if home page
-        if ((href === path) || (path === '/' && href === '/index.html')) {
+        if (href === path || (path === '/' && href === '/index.html')) {
             link.classList.add('active');
         } else {
             link.classList.remove('active');
@@ -27,13 +46,9 @@ function setActiveLink() {
     });
 }
 
-// sticky header with shrink effect
-window.onscroll = throttle(stickyHeader, 100);
-
-let header = document.getElementById("header");
-let h1, h2;
-let sticky = header ? header.offsetTop : 0;
-
+/**
+ * Implements a sticky header with a shrink effect on scroll.
+ */
 function stickyHeader() {
     if (!header) {
         header = document.getElementById("header");
@@ -45,10 +60,10 @@ function stickyHeader() {
         header.classList.add("sticky");
         h1 = h1 || header.querySelector("h1");
         h2 = h2 || header.querySelector("h2");
-        let scrollProgress = Math.min(window.scrollY / sticky, 1);
-        if (h1) h1.style.fontSize = (2 - 0.5 * scrollProgress) + "em";
-        if (h2) h2.style.fontSize = (1.2 - 0.2 * scrollProgress) + "em";
-        header.style.padding = (10 - 5 * scrollProgress) + "px 0";
+        const scrollProgress = Math.min(window.scrollY / sticky, 1);
+        if (h1) h1.style.fontSize = `${2 - 0.5 * scrollProgress}em`;
+        if (h2) h2.style.fontSize = `${1.2 - 0.2 * scrollProgress}em`;
+        header.style.padding = `${10 - 5 * scrollProgress}px 0`;
     } else {
         header.classList.remove("sticky");
         if (h1) h1.style.fontSize = "2em";
@@ -57,7 +72,11 @@ function stickyHeader() {
     }
 }
 
-// throttle function for execution rate control
+/**
+ * Limits the rate at which a function can fire.
+ * @param {Function} func - The function to throttle.
+ * @param {number} limit - The time limit in milliseconds.
+ */
 function throttle(func, limit) {
     let lastFunc;
     let lastRan;
@@ -78,27 +97,29 @@ function throttle(func, limit) {
     };
 }
 
-// Mobile menu
+/**
+ * Sets up the mobile menu (hamburger toggle).
+ */
 function setupHamburgerToggle() {
     const hamburger = document.getElementById('hamburger');
     const nav = document.querySelector('nav ul');
     const body = document.body;
 
     if (hamburger && nav) {
-        // Create hamburger lines
+        // Create hamburger icon
         hamburger.innerHTML = '<div></div>';
 
-        // Setup toggle functionality
-        hamburger.addEventListener('click', function(e) {
+        // Toggle menu on hamburger click
+        hamburger.addEventListener('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
             toggleMenu();
         });
 
-        // Remove click handler from Platform button on mobile
+        // Disable default action on Platform button in mobile
         const dropBtn = document.querySelector('.dropbtn');
         if (dropBtn) {
-            dropBtn.addEventListener('click', function(e) {
+            dropBtn.addEventListener('click', function (e) {
                 if (window.innerWidth <= 768) {
                     e.preventDefault();
                 }
@@ -115,22 +136,24 @@ function setupHamburgerToggle() {
 
         // Close menu when clicking outside
         document.addEventListener('click', (e) => {
-            if (nav.classList.contains('active') && 
-                !nav.contains(e.target) && 
-                !hamburger.contains(e.target)) {
+            if (
+                nav.classList.contains('active') &&
+                !nav.contains(e.target) &&
+                !hamburger.contains(e.target)
+            ) {
                 closeMenu();
             }
         });
 
         // Close menu on escape key
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape' && nav.classList.contains('active')) {
                 closeMenu();
             }
         });
 
-        // Handle window resize
-        window.addEventListener('resize', function() {
+        // Close menu on window resize
+        window.addEventListener('resize', function () {
             if (window.innerWidth > 768) {
                 closeMenu();
             }
@@ -150,8 +173,10 @@ function setupHamburgerToggle() {
     }
 }
 
-// sticky footer setup
-document.addEventListener("DOMContentLoaded", function () {
+/**
+ * Sets up the sticky footer with visibility toggle based on page footer visibility.
+ */
+function setupStickyFooter() {
     const footer = document.createElement("div");
     footer.className = "sticky-footer";
     footer.innerHTML = `<p><a href="https://registertovote.ca.gov/" target="_blank" style="color: #FED000;">Click here</a> to register to vote in California; support Nicholas in 2026!</p>`;
@@ -161,27 +186,30 @@ document.addEventListener("DOMContentLoaded", function () {
     const pageFooter = document.querySelector('footer');
 
     if (pageFooter && stickyFooter) {
-        const footerObserver = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    stickyFooter.classList.add('hidden');
-                } else {
-                    stickyFooter.classList.remove('hidden');
-                }
-            });
-        }, { threshold: 0.1 });
+        const footerObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        stickyFooter.classList.add('hidden');
+                    } else {
+                        stickyFooter.classList.remove('hidden');
+                    }
+                });
+            },
+            { threshold: 0.1 }
+        );
 
         footerObserver.observe(pageFooter);
     }
-});
+}
 
-// Create a Map to store preloaded content
-const pageCache = new Map();
-
-// preload a page
+/**
+ * Preloads a page and caches its content.
+ * @param {string} url - The URL of the page to preload.
+ */
 async function preloadPage(url) {
     if (pageCache.has(url)) return;
-    
+
     try {
         const response = await fetch(url);
         const text = await response.text();
@@ -191,7 +219,11 @@ async function preloadPage(url) {
     }
 }
 
-// get page content (either from cache or fresh)
+/**
+ * Retrieves page content from the cache or fetches it if not cached.
+ * @param {string} url - The URL of the page.
+ * @returns {Promise<string>} The page content.
+ */
 async function getPageContent(url) {
     if (pageCache.has(url)) {
         return pageCache.get(url);
@@ -201,13 +233,15 @@ async function getPageContent(url) {
     return text;
 }
 
-// Setup preload listeners
+/**
+ * Sets up listeners to preload pages on navigation link hover.
+ */
 function setupPreloadListeners() {
     const links = document.querySelectorAll('nav a:not([target="_blank"])');
-    
+
     links.forEach(link => {
         let timer;
-        
+
         link.addEventListener('mouseenter', () => {
             // Start a timer when hovering
             timer = setTimeout(() => {
