@@ -251,6 +251,7 @@ nav ul li a:active {
 .section {
     background-color: var(--primary-color);
     color: var(--text-color);
+    padding-bottom: 20px;
 }
 
 .section:first-of-type {
@@ -450,11 +451,6 @@ nav ul li a:active {
 #declaration.section .declaration-interactive {
     margin-top: 2rem;
     border-radius: 0;
-}
-
-#declaration.section .signatures-list-container {
-    margin-bottom: 0;
-    background: var(--primary-color);
 }
 
 /* Additional Sections */
