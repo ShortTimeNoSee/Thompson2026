@@ -581,15 +581,31 @@ html {
 ===================================== */
 iframe {
     filter: invert(1) hue-rotate(180deg);
-    transition: all 0.3s ease;
+    mix-blend-mode: difference;
+    background-color: var(--primary-color);
 }
 
 .contact-form-container {
+    position: relative;
     margin-top: 40px;
-    background-color: var(--secondary-color);
-    padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px var(--shadow-color);
+    overflow: hidden;
+    background-color: var(--primary-color);  /* Ensure container has background */
+}
+
+/* Adjust the blend mode container */
+.contact-form-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--primary-color);
+    mix-blend-mode: color-burn;  /* Try different blend modes */
+    z-index: -1;
+    pointer-events: none;
 }
 
 #contact p {
