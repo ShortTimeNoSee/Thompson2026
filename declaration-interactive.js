@@ -19,9 +19,11 @@ class DeclarationComponent {
         this.hasSignedBefore = localStorage.getItem('hasSignedDeclaration');
         this.signatures = 0;
         this.counties = 0;
+        this.signaturesList = [];
         
         this.render();
         this.fetchStats();
+        this.initializeSignaturesList();
     }
 
     async fetchStats() {
@@ -40,13 +42,24 @@ class DeclarationComponent {
             const data = await response.json();
             this.signatures = data.signatures || 0;
             this.counties = data.counties || 0;
+            this.signaturesList = data.signaturesList || [];
             this.updateStats();
+            this.renderSignaturesList();
         } catch (error) {
             console.error('Failed to fetch stats:', error);
             // Fallback numbers if API fails
             this.signatures = 42;
             this.counties = 12;
             this.updateStats();
+        }
+    }
+
+    initializeSignaturesList() {
+        // Create signatures list container if it doesn't exist
+        if (!document.getElementById('signatures-list')) {
+            const signaturesContainer = document.createElement('div');
+            signaturesContainer.id = 'signatures-list';
+            this.container.parentNode.insertBefore(signaturesContainer, this.container.nextSibling);
         }
     }
 
@@ -58,7 +71,35 @@ class DeclarationComponent {
         if (countiesEl) countiesEl.textContent = this.counties;
     }
 
-    async signDeclaration(county) {
+    formatDate(timestamp) {
+        const date = new Date(timestamp);
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return date.toLocaleDateString('en-US', options);
+    }
+
+    renderSignaturesList() {
+        const container = document.getElementById('signatures-list');
+        if (!container || !this.signaturesList.length) return;
+
+        const listHtml = `
+            <div class="signatures-list-container">
+                <h4>Signed by the People</h4>
+                <div class="signatures-grid">
+                    ${this.signaturesList.map(sig => `
+                        <div class="signature-entry">
+                            <span class="signer-name">${sig.name}</span>
+                            <span class="signer-county">${sig.county} County</span>
+                            <span class="sign-date">${this.formatDate(sig.timestamp)}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+
+        container.innerHTML = listHtml;
+    }
+
+    async signDeclaration(county, name) {
         try {
             const response = await fetch(`${WORKER_URL}/api/sign-declaration`, {
                 method: 'POST',
@@ -66,11 +107,12 @@ class DeclarationComponent {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
-                body: JSON.stringify({ county })
+                body: JSON.stringify({ county, name: name.trim() })
             });
 
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to sign declaration');
             }
 
             const result = await response.json();
@@ -78,16 +120,19 @@ class DeclarationComponent {
             if (result.success) {
                 localStorage.setItem('hasSignedDeclaration', 'true');
                 localStorage.setItem('signedCounty', county);
+                localStorage.setItem('signedName', name);
                 this.signatures = result.signatures;
                 this.counties = result.counties;
+                this.signaturesList = result.signaturesList;
                 this.hasSignedBefore = true;
                 this.render();
+                this.renderSignaturesList();
             } else {
                 throw new Error('Failed to sign declaration');
             }
         } catch (error) {
             console.error('Failed to sign:', error);
-            alert('There was an error signing the declaration. Please try again later.');
+            alert(error.message || 'There was an error signing the declaration. Please try again later.');
         }
     }
 
@@ -126,6 +171,11 @@ class DeclarationComponent {
                 
                 ${!this.hasSignedBefore ? `
                     <div class="sign-container">
+                        <input type="text" 
+                               class="name-field" 
+                               placeholder="Your Name (Optional)" 
+                               maxlength="50"
+                        />
                         <div class="county-selector"></div>
                         <button class="sign-button">Sign the Declaration</button>
                     </div>
@@ -147,10 +197,19 @@ class DeclarationComponent {
             selectorContainer.appendChild(this.createCountySelector());
             
             const signButton = this.container.querySelector('.sign-button');
+            const nameField = this.container.querySelector('.name-field');
+            const countySelect = this.container.querySelector('.county-select');
+
+            // Add enter key support
+            nameField.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && countySelect.value) {
+                    this.signDeclaration(countySelect.value, nameField.value);
+                }
+            });
+
             signButton.addEventListener('click', () => {
-                const select = this.container.querySelector('.county-select');
-                if (select.value) {
-                    this.signDeclaration(select.value);
+                if (countySelect.value) {
+                    this.signDeclaration(countySelect.value, nameField.value);
                 } else {
                     alert('Please select your county');
                 }
