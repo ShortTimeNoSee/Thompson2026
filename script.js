@@ -1,12 +1,12 @@
-// load header HTML, set active link, setup hamburger toggle
+// load header HTML, set active link, setup hamburger toggle, preload setup
 document.addEventListener("DOMContentLoaded", function () {
     fetch('header.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('header-container').innerHTML = data;
-            // set active link, setup hamburger toggle after header load
             setActiveLink();
             setupHamburgerToggle();
+            setupPreloadListeners();
         })
         .catch(error => console.error('Error loading header:', error));
 });
@@ -174,3 +174,53 @@ document.addEventListener("DOMContentLoaded", function () {
         footerObserver.observe(pageFooter);
     }
 });
+
+// Create a Map to store preloaded content
+const pageCache = new Map();
+
+// preload a page
+async function preloadPage(url) {
+    if (pageCache.has(url)) return;
+    
+    try {
+        const response = await fetch(url);
+        const text = await response.text();
+        pageCache.set(url, text);
+    } catch (error) {
+        console.error(`Failed to preload ${url}:`, error);
+    }
+}
+
+// get page content (either from cache or fresh)
+async function getPageContent(url) {
+    if (pageCache.has(url)) {
+        return pageCache.get(url);
+    }
+    const response = await fetch(url);
+    const text = await response.text();
+    return text;
+}
+
+// Setup preload listeners
+function setupPreloadListeners() {
+    const links = document.querySelectorAll('nav a:not([target="_blank"])');
+    
+    links.forEach(link => {
+        let timer;
+        
+        link.addEventListener('mouseenter', () => {
+            // Start a timer when hovering
+            timer = setTimeout(() => {
+                const url = link.href;
+                if (url && !url.startsWith('javascript:')) {
+                    preloadPage(url);
+                }
+            }, 100); // Small delay to prevent unnecessary preloads
+        });
+
+        link.addEventListener('mouseleave', () => {
+            // Cancel preload if mouse leaves quickly
+            clearTimeout(timer);
+        });
+    });
+}
