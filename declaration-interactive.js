@@ -24,7 +24,7 @@ class DeclarationComponent {
 
     async fetchStats() {
         try {
-            const response = await fetch('/api/declaration-stats');
+            const response = await fetch('https://declaration-signatures.theedenwatcher.workers.dev/api/declaration-stats');
             const data = await response.json();
             this.signatures = data.signatures || 0;
             this.counties = data.counties || 0;
@@ -48,7 +48,7 @@ class DeclarationComponent {
 
     async signDeclaration(county) {
         try {
-            const response = await fetch('/api/sign-declaration', {
+            const response = await fetch('https://declaration-signatures.theedenwatcher.workers.dev/api/sign-declaration', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
