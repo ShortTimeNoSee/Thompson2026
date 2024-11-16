@@ -124,53 +124,68 @@ export default {
       // Admin endpoint for removing signatures
       if (request.url.includes('/api/admin/remove-signature')) {
         try {
-          if (request.method !== "POST") {
+            if (request.method !== "POST") {
+                return new Response(
+                    JSON.stringify({ error: "Method not allowed" }), 
+                    { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders }}
+                );
+            }
+    
+            const { timestamp } = await request.json();
+            
+            // Get and update signatures list
+            let signaturesList = [];
+            try {
+                signaturesList = JSON.parse(await env.DECLARATION_KV.get('signatures_list') || '[]');
+            } catch (e) {
+                console.error('Error parsing signatures list:', e);
+                signaturesList = [];
+            }
+    
+            // Find the signature to get its metadata before removing
+            const signature = signaturesList.find(sig => sig.timestamp === timestamp);
+            if (signature?.metadata?.ip) {
+                // Remove rate limiting and IP tracking for this user
+                const ip = signature.metadata.ip;
+                const rateLimitKey = `rate_limit:${ip}`;
+                const ipCountyKey = `ip_county:${ip}`;
+                const ipSignCountKey = `ip_sign_count:${ip}`;
+                
+                // Delete all associated keys
+                await env.DECLARATION_KV.delete(rateLimitKey);
+                await env.DECLARATION_KV.delete(ipCountyKey);
+                await env.DECLARATION_KV.delete(ipSignCountKey);
+            }
+    
+            const newSignaturesList = signaturesList.filter(sig => sig.timestamp !== timestamp);
+            
+            // Update signatures count
+            const newCount = newSignaturesList.length;
+            await env.DECLARATION_KV.put('total_signatures', newCount.toString());
+    
+            // Update counties list
+            const uniqueCounties = [...new Set(newSignaturesList.map(sig => sig.county))];
+            await env.DECLARATION_KV.put('counties_list', JSON.stringify(uniqueCounties));
+            await env.DECLARATION_KV.put('counties_represented', uniqueCounties.length.toString());
+    
+            // Save updated signatures list
+            await env.DECLARATION_KV.put('signatures_list', JSON.stringify(newSignaturesList));
+    
             return new Response(
-              JSON.stringify({ error: "Method not allowed" }), 
-              { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders }}
+                JSON.stringify({ 
+                    success: true,
+                    signatures: newCount,
+                    counties: uniqueCounties.length,
+                    signaturesList: newSignaturesList
+                }), 
+                { headers: { "Content-Type": "application/json", ...corsHeaders }}
             );
-          }
-  
-          const { timestamp } = await request.json();
-          
-          // Get and update signatures list
-          let signaturesList = [];
-          try {
-            signaturesList = JSON.parse(await env.DECLARATION_KV.get('signatures_list') || '[]');
-          } catch (e) {
-            console.error('Error parsing signatures list:', e);
-            signaturesList = [];
-          }
-  
-          const newSignaturesList = signaturesList.filter(sig => sig.timestamp !== timestamp);
-          
-          // Update signatures count
-          const newCount = newSignaturesList.length;
-          await env.DECLARATION_KV.put('total_signatures', newCount.toString());
-  
-          // Update counties list
-          const uniqueCounties = [...new Set(newSignaturesList.map(sig => sig.county))];
-          await env.DECLARATION_KV.put('counties_list', JSON.stringify(uniqueCounties));
-          await env.DECLARATION_KV.put('counties_represented', uniqueCounties.length.toString());
-  
-          // Save updated signatures list
-          await env.DECLARATION_KV.put('signatures_list', JSON.stringify(newSignaturesList));
-  
-          return new Response(
-            JSON.stringify({ 
-              success: true,
-              signatures: newCount,
-              counties: uniqueCounties.length,
-              signaturesList: newSignaturesList
-            }), 
-            { headers: { "Content-Type": "application/json", ...corsHeaders }}
-          );
         } catch (error) {
-          console.error('Remove signature error:', error);
-          return new Response(
-            JSON.stringify({ error: "Failed to remove signature", details: error.message }), 
-            { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders }}
-          );
+            console.error('Remove signature error:', error);
+            return new Response(
+                JSON.stringify({ error: "Failed to remove signature", details: error.message }), 
+                { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders }}
+            );
         }
       }
   
