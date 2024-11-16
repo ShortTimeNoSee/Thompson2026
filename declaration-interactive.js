@@ -171,6 +171,9 @@ class DeclarationComponent {
                 
                 ${!this.hasSignedBefore ? `
                     <div class="sign-container">
+                        <div class="sign-header">
+                            <span class="sign-subtitle">Publicly join the citizens below in standing for liberty</span>
+                        </div>
                         <input type="text" 
                                class="name-field" 
                                placeholder="Your Name (Optional)" 
