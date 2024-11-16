@@ -85,6 +85,33 @@ To properly handle URL routing in VS Code's Live Server:
 - Pages listed after the `"/"` line will redirect to `"/"`
 - Order matters for proper routing
 
+### Declaration of War Feature Setup
+
+The interactive Declaration of War feature requires some additional setup:
+
+1. Create a Cloudflare Workers KV namespace:
+   ```bash
+   wrangler kv:namespace create "DECLARATION_KV"
+   ```
+
+2. Copy wrangler.toml.example to wrangler.toml and update with your KV namespace ID
+
+3. Set up your environment variables in Cloudflare:
+   - Go to Workers & Pages
+   - Select your worker
+   - Navigate to Settings > Variables
+   - Add the required environment variables
+
+### Security Note
+Never commit sensitive information like API keys or KV namespace IDs to the repository. Use environment variables and the Cloudflare dashboard for configuration.
+
+### Local Development
+For local development, create a .env.local file with your development variables:
+```bash
+DECLARATION_KV_ID=your_kv_id
+ALLOWED_ORIGINS=http://localhost:3000
+```
+
 ## 💻 Development Guidelines
 
 ### CSS Structure
