@@ -323,17 +323,17 @@ nav ul li a:active {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
-    text-align: left;
-    margin-top: 20px;
+    justify-content: space-between;
+    gap: 20px;
 }
 
 .about-text {
     flex: 1;
     max-width: 100%;
-    padding-left: 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    align-items: center;
 }
 
 .about-text p {
@@ -1238,4 +1238,31 @@ iframe {
 ===================================== */
 body {
     display: block !important;
+}
+
+
+/* CTA button */
+.shop-cta {
+    margin-top: 10px;
+}
+
+.section .cta-button {
+    display: inline-block;
+    background: var(--accent-color);
+    color: var(--primary-color);
+    padding: 15px 20px;
+    border-radius: 5px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    transition: transform 0.2s, box-shadow 0.2s;
+    max-width: 90%;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px var(--shadow-color);
 }
