@@ -339,7 +339,7 @@ nav ul li a:active {
 .about-text p {
     margin-bottom: 20px;
     line-height: 1.8;
-    text-align: justify;
+    text-align: left;
 }
 
 .portrait-container {
@@ -414,7 +414,7 @@ nav ul li a:active {
 #declaration p {
     font-size: 1.2em;
     line-height: 1.8;
-    text-align: justify;
+    text-align: left;
     max-width: 900px;
     margin: 20px auto;
 }
@@ -1038,40 +1038,61 @@ iframe {
         display: none;
     }
 
+    /* Update/replace these dropdown styles */
     .dropdown-content {
-        display: block !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        position: relative !important;
-        background: transparent !important;
-        box-shadow: none !important;
-        transform: none !important;
-        margin: 10px 0 !important;
-        padding: 15px 0 !important;
-        transition: none !important;
-        pointer-events: auto !important;
+        display: none;
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        background: transparent;
+        box-shadow: none;
+        transform: none;  /* Ensure no transform */
+        margin: 10px 0;
+        padding: 15px 0;
         border-top: 1px solid var(--accent-alpha);
         border-bottom: 1px solid var(--accent-alpha);
+        pointer-events: auto;
+        transition: none;  /* Remove all transitions */
     }
 
+    /* Remove the hover transform completely for mobile */
+    .dropdown:hover .dropdown-content {
+        transform: none;
+        transition: none;
+    }
+
+    /* Make link transitions instant on mobile */
     .dropdown-content a {
-        padding: 10px 20px !important;
-        font-size: 1.2em !important;
-        opacity: 1 !important;
-        margin: 5px 0 !important;
-        transition: all 0.2s ease !important;
+        padding: 10px 20px;
+        font-size: 1.2em;
+        margin: 5px 0;
+        -webkit-tap-highlight-color: transparent;
+        transition: none;  /* Remove transitions for dropdown links */
     }
 
-    nav ul li a:hover,
-    .dropdown-content a:hover {
-        background: var(--accent-alpha) !important;
-        color: var(--accent-color) !important;
+    /* Override any other transitions for menu items */
+    nav ul li a,
+    .dropdown-content a,
+    .dropdown-content a:hover,
+    nav ul li a:hover {
+        transition: none;
     }
 
-    nav ul li a.active,
-    .dropdown-content a.active {
+    .dropdown-content a:hover,
+    .dropdown-content a:active {
+        background-color: var(--accent-alpha);
+        color: var(--accent-color);
+    }
+
+    /* Keep the active state overrides */
+    nav ul li a.active:hover,
+    .dropdown-content a.active:hover {
         background-color: var(--accent-color) !important;
         color: var(--primary-color) !important;
+    }
+
+    nav ul.active .dropdown-content {
+        display: block;
     }
 
     /* Staggered Animations */
@@ -1263,14 +1284,6 @@ iframe {
     }
 }
 
-/* =====================================
-   Overrides
-===================================== */
-body {
-    display: block !important;
-}
-
-
 /* CTA button */
 .shop-cta {
     margin-top: 10px;
@@ -1301,4 +1314,11 @@ body {
 .cta-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 12px var(--shadow-color);
+}
+
+/* =====================================
+   Overrides
+===================================== */
+body {
+    display: block !important;
 }
