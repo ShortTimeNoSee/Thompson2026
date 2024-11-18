@@ -133,8 +133,8 @@ class DeclarationComponent {
                 },
                 body: JSON.stringify({ 
                     county, 
-                    name: name?.trim() || 'Citizen',
-                    comment: comment?.trim() || ''
+                    name: name?.trim() || 'Citizen', // anonymous users are labeled as 'Citizen'
+                    comment: comment?.trim() || ''    // allows empty or filled comments regardless of name
                 })
             });
 
@@ -148,7 +148,9 @@ class DeclarationComponent {
             if (result.success) {
                 localStorage.setItem('hasSignedDeclaration', 'true');
                 localStorage.setItem('signedCounty', county);
-                localStorage.setItem('signedName', name);
+                if (name?.trim()) {
+                    localStorage.setItem('signedName', name);
+                }
                 this.signatures = result.signatures;
                 this.counties = result.counties;
                 this.signaturesList = result.signaturesList;
@@ -276,7 +278,7 @@ class DeclarationComponent {
             signButton.addEventListener('click', () => {
                 if (countySelect.value) {
                     const comment = commentField?.value || '';
-                    const name = nameField?.value || 'Citizen'; // Default to 'Citizen'
+                    const name = nameField?.value?.trim() || 'Citizen';  // Allow empty name
                     this.signDeclaration(countySelect.value, name, comment);
                 } else {
                     alert('Please select your county');
@@ -287,7 +289,7 @@ class DeclarationComponent {
             nameField.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter' && countySelect.value) {
                     const comment = commentField?.value || '';
-                    const name = nameField?.value || 'Citizen';
+                    const name = nameField?.value?.trim() || 'Citizen';
                     this.signDeclaration(countySelect.value, name, comment);
                 }
             });
