@@ -84,11 +84,11 @@ class DeclarationComponent {
 
     renderSignaturesList() {
         const container = document.getElementById('signatures-list');
-        console.log('Container found:', !!container);  // Add this log
-        console.log('Signatures list length:', this.signaturesList.length);  // Add this log
+        console.log('Container found:', !!container);
+        console.log('Signatures list length:', this.signaturesList.length);
         
         if (!container || !this.signaturesList.length) {
-            console.log('Early return - container or signatures missing');  // Add this log
+            console.log('Early return - container or signatures missing');
             return;
         }
 
@@ -133,7 +133,7 @@ class DeclarationComponent {
                 },
                 body: JSON.stringify({ 
                     county, 
-                    name: name?.trim() || 'Citizen',
+                    name: name?.trim() || 'Anonymous Citizen',
                     comment: comment?.trim() || ''
                 })
             });
@@ -204,17 +204,15 @@ class DeclarationComponent {
                         </div>
                         <input type="text" 
                             class="name-field" 
-                            placeholder="Your Name (Optional)" 
+                            placeholder="Name (Optional)" 
                             maxlength="50"
                         />
-                        <div class="name-dependent-fields" style="display: none;">
-                            <textarea 
-                                class="comment-field" 
-                                placeholder="Add a comment (Optional)" 
-                                maxlength="280"
-                            ></textarea>
-                            <div class="char-count">0/280</div>
-                        </div>
+                        <textarea 
+                            class="comment-field" 
+                            placeholder="Add a comment (Optional)" 
+                            maxlength="280"
+                        ></textarea>
+                        <div class="char-count">0/280</div>
                         <div class="county-selector"></div>
                         <button class="sign-button">Sign the Declaration</button>
                     </div>
@@ -258,43 +256,43 @@ class DeclarationComponent {
             
             const signButton = this.container.querySelector('.sign-button');
             const nameField = this.container.querySelector('.name-field');
-            const commentContainer = this.container.querySelector('.name-dependent-fields');
             const commentField = this.container.querySelector('.comment-field');
             const charCount = this.container.querySelector('.char-count');
             const countySelect = this.container.querySelector('.county-select');
 
-            nameField.addEventListener('input', () => {
-                commentContainer.style.display = nameField.value.trim() ? 'block' : 'none';
-            });
-            
-            commentField?.addEventListener('input', (e) => {
+            // Update character count as user types in comment field
+            commentField.addEventListener('input', (e) => {
                 const count = e.target.value.length;
                 charCount.textContent = `${count}/280`;
                 
-                // Prevent typing beyond 280 chars
+                // Prevent typing beyond 280 characters
                 if (count > 280) {
                     e.target.value = e.target.value.slice(0, 280);
                     charCount.textContent = "280/280";
                 }
             });
 
+            // Update the event listener for the sign button
             signButton.addEventListener('click', () => {
                 if (countySelect.value) {
                     const comment = commentField?.value || '';
-                    this.signDeclaration(countySelect.value, nameField.value, comment);
+                    const name = nameField?.value || 'Citizen'; // Default to 'Citizen'
+                    this.signDeclaration(countySelect.value, name, comment);
                 } else {
                     alert('Please select your county');
                 }
             });
 
+            // Optional: Handle 'Enter' key press in the name field
             nameField.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter' && countySelect.value) {
                     const comment = commentField?.value || '';
-                    this.signDeclaration(countySelect.value, nameField.value, comment);
+                    const name = nameField?.value || 'Anonymous Citizen';
+                    this.signDeclaration(countySelect.value, name, comment);
                 }
             });
-
         } else {
+            // Existing signed message event listeners
             const shareButtons = this.container.querySelectorAll('.share-button');
             shareButtons.forEach(button => {
                 button.addEventListener('click', (event) => {
