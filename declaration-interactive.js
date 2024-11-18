@@ -133,7 +133,7 @@ class DeclarationComponent {
                 },
                 body: JSON.stringify({ 
                     county, 
-                    name: name?.trim() || 'Anonymous Citizen',
+                    name: name?.trim() || 'Citizen',
                     comment: comment?.trim() || ''
                 })
             });
@@ -287,7 +287,7 @@ class DeclarationComponent {
             nameField.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter' && countySelect.value) {
                     const comment = commentField?.value || '';
-                    const name = nameField?.value || 'Anonymous Citizen';
+                    const name = nameField?.value || 'Citizen';
                     this.signDeclaration(countySelect.value, name, comment);
                 }
             });

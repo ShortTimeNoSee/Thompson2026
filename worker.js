@@ -88,7 +88,7 @@ export default {
             }
     
             signaturesList[signatureIndex] = {
-                name: name?.trim() || 'Anonymous Citizen',
+                name: name?.trim() || 'Citizen',
                 county,
                 comment: comment?.trim() || '',  // Add comment field
                 timestamp,
@@ -206,7 +206,7 @@ export default {
           
           if (lastSignTime) {
             const timeSinceLastSign = now - parseInt(lastSignTime);
-            if (timeSinceLastSign < 86400000) { // 24 hour cooldown (testing purposes)
+            if (timeSinceLastSign < 86400000) { // 24-hour cooldown
               return new Response(
                 JSON.stringify({ 
                   error: "Rate limit exceeded", 
@@ -228,7 +228,7 @@ export default {
   
           // Store the signing time for rate limiting
           await env.DECLARATION_KV.put(rateLimitKey, now.toString(), {
-            expirationTtl: 86400 // 24 hours in seconds (testing purposes)
+            expirationTtl: 86400 // 24 hours in seconds
           });
   
           // Track IP to county mapping
