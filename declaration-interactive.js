@@ -209,11 +209,12 @@ class DeclarationComponent {
                             placeholder="Name (Optional)" 
                             maxlength="50"
                         />
-                        <textarea 
+                        <input 
+                            type="text"
                             class="comment-field" 
                             placeholder="Add a comment (Optional)" 
                             maxlength="280"
-                        ></textarea>
+                        />
                         <div class="char-count">0/280</div>
                         <div class="county-selector"></div>
                         <button class="sign-button">Sign the Declaration</button>

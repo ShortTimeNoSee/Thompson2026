@@ -789,9 +789,7 @@ iframe {
 }
 
 .comment-field {
-    resize: vertical;
-    min-height: 60px;
-    max-height: 100px;
+    height: 2.4rem;
 }
 
 .char-count {
