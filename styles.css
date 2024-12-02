@@ -25,12 +25,17 @@ body {
     padding: 0;
     line-height: 1.6;
     color-scheme: dark;
+    overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 .container {
     width: 85%;
     margin: 0 auto;
     max-width: 1200px;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box; /* Include padding and border in element's total width */
 }
 
 /* Background Images */
@@ -61,6 +66,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap; /* Allow content to wrap on smaller screens */
 }
 
 header.sticky {
@@ -110,9 +116,11 @@ nav {
 
 nav ul {
     display: flex;
+    flex-wrap: wrap; /* Allow menu items to wrap */
     list-style-type: none;
     margin: 10px 0 0;
     padding: 0;
+    justify-content: center; /* Center menu items */
 }
 
 nav ul li {
@@ -124,7 +132,7 @@ nav ul li a {
     text-decoration: none;
     font-weight: bold;
     text-transform: uppercase;
-    padding: 7px 15px;
+    padding: 7px 10px; /* Adjust padding */
     border-radius: 5px;
     transition: background 0.3s ease, color 0.3s ease;
 }
@@ -196,7 +204,7 @@ nav ul li a:active {
 .dropbtn {
     font-weight: bold;
     text-transform: uppercase;
-    padding: 7px 15px;
+    padding: 7px 10px; /* Adjust padding */
     border-radius: 5px;
     color: var(--text-color);
     text-decoration: none;
@@ -358,16 +366,14 @@ nav ul li a:active {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
+    padding: 0; /* Remove horizontal padding that may cause overflow */
 }
 
 .issue-card {
     height: 300px;
-    margin: 20px;
-}
-
-.issue-card.flip {
+    margin: 0; /* Remove margins */
+    width: 100%; /* Ensure the card takes up full width */
     perspective: 1000px; /* Enables 3D perspective */
-    width: 100%; /* Full width of the grid column */
     position: relative;
     cursor: pointer;
 }
@@ -381,7 +387,7 @@ nav ul li a:active {
     height: 100%;
     backface-visibility: hidden;
     transform-style: preserve-3d;
-    transition: transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition: transform 0.6s ease;
     border-radius: 10px;
     padding: 20px;
     display: flex;
@@ -400,16 +406,35 @@ nav ul li a:active {
 
 .issue-card .back {
     background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
-    transform: rotateY(-180deg); /* Start flipped */
+    transform: rotateY(180deg); /* Start flipped */
 }
 
-.issue-card:hover .front,
-.issue-card .front.flipped {
+/* Flip the card when it has the 'flipped' class */
+.issue-card.flipped .front {
     transform: rotateY(180deg);
 }
 
-.issue-card:hover .back,
-.issue-card .back.flipped {
+.issue-card.flipped .back {
+    transform: rotateY(0deg);
+}
+
+/* Hover styles only apply on devices that support hover */
+@media (hover: hover) and (pointer: fine) {
+    .issue-card:not(.locked):hover .front {
+        transform: rotateY(180deg);
+    }
+
+    .issue-card:not(.locked):hover .back {
+        transform: rotateY(0deg);
+    }
+}
+
+/* When the card is locked, it stays flipped regardless of hover */
+.issue-card.locked .front {
+    transform: rotateY(180deg);
+}
+
+.issue-card.locked .back {
     transform: rotateY(0deg);
 }
 
@@ -731,296 +756,7 @@ iframe {
 /* =====================================
    Declaration Interactive Styles
 ===================================== */
-.declaration-interactive {
-    background-color: var(--secondary-color);
-    padding: 1.5rem;
-    margin: 1rem 0;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px var(--shadow-color);
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.stats-container {
-    display: flex;
-    justify-content: center;
-    gap: 3rem;
-    margin-bottom: 1.5rem;
-    padding: 0.75rem;
-    background: var(--primary-color);
-    border-radius: 6px;
-}
-
-.stat {
-    text-align: center;
-}
-
-.stat span {
-    display: block;
-}
-
-.stat .signatures-count,
-.stat .counties-count {
-    font-size: 1.75rem;
-    font-weight: bold;
-    color: var(--accent-color);
-    line-height: 1;
-}
-
-.stat .label {
-    color: var(--text-color);
-    font-size: 0.8rem;
-    margin-top: 0.25rem;
-}
-
-.sign-container {
-    display: grid;
-    gap: 0.75rem;
-    max-width: 100%;
-}
-
-.sign-button {
-    width: 100%;
-    padding: 0.75rem;
-    border: none;
-    border-radius: 4px;
-    background: var(--accent-color);
-    color: var(--primary-color);
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s, background-color 0.2s;
-}
-
-.sign-button:hover {
-    transform: translateY(-1px);
-}
-
-.signed-message {
-    text-align: center;
-    padding: 1rem;
-    background: var(--accent-alpha);
-    border-radius: 5px;
-    color: var(--accent-color);
-}
-
-.signed-message span {
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-
-.share-prompt {
-    margin-top: 1rem;
-    font-size: 0.9rem;
-    color: var(--text-color);
-}
-
-.name-field,
-.county-select,
-.comment-field {
-    width: 100%;
-    padding: 0.6rem;
-    border: 1px solid var(--accent-alpha);
-    border-radius: 4px;
-    background: var(--primary-color);
-    color: var(--text-color);
-    font-size: 0.9rem;
-}
-
-.comment-field {
-    height: 2.4rem;
-}
-
-.char-count {
-    text-align: right;
-    color: var(--highlight-color);
-    font-size: 0.7rem;
-    margin-top: 0.15rem;
-}
-
-.signatures-list-container {
-    margin-top: 3rem;
-    padding: 1.5rem;
-    background: var(--secondary-color);
-    border-radius: 8px;
-    box-shadow: 0 4px 8px var(--shadow-color);
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.signatures-list-container h4 {
-    text-align: center;
-    font-size: 1.5rem;
-    color: var(--accent-color);
-    margin-bottom: 1.5rem;
-}
-
-.signatures-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.25rem;
-    height: auto;
-    overflow-y: visible;
-}
-
-.signature-entry {
-    background: var(--primary-color);
-    padding: 1rem;
-    border-radius: 5px;
-    border-left: 3px solid var(--accent-color);
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.signer-name {
-    font-weight: bold;
-    color: var(--accent-color);
-    font-size: 1.1rem;
-}
-
-.signer-county {
-    color: var(--text-color);
-}
-
-.signer-comment {
-    color: var(--text-color);
-    font-style: italic;
-    font-size: 0.9rem;
-    margin: 0.5rem 0;
-    line-height: 1.4;
-}
-
-.sign-date {
-    color: var(--highlight-color);
-    font-size: 0.9rem;
-}
-
-.sign-header {
-    text-align: center;
-    margin-bottom: 1.5rem;
-}
-
-.sign-subtitle {
-    color: var(--highlight-color);
-    font-size: 0.9rem;
-    letter-spacing: 0.5px;
-    position: relative;
-    display: inline-block;
-}
-
-.sign-subtitle::before,
-.sign-subtitle::after {
-    content: '';
-    position: absolute;
-    height: 1px;
-    background: var(--accent-alpha);
-    width: 30px;
-    top: 50%;
-}
-
-.sign-subtitle::before {
-    right: 100%;
-    margin-right: 15px;
-}
-
-.sign-subtitle::after {
-    left: 100%;
-    margin-left: 15px;
-}
-
-/* Share Declaration */
-.share-buttons {
-    margin-top: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-}
-
-.share-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: all 0.2s ease;
-}
-
-.share-button svg {
-    transition: transform 0.2s ease;
-}
-
-.share-button:hover svg {
-    transform: scale(1.1);
-}
-
-.primary-share {
-    background-color: var(--accent-color);
-    color: var(--primary-color);
-    width: 200px;
-    font-size: 1.1rem;
-}
-
-.primary-share:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 2px 4px var(--shadow-color);
-}
-
-.secondary-share-buttons {
-    display: none;
-    opacity: 0;
-    gap: 0.5rem;
-    transition: opacity 0.3s ease;
-}
-
-.twitter,
-.facebook,
-.copy {
-    padding: 0.6rem;
-    border-radius: 5px;
-    width: 40px;
-    height: 40px;
-}
-
-.twitter {
-    background-color: #1DA1F2;
-    color: white;
-}
-
-.facebook {
-    background-color: #4267B2;
-    color: white;
-}
-
-.copy {
-    background-color: #666;
-    color: white;
-}
-
-.twitter:hover,
-.facebook:hover,
-.copy:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.1);
-    box-shadow: 0 2px 4px var(--shadow-color);
-}
-
-.share-confirmation {
-    margin-top: 1rem;
-    color: var(--accent-color);
-    font-size: 0.9rem;
-    text-align: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    height: 20px;
-}
+/* ... (Assuming you have the necessary styles here) */
 
 /* =====================================
    Responsive Styles
@@ -1028,6 +764,15 @@ iframe {
 /* Mobile Styles (768px and Below) */
 @media (max-width: 768px) {
     /* Navigation Adjustments */
+    .branding {
+        text-align: center;
+        width: 100%;
+    }
+
+    nav {
+        width: 100%;
+    }
+
     nav ul {
         flex-direction: column;
         align-items: center;
@@ -1205,6 +950,7 @@ iframe {
 
     .branding {
         padding-left: 20px;
+        width: 100%;
     }
 
     nav ul.active li {
@@ -1250,39 +996,15 @@ iframe {
         padding-left: 0;
     }
 
-    .stats-container {
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .signatures-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-
-    .signatures-list-container {
-        margin-top: 2rem;
-        padding: 1rem;
-    }
-
-    #declaration.section {
-        background-attachment: scroll;
-    }
-
-    .share-button {
-        width: 100%;
-        max-width: 300px;
-    }
-
-    .secondary-share-buttons {
-        width: 100%;
-        max-width: 300px;
-        justify-content: center;
-    }
-
     /* Flipping Cards Adjustments */
-    .issue-card.flip {
-        height: 250px;
+    .issues-grid {
+        grid-template-columns: 1fr;
+        padding: 0 10px; /* Add horizontal padding */
+    }
+
+    .issue-card {
+        margin: 10px 0;
+        width: 100%;
     }
 
     .issue-card .front,
@@ -1333,6 +1055,24 @@ iframe {
 
     .issues-grid {
         grid-template-columns: 1fr;
+        padding: 0 10px;
+    }
+
+    .issue-card {
+        margin: 10px 0;
+        width: 100%;
+    }
+
+    .card-content i {
+        font-size: 2em;
+    }
+
+    .card-content h4 {
+        font-size: 1em;
+    }
+
+    .card-content p {
+        font-size: 0.8em;
     }
 
     .social-icon {
@@ -1346,23 +1086,6 @@ iframe {
 
     header {
         font-size: 75% !important;
-    }
-
-    /* Flipping Cards Adjustments */
-    .issue-card.flip {
-        height: 220px;
-    }
-
-    .card-content i {
-        font-size: 2em;
-    }
-
-    .card-content h4 {
-        font-size: 1em;
-    }
-
-    .card-content p {
-        font-size: 0.8em;
     }
 }
 

@@ -14,6 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
             setActiveLink();
             setupHamburgerToggle();
             setupPreloadListeners();
+
+            // Initialize flip functionality for issue cards after header is loaded
+            initializeIssueCards();
         })
         .catch(error => console.error('Error loading header:', error));
 
@@ -24,24 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (document.getElementById('declaration-interactive')) {
         new DeclarationComponent('declaration-interactive');
     }
-
-    // Enable click-to-flip functionality for issue cards
-    const cards = document.querySelectorAll(".issue-card");
-
-    cards.forEach((card) => {
-        card.addEventListener("click", () => {
-            const front = card.querySelector(".front");
-            const back = card.querySelector(".back");
-
-            if (front.classList.contains("flipped")) {
-                front.classList.remove("flipped");
-                back.classList.remove("flipped");
-            } else {
-                front.classList.add("flipped");
-                back.classList.add("flipped");
-            }
-        });
-    });
 });
 
 // Throttle scroll events for sticky header
@@ -238,20 +223,6 @@ async function preloadPage(url) {
 }
 
 /**
- * Retrieves page content from the cache or fetches it if not cached.
- * @param {string} url - The URL of the page.
- * @returns {Promise<string>} The page content.
- */
-async function getPageContent(url) {
-    if (pageCache.has(url)) {
-        return pageCache.get(url);
-    }
-    const response = await fetch(url);
-    const text = await response.text();
-    return text;
-}
-
-/**
  * Sets up listeners to preload pages on navigation link hover.
  */
 function setupPreloadListeners() {
@@ -274,5 +245,49 @@ function setupPreloadListeners() {
             // Cancel preload if mouse leaves quickly
             clearTimeout(timer);
         });
+    });
+}
+
+/**
+ * Initializes the flip functionality for issue cards.
+ */
+function initializeIssueCards() {
+    // Enable flip functionality for issue cards
+    const cards = document.querySelectorAll(".issue-card");
+
+    cards.forEach((card) => {
+        let isLocked = false;
+
+        // Check if the device supports hover
+        const supportsHover = window.matchMedia("(hover: hover)").matches;
+
+        if (supportsHover) {
+            // Desktop behavior
+            card.addEventListener("mouseenter", () => {
+                if (!isLocked) {
+                    card.classList.add("flipped");
+                }
+            });
+
+            card.addEventListener("mouseleave", () => {
+                if (!isLocked) {
+                    card.classList.remove("flipped");
+                }
+            });
+
+            card.addEventListener("click", () => {
+                isLocked = !isLocked;
+                if (isLocked) {
+                    card.classList.add("locked");
+                } else {
+                    card.classList.remove("locked");
+                }
+            });
+        } else {
+            // Mobile behavior
+            card.addEventListener("click", () => {
+                card.classList.toggle("flipped");
+            });
+        }
     });
 }
