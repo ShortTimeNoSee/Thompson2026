@@ -24,6 +24,24 @@ document.addEventListener("DOMContentLoaded", () => {
     if (document.getElementById('declaration-interactive')) {
         new DeclarationComponent('declaration-interactive');
     }
+
+    // Enable click-to-flip functionality for issue cards
+    const cards = document.querySelectorAll(".issue-card");
+
+    cards.forEach((card) => {
+        card.addEventListener("click", () => {
+            const front = card.querySelector(".front");
+            const back = card.querySelector(".back");
+
+            if (front.classList.contains("flipped")) {
+                front.classList.remove("flipped");
+                back.classList.remove("flipped");
+            } else {
+                front.classList.add("flipped");
+                back.classList.add("flipped");
+            }
+        });
+    });
 });
 
 // Throttle scroll events for sticky header
