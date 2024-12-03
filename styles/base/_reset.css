@@ -10,13 +10,17 @@
     padding: 0;
 }
 
-/* Override to make body visible after content is loaded */
+/* Override to make body visible after content is loaded, font normalize */
 body {
     display: block !important;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* Remove highlight box on tap */
 * {
-    -webkit-tap-highlight-color: transparent !important;
-    -webkit-touch-callout: none !important;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    outline: none;
 }
