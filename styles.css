@@ -482,69 +482,298 @@ nav ul li a:active {
 /* =====================================
    Declaration Section
 ===================================== */
-#declaration p {
-    font-size: 1.2em;
-    line-height: 1.8;
-    text-align: left;
-    max-width: 900px;
-    margin: 20px auto;
+/* =====================================
+   Declaration Interactive Styles
+===================================== */
+.declaration-interactive {
+    background-color: var(--secondary-color);
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px var(--shadow-color);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-#declaration ol {
-    font-size: 1.2em;
-    text-align: left;
-    margin: 20px auto;
-    max-width: 900px;
-    list-style: decimal;
-    padding-left: 1.5em;
+.stats-container {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-bottom: 1.5rem;
+    padding: 0.75rem;
+    background: var(--primary-color);
+    border-radius: 6px;
 }
 
-#declaration ol li {
-    margin-bottom: 15px;
+.stat {
+    text-align: center;
 }
 
-#declaration strong {
+.stat span {
+    display: block;
+}
+
+.stat .signatures-count,
+.stat .counties-count {
+    font-size: 1.75rem;
     font-weight: bold;
-    font-size: 1.5em;
-    margin-top: 20px;
+    color: var(--accent-color);
+    line-height: 1;
+}
+
+.stat .label {
+    color: var(--text-color);
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+}
+
+.sign-container {
+    display: grid;
+    gap: 0.75rem;
+    max-width: 100%;
+}
+
+.sign-button {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 4px;
+    background: var(--accent-color);
+    color: var(--primary-color);
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.sign-button:hover {
+    transform: translateY(-1px);
+}
+
+.signed-message {
+    text-align: center;
+    padding: 1rem;
+    background: var(--accent-alpha);
+    border-radius: 5px;
     color: var(--accent-color);
 }
 
-#declaration.section {
-    background:
-        linear-gradient(to bottom, var(--primary-alpha), var(--primary-color) 100%),
-        url("https://images.pexels.com/photos/417070/pexels-photo-417070.jpeg?auto=compress&cs=tinysrgb") no-repeat center;
-    background-size: cover;
-    background-attachment: fixed;
-    position: relative;
-}
-
-#declaration.section .declaration-interactive {
-    margin-top: 2rem;
-    border-radius: 0;
-}
-
-.view-all-signatures {
-    text-align: center;
-    margin-top: 2rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--accent-alpha);
-}
-
-.view-all-button {
-    display: inline-block;
-    padding: 0.8rem 1.5rem;
-    background: var(--accent-color);
-    color: var(--primary-color);
-    text-decoration: none;
-    border-radius: 5px;
+.signed-message span {
+    font-size: 1.2rem;
     font-weight: bold;
-    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.view-all-button:hover {
+.share-prompt {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+.name-field,
+.county-select,
+.comment-field {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid var(--accent-alpha);
+    border-radius: 4px;
+    background: var(--primary-color);
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+.comment-field {
+    height: 2.4rem;
+}
+
+.char-count {
+    text-align: right;
+    color: var(--highlight-color);
+    font-size: 0.7rem;
+    margin-top: 0.15rem;
+}
+
+.signatures-list-container {
+    margin-top: 3rem;
+    padding: 1.5rem;
+    background: var(--secondary-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.signatures-list-container h4 {
+    text-align: center;
+    font-size: 1.5rem;
+    color: var(--accent-color);
+    margin-bottom: 1.5rem;
+}
+
+.signatures-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+    height: auto;
+    overflow-y: visible;
+}
+
+.signature-entry {
+    background: var(--primary-color);
+    padding: 1rem;
+    border-radius: 5px;
+    border-left: 3px solid var(--accent-color);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.signer-name {
+    font-weight: bold;
+    color: var(--accent-color);
+    font-size: 1.1rem;
+}
+
+.signer-county {
+    color: var(--text-color);
+}
+
+.signer-comment {
+    color: var(--text-color);
+    font-style: italic;
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+    line-height: 1.4;
+}
+
+.sign-date {
+    color: var(--highlight-color);
+    font-size: 0.9rem;
+}
+
+.sign-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.sign-subtitle {
+    color: var(--highlight-color);
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    position: relative;
+    display: inline-block;
+}
+
+.sign-subtitle::before,
+.sign-subtitle::after {
+    content: '';
+    position: absolute;
+    height: 1px;
+    background: var(--accent-alpha);
+    width: 30px;
+    top: 50%;
+}
+
+.sign-subtitle::before {
+    right: 100%;
+    margin-right: 15px;
+}
+
+.sign-subtitle::after {
+    left: 100%;
+    margin-left: 15px;
+}
+
+/* Share Declaration */
+.share-buttons {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.share-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.share-button svg {
+    transition: transform 0.2s ease;
+}
+
+.share-button:hover svg {
+    transform: scale(1.1);
+}
+
+.primary-share {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    width: 200px;
+    font-size: 1.1rem;
+}
+
+.primary-share:hover {
     transform: translateY(-2px);
     box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.secondary-share-buttons {
+    display: none;
+    opacity: 0;
+    gap: 0.5rem;
+    transition: opacity 0.3s ease;
+}
+
+.twitter,
+.facebook,
+.copy {
+    padding: 0.6rem;
+    border-radius: 5px;
+    width: 40px;
+    height: 40px;
+}
+
+.twitter {
+    background-color: #1DA1F2;
+    color: white;
+}
+
+.facebook {
+    background-color: #4267B2;
+    color: white;
+}
+
+.copy {
+    background-color: #666;
+    color: white;
+}
+
+.twitter:hover,
+.facebook:hover,
+.copy:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.share-confirmation {
+    margin-top: 1rem;
+    color: var(--accent-color);
+    font-size: 0.9rem;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    height: 20px;
 }
 
 /* =====================================
