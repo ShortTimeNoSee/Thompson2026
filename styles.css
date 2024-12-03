@@ -167,7 +167,7 @@ nav ul li a:active {
     position: absolute;
     background-color: var(--secondary-color);
     min-width: 160px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 8px var(--shadow-color);
     border-radius: 5px;
     z-index: 1000;
     transform: translateY(15px);
@@ -396,7 +396,7 @@ nav ul li a:active {
     flex-direction: column;
     text-align: center;
     color: var(--text-color);
-    box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 20px 40px -14px var(--shadow-color);
 }
 
 .issue-card .front {
@@ -446,7 +446,7 @@ nav ul li a:active {
 
 .card-content p {
     font-size: 1em;
-    color: rgba(255, 255, 255, 0.85);
+    color: var(--text-color);
 }
 
 .card-content i {
