@@ -1,0 +1,9 @@
+/* utils/_dark-mode.css */
+/* Dark Mode Specific Styles */
+
+/* Dark Mode for Embedded Content */
+iframe {
+    filter: invert(1) hue-rotate(180deg);
+    mix-blend-mode: difference;
+    background-color: var(--primary-color);
+}

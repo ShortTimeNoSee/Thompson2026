@@ -1,0 +1,126 @@
+/* components/_cards.css */
+/* Issue Cards and Other Card Components */
+
+/* Issue Card Styles */
+.issues-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 0;
+}
+
+.issue-card {
+    width: 100%;
+    max-width: 320px;
+    margin: 15px auto;
+    aspect-ratio: 3 / 4;
+    perspective: 1200px;
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.issue-card:hover {
+    transform: scale(1.03);
+}
+
+/* Front and Back Faces */
+.issue-card .front,
+.issue-card .back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 15px;
+    color: var(--text-color);
+    transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+                box-shadow 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+}
+
+.issue-card .front {
+    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+    transform: rotateY(0deg);
+    z-index: 2;
+}
+
+.issue-card .back {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    transform: rotateY(180deg);
+}
+
+/* Flip Card Functionality */
+.issue-card.flipped .front {
+    transform: rotateY(180deg);
+    box-shadow: 0 -15px 25px rgba(0, 0, 0, 0.3);
+}
+
+.issue-card.flipped .back {
+    transform: rotateY(0deg);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Hover Glow */
+.issue-card:hover .front,
+.issue-card:hover .back {
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.4);
+}
+
+/* Front/Back Content Styles */
+.card-content h4 {
+    font-size: 1.3rem;
+    color: var(--accent-color);
+    margin: 10px 0;
+}
+
+.card-content p {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+}
+
+.card-content i {
+    font-size: 2.5rem;
+    color: var(--accent-color);
+    margin-bottom: 10px;
+}
+
+/* Action Prompt Styling */
+.action-prompt {
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--highlight-color);
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: color 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+/* Hover effects for action prompt */
+.issue-card:hover .front .action-prompt {
+    color: var(--accent-color);
+    transform: scale(1.1);
+}
+
+/* Only show action prompt on front face */
+.issue-card .back .action-prompt {
+    transform: rotateY(180deg);
+    opacity: 0;
+}

@@ -1,0 +1,64 @@
+/* components/_footer.css */
+/* Footer Styles */
+
+footer {
+    background: var(--secondary-color);
+    color: var(--text-color);
+    text-align: center;
+    padding: 40px 0;
+    margin-top: 20px;
+    font-size: 0.9em;
+    box-shadow: 0 -4px 8px var(--shadow-color);
+}
+
+footer a {
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: var(--highlight-color);
+}
+
+.social-media {
+    margin-bottom: 20px;
+}
+
+.social-icon {
+    color: var(--text-color);
+    font-size: 2em;
+    margin: 0 15px;
+    padding: 20px;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-media .fab {
+    padding: 15px;
+}
+
+.social-icon:hover {
+    transform: scale(1.2);
+    color: var(--accent-color);
+}
+
+/* Sticky Footer */
+.sticky-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--tertiary-color);
+    color: var(--text-color);
+    text-align: center;
+    box-shadow: 0 -4px 8px var(--shadow-color);
+    z-index: 1001;
+    transition: transform 0.3s ease;
+}
+
+.sticky-footer.hidden {
+    transform: translateY(100%);
+}
+
+.sticky-footer a {
+    text-decoration: none;
+    font-weight: bold;
+}

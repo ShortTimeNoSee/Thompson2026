@@ -1,0 +1,94 @@
+/* layout/_sections.css */
+/* Section Layouts */
+
+.section {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    padding-bottom: 20px;
+}
+
+.section:first-of-type {
+    padding-top: 120px;
+}
+
+.section h3 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    margin-top: 0px;
+    text-align: center;
+    position: relative;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
+
+.section h3::after {
+    content: '';
+    width: 60px;
+    height: 4px;
+    background-color: var(--accent-color);
+    display: block;
+    margin: 20px auto 0;
+    border-radius: 2px;
+}
+
+.section p {
+    font-size: 1.2em;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 20px;
+}
+
+.section h3 i {
+    margin-left: 10px;
+    font-size: 0.8em;
+    color: var(--accent-color);
+    transition: transform 0.3s ease;
+}
+
+.section a {
+    display: inline-block;
+    width: 100%;
+}
+
+.section a:hover h3 i {
+    transform: translateX(5px);
+}
+
+.section a:hover h3 {
+    color: var(--accent-color) !important;
+}
+
+.dark-section {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+}
+
+.dark-section h3::after {
+    background-color: var(--highlight-color);
+}
+
+/* CTA Button Container */
+.shop-cta {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0 1rem;
+}
+
+/* Additional Sections */
+.speech-text {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: left;
+}
+
+#new-leadership h3 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#new-leadership .section {
+    padding: 40px 0;
+}

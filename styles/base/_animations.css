@@ -1,0 +1,7 @@
+/* base/_animations.css */
+/* Global Animations and Transitions */
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}

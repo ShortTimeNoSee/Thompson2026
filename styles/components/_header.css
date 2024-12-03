@@ -1,0 +1,171 @@
+/* components/_header.css */
+/* Header and Navigation Styles */
+
+/* Header */
+header {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    box-shadow: 0 4px 8px var(--shadow-color);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid var(--accent-alpha);
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 10px 0;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: left;
+}
+
+header h2 {
+    margin: 5px 0 0;
+    font-size: 1.2em;
+    font-weight: 300;
+    color: var(--highlight-color);
+    text-align: left;
+}
+
+/* Navigation */
+nav {
+    display: flex;
+    align-items: center;
+}
+
+nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style-type: none;
+    margin: 10px 0 0;
+    padding: 0;
+    justify-content: center;
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: var(--text-color);
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 7px 10px;
+    border-radius: 5px;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+nav ul li a:hover {
+    background: var(--accent-alpha);
+    color: var(--accent-color);
+}
+
+nav ul li a.active {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+}
+
+nav ul li a:focus,
+nav ul li a:active {
+    outline: none;
+    color: inherit;
+    background: inherit;
+}
+
+/* Dropdown Menu */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 7px 10px;
+    border-radius: 5px;
+    color: var(--text-color);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.dropbtn:hover {
+    background: var(--accent-alpha);
+    color: var(--accent-color);
+}
+
+.dropdown-icon {
+    font-size: 0.75em;
+    margin-left: 5px;
+    color: var(--text-color);
+}
+
+.dropbtn:hover .dropdown-icon {
+    color: var(--accent-color);
+}
+
+.dropdown-content {
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    background-color: var(--secondary-color);
+    min-width: 160px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    border-radius: 5px;
+    z-index: 1000;
+    transform: translateY(15px);
+    transition: all 0.2s ease-out;
+    pointer-events: none;
+}
+
+.dropdown:hover .dropdown-content {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(5px);
+    pointer-events: auto;
+}
+
+.dropdown-content a {
+    color: var(--text-color);
+    padding: 10px 15px;
+    display: block;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.dropdown-content a:hover {
+    background: var(--accent-alpha);
+    color: var(--accent-color);
+}
+
+.dropdown-content a.active {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+}
+
+/* Hamburger Menu */
+.hamburger {
+    display: none;
+    font-size: 1.8em;
+    cursor: pointer;
+    color: var(--text-color);
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1001;
+}
+
+/* Sticky Header */
+.sticky {
+    background-color: var(--primary-color);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}

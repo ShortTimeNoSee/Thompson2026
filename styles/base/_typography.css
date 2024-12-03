@@ -1,0 +1,33 @@
+/* base/_typography.css */
+/* Font Styles and Text Utilities */
+
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color-scheme: dark;
+    color: var(--text-color);
+    background-color: var(--primary-color);
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-color);
+    margin: 0;
+}
+
+p {
+    margin: 0 0 1em;
+}
+
+strong {
+    font-weight: bold;
+}
+
+em {
+    font-style: italic;
+}

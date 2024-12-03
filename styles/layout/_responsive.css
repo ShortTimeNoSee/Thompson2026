@@ -1,0 +1,314 @@
+/* layout/_responsive.css */
+/* Media Queries and Responsive Adjustments */
+
+/* Mobile Styles (768px and Below) */
+@media (max-width: 768px) {
+    /* Navigation Adjustments */
+    .branding {
+        text-align: center;
+        width: 100%;
+    }
+
+    nav {
+        width: 100%;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 0;
+        background: var(--primary-color);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease, height 0s 0.3s;
+        padding: 0;
+        margin: 0;
+        z-index: 999;
+    }
+
+    nav ul.active {
+        height: 100vh;
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.3s ease, visibility 0.3s ease, height 0s;
+    }
+
+    nav ul li {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        margin: 15px 0;
+    }
+
+    nav ul.active li {
+        opacity: 1;
+        transform: translateY(0);
+        text-align: center;
+    }
+
+    .dropbtn {
+        opacity: 0.7;
+        pointer-events: none;
+        margin-bottom: 5px;
+        padding: 10px 20px;
+        font-size: 0.9em;
+        color: var(--highlight-color);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .dropdown-icon {
+        display: none;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        background: transparent;
+        box-shadow: none;
+        transform: none;
+        margin: 10px 0;
+        padding: 15px 0;
+        border-top: 1px solid var(--accent-alpha);
+        border-bottom: 1px solid var(--accent-alpha);
+        pointer-events: auto;
+        transition: none;
+    }
+
+    .dropdown:hover .dropdown-content {
+        transform: none;
+        transition: none;
+    }
+
+    .dropdown-content a {
+        padding: 10px 20px;
+        font-size: 1.2em;
+        margin: 5px 0;
+        -webkit-tap-highlight-color: transparent;
+        transition: none;
+    }
+
+    .dropdown-content a:hover,
+    .dropdown-content a:active {
+        background-color: var(--accent-alpha);
+        color: var(--accent-color);
+    }
+
+    nav ul.active .dropdown-content {
+        display: block;
+    }
+
+    /* Staggered Animations */
+    nav ul.active li:nth-child(1) {
+        transition-delay: 0.1s;
+    }
+    nav ul.active li:nth-child(2) {
+        transition-delay: 0.15s;
+    }
+    nav ul.active .dropdown-content a:nth-child(1) {
+        transition-delay: 0.2s;
+    }
+    nav ul.active .dropdown-content a:nth-child(2) {
+        transition-delay: 0.25s;
+    }
+    nav ul.active .dropdown-content a:nth-child(3) {
+        transition-delay: 0.3s;
+    }
+    nav ul.active li:nth-child(3) {
+        transition-delay: 0.35s;
+    }
+    nav ul.active li:nth-child(4) {
+        transition-delay: 0.4s;
+    }
+    nav ul.active li:nth-child(5) {
+        transition-delay: 0.45s;
+    }
+
+    /* Hamburger Menu */
+    .hamburger {
+        display: block;
+        width: 30px;
+        height: 20px;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        cursor: pointer;
+        z-index: 1000;
+    }
+
+    .hamburger::before,
+    .hamburger::after,
+    .hamburger div {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background-color: var(--text-color);
+        transition: all 0.3s ease;
+        left: 0;
+    }
+
+    .hamburger::before {
+        top: 0;
+    }
+    .hamburger div {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    .hamburger::after {
+        bottom: 0;
+    }
+
+    .hamburger.active::before {
+        transform: translateY(9px) rotate(45deg);
+        background-color: var(--accent-color);
+    }
+
+    .hamburger.active div {
+        opacity: 0;
+    }
+
+    .hamburger.active::after {
+        transform: translateY(-9px) rotate(-45deg);
+        background-color: var(--accent-color);
+    }
+
+    nav ul li a {
+        font-size: 1.2em;
+        padding: 10px 20px;
+    }
+
+    .header-content {
+        padding: 10px 0;
+    }
+
+    .branding {
+        padding-left: 20px;
+        width: 100%;
+    }
+
+    nav ul.active li {
+        display: block;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    .section {
+        padding: 120px 0;
+    }
+
+    header h1 {
+        font-size: 1.8em;
+    }
+
+    header h2 {
+        font-size: 1em;
+    }
+
+    .section .cta-button {
+        font-size: 1rem;
+        padding: 12px 16px;
+    }
+
+    .shop-cta {
+        padding: 0 0.5rem;
+    }
+
+    .about-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .portrait-container {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .about-text {
+        text-align: center;
+        padding-left: 0;
+    }
+
+    /* Issue Card Adjustments */
+    .issue-card {
+        max-width: 280px;
+        aspect-ratio: 4 / 5;
+    }
+
+    .card-content h4 {
+        font-size: 1.1rem;
+    }
+
+    .card-content p {
+        font-size: 0.85rem;
+    }
+
+    .card-content i {
+        font-size: 2rem;
+    }
+}
+
+/* Mobile Styles (576px and Below) */
+@media (max-width: 576px) {
+    .container {
+        width: 90%;
+    }
+
+    .section {
+        padding: 80px 0;
+    }
+
+    .section h3 {
+        font-size: 1.5em;
+    }
+
+    .section p {
+        font-size: 1em;
+        margin-bottom: 15px;
+    }
+
+    .section .cta-button {
+        font-size: 0.9rem;
+        padding: 10px 14px;
+    }
+
+    .shop-cta {
+        padding: 0 0.25rem;
+    }
+
+    .portrait {
+        max-width: 200px;
+    }
+
+    .card-content i {
+        font-size: 1.8rem;
+    }
+
+    .card-content h4 {
+        font-size: 1rem;
+    }
+
+    .card-content p {
+        font-size: 0.8rem;
+    }
+
+    .social-icon {
+        font-size: 2em;
+        padding: 20px;
+    }
+
+    .social-media-icons {
+        gap: 40px;
+    }
+
+    header {
+        font-size: 75% !important;
+    }
+}

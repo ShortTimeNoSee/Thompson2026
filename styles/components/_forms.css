@@ -1,0 +1,85 @@
+/* components/_forms.css */
+/* Form Elements and Inputs */
+
+/* Contact Form */
+.contact-form-container {
+    position: relative;
+    margin-top: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    overflow: hidden;
+    background-color: var(--primary-color);
+}
+
+.contact-form-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--primary-color);
+    mix-blend-mode: color-burn;
+    z-index: -1;
+    pointer-events: none;
+}
+
+#contact p {
+    font-size: 1.2em;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 30px;
+    color: var(--text-color);
+}
+
+/* Declaration Interactive Form */
+.declaration-interactive {
+    background-color: var(--secondary-color);
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px var(--shadow-color);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.name-field,
+.county-select,
+.comment-field {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid var(--accent-alpha);
+    border-radius: 4px;
+    background: var(--primary-color);
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+.comment-field {
+    height: 2.4rem;
+}
+
+.char-count {
+    text-align: right;
+    color: var(--highlight-color);
+    font-size: 0.7rem;
+    margin-top: 0.15rem;
+}
+
+.sign-button {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 4px;
+    background: var(--accent-color);
+    color: var(--primary-color);
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.sign-button:hover {
+    transform: translateY(-1px);
+}

@@ -1,0 +1,24 @@
+/* pages/_home.css */
+/* Homepage Specific Styles */
+
+/* Background Images for Home Page */
+#index_page #about {
+    background:
+        linear-gradient(to bottom, var(--primary-alpha), var(--primary-color) 100%),
+        url("https://images.pexels.com/photos/11838861/pexels-photo-11838861.jpeg?auto=compress&cs=tinysrgb") no-repeat center top;
+    background-size: cover;
+}
+
+/* About Section on Home Page */
+.portrait {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.portrait:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 16px var(--shadow-color);
+}

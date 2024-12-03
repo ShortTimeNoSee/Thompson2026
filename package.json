@@ -1,0 +1,31 @@
+{
+  "name": "thompson2026",
+  "version": "1.0.0",
+  "description": "Nicholas Thompson's 2026 California gubernatorial campaign website",
+  "main": "declaration-interactive.js",
+  "scripts": {
+    "build": "postcss styles/main.css -o dist/styles.min.css",
+    "watch": "postcss styles/main.css -o dist/styles.min.css --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "postcss": "^8.4.31",
+    "postcss-cli": "^10.1.0",
+    "postcss-import": "^15.1.0",
+    "cssnano": "^6.0.1"
+  },
+  "postcss": {
+    "plugins": {
+      "postcss-import": {},
+      "cssnano": {
+        "preset": ["default", {
+          "discardComments": {
+            "removeAll": true
+          }
+        }]
+      }
+    }
+  }
+}

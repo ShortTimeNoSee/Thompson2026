@@ -1,0 +1,33 @@
+/* pages/_contact.css */
+/* Contact Page Styles */
+
+/* Contact Form Styles are in components/_forms.css */
+
+/* Sitemap Styles (if applicable) */
+.sitemap-content {
+    padding: 100px 0;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    text-align: center;
+}
+
+.sitemap-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sitemap-list li {
+    margin: 20px 0;
+    font-size: 1.5em;
+}
+
+.sitemap-list li a {
+    color: var(--highlight-color);
+    transition: color 0.3s ease;
+}
+
+.sitemap-list li a:hover {
+    color: var(--text-color);
+    text-decoration: underline;
+}

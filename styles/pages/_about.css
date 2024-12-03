@@ -1,0 +1,29 @@
+/* pages/_about.css */
+/* About Page Styles */
+
+/* Vision Section */
+#vision_page #vision {
+    background:
+        linear-gradient(to bottom, var(--primary-alpha), var(--primary-color) 100%),
+        url("https://images.pexels.com/photos/11838861/pexels-photo-11838861.jpeg?auto=compress&cs=tinysrgb") no-repeat center top;
+    background-size: cover;
+}
+
+.vision-content {
+    background: var(--secondary-color);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    color: var(--text-color);
+    font-size: 1.2em;
+    line-height: 1.8em;
+    transition: all 0.3s ease;
+}
+
+.section#vision p {
+    margin-bottom: 50px;
+}
+
+.vision-content p {
+    margin-bottom: 20px;
+}

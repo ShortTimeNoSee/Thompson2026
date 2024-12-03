@@ -1,0 +1,15 @@
+/* base/_variables.css */
+/* CSS Variables and Theming */
+
+:root {
+    --primary-color: #113;
+    --primary-alpha: #113B;
+    --secondary-color: #224;
+    --tertiary-color: #002;
+    --accent-color: #FED000;
+    --accent-alpha: #FED00022;
+    --text-color: #CCB;
+    --highlight-color: #998;
+    --shadow-color: #0003;
+    --transparent: #1130;
+}

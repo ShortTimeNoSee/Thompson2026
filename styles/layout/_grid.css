@@ -1,0 +1,40 @@
+/* layout/_grid.css */
+/* Grid System and Containers */
+
+.container {
+    width: 85%;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+.about-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.portrait-container {
+    flex: 0 0 auto;
+    max-width: 250px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+.about-text {
+    flex: 1;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.signatures-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+    height: auto;
+    overflow-y: visible;
+}
