@@ -1,7 +1,4 @@
 /* utils/_helpers.css */
 /* Helper Classes and Utilities */
 
-/* Override to make body visible after content is loaded */
-body {
-    display: block !important;
-}
+/* Include utility classes that can be reused throughout the site  */

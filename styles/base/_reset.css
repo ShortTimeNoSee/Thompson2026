@@ -1,10 +1,25 @@
 /* base/_reset.css */
 /* CSS Reset/Normalize */
 
+/* Include padding and border in width/height */
 *,
 *::before,
 *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+/* Override to make body visible after content is loaded */
+body {
+    display: block !important;
+}
+
+/* Remove highlight box on tap */
+input,
+textarea,
+button,
+select,
+a {
+    -webkit-tap-highlight-color: transparent;
 }

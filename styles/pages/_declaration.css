@@ -44,6 +44,62 @@
     border-radius: 0;
 }
 
+.declaration-interactive {
+    background-color: var(--secondary-color);
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px var(--shadow-color);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.stats-container {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-bottom: 1.5rem;
+    padding: 0.75rem;
+    background: var(--primary-color);
+    border-radius: 6px;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat span {
+    display: block;
+}
+
+.stat .signatures-count,
+.stat .counties-count {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: var(--accent-color);
+    line-height: 1;
+}
+
+.stat .label {
+    color: var(--text-color);
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+}
+
+.signed-message {
+    text-align: center;
+    padding: 1rem;
+    background: var(--accent-alpha);
+    border-radius: 5px;
+    color: var(--accent-color);
+}
+
+.signed-message span {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
 .view-all-signatures {
     text-align: center;
     margin-top: 2rem;
