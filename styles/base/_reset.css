@@ -16,10 +16,7 @@ body {
 }
 
 /* Remove highlight box on tap */
-input,
-textarea,
-button,
-select,
-a {
-    -webkit-tap-highlight-color: transparent;
+* {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
 }
