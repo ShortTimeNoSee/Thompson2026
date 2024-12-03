@@ -35,7 +35,7 @@ body {
 }
 
 *, *::before, *::after {
-    box-sizing: border-box; /* Include padding and border in element's total width */
+    box-sizing: border-box;
 }
 
 /* Background Images */
@@ -66,19 +66,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap; /* Allow content to wrap on smaller screens */
-}
-
-header.sticky {
-    background-color: var(--primary-color);
-    box-shadow: 0 4px 8px var(--shadow-color);
-    padding: 5px 0;
-    transition: padding 0.3s ease, background-color 0.3s ease;
-}
-
-.branding {
-    display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
 }
 
 header h1 {
@@ -97,18 +85,9 @@ header h2 {
     text-align: left;
 }
 
-header.sticky h1 {
-    font-size: 1.5em;
-}
-
-header.sticky h2 {
-    font-size: 1em;
-}
-
 /* =====================================
    Navigation
 ===================================== */
-/* General Navigation Styles */
 nav {
     display: flex;
     align-items: center;
@@ -116,11 +95,11 @@ nav {
 
 nav ul {
     display: flex;
-    flex-wrap: wrap; /* Allow menu items to wrap */
+    flex-wrap: wrap;
     list-style-type: none;
     margin: 10px 0 0;
     padding: 0;
-    justify-content: center; /* Center menu items */
+    justify-content: center;
 }
 
 nav ul li {
@@ -132,7 +111,7 @@ nav ul li a {
     text-decoration: none;
     font-weight: bold;
     text-transform: uppercase;
-    padding: 7px 10px; /* Adjust padding */
+    padding: 7px 10px;
     border-radius: 5px;
     transition: background 0.3s ease, color 0.3s ease;
 }
@@ -204,7 +183,7 @@ nav ul li a:active {
 .dropbtn {
     font-weight: bold;
     text-transform: uppercase;
-    padding: 7px 10px; /* Adjust padding */
+    padding: 7px 10px;
     border-radius: 5px;
     color: var(--text-color);
     text-decoration: none;
@@ -238,15 +217,9 @@ nav ul li a:active {
     z-index: 1001;
 }
 
-.hamburger.active i {
-    transform: rotate(90deg);
-    transition: transform 0.3s ease;
-}
-
 /* =====================================
    Sections
 ===================================== */
-/* General Section Styles */
 .section {
     background-color: var(--primary-color);
     color: var(--text-color);
@@ -284,7 +257,6 @@ nav ul li a:active {
     margin: 0 auto 20px;
 }
 
-/* Learn More Arrow Icons */
 .section h3 i {
     margin-left: 10px;
     font-size: 0.8em;
@@ -307,7 +279,6 @@ nav ul li a:active {
     color: var(--accent-color) !important;
 }
 
-/* Dark Sections */
 .dark-section {
     background-color: var(--secondary-color);
     color: var(--text-color);
@@ -317,7 +288,6 @@ nav ul li a:active {
     background-color: var(--highlight-color);
 }
 
-/* About Section */
 .about-content {
     display: flex;
     flex-wrap: wrap;
@@ -361,7 +331,9 @@ nav ul li a:active {
     box-shadow: 0 8px 16px var(--shadow-color);
 }
 
-/* Issues Section */
+/* =====================================
+   Issue Card Styles
+===================================== */
 .issues-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -370,14 +342,23 @@ nav ul li a:active {
 }
 
 .issue-card {
-    height: 300px;
-    margin: 0; /* Remove margins */
-    width: 100%; /* Ensure the card takes up full width */
-    perspective: 1000px; /* Enables 3D perspective */
+    width: 100%;
+    max-width: 320px;
+    margin: 15px auto;
+    aspect-ratio: 3 / 4;
+    perspective: 1200px;
     position: relative;
+    border-radius: 20px;
+    overflow: hidden; /* Contain child elements */
     cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 
+.issue-card:hover {
+    transform: scale(1.03);
+}
+
+/* Front and Back Faces */
 .issue-card .front,
 .issue-card .back {
     position: absolute;
@@ -387,75 +368,98 @@ nav ul li a:active {
     height: 100%;
     backface-visibility: hidden;
     transform-style: preserve-3d;
-    transition: transform 0.6s ease;
-    border-radius: 10px;
-    padding: 20px;
+    border-radius: 20px;
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-align: center;
+    padding: 15px;
     color: var(--text-color);
-    box-shadow: 0 20px 40px -14px var(--shadow-color);
+    transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+                box-shadow 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
 }
 
 .issue-card .front {
-    background: linear-gradient(to top, var(--secondary-color), var(--primary-color));
+    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+    transform: rotateY(0deg);
     z-index: 2;
 }
 
 .issue-card .back {
-    background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
-    transform: rotateY(180deg); /* Start flipped */
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    transform: rotateY(180deg);
 }
 
-/* Flip the card when it has the 'flipped' class */
+/* Flip Card Functionality */
 .issue-card.flipped .front {
-    transform: rotateY(180deg);
+    transform: rotateY(180deg); /* Rotate front face out of view */
+    box-shadow: 0 -15px 25px rgba(0, 0, 0, 0.3);
 }
 
 .issue-card.flipped .back {
-    transform: rotateY(0deg);
+    transform: rotateY(0deg); /* Rotate back face into view */
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
 }
 
-/* Hover styles only apply on devices that support hover */
-@media (hover: hover) and (pointer: fine) {
-    .issue-card:not(.locked):hover .front {
-        transform: rotateY(180deg);
-    }
-
-    .issue-card:not(.locked):hover .back {
-        transform: rotateY(0deg);
-    }
+/* Hover Glow */
+.issue-card:hover .front,
+.issue-card:hover .back {
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.4);
 }
 
-/* When the card is locked, it stays flipped regardless of hover */
-.issue-card.locked .front {
-    transform: rotateY(180deg);
-}
-
-.issue-card.locked .back {
-    transform: rotateY(0deg);
-}
-
+/* Front/Back Content Styles */
 .card-content h4 {
-    margin: 15px 0 10px;
-    font-size: 1.5em;
+    font-size: 1.3rem;
     color: var(--accent-color);
+    margin: 10px 0;
 }
 
 .card-content p {
-    font-size: 1em;
-    color: var(--text-color);
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
 }
 
 .card-content i {
-    font-size: 3em;
+    font-size: 2.5rem;
     color: var(--accent-color);
     margin-bottom: 10px;
 }
 
-/* Vision Section */
+/* Action Prompt Styling */
+.action-prompt {
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--highlight-color);
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: color 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+/* Hover effects for action prompt */
+.issue-card:hover .front .action-prompt {
+    color: var(--accent-color);
+    transform: scale(1.1);
+}
+
+/* Only show action prompt on front face */
+.issue-card .back .action-prompt {
+    transform: rotateY(180deg);
+    opacity: 0;
+}
+
+/* =====================================
+   Vision Section
+===================================== */
 .vision-content {
     background: var(--secondary-color);
     border-radius: 10px;
@@ -475,7 +479,9 @@ nav ul li a:active {
     margin-bottom: 20px;
 }
 
-/* Declaration Section */
+/* =====================================
+   Declaration Section
+===================================== */
 #declaration p {
     font-size: 1.2em;
     line-height: 1.8;
@@ -541,7 +547,9 @@ nav ul li a:active {
     box-shadow: 0 2px 4px var(--shadow-color);
 }
 
-/* Additional Sections */
+/* =====================================
+   Additional Sections
+===================================== */
 .speech-text {
     max-width: 800px;
     margin: 0 auto;
@@ -659,7 +667,6 @@ iframe {
     background-color: var(--primary-color);
 }
 
-/* Adjust the blend mode container */
 .contact-form-container::before {
     content: '';
     position: absolute;
@@ -752,11 +759,6 @@ iframe {
     transform: scale(1.2);
     color: var(--highlight-color);
 }
-
-/* =====================================
-   Declaration Interactive Styles
-===================================== */
-/* ... (Assuming you have the necessary styles here) */
 
 /* =====================================
    Responsive Styles
@@ -996,28 +998,22 @@ iframe {
         padding-left: 0;
     }
 
-    /* Flipping Cards Adjustments */
-    .issues-grid {
-        grid-template-columns: 1fr;
-        padding: 0 10px; /* Add horizontal padding */
-    }
-
+    /* Issue Card Adjustments */
     .issue-card {
-        margin: 10px 0;
-        width: 100%;
-    }
-
-    .issue-card .front,
-    .issue-card .back {
-        padding: 15px;
+        max-width: 280px;
+        aspect-ratio: 4 / 5;
     }
 
     .card-content h4 {
-        font-size: 1.2em;
+        font-size: 1.1rem;
     }
 
     .card-content p {
-        font-size: 0.9em;
+        font-size: 0.85rem;
+    }
+
+    .card-content i {
+        font-size: 2rem;
     }
 }
 
@@ -1053,26 +1049,16 @@ iframe {
         max-width: 200px;
     }
 
-    .issues-grid {
-        grid-template-columns: 1fr;
-        padding: 0 10px;
-    }
-
-    .issue-card {
-        margin: 10px 0;
-        width: 100%;
-    }
-
     .card-content i {
-        font-size: 2em;
+        font-size: 1.8rem;
     }
 
     .card-content h4 {
-        font-size: 1em;
+        font-size: 1rem;
     }
 
     .card-content p {
-        font-size: 0.8em;
+        font-size: 0.8rem;
     }
 
     .social-icon {
@@ -1089,7 +1075,9 @@ iframe {
     }
 }
 
-/* CTA button */
+/* =====================================
+   CTA Button
+===================================== */
 .shop-cta {
     margin-top: 10px;
     width: 100%;

@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
             setupHamburgerToggle();
             setupPreloadListeners();
 
-            // Initialize flip functionality for issue cards after header is loaded
+            // Initialize issue cards after header is loaded
             initializeIssueCards();
         })
         .catch(error => console.error('Error loading header:', error));
@@ -27,6 +27,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (document.getElementById('declaration-interactive')) {
         new DeclarationComponent('declaration-interactive');
     }
+
+    // Make body visible after content is loaded
+    document.body.style.display = 'block';
 });
 
 // Throttle scroll events for sticky header
@@ -249,45 +252,26 @@ function setupPreloadListeners() {
 }
 
 /**
- * Initializes the flip functionality for issue cards.
+ * Initializes issue cards with flip functionality and action prompts.
  */
 function initializeIssueCards() {
-    // Enable flip functionality for issue cards
+    const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    const actionText = isTouchDevice ? "Tap to Learn More" : "Click to Learn More";
     const cards = document.querySelectorAll(".issue-card");
 
     cards.forEach((card) => {
-        let isLocked = false;
+        // Add click event to toggle flip
+        card.addEventListener("click", () => {
+            card.classList.toggle("flipped");
+        });
 
-        // Check if the device supports hover
-        const supportsHover = window.matchMedia("(hover: hover)").matches;
-
-        if (supportsHover) {
-            // Desktop behavior
-            card.addEventListener("mouseenter", () => {
-                if (!isLocked) {
-                    card.classList.add("flipped");
-                }
-            });
-
-            card.addEventListener("mouseleave", () => {
-                if (!isLocked) {
-                    card.classList.remove("flipped");
-                }
-            });
-
-            card.addEventListener("click", () => {
-                isLocked = !isLocked;
-                if (isLocked) {
-                    card.classList.add("locked");
-                } else {
-                    card.classList.remove("locked");
-                }
-            });
-        } else {
-            // Mobile behavior
-            card.addEventListener("click", () => {
-                card.classList.toggle("flipped");
-            });
+        // Create and append action prompt only to front face
+        const frontFace = card.querySelector(".front");
+        if (frontFace && !frontFace.querySelector(".action-prompt")) {
+            const actionPrompt = document.createElement("div");
+            actionPrompt.className = "action-prompt";
+            actionPrompt.textContent = actionText;
+            frontFace.appendChild(actionPrompt);
         }
     });
 }
