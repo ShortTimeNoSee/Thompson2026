@@ -54,6 +54,7 @@
     background: var(--primary-color);
     color: var(--text-color);
     font-size: 0.9rem;
+    margin-bottom: 5px;
 }
 
 .comment-field {

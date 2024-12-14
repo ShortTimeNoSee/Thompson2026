@@ -171,23 +171,3 @@
     position: relative;
     display: inline-block;
 }
-
-.sign-subtitle::before,
-.sign-subtitle::after {
-    content: '';
-    position: absolute;
-    height: 1px;
-    background: var(--accent-alpha);
-    width: 30px;
-    top: 50%;
-}
-
-.sign-subtitle::before {
-    right: 100%;
-    margin-right: 15px;
-}
-
-.sign-subtitle::after {
-    left: 100%;
-    margin-left: 15px;
-}
