@@ -282,30 +282,24 @@ function initializeIssueCards() {
 }
 
 /**
- * =====================
  * Particle Shatter Script
- * =====================
  */
 
 function initParticleShatter() {
-    const chainImageSrc = "resources/chain_shape.png"; // Ensure this path is correct
-    const californiaImageSrc = "resources/california_outline.png"; // Ensure this path is correct
+    const chainImageSrc = "resources/chain_shape.png";
+    const californiaImageSrc = "resources/california_outline.png";
 
     const canvas = document.getElementById("particleCanvas");
     const ctx = canvas.getContext("2d");
 
-    // Global variables within particle shatter
     let imagesLoaded = 0;
 
-    // Adjust canvas size
+    // canvas size
     function resizeCanvas() {
-        // Set internal canvas size larger to allow particles to fly out
-        // Example: Internal size is much larger than display size
         canvas.width = window.innerWidth > 768 ? 1500 : window.innerWidth * 2;
         canvas.height = window.innerWidth > 768 ? 1500 : 600;
         if (imagesLoaded === 2) {
             drawCalifornia();
-            // No need to call drawParticles() as particles are handled in the animate loop
         }
     }
     window.addEventListener("resize", resizeCanvas);
@@ -345,9 +339,7 @@ function initParticleShatter() {
         console.error('Error loading one or more images for Particle Shatter.');
     };
 
-    /**
-     * Initializes the canvas by drawing California outline and generating particles.
-     */
+    // Initializes the canvas by drawing California outline and generating particles.
     function init() {
         drawCalifornia();
 
@@ -364,15 +356,13 @@ function initParticleShatter() {
         requestAnimationFrame(animate);
     }
 
-    /**
-     * Draws the California outline scaled to the canvas.
-     */
+    // Draws the California outline scaled to the canvas.
     function drawCalifornia() {
         const imgWidth = californiaImage.width;
         const imgHeight = californiaImage.height;
         const scale = Math.min(canvas.width / imgWidth, canvas.height / imgHeight);
-        const offsetX = (canvas.width - imgWidth * scale) / 2; // Center horizontally
-        const offsetY = (canvas.height - imgHeight * scale) / 2; // Center vertically
+        const offsetX = (canvas.width - imgWidth * scale) / 2;
+        const offsetY = (canvas.height - imgHeight * scale) / 2;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(
             californiaImage,
@@ -446,9 +436,7 @@ function initParticleShatter() {
         return rgbToHex(result);
     }
 
-    /**
-     * Animates the particles and handles the shatter effect.
-     */
+    // Animates the particles and handles the shatter effect.
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawCalifornia();
@@ -471,13 +459,13 @@ function initParticleShatter() {
                     if (distance < crackThickness) {
                         // Near the crack: violent explosion outward perpendicular to the crack
                         const angle = getCrackNormalAngle(p.x, p.y);
-                        const speed = 8 + Math.random() * 6; // Increased speed for more "umph"
+                        const speed = 8 + Math.random() * 6;
                         p.vx = Math.cos(angle) * speed;
                         p.vy = Math.sin(angle) * speed;
                     } else {
                         // Away from the crack: normal shatter outward from the shatter point
                         const angle = Math.atan2(p.y - shatterY, p.x - shatterX);
-                        const speed = 3 + Math.random() * 3; // Normal speed
+                        const speed = 3 + Math.random() * 3;
                         p.vx = Math.cos(angle) * speed;
                         p.vy = Math.sin(angle) * speed;
                     }

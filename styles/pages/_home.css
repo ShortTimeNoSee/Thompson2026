@@ -22,3 +22,49 @@
     transform: scale(1.1);
     box-shadow: 0 8px 16px var(--shadow-color);
 }
+
+/* Chained California */
+.declaration-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    overflow: visible;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#particleCanvas {
+    /* Removed border and box-shadow */
+    border: none;
+    box-shadow: none;
+
+    /* Set background to transparent */
+    background-color: transparent;
+
+    /* Set visible size */
+    width: 300px;
+    height: 300px;
+
+    /* Positioning */
+    position: relative;
+}
+
+@media (max-width: 768px) {
+    .declaration-container {
+        flex-direction: column;
+    }
+
+    #particleCanvas {
+        width: 300px;
+        height: 300px;
+    }
+}
+
+.section .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
