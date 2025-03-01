@@ -8,7 +8,7 @@ const CALIFORNIA_COUNTIES = [
     'San Diego', 'San Francisco', 'San Joaquin', 'San Luis Obispo', 'San Mateo',
     'Santa Barbara', 'Santa Clara', 'Santa Cruz', 'Shasta', 'Sierra', 'Siskiyou',
     'Solano', 'Sonoma', 'Stanislaus', 'Sutter', 'Tehama', 'Trinity', 'Tulare',
-    'Tuolumne', 'Ventura', 'Yolo', 'Yuba'
+    'Tuolumne', 'Ventura', 'Yolo', 'Yuba', 'Unlisted/Other'
 ];
 
 const WORKER_URL = 'https://declaration-signatures.theedenwatcher.workers.dev';
