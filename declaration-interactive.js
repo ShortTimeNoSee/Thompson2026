@@ -94,7 +94,7 @@ class DeclarationComponent {
 
         // Check if we're on the index page
         const isIndexPage = window.location.pathname === '/' || window.location.pathname === '/index.html';
-        const displayCount = isIndexPage ? 5 : this.signaturesList.length;
+        const displayCount = isIndexPage ? 6 : this.signaturesList.length;
         const signatures = this.signaturesList.slice(0, displayCount);
 
         const listHtml = `

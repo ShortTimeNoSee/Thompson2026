@@ -120,7 +120,7 @@
     background: var(--secondary-color);
     border-radius: 8px;
     box-shadow: 0 4px 8px var(--shadow-color);
-    max-width: 1200px;
+    max-width: 100%;
     margin-left: auto;
     margin-right: auto;
 }
