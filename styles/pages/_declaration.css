@@ -108,6 +108,12 @@
 }
 
 /* Signatures List */
+#signatures-list {
+    flex: 1 1 100%;
+    display: flex;
+    justify-content: center;
+}
+
 .signatures-list-container {
     margin-top: 3rem;
     padding: 1.5rem;

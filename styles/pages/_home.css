@@ -26,10 +26,10 @@
 /* Chained California */
 .declaration-container {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 20px;
-    overflow: visible;
     width: 100%;
     box-sizing: border-box;
 }
