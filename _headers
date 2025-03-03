@@ -1,10 +1,14 @@
 /* 
-# Security HeadersX-Frame-Options: SAMEORIGIN
+# Security Headers
+X-Frame-Options: SAMEORIGIN
 X-Content-Type-Options: nosniff
 Referrer-Policy: strict-origin-when-cross-origin
 Permissions-Policy: camera=(), microphone=(), geolocation=(), browsing-topics=()
 Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
 Access-Control-Allow-Methods: GET
+
+# Content Security Policy
+Content-Security-Policy: default-src * data: blob:; script-src * 'unsafe-inline' 'unsafe-eval' data: blob:; style-src * 'unsafe-inline' data: blob:; img-src * data: blob:; font-src * data: blob:; connect-src *;
 
 # Cache Control
 Cache-Control: public, max-age=2592000
