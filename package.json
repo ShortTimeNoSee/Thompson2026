@@ -4,27 +4,37 @@
   "description": "Nicholas Thompson's 2026 California gubernatorial campaign website",
   "main": "declaration-interactive.js",
   "scripts": {
-    "build": "postcss styles/main.css -o dist/styles.min.css",
-    "watch": "postcss styles/main.css -o dist/styles.min.css --watch"
+    "build": "postcss styles/main.css -o dist/styles.min.css && npx @11ty/eleventy",
+    "build:clean": "rimraf _site && postcss styles/main.css -o dist/styles.min.css && npx @11ty/eleventy",
+    "build:css": "postcss styles/main.css -o dist/styles.min.css",
+    "build:eleventy": "npx @11ty/eleventy",
+    "watch": "postcss styles/main.css -o dist/styles.min.css --watch",
+    "serve": "npx @11ty/eleventy --serve",
+    "clean": "rimraf _site"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@11ty/eleventy": "^3.1.2",
+    "cssnano": "^6.0.1",
     "postcss": "^8.4.31",
     "postcss-cli": "^10.1.0",
     "postcss-import": "^15.1.0",
-    "cssnano": "^6.0.1"
+    "rimraf": "^6.0.1"
   },
   "postcss": {
     "plugins": {
       "postcss-import": {},
       "cssnano": {
-        "preset": ["default", {
-          "discardComments": {
-            "removeAll": true
+        "preset": [
+          "default",
+          {
+            "discardComments": {
+              "removeAll": true
+            }
           }
-        }]
+        ]
       }
     }
   }

@@ -1,0 +1,45 @@
+---
+layout: base.html
+og_type: article
+---
+
+<article class="blog-post">
+    <div class="container">
+        <header class="post-header">
+            <h1>{{ title }}</h1>
+            <div class="post-meta">
+                <time datetime="{{ page.date | date('Y-m-d') }}">{{ page.date | date('F d, Y') }}</time>
+                {%- if author %}<span class="author">by {{ author }}</span>{% endif %}
+                {%- if tags %}
+                <div class="tags">
+                    {%- for tag in tags %}
+                        <span class="tag">{{ tag }}</span>
+                    {%- endfor %}
+                </div>
+                {%- endif %}
+            </div>
+        </header>
+        
+        <div class="post-content">
+            {{ content | safe }}
+        </div>
+        
+        <footer class="post-footer">
+            <div class="post-navigation">
+                <a href="/blog" class="back-to-blog">← Back to Blog</a>
+            </div>
+            
+            <div class="post-share">
+                <p>Share this post:</p>
+                <div class="share-buttons">
+                    <a href="https://x.com/intent/tweet?text={{ title | urlencode }}&url=https://thompson2026.com{{ page.url }}" target="_blank" class="share-twitter">
+                        <i class="fab fa-x-twitter"></i> X (Twitter)
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=https://thompson2026.com{{ page.url }}" target="_blank" class="share-facebook">
+                        <i class="fab fa-facebook"></i> Facebook
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </div>
+</article>

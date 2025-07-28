@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Background CSS to prevent seizure-inducing flash -->
+    <style>
+        body{background-color: #113}
+    </style>
+    <!-- Non-critical styles, loaded asynchronously -->
+    <link rel="preload" href="/dist/styles.min.css" as="style" onload="this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/dist/styles.min.css"></noscript>
+    <!-- Preload the Font Awesome CSS -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"></noscript>
+    
+    
+    
+    <meta name="description" content="Ready to join the fight for California&#39;s future? Get in touch with Nicholas A. Thompson&#39;s campaign and help restore what Sacramento has destroyed.">
+    <meta name="keywords" content="Nicholas A. Thompson, California Governor 2026, contact, campaign, join the fight, get involved">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://thompson2026.com/contact/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta property="og:title" content="Get in Touch - Nicholas A. Thompson 2026 Campaign">
+    <meta property="og:description" content="Ready to join the fight? Contact Nicholas A. Thompson&#39;s campaign and help restore California&#39;s future.">
+    <meta property="og:image" content="https://thompson2026.com/resources/Nicholas%20Thompson-250.webp">
+    <meta property="og:url" content="https://thompson2026.com/contact/">
+    <meta property="og:type" content="website">
+    
+    <!-- Favicon for most browsers -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/resources/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/resources/favicon-16.png">
+    <!-- Favicon for Safari on macOS and iOS -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/resources/favicon-180.png">
+    <!-- Favicon for Android Chrome -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/resources/favicon-192.png">
+    <!-- Favicon ICO for old browsers -->
+    <link rel="shortcut icon" href="/resources/favicon.ico">
+    
+    <title>Get in Touch - Nicholas A. Thompson 2026 - Nicholas A. Thompson 2026</title>
+</head>
+<body id="contact_page" style="display: none">
+
+    <div id="header-container"></div>
+
+    <main>
+        
+<section id="contact-hero" class="section dark-section">
+    <div class="container">
+        <div class="contact-hero-content">
+            <h1>Ready to Join the Fight?</h1>
+            <p class="contact-lead">Sacramento doesn't want to hear from you. But I do. Your voice matters, and together we can restore what they've destroyed.</p>
+        </div>
+    </div>
+</section>
+
+<section id="contact-main" class="section">
+    <div class="container">
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h3>Let's Connect</h3>
+                <p>Whether you want to volunteer, share your story, ask questions, or just tell me what's on your mind - I want to hear from you.</p>
+                
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>For general inquiries and campaign questions</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <i class="fas fa-users"></i>
+                        <div>
+                            <h4>Volunteer</h4>
+                            <p>Help spread the message across California</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <i class="fas fa-bullhorn"></i>
+                        <div>
+                            <h4>Share Your Story</h4>
+                            <p>Tell me how Sacramento's failures affect you</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="social-connect">
+                    <h4>Stay Connected</h4>
+                    <div class="social-links">
+                        <a href="https://x.com/nickispolitical" target="_blank" aria-label="Follow on X">
+                            <i class="fab fa-x-twitter"></i>
+                        </a>
+                        <a href="https://youtube.com/@nicholas4liberty" target="_blank" aria-label="Follow on YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="https://instagram.com/nick.getspolitical/" target="_blank" aria-label="Follow on Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="mailto:nicholas4liberty@gmail.com" aria-label="Send Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <h3>Send a Message</h3>
+                <div id="form-container" class="form-wrapper">
+                    <div class="form-loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading contact form...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script defer>
+    document.addEventListener("DOMContentLoaded", function() {
+        const formContainer = document.getElementById('form-container');
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    formContainer.innerHTML = `<iframe title="Contact Nicholas A. Thompson" src="https://docs.google.com/forms/d/e/1FAIpQLSdUE-m4oRBI2AWM-E_kpgF6W3QicNX6rfM238OUSnVL1lMXHg/viewform?embedded=true" width="100%" height="800px" frameborder="0" marginheight="0" marginwidth="0"></iframe>`;
+                    observer.disconnect();
+                }
+            });
+            observer.observe(formContainer);
+        } else {
+            formContainer.innerHTML = `<iframe title="Contact Nicholas A. Thompson" src="https://docs.google.com/forms/d/e/1FAIpQLSdUE-m4oRBI2AWM-E_kpgF6W3QicNX6rfM238OUSnVL1lMXHg/viewform?embedded=true" width="100%" height="800px" frameborder="0" marginheight="0" marginwidth="0"></iframe>`;
+        }
+    });
+</script>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="social-media">
+                <a href="https://instagram.com/nick.getspolitical/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://x.com/nickispolitical" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                <a href="https://youtube.com/@nicholas4liberty" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+            <p>&copy; 2024 Nicholas A. Thompson | <a href="/sitemap">Sitemap</a> | <a href="https://github.com/ShortTimeNoSee/Thompson2026">GitHub</a></p>
+        </div>
+    </footer>
+    
+    <script>
+        // Load header and basic functionality
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch('/header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header-container').innerHTML = data;
+                    // Initialize header functionality
+                    if (typeof setActiveLink === 'function') setActiveLink();
+                    if (typeof setupHamburgerToggle === 'function') setupHamburgerToggle();
+                    if (typeof setupPreloadListeners === 'function') setupPreloadListeners();
+                    if (typeof initializeIssueCards === 'function') initializeIssueCards();
+                })
+                .catch(error => console.error('Error loading header:', error));
+            
+            // Make body visible after content is loaded
+            document.body.style.display = 'block';
+        });
+    </script>
+    
+    
+    
+    <script src="/script.js" defer></script>
+</body>
+</html> 

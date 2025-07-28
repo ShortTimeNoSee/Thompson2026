@@ -1,0 +1,212 @@
+---
+layout: base.html
+title: Nicholas A. Thompson - 2026 California Governor Campaign
+description: Discover Nicholas A. Thompson's 2026 California Governor campaign. Learn about his vision for liberty, key issues, and how to get involved.
+keywords: Nicholas A. Thompson, California Governor 2026, California governor election, 2026 election, libertarian governor, california governor candidates, political campaign
+og_title: Nicholas A. Thompson - 2026 California Governor Candidate
+og_description: Explore Nicholas A. Thompson's campaign for California Governor in 2026. Discover his vision, key issues, and how to get involved.
+og_image: https://thompson2026.com/resources/Nicholas%20Thompson-250.webp
+body_id: index_page
+body_class: home
+need_declaration_script: true
+structured_data: |
+  {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Nicholas A. Thompson for Governor",
+      "alternateName": ["Thompson2026", "Thompson 2026 Campaign"],
+      "url": "https://thompson2026.com/"
+  }
+---
+
+
+<section id="hero" class="section dark-section">
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>California Deserves Better</h1>
+                <p class="hero-lead">I'm Nicholas Thompson, running for governor to restore what Sacramento has destroyed.</p>
+                <p class="hero-subtitle">No more asking permission to be free. No more funding their failures. No more being treated like subjects instead of citizens.</p>
+                <div class="hero-buttons">
+                    <a href="/declaration_of_war" class="cta-button primary">Join the Fight</a>
+                    <a href="/about" class="cta-button secondary">My Story</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://thompson2026.com/resources/Nicholas%20Thompson-250.webp" alt="Nicholas A. Thompson for California Governor 2026" width="250" height="250">
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="reality-check" class="section">
+    <div class="container">
+        <h3>The Reality About California</h3>
+        <p class="section-intro">Here's what Sacramento doesn't want you to understand about how they've been running this state.</p>
+        <div class="reality-grid">
+            <div class="reality-card">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h4>The Problem</h4>
+                <p>Sacramento thinks it owns you. Every year they pass hundreds of new laws telling you what you can and can't do with your own life, your own money, your own property.</p>
+            </div>
+            <div class="reality-card">
+                <i class="fas fa-fist-raised"></i>
+                <h4>The Solution</h4>
+                <p>Get government out of your way. Cut the regulations strangling innovation. Stop treating success like a crime. Let Californians build their dreams without asking permission.</p>
+            </div>
+            <div class="reality-card">
+                <i class="fas fa-flag"></i>
+                <h4>The Mission</h4>
+                <p>This isn't about winning a political office. It's about sending a message: Californians are done being pushed around by bureaucrats who think they know better.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="latest-thoughts" class="section dark-section">
+    <div class="container">
+        <a href="blog">
+            <h3>Latest Thoughts <i class="fas fa-arrow-right"></i></h3>
+        </a>
+        <p class="section-intro">Read my unfiltered thoughts on liberty, governance, and California's future. No political doublespeak. Just straight talk about what needs to change.</p>
+        <div class="posts-grid">
+            {%- for post in collections.posts | reverse | limit(3) %}
+            <div class="post-card">
+                <div class="post-card-content">
+                    <h2><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
+                    <div class="post-meta">
+                        <time datetime="{{ post.date | date('Y-m-d') }}">{{ post.date | date('F d, Y') }}</time>
+                        {%- if post.data.author %}<span class="author">by {{ post.data.author }}</span>{% endif %}
+                    </div>
+                    {%- if post.data.excerpt %}
+                    <p class="post-excerpt">{{ post.data.excerpt }}</p>
+                    {%- else %}
+                    <p class="post-excerpt">{{ post.templateContent | striptags | truncate(200) }}</p>
+                    {%- endif %}
+                    <a href="{{ post.url }}" class="read-more">Read More →</a>
+                </div>
+            </div>
+            {%- endfor %}
+        </div>
+    </div>
+</section>
+
+
+<section id="issues" class="section">
+    <div class="container">
+        <a href="issues">
+            <h3>What I'm Fighting For <i class="fas fa-arrow-right"></i></h3>
+        </a>
+        <p class="section-intro">These aren't just policy positions. They're the battles I'm willing to fight to restore your freedom.</p>
+        <div class="issues-grid">
+            <div class="issue-card flip">
+                <div class="front horizontal card-content">
+                    <i class="fas fa-hand-fist"></i>
+                    <h4>Individual Rights</h4>
+                </div>
+                <div class="back horizontal card-content">
+                    <h4>Your Rights</h4>
+                    <p>Your rights aren't up for debate. They're yours, period. Time to remind Sacramento that they work for us, not the other way around.</p>
+                </div>
+            </div>
+            <div class="issue-card flip">
+                <div class="front horizontal card-content">
+                    <i class="fas fa-chart-line"></i>
+                    <h4>Economic Freedom</h4>
+                </div>
+                <div class="back horizontal card-content">
+                    <h4>Your Success</h4>
+                    <p>Stop punishing success. Stop strangling small business. Let people build their dreams without begging bureaucrats for permission.</p>
+                </div>
+            </div>
+            <div class="issue-card flip">
+                <div class="front horizontal card-content">
+                    <i class="fas fa-gavel"></i>
+                    <h4>Government Overreach</h4>
+                </div>
+                <div class="back horizontal card-content">
+                    <h4>Your Life</h4>
+                    <p>The state has no business in your personal choices, your wallet, or your property. Time to put them back in their place.</p>
+                </div>
+            </div>
+            <div class="issue-card flip">
+                <div class="front horizontal card-content">
+                    <i class="fas fa-eye"></i>
+                    <h4>Real Transparency</h4>
+                </div>
+                <div class="back horizontal card-content">
+                    <h4>Your Money</h4>
+                    <p>No more backroom deals. No more hidden agendas. You deserve to see exactly how Sacramento wastes your money.</p>
+                </div>
+            </div>         
+        </div>
+    </div>
+</section>
+
+<!-- Vision Preview: Future-focused messaging -->
+<section id="vision" class="section dark-section">
+    <div class="container">
+        <a href="vision">
+            <h3>My Vision for California <i class="fas fa-arrow-right"></i></h3>
+        </a>
+        <p class="section-intro">Imagine a California where you're actually free. Not the fake freedom they talk about in Sacramento. Real freedom.</p>
+        <div class="vision-preview">
+            <div class="vision-point">
+                <h4>Your Life. Your Rules.</h4>
+                <p>No more begging bureaucrats for permission to start a business or live your life.</p>
+            </div>
+            <div class="vision-point">
+                <h4>Your Money. Your Choice.</h4>
+                <p>Keep what you earn instead of funding Sacramento's pet projects and bloated bureaucracies.</p>
+            </div>
+            <div class="vision-point">
+                <h4>Your Future. Your Way.</h4>
+                <p>Build your dreams without asking permission from people who've never built anything.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Interactive Engagement: Social proof and action -->
+<section id="declaration" class="section">
+    <div class="container">
+        <a href="declaration_of_war">
+            <h3>Declaration of War <i class="fas fa-arrow-right"></i></h3>
+        </a>
+        <p class="section-intro">Join thousands of Californians who are done being pushed around. This is our declaration of independence from government tyranny.</p>
+        <div class="declaration-container">
+            <canvas id="particleCanvas"></canvas>
+            <div id="declaration-interactive"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Clear Call-to-Action: Multiple engagement paths -->
+<section id="support" class="section dark-section">
+    <div class="container">
+        <h3>Ready to Push Back?</h3>
+        <p class="section-intro">This movement needs your voice. Whether you sign the declaration, share our message, or show your support, every action matters.</p>
+        <div class="support-actions">
+            <a href="/declaration_of_war" class="cta-button primary">Sign the Declaration</a>
+            <a href="https://choosechange.etsy.com" target="_blank" class="cta-button secondary">Shop & Support</a>
+            <a href="/contact" class="cta-button tertiary">Get Involved</a>
+        </div>
+    </div>
+</section>
+
+<script defer>
+    document.addEventListener("DOMContentLoaded", function() {
+        const formContainer = document.getElementById('form-container');
+        if (formContainer && 'IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    formContainer.innerHTML = `<iframe title="Contact Form" src="https://docs.google.com/forms/d/e/1FAIpQLSdUE-m4oRBI2AWM-E_kpgF6W3QicNX6rfM238OUSnVL1lMXHg/viewform?embedded=true" width="100%" height="825px" frameborder="0" marginheight="0" marginwidth="0"></iframe>`;
+                    observer.disconnect();
+                }
+            });
+            observer.observe(formContainer);
+        }
+    });
+</script>

@@ -1,70 +1,522 @@
 /* pages/_home.css */
-/* Homepage Specific Styles */
-
-/* Background Images for Home Page */
-#index_page #about {
-    background:
-        linear-gradient(to bottom, var(--primary-alpha), var(--primary-color) 100%),
-        url("https://images.pexels.com/photos/11838861/pexels-photo-11838861.jpeg?auto=compress&cs=tinysrgb") no-repeat center top;
-    background-size: cover;
+#hero {
+    min-height: 65vh;
+    display: flex;
+    align-items: center;
+    padding: 160px 0 80px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
 }
 
-/* About Section on Home Page */
-.portrait {
+.hero-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 50px;
+    align-items: center;
     width: 100%;
+}
+
+.hero-text h1 {
+    font-size: 3.2em;
+    line-height: 1.2;
+    color: var(--accent-color);
+    margin-bottom: 25px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.hero-lead {
+    font-size: 1.4em;
+    line-height: 1.5;
+    color: var(--text-color);
+    margin-bottom: 20px;
+    font-weight: 500;
+    max-width: 90%;
+}
+
+.hero-subtitle {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: var(--highlight-color);
+    margin-bottom: 35px;
+    max-width: 95%;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.hero-buttons .cta-button {
+    padding: 14px 28px;
+    font-size: 1em;
+    font-weight: 600;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    min-width: 140px;
+    text-align: center;
+}
+
+.hero-buttons .cta-button.primary {
+    color: var(--primary-color);
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.hero-buttons .cta-button.primary:hover {
+    background: transparent;
+    color: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.hero-buttons .cta-button.secondary {
+    color: var(--accent-color);
+    background: transparent;
+    border-color: var(--accent-color);
+}
+
+.hero-buttons .cta-button.secondary:hover {
+    color: var(--primary-color);
+    background: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.hero-image img {
+    width: 100%;
+    max-width: 260px;
     height: auto;
     border-radius: 50%;
-    box-shadow: 0 4px 8px var(--shadow-color);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.portrait:hover {
-    transform: scale(1.1);
-    box-shadow: 0 8px 16px var(--shadow-color);
+.hero-image img:hover {
+    transform: scale(1.03);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
 }
 
-/* Chained California */
-.declaration-container {
+
+#reality-check {
+    padding: 80px 0;
+    background: var(--primary-color);
+}
+
+#reality-check h3 {
+    font-size: 2.8em;
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--accent-color);
+}
+
+#reality-check .section-intro {
+    font-size: 1.3em;
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 40px;
+    color: var(--text-color);
+    line-height: 1.5;
+}
+
+.reality-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.reality-card {
+    padding: 30px 20px;
+    background: var(--secondary-color);
+    border: 1px solid var(--accent-alpha);
+    border-radius: 4px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.reality-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent-color);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+}
+
+.reality-card i {
+    font-size: 2.2em;
+    color: var(--accent-color);
+    margin-bottom: 18px;
+}
+
+.reality-card h4 {
+    font-size: 1.3em;
+    color: var(--accent-color);
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.reality-card p {
+    font-size: 1em;
+    line-height: 1.5;
+    color: var(--text-color);
+}
+
+
+.vision-preview {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.vision-point {
+    padding: 25px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--accent-alpha);
+    border-radius: 4px;
+    text-align: center;
+}
+
+.vision-point h4 {
+    font-size: 1.3em;
+    color: var(--accent-color);
+    margin-bottom: 15px;
+}
+
+.vision-point p {
+    font-size: 1em;
+    line-height: 1.5;
+    color: var(--text-color);
+}
+
+
+.support-actions {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
     justify-content: center;
-    gap: 20px;
-    width: 100%;
-    box-sizing: border-box;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 40px;
 }
 
-#particleCanvas {
-    /* Removed border and box-shadow */
+
+.cta-button {
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 1.1em;
+    font-weight: 600;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.cta-button.primary {
+    color: var(--primary-color);
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.cta-button.primary:hover {
+    background: transparent;
+    color: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.cta-button.secondary {
+    color: var(--accent-color);
+    background: transparent;
+    border-color: var(--accent-color);
+}
+
+.cta-button.secondary:hover {
+    color: var(--primary-color);
+    background: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.cta-button.tertiary {
+    color: var(--text-color);
+    background: transparent;
+    border-color: var(--highlight-color);
+}
+
+.cta-button.tertiary:hover {
+    color: var(--primary-color);
+    background: var(--highlight-color);
+    transform: translateY(-2px);
+}
+
+
+#index_page #declaration .declaration-container {
+    max-width: 850px;
+    margin: 40px auto 0;
+    display: flex;
+    align-items: center;
+    background: var(--secondary-color);
+    border: 1px solid var(--accent-alpha);
+    border-radius: 4px;
+    min-height: 280px;
+    height: auto;
+}
+
+#index_page #declaration #particleCanvas {
+    width: 350px;
+    height: 350px;
+    flex-shrink: 0;
+    background: transparent;
     border: none;
-    box-shadow: none;
-
-    /* Set background to transparent */
-    background-color: transparent;
-
-    /* Set visible size */
-    width: 300px;
-    height: 300px;
-
-    /* Positioning */
-    position: relative;
 }
 
-@media (max-width: 768px) {
-    .declaration-container {
-        flex-direction: column;
-    }
-
-    #particleCanvas {
-        width: 300px;
-        height: 300px;
-    }
+#index_page #declaration #declaration-interactive {
+    flex: 1;
+    padding: 15px 20px;
+    background: rgba(0, 0, 0, 0.6);
+    min-height: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.section .container {
-    width: 100%;
-    max-width: 1200px;
+
+#index_page #issues .issues-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    max-width: 800px;
     margin: 0 auto;
-    padding: 0 20px;
-    box-sizing: border-box;
+}
+
+
+.section h3 {
+    font-size: 2.6em;
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--accent-color);
+}
+
+.section-intro {
+    font-size: 1.2em;
+    text-align: center;
+    max-width: 650px;
+    margin: 0 auto 35px;
+    color: var(--text-color);
+    line-height: 1.5;
+}
+
+.section {
+    padding: 70px 0;
+}
+
+.section.dark-section {
+    padding: 80px 0;
+}
+
+
+@media (max-width: 1200px) {
+    .hero-text h1 {
+        font-size: 2.8em;
+    }
+
+    .hero-lead {
+        font-size: 1.3em;
+    }
+
+    .hero-subtitle {
+        font-size: 1.05em;
+    }
+
+    .section h3 {
+        font-size: 2.4em;
+    }
+
+    .reality-grid,
+    .vision-preview {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 900px) {
+    /* Stack hero content for better mobile UX */
+    .hero-content {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        text-align: center;
+    }
+
+    .hero-text h1 {
+        font-size: 2.4em;
+    }
+
+    .hero-lead {
+        font-size: 1.2em;
+        max-width: 100%;
+    }
+
+    .hero-subtitle {
+        font-size: 1em;
+        max-width: 100%;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .hero-buttons .cta-button {
+        padding: 12px 24px;
+        font-size: 0.95em;
+        min-width: 130px;
+    }
+
+    .section h3 {
+        font-size: 2.2em;
+    }
+
+    .section-intro {
+        font-size: 1.1em;
+        max-width: 90%;
+    }
+
+    /* Single column layouts for better readability */
+    .reality-grid,
+    .vision-preview {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    /* Homepage issues grid - maintain 2x2 on tablet */
+    #index_page #issues .issues-grid {
+        gap: 20px;
+    }
+
+    /* Stack declaration container */
+    #index_page #declaration .declaration-container {
+        flex-direction: column;
+        height: auto;
+        min-height: 400px;
+    }
+
+    #index_page #declaration #particleCanvas {
+        width: 100%;
+        height: 200px;
+    }
+
+    #index_page #declaration #declaration-interactive {
+        width: 100%;
+        padding: 25px;
+    }
+
+    /* Stack support actions */
+    .support-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .cta-button {
+        width: 100%;
+        max-width: 280px;
+        text-align: center;
+    }
+
+    /* Homepage issues grid - single column on mobile */
+    #index_page #issues .issues-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    /* Reduce hero section padding for mobile */
+    #hero {
+        padding: 120px 0 60px;
+        min-height: 60vh;
+    }
+
+    .hero-text h1 {
+        font-size: 2.2em;
+        padding: 0 10px;
+        margin-bottom: 20px;
+    }
+
+    .hero-lead {
+        font-size: 1.1em;
+        padding: 0 10px;
+        margin-bottom: 15px;
+    }
+
+    .hero-subtitle {
+        font-size: 0.95em;
+        padding: 0 10px;
+        margin-bottom: 25px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .hero-buttons .cta-button {
+        width: 100%;
+        max-width: 280px;
+        padding: 14px 20px;
+        font-size: 0.9em;
+    }
+
+    .section h3 {
+        font-size: 1.9em;
+        padding: 0 15px;
+    }
+
+    .section-intro {
+        font-size: 1.05em;
+        padding: 0 15px;
+        max-width: 95%;
+    }
+
+    .reality-card {
+        padding: 25px 18px;
+    }
+
+    .reality-card h4 {
+        font-size: 1.2em;
+    }
+
+    .reality-card p {
+        font-size: 0.95em;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+        padding: 0 15px;
+    }
+
+    /* Reduce section padding */
+    #reality-check {
+        padding: 80px 0;
+    }
+
+    .reality-card,
+    .vision-point {
+        padding: 25px 20px;
+    }
+
+    .reality-card i {
+        font-size: 2.2em;
+    }
+
+    /* Smaller canvas for mobile */
+    #index_page #declaration #particleCanvas {
+        height: 180px;
+    }
+
+    #index_page #declaration .declaration-container {
+        min-height: 350px;
+    }
 }

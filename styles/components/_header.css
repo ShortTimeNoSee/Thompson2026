@@ -1,7 +1,5 @@
 /* components/_header.css */
-/* Header and Navigation Styles */
 
-/* Header */
 header {
     background-color: var(--secondary-color);
     color: var(--text-color);
@@ -22,15 +20,27 @@ header {
     padding: 10px 0;
 }
 
-header h1 {
+.branding-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: opacity 0.3s ease;
+}
+
+.branding-link:hover {
+    opacity: 0.8;
+}
+
+.branding-link h1 {
     margin: 0;
     font-size: 2em;
     letter-spacing: 1px;
     text-transform: uppercase;
     text-align: left;
+    color: var(--text-color);
 }
 
-header h2 {
+.branding-link h2 {
     margin: 5px 0 0;
     font-size: 1.2em;
     font-weight: 300;
@@ -38,7 +48,6 @@ header h2 {
     text-align: left;
 }
 
-/* Navigation */
 nav {
     display: flex;
     align-items: center;
@@ -66,6 +75,11 @@ nav ul li a {
     transition: background 0.3s ease, color 0.3s ease;
 }
 
+nav ul li a[data-page="blog"] {
+    background: var(--accent-alpha);
+    border: 1px solid var(--accent-color);
+}
+
 nav ul li a:hover {
     background: var(--accent-alpha);
     color: var(--accent-color);
@@ -83,7 +97,6 @@ nav ul li a:active {
     background: inherit;
 }
 
-/* Dropdown Menu */
 .dropdown {
     position: relative;
     display: inline-block;
@@ -152,7 +165,6 @@ nav ul li a:active {
     color: var(--primary-color);
 }
 
-/* Hamburger Menu */
 .hamburger {
     display: none;
     font-size: 1.8em;
@@ -164,7 +176,6 @@ nav ul li a:active {
     z-index: 1001;
 }
 
-/* Sticky Header */
 .sticky {
     background-color: var(--primary-color);
     box-shadow: 0 4px 8px var(--shadow-color);

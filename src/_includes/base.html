@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Background CSS to prevent seizure-inducing flash -->
+    <style>
+        body{background-color: #113}
+    </style>
+    <!-- Non-critical styles, loaded asynchronously -->
+    <link rel="preload" href="/dist/styles.min.css" as="style" onload="this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/dist/styles.min.css"></noscript>
+    <!-- Preload the Font Awesome CSS -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"></noscript>
+    
+    {% if structured_data %}
+    <script type="application/ld+json">{{ structured_data | safe }}</script>
+    {% endif %}
+    
+    <meta name="description" content="{{ description or 'Nicholas A. Thompson for California Governor 2026' }}">
+    <meta name="keywords" content="{{ keywords or 'Nicholas A. Thompson, California Governor 2026' }}">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://thompson2026.com{{ page.url }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta property="og:title" content="{{ og_title or title }}">
+    <meta property="og:description" content="{{ og_description or description }}">
+    <meta property="og:image" content="{{ og_image or 'https://thompson2026.com/resources/Nicholas%20Thompson-250.webp' }}">
+    <meta property="og:url" content="https://thompson2026.com{{ page.url }}">
+    <meta property="og:type" content="{{ og_type or 'website' }}">
+    
+    <!-- Favicon for most browsers -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/resources/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/resources/favicon-16.png">
+    <!-- Favicon for Safari on macOS and iOS -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/resources/favicon-180.png">
+    <!-- Favicon for Android Chrome -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/resources/favicon-192.png">
+    <!-- Favicon ICO for old browsers -->
+    <link rel="shortcut icon" href="/resources/favicon.ico">
+    
+    <title>{{ title }} - Nicholas A. Thompson 2026</title>
+</head>
+<body{% if body_id %} id="{{ body_id }}"{% endif %} style="display: none">
+
+    <div id="header-container"></div>
+
+    <main>
+        {{ content | safe }}
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="social-media">
+                <a href="https://instagram.com/nick.getspolitical/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://x.com/nickispolitical" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                <a href="https://youtube.com/@nicholas4liberty" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+            <p>&copy; 2024 Nicholas A. Thompson | <a href="/sitemap">Sitemap</a> | <a href="https://github.com/ShortTimeNoSee/Thompson2026">GitHub</a></p>
+        </div>
+    </footer>
+    
+    <script>
+        // Load header and basic functionality
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch('/header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header-container').innerHTML = data;
+                    // Initialize header functionality
+                    if (typeof setActiveLink === 'function') setActiveLink();
+                    if (typeof setupHamburgerToggle === 'function') setupHamburgerToggle();
+                    if (typeof setupPreloadListeners === 'function') setupPreloadListeners();
+                    if (typeof initializeIssueCards === 'function') initializeIssueCards();
+                })
+                .catch(error => console.error('Error loading header:', error));
+            
+            // Make body visible after content is loaded
+            document.body.style.display = 'block';
+        });
+    </script>
+    
+    {% if need_declaration_script %}
+    <script src="/declaration-interactive.js" defer></script>
+    {% endif %}
+    
+    <script src="/script.js" defer></script>
+</body>
+</html> 
