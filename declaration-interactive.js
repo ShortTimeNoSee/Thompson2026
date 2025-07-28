@@ -17,49 +17,49 @@ const devSignatures = [
         name: "Patrick Henry",
         county: "Virginia (Historical)",
         comment: "Liberty or death. I smell a rat in this attempt to consolidate power.",
-        date: "1788-06-05"
+        timestamp: new Date("1788-06-05").getTime()
     },
     {
         name: "Samuel Adams",
         county: "Massachusetts (Historical)",
         comment: "The natural liberty of man is to be free from any superior power on Earth.",
-        date: "1788-08-15"
+        timestamp: new Date("1788-08-15").getTime()
     },
     {
         name: "George Mason",
         county: "Virginia (Historical)",
         comment: "The government should fear the people, not the other way around.",
-        date: "1788-07-21"
+        timestamp: new Date("1788-07-21").getTime()
     },
     {
         name: "Luther Martin",
         county: "Maryland (Historical)",
         comment: "This consolidation of power will be the death of state sovereignty.",
-        date: "1788-04-18"
+        timestamp: new Date("1788-04-18").getTime()
     },
     {
         name: "Lysander Spooner",
         county: "Massachusetts (Historical)",
         comment: "The Constitution has either authorized such a government as we have had, or has been powerless to prevent it.",
-        date: "1867-12-01"
+        timestamp: new Date("1867-12-01").getTime()
     },
     {
         name: "H.L. Mencken",
         county: "Maryland (Historical)",
         comment: "Every decent man is ashamed of the government he lives under.",
-        date: "1925-05-15"
+        timestamp: new Date("1925-05-15").getTime()
     },
     {
         name: "Murray Rothbard",
         county: "New York (Historical)",
         comment: "The state is a gang of thieves writ large.",
-        date: "1973-09-30"
+        timestamp: new Date("1973-09-30").getTime()
     },
     {
         name: "Rose Wilder Lane",
         county: "Missouri (Historical)",
         comment: "Freedom is self-control, no more, no less.",
-        date: "1943-11-12"
+        timestamp: new Date("1943-11-12").getTime()
     }
 ];
 
@@ -78,9 +78,7 @@ class DeclarationComponent {
             return;
         }
         
-        console.log('Initializing declaration component');
-        console.log('Development mode:', this.isDevelopment);
-        console.log('Is declaration page:', this.isDeclarationPage);
+
         
         // Create the initial structure
         this.container.innerHTML = `
@@ -158,22 +156,15 @@ class DeclarationComponent {
         try {
             // Only try to fetch from worker in production
             if (!this.isDevelopment) {
-                console.log('Fetching signatures from:', `${WORKER_URL}/api/declaration-stats`);
                 const response = await fetch(`${WORKER_URL}/api/declaration-stats`);
-                console.log('Response status:', response.status);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
                 
                 const data = await response.json();
-                console.log('Received data:', data);
-                
                 this.signatures = data.signaturesList || [];
                 this.counties = new Set(this.signatures.map(sig => sig.county));
-                
-                console.log('Processed signatures:', this.signatures.length);
-                console.log('Processed counties:', this.counties.size);
             }
         } catch (error) {
             console.error('Error fetching signatures:', error);
@@ -212,7 +203,7 @@ class DeclarationComponent {
                     <div class="signer-name">${sig.name}</div>
                     <div class="signer-county">${sig.county}</div>
                     ${sig.comment ? `<div class="signer-comment">${sig.comment}</div>` : ''}
-                    <div class="sign-date">${new Date(sig.date).toLocaleDateString()}</div>
+                    <div class="sign-date">${new Date(sig.timestamp || sig.date).toLocaleDateString()}</div>
                 </div>
             `)
             .join('');
@@ -229,7 +220,7 @@ class DeclarationComponent {
                 name: formData.get('name'),
                 county: formData.get('county'),
                 comment: formData.get('comment'),
-                date: new Date().toISOString()
+                timestamp: Date.now()
             };
 
             if (this.isDevelopment) {
