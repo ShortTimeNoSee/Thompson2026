@@ -73,7 +73,14 @@ class DeclarationComponent {
     }
 
     async initialize() {
-        if (!this.container) return;
+        if (!this.container) {
+            console.error('Declaration component container not found');
+            return;
+        }
+        
+        console.log('Initializing declaration component');
+        console.log('Development mode:', this.isDevelopment);
+        console.log('Is declaration page:', this.isDeclarationPage);
         
         // Create the initial structure
         this.container.innerHTML = `
@@ -151,13 +158,25 @@ class DeclarationComponent {
         try {
             // Only try to fetch from worker in production
             if (!this.isDevelopment) {
+                console.log('Fetching signatures from:', `${WORKER_URL}/api/declaration-stats`);
                 const response = await fetch(`${WORKER_URL}/api/declaration-stats`);
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
                 const data = await response.json();
-                this.signatures = data.signatures || [];
-                this.counties = new Set(data.counties || []);
+                console.log('Received data:', data);
+                
+                this.signatures = data.signaturesList || [];
+                this.counties = new Set(this.signatures.map(sig => sig.county));
+                
+                console.log('Processed signatures:', this.signatures.length);
+                console.log('Processed counties:', this.counties.size);
             }
         } catch (error) {
-            console.log('Error fetching signatures (expected in development):', error);
+            console.error('Error fetching signatures:', error);
             if (!this.isDevelopment) {
                 this.showError();
             }
@@ -223,7 +242,7 @@ class DeclarationComponent {
             } else {
                 // In production, submit to worker
                 try {
-                    const response = await fetch(`${WORKER_URL}/api/sign`, {
+                    const response = await fetch(`${WORKER_URL}/api/sign-declaration`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
