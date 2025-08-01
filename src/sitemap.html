@@ -12,7 +12,6 @@
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"></noscript>
     <script type="application/ld+json">
-    <script type="application/ld+json">
         {
             "@context": "https://schema.org",
             "@type": "SiteNavigationElement",
@@ -76,6 +75,7 @@
     </header>
     <main class="sitemap-content section">
         <div class="container">
+            <h2>Main Pages</h2>
             <ul class="sitemap-list">
                 <li><a href="/">Home</a></li>
                 <li><a href="about">About Me</a></li>
@@ -83,8 +83,20 @@
                 <li><a href="vision">My Vision</a></li>
                 <li><a href="declaration_of_war">Declaration of War</a></li>
                 <li><a href="contact">Contact</a></li>
-                <li><a href="sitemap">Sitemap</a></li>
+                <li><a href="blog">Blog</a></li>
             </ul>
+            
+            {%- if collections.posts.length > 0 %}
+            <h2>Blog Posts</h2>
+            <ul class="sitemap-list">
+                {%- for post in collections.posts | reverse %}
+                <li>
+                    <a href="{{ post.url }}">{{ post.data.title }}</a>
+                    <span class="post-date">({{ post.date | date('F d, Y') }})</span>
+                </li>
+                {%- endfor %}
+            </ul>
+            {%- endif %}
         </div>
     </main>
     <footer>
