@@ -4,3 +4,4 @@
 /_site
 .repomixignore
 repomix-output.txt
+package-lock.json
