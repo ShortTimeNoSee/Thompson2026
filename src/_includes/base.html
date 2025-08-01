@@ -64,16 +64,34 @@
         // Load header and basic functionality
         document.addEventListener("DOMContentLoaded", () => {
             fetch('/header.html')
-                .then(response => response.text())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.text();
+                })
                 .then(data => {
                     document.getElementById('header-container').innerHTML = data;
-                    // Initialize header functionality
-                    if (typeof setActiveLink === 'function') setActiveLink();
-                    if (typeof setupHamburgerToggle === 'function') setupHamburgerToggle();
-                    if (typeof setupPreloadListeners === 'function') setupPreloadListeners();
-                    if (typeof initializeIssueCards === 'function') initializeIssueCards();
+                    
+                    // Wait for DOM to be ready, then initialize header functionality
+                    setTimeout(() => {
+                        try {
+                            if (typeof setActiveLink === 'function') setActiveLink();
+                            if (typeof setupHamburgerToggle === 'function') setupHamburgerToggle();
+                            if (typeof setupPreloadListeners === 'function') setupPreloadListeners();
+                            if (typeof initializeIssueCards === 'function') initializeIssueCards();
+                        } catch (error) {
+                            console.error('Error initializing header functions:', error);
+                        }
+                    }, 50); // Small delay to ensure DOM is ready
                 })
-                .catch(error => console.error('Error loading header:', error));
+                .catch(error => {
+                    console.error('Error loading header:', error);
+                    // Show fallback header or retry
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
+                });
             
             // Make body visible after content is loaded
             document.body.style.display = 'block';
