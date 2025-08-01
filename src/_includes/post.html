@@ -2,6 +2,30 @@
 layout: base.html
 og_type: article
 ---
+{%- set structured_data = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": title,
+    "description": description or excerpt,
+    "image": "https://thompson2026.com" + (og_image or '/resources/Nicholas%20Thompson-250.webp'),
+    "author": {
+        "@type": "Person",
+        "name": author or "Nicholas A. Thompson"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Nicholas A. Thompson 2026",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://thompson2026.com/resources/favicon-192.png"
+        }
+    },
+    "datePublished": page.date | date('Y-m-d'),
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://thompson2026.com" + page.url
+    }
+} | dump | safe -%}
 
 <article class="blog-post">
     <div class="container">
