@@ -29,6 +29,9 @@ og_type: article
 
 <article class="blog-post">
     <div class="container">
+        {%- if og_image %}
+        <img src="{{ og_image }}" alt="Header image for {{ title }}" class="blog-header-image" loading="lazy">
+        {%- endif %}
         <header class="post-header">
             <h1>{{ title }}</h1>
             <div class="post-meta">

@@ -124,3 +124,23 @@
     transform: rotateY(180deg);
     opacity: 0;
 }
+
+/* Blog Post Card Thumbnail */
+.post-card-image {
+  display: block;
+  width: 100%;
+  max-height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+/* Blog Post Header Image */
+.blog-header-image {
+  display: block;
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  border-radius: 16px;
+  margin-bottom: 2rem;
+}

@@ -20,6 +20,9 @@ body_id: blog_page
             <article class="post-card">
                 <a href="{{ post.url }}" class="post-card-link">
                     <div class="post-card-content">
+                        {%- if post.data.og_image %}
+                        <img src="{{ post.data.og_image }}" alt="Thumbnail for {{ post.data.title }}" class="post-card-image" loading="lazy">
+                        {%- endif %}
                         <h2>{{ post.data.title }}</h2>
                         <div class="post-meta">
                             <time datetime="{{ post.date | date('Y-m-d') }}">{{ post.date | date('F d, Y') }}</time>
