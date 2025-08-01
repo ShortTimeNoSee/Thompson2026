@@ -16,7 +16,7 @@ If you discover a security vulnerability in this project, please report it to me
 
 Instead, please report them via email to:
 
-**Email:** [thompson@thompson2026.com](mailto:thompson@thompson2026.com)
+**Email:** [nicholas@thompson2026.com](mailto:nicholas@thompson2026.com)
 
 ### What to include in your report
 
