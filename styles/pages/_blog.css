@@ -286,7 +286,7 @@
     margin-bottom: 30px;
 }
 
-.back-to-blog {
+.back-to-blogs {
     color: var(--accent-color);
     text-decoration: none;
     font-weight: 600;
@@ -298,8 +298,35 @@
     font-size: 0.9rem;
 }
 
-.back-to-blog:hover {
+.back-to-blogs:hover {
     color: var(--text-color);
+}
+
+.back-to-blogs-top-container {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 24px;
+}
+
+.back-to-blogs-top {
+    background: var(--accent-color);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 22px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    margin-bottom: 0;
+}
+
+.back-to-blogs-top:hover {
+    background: var(--highlight-color);
+    color: var(--primary-color);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
 }
 
 .post-share {
