@@ -16,7 +16,7 @@ body_id: blog_page
 <section class="blog-posts section">
     <div class="container">
         <div class="posts-grid">
-            {%- for post in collections.posts | reverse %}
+            {%- for post in collections.posts %}
             <article class="post-card">
                 <a href="{{ post.url }}" class="post-card-link">
                     <div class="post-card-content">
