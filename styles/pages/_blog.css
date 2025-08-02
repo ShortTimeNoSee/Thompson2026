@@ -363,15 +363,77 @@
     font-size: 0.85rem;
 }
 
-.share-buttons a:hover {
+.share-buttons a:hover,
+.share-buttons button:hover {
     background: var(--accent-color);
     color: var(--primary-color);
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
+.share-buttons button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 18px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    background: var(--secondary-color);
+    color: var(--text-color);
+    border: 1px solid var(--highlight-color);
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.share-linkedin {
+    background: #0077b5 !important;
+    color: white !important;
+    border-color: #0077b5 !important;
+}
+
+.share-linkedin:hover {
+    background: #005885 !important;
+    color: white !important;
+}
+
+.share-copy {
+    background: #666 !important;
+    color: white !important;
+    border-color: #666 !important;
+}
+
+.share-copy:hover {
+    background: #555 !important;
+    color: white !important;
+}
+
+.share-whatsapp {
+    background: #25d366 !important;
+    color: white !important;
+    border-color: #25d366 !important;
+}
+
+.share-whatsapp:hover {
+    background: #128c7e !important;
+    color: white !important;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
+    .share-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .share-buttons a,
+    .share-buttons button {
+        width: 200px;
+        justify-content: center;
+    }
     .blog-hero {
         padding: 120px 0 30px;
     }

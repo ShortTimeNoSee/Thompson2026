@@ -62,12 +62,26 @@ og_type: article
             <div class="post-share">
                 <p>Share this post:</p>
                 <div class="share-buttons">
-                    <a href="https://x.com/intent/tweet?text={{ title | urlencode }}&url=https://thompson2026.com{{ page.url }}" target="_blank" class="share-twitter">
+                    {%- set share_text = title -%}
+                    {%- if excerpt -%}
+                        {%- set share_text = share_text + '\n' + excerpt + '\n' -%}
+                    {%- endif -%}
+                    {%- set share_text = share_text + 'https://thompson2026.com' + page.url -%}
+                    <a href="https://x.com/intent/post?text={{ share_text | urlencode }}" target="_blank" class="share-twitter">
                         <i class="fab fa-x-twitter"></i> X (Twitter)
                     </a>
                     <a href="https://www.facebook.com/sharer/sharer.php?u=https://thompson2026.com{{ page.url }}" target="_blank" class="share-facebook">
                         <i class="fab fa-facebook"></i> Facebook
                     </a>
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?text={{ share_text | urlencode }}" target="_blank" class="share-linkedin">
+                        <i class="fab fa-linkedin"></i> LinkedIn
+                    </a>
+                    <a href="https://wa.me/?text={{ share_text | urlencode }}" target="_blank" class="share-whatsapp">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </a>
+                    <button onclick="copyToClipboard('https://thompson2026.com{{ page.url }}')" class="share-copy">
+                        <i class="fas fa-link"></i> Copy Link
+                    </button>
                 </div>
             </div>
         </footer>

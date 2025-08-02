@@ -592,3 +592,50 @@ function initParticleShatter() {
         return rgbToHex(result);
     }
 }
+
+function copyToClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+            showCopyConfirmation();
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+            fallbackCopyToClipboard(text);
+        });
+    } else {
+        fallbackCopyToClipboard(text);
+    }
+}
+
+function fallbackCopyToClipboard(text) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+        document.execCommand('copy');
+        showCopyConfirmation();
+    } catch (err) {
+        console.error('Fallback copy failed: ', err);
+    }
+    
+    document.body.removeChild(textArea);
+}
+
+function showCopyConfirmation() {
+    const copyButton = document.querySelector('.share-copy');
+    if (copyButton) {
+        const originalText = copyButton.innerHTML;
+        copyButton.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        copyButton.style.backgroundColor = '#28a745';
+        
+        setTimeout(() => {
+            copyButton.innerHTML = originalText;
+            copyButton.style.backgroundColor = '';
+        }, 2000);
+    }
+}
