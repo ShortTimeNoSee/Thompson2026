@@ -287,9 +287,11 @@
 
     .cta-buttons {
         flex-direction: column;
+        align-items: center;
     }
 
     .cta-button {
         width: 100%;
+        max-width: 300px;
     }
 }
