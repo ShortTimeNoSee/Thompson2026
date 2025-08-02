@@ -73,24 +73,26 @@ structured_data: |
         <p class="section-intro">Read my unfiltered thoughts on liberty, governance, and California's future. No political doublespeak. Just straight talk about what needs to change.</p>
         <div class="posts-grid">
             {%- for post in collections.posts | reverse | limit(3) %}
-            <div class="post-card">
-                <div class="post-card-content">
-                    {%- if post.data.og_image %}
-                    <img src="{{ post.data.og_image }}" alt="{{ post.data.og_image_alt or 'Thumbnail for ' + post.data.title }}" class="post-card-image" loading="lazy">
-                    {%- endif %}
-                    <h2><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
-                    <div class="post-meta">
-                        <time datetime="{{ post.date | date('Y-m-d') }}">{{ post.date | date('F d, Y') }}</time>
-                        {%- if post.data.author %}<span class="author">by {{ post.data.author }}</span>{% endif %}
+            <article class="post-card">
+                <a href="{{ post.url }}" class="post-card-link">
+                    <div class="post-card-content">
+                        {%- if post.data.og_image %}
+                        <img src="{{ post.data.og_image }}" alt="{{ post.data.og_image_alt or 'Thumbnail for ' + post.data.title }}" class="post-card-image" loading="lazy">
+                        {%- endif %}
+                        <h2>{{ post.data.title }}</h2>
+                        <div class="post-meta">
+                            <time datetime="{{ post.date | date('Y-m-d') }}">{{ post.date | date('F d, Y') }}</time>
+                            {%- if post.data.author %}<span class="author">by {{ post.data.author }}</span>{% endif %}
+                        </div>
+                        {%- if post.data.excerpt %}
+                        <p class="post-excerpt">{{ post.data.excerpt }}</p>
+                        {%- else %}
+                        <p class="post-excerpt">{{ post.templateContent | striptags | truncate(200) }}</p>
+                        {%- endif %}
+                        <span class="read-more">Read More →</span>
                     </div>
-                    {%- if post.data.excerpt %}
-                    <p class="post-excerpt">{{ post.data.excerpt }}</p>
-                    {%- else %}
-                    <p class="post-excerpt">{{ post.templateContent | striptags | truncate(200) }}</p>
-                    {%- endif %}
-                    <a href="{{ post.url }}" class="read-more">Read More →</a>
-                </div>
-            </div>
+                </a>
+            </article>
             {%- endfor %}
         </div>
     </div>
