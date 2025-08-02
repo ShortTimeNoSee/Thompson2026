@@ -74,13 +74,19 @@ function stickyHeader() {
         h1 = h1 || header.querySelector("h1");
         h2 = h2 || header.querySelector("h2");
         const scrollProgress = Math.min(window.scrollY / sticky, 1);
-        if (h1) h1.style.fontSize = `${2 - 0.5 * scrollProgress}em`;
-        if (h2) h2.style.fontSize = `${1.2 - 0.2 * scrollProgress}em`;
+        
+        // Only apply JavaScript font sizing on desktop (768px and above)
+        if (window.innerWidth > 768) {
+            if (h1) h1.style.fontSize = `${2 - 0.5 * scrollProgress}em`;
+            if (h2) h2.style.fontSize = `${1.2 - 0.2 * scrollProgress}em`;
+        }
         header.style.padding = `${10 - 5 * scrollProgress}px 0`;
     } else {
         header.classList.remove("sticky");
-        if (h1) h1.style.fontSize = "2em";
-        if (h2) h2.style.fontSize = "1.2em";
+        if (window.innerWidth > 768) {
+            if (h1) h1.style.fontSize = "2em";
+            if (h2) h2.style.fontSize = "1.2em";
+        }
         header.style.padding = "10px 0";
     }
 }
