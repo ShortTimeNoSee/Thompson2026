@@ -5,7 +5,7 @@
 @media (max-width: 768px) {
     /* Navigation Adjustments */
     .branding {
-        text-align: center;
+        text-align: left;
         width: 100%;
     }
 
@@ -137,13 +137,23 @@
     /* Hamburger Menu */
     .hamburger {
         display: block;
-        width: 25px;
-        height: 18px;
+        width: 30px;
+        height: 20px;
         position: fixed;
-        top: 15px;
-        right: 15px;
+        top: 20px;
+        right: 20px;
         cursor: pointer;
         z-index: 1000;
+    }
+
+    /* header minimum height for hamburger button */
+    header {
+        min-height: 60px;
+    }
+
+    .header-content {
+        min-height: 60px;
+        align-items: center;
     }
 
     .hamburger::before,
@@ -190,13 +200,14 @@
 
     .header-content {
         padding: 10px 0;
-        position: relative;
     }
 
     .branding {
-        padding-left: 20px;
-        padding-right: 60px; /* Reserve space for hamburger button */
+        padding-left: 5px;
+        padding-right: 80px;
         width: 100%;
+        min-width: 0;
+        flex: 1;
     }
 
     nav ul.active li {
@@ -209,12 +220,14 @@
         padding: 120px 0;
     }
 
-    header h1 {
-        font-size: 1.6em;
+    .branding-link h1 {
+        font-size: clamp(1.4em, 5vw, 1.8em);
+        line-height: 1.1;
     }
 
-    header h2 {
-        font-size: 0.9em;
+    .branding-link h2 {
+        font-size: clamp(1em, 3.5vw, 1.2em);
+        line-height: 1.1;
     }
 
     .section .cta-button {
@@ -314,7 +327,17 @@
         gap: 40px;
     }
 
-    header {
-        font-size: 75% !important;
+
+
+    .branding {
+        padding-right: 70px;
+    }
+
+    .branding-link h1 {
+        font-size: clamp(1.2em, 4vw, 1.5em);
+    }
+
+    .branding-link h2 {
+        font-size: clamp(0.9em, 3vw, 1em);
     }
 }
