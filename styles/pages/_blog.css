@@ -1,7 +1,7 @@
 /* pages/_blog.css */
-/* Blog page styling matching the site's dark theme and design patterns */
+/* Blog page styling */
 
-/* Blog Hero Section - matching your section styling */
+/* Blog Hero Section */
 .blog-hero {
     background-color: var(--primary-color);
     color: var(--text-color);
@@ -9,7 +9,7 @@
 }
 
 .blog-hero:first-of-type {
-    padding-top: 140px; /* Match your section spacing */
+    padding-top: 140px; /* Match section spacing */
 }
 
 .blog-hero h1 {
@@ -65,7 +65,7 @@
     margin: 0 auto;
 }
 
-/* Post Cards - matching your issue card styling */
+/* Post Cards */
 .post-card {
     width: 100%;
     margin: 15px auto;
@@ -470,4 +470,4 @@
         width: 200px;
         justify-content: center;
     }
-} 
+}
