@@ -196,7 +196,9 @@ class DeclarationComponent {
                         <textarea id="signer-comment" name="comment" placeholder="Optional Comment" maxlength="280"></textarea>
                         <div class="char-count">0/280</div>
                     </div>
-                    <button type="submit" class="sign-button">Sign Declaration</button>
+                    <div class="sign-button-container">
+                        <button type="submit" class="sign-button">Sign Declaration</button>
+                    </div>
                 </form>
             </div>
             ${this.isDeclarationPage ? `

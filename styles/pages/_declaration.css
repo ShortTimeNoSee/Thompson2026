@@ -384,9 +384,15 @@
     z-index: 3;
 }
 
+.sign-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
 .sign-button {
     display: inline-block;
-    padding: 25px 50px;
+    padding: 20px 40px;
     font-size: 1.4em;
     font-weight: 600;
     color: var(--primary-color);
@@ -396,6 +402,7 @@
     text-transform: uppercase;
     letter-spacing: 1px;
     transition: all 0.3s ease;
+    text-align: center;
 }
 
 .sign-button:hover {
