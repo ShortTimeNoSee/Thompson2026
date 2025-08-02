@@ -7,7 +7,6 @@
     .branding {
         text-align: center;
         width: 100%;
-        padding-right: 60px;
     }
 
     nav {
@@ -138,11 +137,11 @@
     /* Hamburger Menu */
     .hamburger {
         display: block;
-        width: 30px;
-        height: 20px;
+        width: 25px;
+        height: 18px;
         position: fixed;
-        top: 20px;
-        right: 20px;
+        top: 15px;
+        right: 15px;
         cursor: pointer;
         z-index: 1000;
     }
@@ -211,11 +210,11 @@
     }
 
     header h1 {
-        font-size: 1.8em;
+        font-size: 1.6em;
     }
 
     header h2 {
-        font-size: 1em;
+        font-size: 0.9em;
     }
 
     .section .cta-button {
