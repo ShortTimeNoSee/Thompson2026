@@ -60,6 +60,90 @@ const devSignatures = [
         county: "Missouri (Historical)",
         comment: "Freedom is self-control, no more, no less.",
         timestamp: new Date("1943-11-12").getTime()
+    },
+    {
+        name: "Thomas Jefferson",
+        county: "Virginia (Historical)",
+        comment: "When the people fear their government, there is tyranny; when the government fears the people, there is liberty.",
+        timestamp: new Date("1787-09-17").getTime()
+    },
+    {
+        name: "John Locke",
+        county: "England (Historical)",
+        comment: "The end of law is not to abolish or restrain, but to preserve and enlarge freedom.",
+        timestamp: new Date("1689-12-16").getTime()
+    },
+    {
+        name: "Frederic Bastiat",
+        county: "France (Historical)",
+        comment: "The state is the great fiction through which everyone endeavors to live at the expense of everyone else.",
+        timestamp: new Date("1850-03-15").getTime()
+    },
+    {
+        name: "Ayn Rand",
+        county: "New York (Historical)",
+        comment: "The smallest minority on earth is the individual. Those who deny individual rights cannot claim to be defenders of minorities.",
+        timestamp: new Date("1961-11-20").getTime()
+    },
+    {
+        name: "Ludwig von Mises",
+        county: "Austria (Historical)",
+        comment: "Government is essentially the negation of liberty.",
+        timestamp: new Date("1949-05-10").getTime()
+    },
+    {
+        name: "Friedrich Hayek",
+        county: "Austria (Historical)",
+        comment: "The road to serfdom is paved with good intentions.",
+        timestamp: new Date("1944-09-14").getTime()
+    },
+    {
+        name: "Benjamin Franklin",
+        county: "Pennsylvania (Historical)",
+        comment: "Those who would give up essential liberty to purchase a little temporary safety deserve neither liberty nor safety.",
+        timestamp: new Date("1775-11-11").getTime()
+    },
+    {
+        name: "James Madison",
+        county: "Virginia (Historical)",
+        comment: "The accumulation of all powers in the same hands is the very definition of tyranny.",
+        timestamp: new Date("1788-02-08").getTime()
+    },
+    {
+        name: "John Stuart Mill",
+        county: "England (Historical)",
+        comment: "The only purpose for which power can be rightfully exercised over any member of a civilized community is to prevent harm to others.",
+        timestamp: new Date("1859-01-01").getTime()
+    },
+    {
+        name: "Henry David Thoreau",
+        county: "Massachusetts (Historical)",
+        comment: "That government is best which governs least.",
+        timestamp: new Date("1849-07-12").getTime()
+    },
+    {
+        name: "Albert Jay Nock",
+        county: "New York (Historical)",
+        comment: "The state claims and exercises the monopoly of crime.",
+        timestamp: new Date("1935-03-22").getTime()
+    },
+    {
+        name: "Isabel Paterson",
+        county: "Canada (Historical)",
+        comment: "The humanitarian in theory is the terrorist in action.",
+        timestamp: new Date("1943-06-18").getTime()
+    },
+    {
+        name: "Frank Chodorov",
+        county: "New York (Historical)",
+        comment: "The state is a criminal organization writ large.",
+        timestamp: new Date("1952-11-30").getTime()
+    },
+    {
+        name: "Leonard Read",
+        county: "California (Historical)",
+        comment: "I, Pencil is a lesson in how the free market works.",
+        timestamp: new Date("1958-12-01").getTime()
     }
 ];
 
@@ -70,6 +154,8 @@ class DeclarationComponent {
         this.counties = new Set();
         this.isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
         this.isDeclarationPage = document.body.id === 'declaration_of_war_page';
+        this.currentPage = 1;
+        this.signaturesPerPage = 10;
     }
 
     async initialize() {
@@ -117,6 +203,11 @@ class DeclarationComponent {
             <div class="signatures-list-container">
                 <h4>Recent Signatures</h4>
                 <div class="signature-grid"></div>
+                <div class="pagination-container">
+                    <button class="pagination-btn prev-btn" disabled>← Previous</button>
+                    <span class="page-info">Page <span class="current-page">1</span> of <span class="total-pages">1</span></span>
+                    <button class="pagination-btn next-btn">Next →</button>
+                </div>
             </div>
             ` : ''}`; // Only show signatures list on declaration page
 
@@ -176,6 +267,7 @@ class DeclarationComponent {
         this.updateStats();
         if (this.isDeclarationPage) {
             this.renderSignatures(); // Only render signatures on declaration page
+            this.setupPagination(); // pagination controls
         }
         this.setupForm();
     }
@@ -196,8 +288,11 @@ class DeclarationComponent {
         const signatureGrid = this.container.querySelector('.signature-grid');
         if (!signatureGrid) return;
 
-        signatureGrid.innerHTML = this.signatures
-            .slice(0, 10) // Show only the last 10 signatures
+        const startIndex = (this.currentPage - 1) * this.signaturesPerPage;
+        const endIndex = startIndex + this.signaturesPerPage;
+        const signaturesToShow = this.signatures.slice(startIndex, endIndex);
+
+        signatureGrid.innerHTML = signaturesToShow
             .map(sig => `
                 <div class="signature-entry">
                     <div class="signer-name">${sig.name}</div>
@@ -207,6 +302,45 @@ class DeclarationComponent {
                 </div>
             `)
             .join('');
+
+        this.updatePagination();
+    }
+
+    updatePagination() {
+        const totalPages = Math.ceil(this.signatures.length / this.signaturesPerPage);
+        const currentPageSpan = this.container.querySelector('.current-page');
+        const totalPagesSpan = this.container.querySelector('.total-pages');
+        const prevBtn = this.container.querySelector('.prev-btn');
+        const nextBtn = this.container.querySelector('.next-btn');
+
+        if (currentPageSpan) currentPageSpan.textContent = this.currentPage;
+        if (totalPagesSpan) totalPagesSpan.textContent = totalPages;
+        if (prevBtn) prevBtn.disabled = this.currentPage <= 1;
+        if (nextBtn) nextBtn.disabled = this.currentPage >= totalPages;
+    }
+
+    setupPagination() {
+        const prevBtn = this.container.querySelector('.prev-btn');
+        const nextBtn = this.container.querySelector('.next-btn');
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                if (this.currentPage > 1) {
+                    this.currentPage--;
+                    this.renderSignatures();
+                }
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                const totalPages = Math.ceil(this.signatures.length / this.signaturesPerPage);
+                if (this.currentPage < totalPages) {
+                    this.currentPage++;
+                    this.renderSignatures();
+                }
+            });
+        }
     }
 
     setupForm() {

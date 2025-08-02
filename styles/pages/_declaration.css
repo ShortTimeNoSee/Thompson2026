@@ -320,6 +320,51 @@
     margin-top: 10px;
 }
 
+/* Pagination */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding: 1rem;
+}
+
+.pagination-btn {
+    padding: 0.5rem 1rem;
+    background: var(--accent-color);
+    color: var(--primary-color);
+    border: 1px solid var(--accent-color);
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background: transparent;
+    color: var(--accent-color);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: var(--secondary-color);
+    color: var(--text-color);
+    border-color: var(--accent-alpha);
+}
+
+.page-info {
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.current-page,
+.total-pages {
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
 /* Error Message */
 .error-message {
     padding: 1rem;
