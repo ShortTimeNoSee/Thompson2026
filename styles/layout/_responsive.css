@@ -16,6 +16,7 @@
     nav ul {
         flex-direction: column;
         align-items: center;
+        justify-content: center;
         position: fixed;
         top: 0;
         left: 0;
@@ -35,6 +36,9 @@
         opacity: 1;
         visibility: visible;
         transition: opacity 0.3s ease, visibility 0.3s ease, height 0s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     nav ul li {
