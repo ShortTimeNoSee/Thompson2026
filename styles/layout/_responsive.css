@@ -7,6 +7,7 @@
     .branding {
         text-align: center;
         width: 100%;
+        padding-right: 60px;
     }
 
     nav {
@@ -190,10 +191,12 @@
 
     .header-content {
         padding: 10px 0;
+        position: relative;
     }
 
     .branding {
         padding-left: 20px;
+        padding-right: 60px; /* Reserve space for hamburger button */
         width: 100%;
     }
 
