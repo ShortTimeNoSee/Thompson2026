@@ -73,17 +73,12 @@
                 .then(data => {
                     document.getElementById('header-container').innerHTML = data;
                     
-                    // Wait for DOM to be ready, then initialize header functionality
-                    setTimeout(() => {
-                        try {
-                            if (typeof setActiveLink === 'function') setActiveLink();
-                            if (typeof setupHamburgerToggle === 'function') setupHamburgerToggle();
-                            if (typeof setupPreloadListeners === 'function') setupPreloadListeners();
-                            if (typeof initializeIssueCards === 'function') initializeIssueCards();
-                        } catch (error) {
-                            console.error('Error initializing header functions:', error);
-                        }
-                    }, 50); // Small delay to ensure DOM is ready
+                    // Now that the header is in the DOM, initialize it
+                    if (window.site && typeof window.site.initHeader === 'function') {
+                        window.site.initHeader();
+                    } else {
+                        console.error('site.initHeader function not found.');
+                    }
                 })
                 .catch(error => {
                     console.error('Error loading header:', error);
