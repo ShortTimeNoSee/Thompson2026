@@ -83,7 +83,7 @@
     line-height: 1.8;
     margin-bottom: 30px;
     color: var(--text-color);
-    text-align: justify;
+    text-align: left;
 }
 
 .declaration-content p strong {
