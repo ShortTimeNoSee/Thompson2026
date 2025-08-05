@@ -3,6 +3,10 @@ const { DateTime } = require("luxon");
 module.exports = function(eleventyConfig) {
   // Passthrough copy for static assets
   eleventyConfig.addPassthroughCopy("src/js");
+  eleventyConfig.addPassthroughCopy("dist");
+  eleventyConfig.addPassthroughCopy("resources");
+  eleventyConfig.addPassthroughCopy("script.js");
+  eleventyConfig.addPassthroughCopy("declaration-interactive.js");
 
   // --- UNIVERSAL FILTERS ---
 
