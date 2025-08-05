@@ -65,17 +65,35 @@ export default {
     if (url.pathname.startsWith('/api/shop/')) {
       const path = url.pathname.replace('/api/shop', '');
       const target = `https://shop.thompson2026.com/wp-json/wc/v3${path}`;
-      const q = `consumer_key=${env.WC_KEY}&consumer_secret=${env.WC_SECRET}`;
-      const newUrl = target.includes('?') ? `${target}&${q}` : `${target}?${q}`;
+      
+      const credentials = `${env.WC_USER}:${env.WC_PASS}`;
+      const basicAuth = btoa(credentials);
+      const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Basic ${basicAuth}`
+      };
+      
+      // Add any query parameters from the original request
+      const newUrl = new URL(target);
+      for (const [key, value] of url.searchParams) {
+        newUrl.searchParams.set(key, value);
+      }
 
-      const wcRequest = new Request(newUrl, {
+      const wcRequest = new Request(newUrl.toString(), {
         method: request.method,
-        headers: { 'Content-Type': 'application/json' },
+        headers: headers,
         body: ['GET', 'DELETE'].includes(request.method) ? undefined : request.body
       });
 
       const wcResponse = await fetch(wcRequest);
       const data = await wcResponse.text();
+
+      // Log the error for debugging
+      if (!wcResponse.ok) {
+        console.error(`WooCommerce API Error: ${wcResponse.status} - ${wcResponse.statusText}`);
+        console.error(`Request URL: ${newUrl}`);
+        console.error(`Response: ${data}`);
+      }
 
       return new Response(data, {
         status: wcResponse.status,
