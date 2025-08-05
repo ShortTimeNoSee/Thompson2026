@@ -9,6 +9,8 @@ export default {
       "https://www.thompson2026.com",
       "http://localhost:5500",
       "http://127.0.0.1:5500",
+      "http://localhost:8083",
+      "http://127.0.0.1:8083",
       "null",
       "file://",
       "*"
@@ -33,28 +35,6 @@ export default {
     const url = new URL(request.url);
     const clientIP = request.headers.get("CF-Connecting-IP");
 
-    // Route for WooCommerce API
-    if (url.pathname.startsWith('/api/shop/products') || url.pathname.startsWith('/api/shop/orders')) {
-      const path = url.pathname.replace('/api/shop', '');
-      const target = `https://shop.thompson2026.com/wp-json/wc/v3${path}`;
-      const q = `consumer_key=${env.WC_KEY}&consumer_secret=${env.WC_SECRET}`;
-      const newUrl = target.includes('?') ? `${target}&${q}` : `${target}?${q}`;
-
-      const wcRequest = new Request(newUrl, {
-        method: request.method,
-        headers: { 'Content-Type': 'application/json' },
-        body: ['GET', 'DELETE'].includes(request.method) ? undefined : request.body
-      });
-
-      const wcResponse = await fetch(wcRequest);
-      const data = await wcResponse.text();
-
-      return new Response(data, {
-        status: wcResponse.status,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-      });
-    }
-
     // Route for Printful API
     if (url.pathname.startsWith('/api/shop/printful/order')) {
       if (request.method !== 'POST') {
@@ -77,6 +57,28 @@ export default {
       
       return new Response(data, {
         status: printfulResponse.status,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    }
+
+    // Route for WooCommerce API
+    if (url.pathname.startsWith('/api/shop/')) {
+      const path = url.pathname.replace('/api/shop', '');
+      const target = `https://shop.thompson2026.com/wp-json/wc/v3${path}`;
+      const q = `consumer_key=${env.WC_KEY}&consumer_secret=${env.WC_SECRET}`;
+      const newUrl = target.includes('?') ? `${target}&${q}` : `${target}?${q}`;
+
+      const wcRequest = new Request(newUrl, {
+        method: request.method,
+        headers: { 'Content-Type': 'application/json' },
+        body: ['GET', 'DELETE'].includes(request.method) ? undefined : request.body
+      });
+
+      const wcResponse = await fetch(wcRequest);
+      const data = await wcResponse.text();
+
+      return new Response(data, {
+        status: wcResponse.status,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       });
     }
@@ -417,7 +419,10 @@ export default {
     }
 
     return new Response(
-      JSON.stringify({ error: "Not found" }),
+      JSON.stringify({ 
+        error: "Worker Route Not Found", 
+        pathname: url.pathname // This will show us the exact path it's trying to match
+      }),
       { status: 404, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );
   }
