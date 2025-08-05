@@ -77,17 +77,17 @@ structured_data: |
                 <a href="{{ post.url }}" class="post-card-link">
                     <div class="post-card-content">
                         {%- if post.data.og_image %}
-                        <img src="{{ post.data.og_image }}" alt="{{ post.data.og_image_alt or 'Thumbnail for ' + post.data.title }}" class="post-card-image" loading="lazy">
+                        <img src="{{ post.data.og_image }}" alt="{% if post.data.og_image_alt %}{{ post.data.og_image_alt }}{% else %}Thumbnail for {{ post.data.title }}{% endif %}" class="post-card-image" loading="lazy">
                         {%- endif %}
                         <h2>{{ post.data.title }}</h2>
                         <div class="post-meta">
-                            <time datetime="{{ post.date | date('Y-m-d') }}">{{ post.date | date('F d, Y') }}</time>
+                            <time datetime="{{ post.date | htmlDateString }}">{{ post.date | readableDate }}</time>
                             {%- if post.data.author %}<span class="author">by {{ post.data.author }}</span>{% endif %}
                         </div>
                         {%- if post.data.excerpt %}
                         <p class="post-excerpt">{{ post.data.excerpt }}</p>
                         {%- else %}
-                        <p class="post-excerpt">{{ post.templateContent | striptags | truncate(200) }}</p>
+                        <p class="post-excerpt">{{ post.templateContent | striptags | truncate: 200 }}</p>
                         {%- endif %}
                         <span class="read-more">Read More →</span>
                     </div>

@@ -8,7 +8,7 @@ eleventyExcludeFromCollections: true
     {%- if page.url and page.data.eleventyExcludeFromCollections != true %}
     <url>
         <loc>https://thompson2026.com{{ page.url | url }}</loc>
-        <lastmod>{{ page.date | date('Y-m-d') }}</lastmod>
+        <lastmod>{{ page.date | htmlDateString }}</lastmod>
         {%- if page.data.changefreq %}
         <changefreq>{{ page.data.changefreq }}</changefreq>
         {%- endif %}

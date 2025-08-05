@@ -15,7 +15,7 @@ export default {
     ];
 
     const corsHeaders = {
-      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS, DELETE",
       "Access-Control-Allow-Headers": "Content-Type, Authorization"
     };
 
@@ -30,7 +30,56 @@ export default {
       return new Response(null, { headers: corsHeaders });
     }
 
+    const url = new URL(request.url);
     const clientIP = request.headers.get("CF-Connecting-IP");
+
+    // Route for WooCommerce API
+    if (url.pathname.startsWith('/api/shop/products') || url.pathname.startsWith('/api/shop/orders')) {
+      const path = url.pathname.replace('/api/shop', '');
+      const target = `https://shop.thompson2026.com/wp-json/wc/v3${path}`;
+      const q = `consumer_key=${env.WC_KEY}&consumer_secret=${env.WC_SECRET}`;
+      const newUrl = target.includes('?') ? `${target}&${q}` : `${target}?${q}`;
+
+      const wcRequest = new Request(newUrl, {
+        method: request.method,
+        headers: { 'Content-Type': 'application/json' },
+        body: ['GET', 'DELETE'].includes(request.method) ? undefined : request.body
+      });
+
+      const wcResponse = await fetch(wcRequest);
+      const data = await wcResponse.text();
+
+      return new Response(data, {
+        status: wcResponse.status,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    }
+
+    // Route for Printful API
+    if (url.pathname.startsWith('/api/shop/printful/order')) {
+      if (request.method !== 'POST') {
+        return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders } });
+      }
+      
+      const target = 'https://api.printful.com/orders';
+      
+      const printfulRequest = new Request(target, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${env.PRINTFUL_KEY}`
+        },
+        body: request.body
+      });
+
+      const printfulResponse = await fetch(printfulRequest);
+      const data = await printfulResponse.text();
+      
+      return new Response(data, {
+        status: printfulResponse.status,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    }
 
     // Helper: Enforce that POST requests include a JSON Content-Type header.
     function requireJSON(req) {
@@ -59,7 +108,7 @@ export default {
     }
 
     // Verify admin authentication for endpoints under /api/admin/
-    const isAdminRequest = request.url.includes("/api/admin/");
+    const isAdminRequest = url.pathname.includes("/api/admin/");
     if (isAdminRequest) {
       const authHeader = request.headers.get("Authorization");
       if (!authHeader || authHeader !== `Bearer ${env.ADMIN_KEY}`) {
@@ -71,7 +120,7 @@ export default {
     }
 
     // Admin endpoint: Edit signature
-    if (request.url.includes("/api/admin/edit-signature")) {
+    if (url.pathname.includes("/api/admin/edit-signature")) {
       if (request.method !== "POST") {
         return new Response(
           JSON.stringify({ error: "Method not allowed" }),
@@ -141,7 +190,7 @@ export default {
     }
 
     // Admin endpoint: Remove signature
-    if (request.url.includes("/api/admin/remove-signature")) {
+    if (url.pathname.includes("/api/admin/remove-signature")) {
       if (request.method !== "POST") {
         return new Response(
           JSON.stringify({ error: "Method not allowed" }),
@@ -195,7 +244,7 @@ export default {
     }
 
     // Endpoint: Sign declaration
-    if (request.url.includes("/api/sign-declaration")) {
+    if (url.pathname.includes("/api/sign-declaration")) {
       if (request.method !== "POST") {
         return new Response(
           JSON.stringify({ error: "Method not allowed" }),
@@ -331,7 +380,7 @@ export default {
     }
 
     // Stats endpoint: Returns signature and county counts plus sorted signatures list.
-    if (request.url.includes("/api/declaration-stats")) {
+    if (url.pathname.includes("/api/declaration-stats")) {
       try {
         const signatures = await env.DECLARATION_KV.get("total_signatures") || "0";
         const counties = await env.DECLARATION_KV.get("counties_represented") || "0";
@@ -360,7 +409,7 @@ export default {
     }
 
     // Admin verification endpoint.
-    if (request.url.includes("/api/admin/verify")) {
+    if (url.pathname.includes("/api/admin/verify")) {
       return new Response(
         JSON.stringify({ success: true }),
         { headers: { "Content-Type": "application/json", ...corsHeaders } }

@@ -2,15 +2,43 @@
 layout: base.html
 og_type: article
 ---
-{%- set structured_data = {
+{%- comment -%}
+  This section sets up variables with proper fallbacks,
+  avoiding the invalid 'or' keyword.
+{%- endcomment -%}
+{%- assign default_image_path = '/resources/Nicholas%20Thompson-250.webp' -%}
+{%- if og_image -%}
+  {%- assign image_path = og_image -%}
+{%- else -%}
+  {%- assign image_path = default_image_path -%}
+{%- endif -%}
+{%- assign image_url = "https://thompson2026.com" | append: image_path -%}
+
+{%- if author -%}
+  {%- assign author_name = author -%}
+{%- else -%}
+  {%- assign author_name = "Nicholas A. Thompson" -%}
+{%- endif -%}
+
+{%- if description -%}
+  {%- assign page_description = description -%}
+{%- else -%}
+  {%- assign page_description = excerpt -%}
+{%- endif -%}
+
+{%- comment -%}
+  Build structured data as a JSON string manually since Liquid doesn't support inline objects
+{%- endcomment -%}
+{%- capture structured_data -%}
+{
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": title,
-    "description": description or excerpt,
-    "image": "https://thompson2026.com" + (og_image or '/resources/Nicholas%20Thompson-250.webp'),
+    "headline": "{{ title | escape }}",
+    "description": "{{ page_description | escape }}",
+    "image": "{{ image_url }}",
     "author": {
         "@type": "Person",
-        "name": author or "Nicholas A. Thompson"
+        "name": "{{ author_name | escape }}"
     },
     "publisher": {
         "@type": "Organization",
@@ -20,12 +48,15 @@ og_type: article
             "url": "https://thompson2026.com/resources/favicon-192.png"
         }
     },
-    "datePublished": page.date | date('Y-m-d'),
+    "datePublished": "{{ page.date | htmlDateString }}",
     "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": "https://thompson2026.com" + page.url
+        "@id": "https://thompson2026.com{{ page.url }}"
     }
-} | dump | safe -%}
+}
+{%- endcapture -%}
+
+<script type="application/ld+json">{{ structured_data }}</script>
 
 <article class="blog-post">
     <div class="container">
@@ -33,12 +64,12 @@ og_type: article
             <a href="/blog" class="back-to-blogs back-to-blogs-top">← Back to Blogs</a>
         </div>
         {%- if og_image %}
-        <img src="{{ og_image }}" alt="{{ og_image_alt or 'Header image for ' + title }}" class="blog-header-image" loading="lazy">
+          <img src="{{ og_image }}" alt="{% if og_image_alt %}{{ og_image_alt }}{% else %}Header image for {{ title }}{% endif %}" class="blog-header-image" loading="lazy">
         {%- endif %}
         <header class="post-header">
             <h1>{{ title }}</h1>
             <div class="post-meta">
-                <time datetime="{{ page.date | date('Y-m-d') }}">{{ page.date | date('F d, Y') }}</time>
+                <time datetime="{{ page.date | htmlDateString }}">{{ page.date | readableDate }}</time>
                 {%- if author %}<span class="author">by {{ author }}</span>{% endif %}
             </div>
             {%- if tags %}
@@ -62,24 +93,23 @@ og_type: article
             <div class="post-share">
                 <p>Share this post:</p>
                 <div class="share-buttons">
-                    {%- set share_text = title -%}
-                    {%- if excerpt -%}
-                        {%- set share_text = share_text + '\n' + excerpt + '\n' -%}
-                    {%- endif -%}
-                    {%- set share_text = share_text + 'https://thompson2026.com' + page.url -%}
+                    {%- assign share_url = "https://thompson2026.com" | append: page.url -%}
+                    {%- assign share_title = title -%}
+                    {%- assign share_text = share_title | append: "\n" | append: share_url -%}
+
                     <a href="https://x.com/intent/post?text={{ share_text | urlencode }}" target="_blank" class="share-twitter">
                         <i class="fab fa-x-twitter"></i> X (Twitter)
                     </a>
-                    <a href="https://www.facebook.com/sharer/sharer.php?u=https://thompson2026.com{{ page.url }}" target="_blank" class="share-facebook">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ share_url | urlencode }}" target="_blank" class="share-facebook">
                         <i class="fab fa-facebook"></i> Facebook
                     </a>
-                    <a href="https://www.linkedin.com/sharing/share-offsite/?text={{ share_text | urlencode }}" target="_blank" class="share-linkedin">
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ share_url | urlencode }}" target="_blank" class="share-linkedin">
                         <i class="fab fa-linkedin"></i> LinkedIn
                     </a>
                     <a href="https://wa.me/?text={{ share_text | urlencode }}" target="_blank" class="share-whatsapp">
                         <i class="fab fa-whatsapp"></i> WhatsApp
                     </a>
-                    <button onclick="copyToClipboard('https://thompson2026.com{{ page.url }}')" class="share-copy">
+                    <button onclick="copyToClipboard('{{ share_url }}')" class="share-copy">
                         <i class="fas fa-link"></i> Copy Link
                     </button>
                 </div>

@@ -1,47 +1,42 @@
+const { DateTime } = require("luxon");
+
 module.exports = function(eleventyConfig) {
-  eleventyConfig.addPassthroughCopy("dist");
-  eleventyConfig.addPassthroughCopy("resources");
-  eleventyConfig.addPassthroughCopy("admin");
-  
-  eleventyConfig.addPassthroughCopy({"src/header.html": "header.html"});
-  
-  eleventyConfig.addPassthroughCopy("script.js");
-  eleventyConfig.addPassthroughCopy("declaration-interactive.js");
-  eleventyConfig.addPassthroughCopy("worker.js");
+  // Passthrough copy for static assets
+  eleventyConfig.addPassthroughCopy("src/js");
 
-  eleventyConfig.addCollection("posts", function(collectionApi) {
-    return collectionApi.getFilteredByGlob("src/blog/*.md");
+  // --- UNIVERSAL FILTERS ---
+
+  // Date formatting
+  eleventyConfig.addFilter("readableDate", dateObj => {
+    return DateTime.fromJSDate(dateObj, {zone: 'utc'}).toFormat("LLLL d, yyyy");
   });
 
-  eleventyConfig.addFilter("striptags", function(str) {
-    return str.replace(/<[^>]*>/g, "");
+  eleventyConfig.addFilter('htmlDateString', (dateObj) => {
+    return DateTime.fromJSDate(dateObj, {zone: 'utc'}).toFormat('yyyy-LL-dd');
   });
 
-  eleventyConfig.addFilter("truncate", function(str, length) {
-    if (str.length <= length) return str;
-    return str.substr(0, length) + "...";
+  // URL Encoding
+  eleventyConfig.addFilter("urlencode", str => {
+    return encodeURIComponent(str);
   });
 
-  eleventyConfig.addFilter("limit", function(arr, limit) {
-    return arr.slice(0, limit);
+  // --- LIQUID-SPECIFIC FILTERS & TAGS ---
+  // These are needed to replicate functionality that was previously built-in
+
+  // Custom Liquid filter to strip HTML tags
+  eleventyConfig.addLiquidFilter("striptags", function(value) {
+    if (typeof value !== 'string') return value;
+    return value.replace(/<[^>]*>/g, '');
   });
 
-  eleventyConfig.addFilter("date", function(dateObj, format) {
-    const date = new Date(dateObj);
-    
-    if (format === 'Y-m-d') {
-      return date.getFullYear() + '-' + 
-             String(date.getMonth() + 1).padStart(2, '0') + '-' + 
-             String(date.getDate()).padStart(2, '0');
-    }
-    
-    if (format === 'F d, Y') {
-      const months = ['January', 'February', 'March', 'April', 'May', 'June',
-                     'July', 'August', 'September', 'October', 'November', 'December'];
-      return months[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
-    }
-    
-    return dateObj;
+  // Custom Liquid filter to mark content as safe (no escaping)
+  eleventyConfig.addLiquidFilter("safe", function(value) {
+    return value; // In a real setup, use a library like `he` to decode entities if needed
+  });
+
+  // Custom Liquid filter to dump objects as JSON (for debugging or structured data)
+  eleventyConfig.addLiquidFilter("dump", obj => {
+    return JSON.stringify(obj, null, 2);
   });
 
   return {
@@ -49,10 +44,8 @@ module.exports = function(eleventyConfig) {
       input: "src",
       output: "_site",
       includes: "_includes",
+      layouts: "_includes",
       data: "_data"
-    },
-    templateFormats: ["html", "md", "njk"],
-    htmlTemplateEngine: "njk",
-    markdownTemplateEngine: "njk"
+    }
   };
 };

@@ -16,18 +16,18 @@
     <script type="application/ld+json">{{ structured_data | safe }}</script>
     {% endif %}
     
-    <meta name="description" content="{{ description or 'Nicholas A. Thompson for California Governor 2026' }}">
-    <meta name="keywords" content="{{ keywords or 'Nicholas A. Thompson, California Governor 2026' }}">
+    <meta name="description" content="{% if description %}{{ description }}{% else %}Nicholas A. Thompson for California Governor 2026{% endif %}">
+    <meta name="keywords" content="{% if keywords %}{{ keywords }}{% else %}Nicholas A. Thompson, California Governor 2026{% endif %}">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://thompson2026.com{{ page.url }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <meta property="og:title" content="{{ og_title or title }}">
-    <meta property="og:description" content="{{ og_description or description }}">
-    <meta property="og:image" content="{{ og_image or 'https://thompson2026.com/resources/Nicholas%20Thompson-250.webp' }}">
+    <meta property="og:title" content="{% if og_title %}{{ og_title }}{% else %}{{ title }}{% endif %}">
+    <meta property="og:description" content="{% if og_description %}{{ og_description }}{% else %}{{ description }}{% endif %}">
+    <meta property="og:image" content="{% if og_image %}{{ og_image }}{% else %}https://thompson2026.com/resources/Nicholas%20Thompson-250.webp{% endif %}">
     <meta property="og:url" content="https://thompson2026.com{{ page.url }}">
-    <meta property="og:type" content="{{ og_type or 'website' }}">
+    <meta property="og:type" content="{% if og_type %}{{ og_type }}{% else %}website{% endif %}">
     
     <!-- Favicon for most browsers -->
     <link rel="icon" type="image/png" sizes="32x32" href="/resources/favicon-32.png">
