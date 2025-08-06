@@ -72,7 +72,8 @@ structured_data: |
         </a>
         <p class="section-intro">Read my unfiltered thoughts on liberty, governance, and California's future. No political doublespeak. Just straight talk about what needs to change.</p>
         <div class="posts-grid">
-            {%- for post in collections.posts | reverse | limit(3) %}
+            {%- assign sorted_posts = collections.posts | sort: "date" | reverse %}
+            {%- for post in sorted_posts | limit(3) %}
             <article class="post-card">
                 <a href="{{ post.url }}" class="post-card-link">
                     <div class="post-card-content">
