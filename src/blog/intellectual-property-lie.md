@@ -6,7 +6,6 @@ author: Nicholas A. Thompson
 tags: 
   - intellectual-property
   - capitalism
-  - property-rights
   - monopoly
 excerpt: I get a lot of sideways glances for many of my views. But nothing gets the "normies" more confused than when I say I want to see the entire system of intellectual property burned to the ground.
 description: Nicholas Thompson explains why intellectual property is not real property, but rather a government-granted monopoly that violates actual property rights and creates artificial scarcity.
