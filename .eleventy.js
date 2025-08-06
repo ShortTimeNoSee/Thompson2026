@@ -43,6 +43,10 @@ module.exports = function(eleventyConfig) {
     return JSON.stringify(obj, null, 2);
   });
 
+  eleventyConfig.addCollection("posts", function(collectionApi) {
+    return collectionApi.getFilteredByGlob("src/blog/*.md");
+  });
+
   return {
     dir: {
       input: "src",
