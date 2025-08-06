@@ -16,7 +16,7 @@
     <script type="application/ld+json">{{ structured_data | safe }}</script>
     {% endif %}
     
-    <meta name="description" content="{% if description %}{{ description }}{% else %}Nicholas A. Thompson for California Governor 2026{% endif %}">
+    <meta name="description" content="{% if description %}{{ description | escape }}{% else %}Nicholas A. Thompson for California Governor 2026{% endif %}">
     <meta name="keywords" content="{% if keywords %}{{ keywords }}{% else %}Nicholas A. Thompson, California Governor 2026{% endif %}">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://thompson2026.com{{ page.url }}">
@@ -24,7 +24,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <meta property="og:title" content="{% if og_title %}{{ og_title | escape }}{% else %}{{ title | escape }}{% endif %}">
-    <meta property="og:description" content="{% if og_description %}{{ og_description }}{% else %}{{ description }}{% endif %}">
+    <meta property="og:description" content="{% if og_description %}{{ og_description | escape }}{% else %}{{ description | escape }}{% endif %}">
     <meta property="og:image" content="{% if og_image %}{{ og_image }}{% else %}/resources/Nicholas%20Thompson-250.webp{% endif %}">
     <meta property="og:url" content="https://thompson2026.com{{ page.url }}">
     <meta property="og:type" content="{% if og_type %}{{ og_type }}{% else %}website{% endif %}">
@@ -34,7 +34,7 @@
     <meta name="twitter:site" content="@nickispolitical">
     <meta name="twitter:creator" content="@nickispolitical">
     <meta name="twitter:title" content="{% if og_title %}{{ og_title | escape }}{% else %}{{ title | escape }}{% endif %}">
-    <meta name="twitter:description" content="{% if og_description %}{{ og_description }}{% else %}{{ description }}{% endif %}">
+    <meta name="twitter:description" content="{% if og_description %}{{ og_description | escape }}{% else %}{{ description | escape }}{% endif %}">
     <meta name="twitter:image" content="{% if og_image %}{{ og_image }}{% else %}/resources/Nicholas%20Thompson-250.webp{% endif %}">
     
     <!-- Favicon for most browsers -->
@@ -108,4 +108,4 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.3/purify.min.js"></script>
     <script src="/script.js" defer></script>
 </body>
-</html> 
+</html>
