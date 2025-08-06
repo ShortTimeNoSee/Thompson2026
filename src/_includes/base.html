@@ -23,7 +23,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <meta property="og:title" content="{% if og_title %}{{ og_title }}{% else %}{{ title }}{% endif %}">
+    <meta property="og:title" content="{% if og_title %}{{ og_title | escape }}{% else %}{{ title | escape }}{% endif %}">
     <meta property="og:description" content="{% if og_description %}{{ og_description }}{% else %}{{ description }}{% endif %}">
     <meta property="og:image" content="{% if og_image %}{{ og_image }}{% else %}/resources/Nicholas%20Thompson-250.webp{% endif %}">
     <meta property="og:url" content="https://thompson2026.com{{ page.url }}">
@@ -33,7 +33,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@nickispolitical">
     <meta name="twitter:creator" content="@nickispolitical">
-    <meta name="twitter:title" content="{% if og_title %}{{ og_title }}{% else %}{{ title }}{% endif %}">
+    <meta name="twitter:title" content="{% if og_title %}{{ og_title | escape }}{% else %}{{ title | escape }}{% endif %}">
     <meta name="twitter:description" content="{% if og_description %}{{ og_description }}{% else %}{{ description }}{% endif %}">
     <meta name="twitter:image" content="{% if og_image %}{{ og_image }}{% else %}/resources/Nicholas%20Thompson-250.webp{% endif %}">
     
