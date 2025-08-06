@@ -11,7 +11,7 @@ excerpt: My disdain for our car-centric society is not a betrayal of my libertar
 description: Nicholas Thompson explains why his libertarian principles lead him to oppose car-centric urban planning and advocate for transportation freedom and market-based solutions.
 keywords: libertarian transportation, car dependency, urban planning, free market, government intervention, walkable cities, anti-car, fuckcars
 og_title: I'm a Libertarian Who Hates Cars
-og_image: https://images.unsplash.com/photo-1635406708246-dd8640750d88?h=675&w=1200&auto=format&fit=crop
+og_image: https://images.unsplash.com/photo-1635406708246-dd8640750d88?fit=crop&h=675&w=1200&q=20
 og_image_alt: Blurred image of a busy highway with cars moving quickly in multiple lanes
 og_description: My disdain for our car-centric society is not a betrayal of my libertarian principles; it's a direct consequence of them.
 ---
