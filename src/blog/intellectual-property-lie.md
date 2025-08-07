@@ -14,6 +14,7 @@ og_title: 'Let''s Talk About the Biggest Lie in "Capitalism"'
 og_image: https://images.unsplash.com/photo-1593444285553-28163240e3f1?w=1200&q=20
 og_image_alt: Close-up of a vintage typewriter with a sheet of paper loaded that reads "COPYRIGHT CLAIM" in bold black letters
 og_description: Intellectual property is not real property - it's a government-granted monopoly that violates actual property rights and creates artificial scarcity.
+medium_url: "https://medium.com/@nicholas4liberty/intellectual-property-lie-5dfd115a87a4"
 ---
 
 I get a lot of sideways glances for many of my views. But nothing gets the "normies" more confused than when I say I want to see the entire system of intellectual property burned to the ground.
