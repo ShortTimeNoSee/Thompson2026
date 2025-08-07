@@ -114,6 +114,12 @@ og_type: article
                     </button>
                 </div>
             </div>
+            
+            {%- if medium_url %}
+            <div class="medium-crosspost">
+                <p><i class="fab fa-medium"></i> Also available on <a href="{{ medium_url }}" target="_blank" rel="noopener">Medium</a></p>
+            </div>
+            {%- endif %}
         </footer>
     </div>
 </article>

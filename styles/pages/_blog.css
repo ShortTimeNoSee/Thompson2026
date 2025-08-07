@@ -389,13 +389,13 @@
 }
 
 .share-linkedin {
-    background: #0077b5 !important;
+    background: #07b !important;
     color: white !important;
-    border-color: #0077b5 !important;
+    border-color: #07b !important;
 }
 
 .share-linkedin:hover {
-    background: #005885 !important;
+    background: #058 !important;
     color: white !important;
 }
 
@@ -470,4 +470,37 @@
         width: 200px;
         justify-content: center;
     }
+}
+
+/* Medium Cross-post Notice */
+.medium-crosspost {
+    margin-top: 20px;
+    padding: 15px;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.05));
+    border-radius: 10px;
+    border-left: 4px solid #0a6;
+    text-align: center;
+}
+
+.medium-crosspost p {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 0.95rem;
+}
+
+.medium-crosspost a {
+    color: #0a6;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.medium-crosspost a:hover {
+    color: #085;
+    text-decoration: underline;
+}
+
+.medium-crosspost i {
+    color: #0a6;
+    margin-right: 5px;
 }

@@ -14,6 +14,7 @@ og_title: I'm a Libertarian Who Hates Cars
 og_image: https://images.unsplash.com/photo-1635406708246-dd8640750d88?fit=crop&h=675&w=1200&q=20
 og_image_alt: Blurred image of a busy highway with cars moving quickly in multiple lanes
 og_description: My disdain for our car-centric society is not a betrayal of my libertarian principles; it's a direct consequence of them.
+medium_url: "https://medium.com/@nicholas4liberty/libertarian-who-hates-cars-502d0fac7ddc"
 ---
 
 I often get a bewildered response, sometimes even outright disbelief, when I express my deep-seated aversion to cars. "But … you're so libertarian!" they exclaim. Apparently, in many people's minds, cars are a cornerstone of the capitalist dream.
