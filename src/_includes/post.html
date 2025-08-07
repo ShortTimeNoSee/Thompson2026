@@ -84,7 +84,13 @@ og_type: article
         <div class="post-content">
             {{ content | safe }}
         </div>
-        
+
+        {%- if medium_url %}
+        <div class="medium-crosspost">
+            <p><i class="fab fa-medium"></i> Also available on <a href="{{ medium_url }}" target="_blank" rel="noopener">Medium</a></p>
+        </div>
+        {%- endif %}
+
         <footer class="post-footer">
             <div class="post-navigation">
                 <a href="/blog" class="back-to-blogs">← Back to Blog</a>
@@ -114,12 +120,6 @@ og_type: article
                     </button>
                 </div>
             </div>
-            
-            {%- if medium_url %}
-            <div class="medium-crosspost">
-                <p><i class="fab fa-medium"></i> Also available on <a href="{{ medium_url }}" target="_blank" rel="noopener">Medium</a></p>
-            </div>
-            {%- endif %}
         </footer>
     </div>
 </article>
