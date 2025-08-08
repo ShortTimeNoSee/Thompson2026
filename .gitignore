@@ -2,6 +2,5 @@
 /node_modules
 /dist
 /_site
-.repomixignore
-repomix-output.txt
+*repomix*
 package-lock.json
