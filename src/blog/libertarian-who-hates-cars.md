@@ -31,7 +31,7 @@ And what came with those highways?
 
 **Eminent Domain:** To carve out these massive arteries, governments wielded the power of eminent domain, forcibly seizing private land, destroying vibrant communities in the process. Tell me, where in the libertarian ideal is the justification for the state to bulldoze your property for the sake of a government-favored industry?
 
-**Zoning Laws:** The ubiquitous single-use zoning ordinances that corupts our cities and suburbs are anything but a free-market phenomenon. These government mandates dictate where different types of buildings can be located, forcing residential areas to be segregated from commercial zones. This artificial separation makes walking or biking for even basic errands impractical, effectively mandating car ownership. It's a regulatory straightjacket on how we build and live.
+**Zoning Laws:** The ubiquitous single-use zoning ordinances that corrupt our cities and suburbs are anything but a free-market phenomenon. These government mandates dictate where different types of buildings can be located, forcing residential areas to be segregated from commercial zones. This artificial separation makes walking or biking for even basic errands impractical, effectively mandating car ownership. It's a regulatory straightjacket on how we build and live.
 
 **Minimum Parking Requirements:** Another seemingly innocuous regulation that has profound consequences. By forcing developers to include a certain number of parking spaces with every new building, regardless of actual demand, governments have inflated construction costs, consumed valuable land, and ensured that our urban and suburban landscapes are dominated by parking lots. This is a direct subsidy for car usage, baked into our legal code.
 
