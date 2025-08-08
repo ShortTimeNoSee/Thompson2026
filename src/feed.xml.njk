@@ -2,18 +2,18 @@
 permalink: /feed.xml
 eleventyExcludeFromCollections: true
 ---
-{% set siteTitle = site.title or 'Nicholas A. Thompson Blog' %}
-{% set siteDescription = site.description or 'Blog feed' %}
-{% set siteUrl = site.url or 'https://thompson2026.com' %}
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0"
   xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
+    {%- set siteTitle = site.title or 'Nicholas A. Thompson Blog' -%}
+    {%- set siteDescription = site.description or 'Blog feed' -%}
+    {%- set siteUrl = site.url or 'https://thompson2026.com' -%}
     <title>{{ siteTitle | escape }}</title>
     <link>{{ siteUrl }}</link>
     <description>{{ siteDescription | escape }}</description>
     <atom:link href="{{ siteUrl }}{{ site.feed.rssPath }}" rel="self" type="application/rss+xml" />
-    {% set posts = collections.postsSorted %}
+    {%- set posts = collections.postsSorted -%}
     {% if posts and posts | length > 0 %}
     <lastBuildDate>{{ posts[0].date | rfc822Date }}</lastBuildDate>
     {% endif %}
