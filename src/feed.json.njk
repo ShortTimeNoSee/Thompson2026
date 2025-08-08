@@ -1,0 +1,39 @@
+---
+permalink: /feed.json
+eleventyExcludeFromCollections: true
+---
+{% set siteUrl = site.url or 'https://thompson2026.com' %}
+{% set posts = collections.postsSorted %}
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": {{ (site.title or 'Nicholas A. Thompson Blog') | dump | safe }},
+  "home_page_url": {{ siteUrl | dump | safe }},
+  "feed_url": {{ (siteUrl + (site.feed.jsonPath or '/feed.json')) | dump | safe }},
+  "description": {{ (site.description or 'Blog feed') | dump | safe }},
+  "items": [
+    {% for post in posts %}
+    {
+      "id": {{ (siteUrl + post.url) | dump | safe }},
+      "url": {{ (siteUrl + post.url) | dump | safe }},
+      "title": {{ post.data.title | dump | safe }},
+      {% if post.data.description %}
+      "summary": {{ post.data.description | dump | safe }},
+      {% elseif post.data.excerpt %}
+      "summary": {{ post.data.excerpt | dump | safe }},
+      {% endif %}
+      "date_published": {{ (post.date | isoDateString) | dump | safe }},
+      {% if post.data.tags %}
+      "tags": {{ post.data.tags | dump | safe }},
+      {% endif %}
+      {% if post.templateContent %}
+      "content_html": {{ post.templateContent | dump | safe }},
+      {% endif %}
+      {% if post.data.author %}
+      "authors": [{ "name": {{ post.data.author | dump | safe }} }]
+      {% endif %}
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+
+

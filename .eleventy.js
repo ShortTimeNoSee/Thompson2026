@@ -19,6 +19,16 @@ module.exports = function(eleventyConfig) {
     return DateTime.fromJSDate(dateObj, {zone: 'utc'}).toFormat('yyyy-LL-dd');
   });
 
+  // RFC 822 / HTTP-date for RSS
+  eleventyConfig.addFilter('rfc822Date', (dateObj) => {
+    return DateTime.fromJSDate(dateObj, { zone: 'utc' }).toHTTP();
+  });
+
+  // ISO 8601 string (UTC) for JSON Feed
+  eleventyConfig.addFilter('isoDateString', (dateObj) => {
+    return DateTime.fromJSDate(dateObj, { zone: 'utc' }).toISO();
+  });
+
   // URL Encoding
   eleventyConfig.addFilter("urlencode", str => {
     return encodeURIComponent(str);
@@ -45,6 +55,12 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.addCollection("posts", function(collectionApi) {
     return collectionApi.getFilteredByGlob("src/blog/*.md");
+  });
+
+  eleventyConfig.addCollection("postsSorted", function(collectionApi) {
+    return collectionApi
+      .getFilteredByGlob("src/blog/*.md")
+      .sort((a, b) => (b.date?.getTime?.() || 0) - (a.date?.getTime?.() || 0));
   });
 
   return {

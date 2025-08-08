@@ -23,6 +23,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+    <link rel="alternate" type="application/feed+json" title="JSON Feed" href="/feed.json">
+
     <meta property="og:title" content="{% if og_title %}{{ og_title | escape }}{% else %}{{ title | escape }}{% endif %}">
     <meta property="og:description" content="{% if og_description %}{{ og_description | escape }}{% else %}{{ description | escape }}{% endif %}">
     <meta property="og:image" content="{% if og_image %}{{ og_image }}{% else %}/resources/Nicholas%20Thompson-250.webp{% endif %}">

@@ -1,0 +1,14 @@
+{
+  "title": "Nicholas A. Thompson Blog",
+  "description": "Thoughts and insights on politics, policy, and the path to a freer California.",
+  "url": "https://thompson2026.com",
+  "author": {
+    "name": "Nicholas A. Thompson"
+  },
+  "feed": {
+    "rssPath": "/feed.xml",
+    "jsonPath": "/feed.json"
+  }
+}
+
+

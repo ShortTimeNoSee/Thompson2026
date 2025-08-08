@@ -1,0 +1,49 @@
+---
+permalink: /feed.xml
+eleventyExcludeFromCollections: true
+---
+{% set siteTitle = site.title or 'Nicholas A. Thompson Blog' %}
+{% set siteDescription = site.description or 'Blog feed' %}
+{% set siteUrl = site.url or 'https://thompson2026.com' %}
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"
+  xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>{{ siteTitle | escape }}</title>
+    <link>{{ siteUrl }}</link>
+    <description>{{ siteDescription | escape }}</description>
+    <atom:link href="{{ siteUrl }}{{ site.feed.rssPath }}" rel="self" type="application/rss+xml" />
+    {% set posts = collections.postsSorted %}
+    {% if posts and posts | length > 0 %}
+    <lastBuildDate>{{ posts[0].date | rfc822Date }}</lastBuildDate>
+    {% endif %}
+    {% for post in posts %}
+    <item>
+      <title>{{ post.data.title | escape }}</title>
+      <link>{{ siteUrl }}{{ post.url }}</link>
+      <guid isPermaLink="true">{{ siteUrl }}{{ post.url }}</guid>
+      {% if post.data.description %}
+      <description>{{ post.data.description | escape }}</description>
+      {% elseif post.data.excerpt %}
+      <description>{{ post.data.excerpt | escape }}</description>
+      {% endif %}
+      <pubDate>{{ post.date | rfc822Date }}</pubDate>
+      {% if post.data.author %}
+      <author>{{ post.data.author | escape }}</author>
+      {% endif %}
+      {% if post.data.tags %}
+      {% for t in post.data.tags %}
+      <category>{{ t | escape }}</category>
+      {% endfor %}
+      {% endif %}
+      {% if post.templateContent %}
+      <content:encoded xmlns:content="http://purl.org/rss/1.0/modules/content/"><![CDATA[
+        {{ post.templateContent | safe }}
+      ]]></content:encoded>
+      {% endif %}
+    </item>
+    {% endfor %}
+  </channel>
+  </rss>
+
+

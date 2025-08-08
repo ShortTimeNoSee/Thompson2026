@@ -3,5 +3,7 @@
 /issues   /issues.html   200
 /contact  /contact.html  200
 /sitemap  /sitemap.html  200
+/rss.xml  /feed.xml      301
+/atom.xml /feed.xml      301
 /declaration_of_war  /declaration_of_war.html 200
 /         /index.html    200
