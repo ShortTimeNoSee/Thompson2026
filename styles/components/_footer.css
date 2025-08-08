@@ -40,6 +40,20 @@ footer a:hover {
     color: var(--accent-color);
 }
 
+/* "dev" links */
+.dev-links {
+    opacity: 0.72;
+}
+.dev-links a {
+    color: var(--highlight-color);
+}
+.dev-links a.rss-link {
+    color: #ffa044;
+}
+.dev-links a:hover {
+    text-decoration: underline;
+}
+
 /* Sticky Footer */
 .sticky-footer {
     position: fixed;
