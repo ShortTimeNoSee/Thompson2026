@@ -315,6 +315,14 @@ class DeclarationComponent {
         const prevBtn = this.container.querySelector('.prev-btn');
         const nextBtn = this.container.querySelector('.next-btn');
 
+        if (totalPages === 0) {
+            if (currentPageSpan) currentPageSpan.textContent = 0;
+            if (totalPagesSpan) totalPagesSpan.textContent = 0;
+            if (prevBtn) prevBtn.disabled = true;
+            if (nextBtn) nextBtn.disabled = true;
+            return;
+        }
+
         if (currentPageSpan) currentPageSpan.textContent = this.currentPage;
         if (totalPagesSpan) totalPagesSpan.textContent = totalPages;
         if (prevBtn) prevBtn.disabled = this.currentPage <= 1;
@@ -364,6 +372,7 @@ class DeclarationComponent {
                 this.signatures.unshift(signature);
                 this.counties.add(signature.county);
                 this.updateStats();
+                this.currentPage = 1;
                 this.renderSignatures();
                 form.reset();
             } else {
@@ -381,6 +390,7 @@ class DeclarationComponent {
                         this.signatures.unshift(signature);
                         this.counties.add(signature.county);
                         this.updateStats();
+                        this.currentPage = 1;
                         this.renderSignatures();
                         form.reset();
                     }
