@@ -64,6 +64,14 @@ main {
     width: 100%;
 }
 
+.section .blog-feed-hint {
+    width: auto;
+}
+
+.section .blog-feed-inline {
+    width: auto;
+}
+
 .section a:hover h3 i {
     transform: translateX(5px);
 }
