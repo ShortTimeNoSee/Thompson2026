@@ -1,30 +1,35 @@
+# Security
+
 /*
-# Security Headers
-X-Frame-Options: SAMEORIGIN
-X-Content-Type-Options: nosniff
-Referrer-Policy: strict-origin-when-cross-origin
-Permissions-Policy: camera=(), microphone=(), geolocation=(), browsing-topics=()
-Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-Access-Control-Allow-Methods: GET
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), browsing-topics=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  X-Permitted-Cross-Domain-Policies: none
+  Content-Security-Policy: default-src 'self'; base-uri 'none'; frame-ancestors 'self'; form-action 'self'; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'; upgrade-insecure-requests
 
-# Content Security Policy (tight for prod; adjust connect-src if needed)
-Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self';
+/*.html
+  Cache-Control: no-cache, must-revalidate
 
-# Default Cache Control
-Cache-Control: public, max-age=3600
+/feed.xml
+  Cache-Control: no-cache, must-revalidate
+/feed.json
+  Cache-Control: no-cache, must-revalidate
 
-# Static Asset Cache Control (long-lived + immutable)
-/*.avif Cache-Control: public, max-age=31536000, immutable
-/*.webp Cache-Control: public, max-age=31536000, immutable
-/*.jpg  Cache-Control: public, max-age=31536000, immutable
-/*.jpeg Cache-Control: public, max-age=31536000, immutable
-/*.png  Cache-Control: public, max-age=31536000, immutable
-/*.ico  Cache-Control: public, max-age=31536000, immutable
-/*.svg  Cache-Control: public, max-age=31536000, immutable
-/*.css  Cache-Control: public, max-age=31536000, immutable
-/*.js   Cache-Control: public, max-age=31536000, immutable
+/sitemap.xml
+  Cache-Control: public, max-age=3600
 
-# Serve precompressed where supported (host dependent)
-/*.html   Content-Encoding: br
-/*.css.br Content-Type: text/css; charset=utf-8
-/*.js.br  Content-Type: application/javascript; charset=utf-8
+/resources/external/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/resources/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/dist/*
+  Cache-Control: public, max-age=86400
+
+/js/*
+  Cache-Control: public, max-age=86400
