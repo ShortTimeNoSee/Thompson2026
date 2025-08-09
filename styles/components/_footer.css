@@ -32,6 +32,14 @@ footer a:hover {
     transition: transform 0.3s ease, color 0.3s ease;
 }
 
+.social-media svg.fa-svg {
+    box-sizing: content-box;
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+    vertical-align: middle;
+}
+
 .social-media .fab {
     padding: 15px;
 }
