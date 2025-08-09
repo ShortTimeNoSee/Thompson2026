@@ -8,9 +8,7 @@
     <!-- Non-critical styles, loaded asynchronously -->
     <link rel="preload" href="/dist/styles.min.css" as="style" onload="this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/dist/styles.min.css"></noscript>
-    <!-- Preload the Font Awesome CSS -->
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"></noscript>
+    <!-- Removed external Font Awesome CSS in production; icons are inlined as SVGs during build -->
     
     {% if structured_data %}
     <script type="application/ld+json">{{ structured_data | safe }}</script>

@@ -145,9 +145,13 @@
     box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
 }
 
-.reality-card i {
+.reality-card i,
+.reality-card svg.fa-svg {
     font-size: 2.2em;
+    width: 1em;
+    height: 1em;
     color: var(--accent-color);
+    fill: currentColor;
     margin-bottom: 18px;
 }
 

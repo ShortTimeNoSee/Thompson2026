@@ -84,9 +84,13 @@
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
 
-.story-card i {
+.story-card i,
+.story-card svg.fa-svg {
     font-size: 2.5em;
+    width: 1em;
+    height: 1em;
     color: var(--accent-color);
+    fill: currentColor;
     margin-bottom: 20px;
 }
 
@@ -135,9 +139,13 @@
     border-color: var(--accent-color);
 }
 
-.principle-card i {
+.principle-card i,
+.principle-card svg.fa-svg {
     font-size: 2em;
+    width: 1em;
+    height: 1em;
     color: var(--accent-color);
+    fill: currentColor;
     margin-bottom: 20px;
 }
 

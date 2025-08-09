@@ -90,7 +90,8 @@
     line-height: 1.6;
 }
 
-.card-content i {
+.card-content i,
+.card-content svg.fa-svg {
     font-size: 2.5rem;
     color: var(--accent-color);
     margin-bottom: 10px;

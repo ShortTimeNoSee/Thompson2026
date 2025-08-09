@@ -23,7 +23,8 @@ footer a:hover {
     margin-bottom: 20px;
 }
 
-.social-icon {
+.social-icon,
+.social-media svg.fa-svg {
     color: var(--text-color);
     font-size: 2em;
     margin: 0 15px;
@@ -35,7 +36,8 @@ footer a:hover {
     padding: 15px;
 }
 
-.social-icon:hover {
+.social-icon:hover,
+.social-media a:hover svg.fa-svg {
     transform: scale(1.2);
     color: var(--accent-color);
 }

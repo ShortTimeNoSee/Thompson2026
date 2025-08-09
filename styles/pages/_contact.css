@@ -73,7 +73,8 @@
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
-.contact-method i {
+.contact-method i,
+.contact-method svg.fa-svg {
     font-size: 1.8em;
     color: var(--accent-color);
     margin-top: 5px;
@@ -156,7 +157,8 @@
     color: var(--text-color);
 }
 
-.form-loading i {
+.form-loading i,
+.form-loading svg.fa-svg {
     font-size: 2em;
     color: var(--accent-color);
     margin-bottom: 15px;

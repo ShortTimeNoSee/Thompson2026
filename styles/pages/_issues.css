@@ -125,9 +125,13 @@
     text-align: left;
 }
 
-.card-content i {
+.card-content i,
+.card-content svg.fa-svg {
     font-size: 3em;
+    width: 1em;
+    height: 1em;
     color: var(--accent-color);
+    fill: currentColor;
     margin-bottom: 15px;
 }
 
