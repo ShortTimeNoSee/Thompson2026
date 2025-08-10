@@ -33,7 +33,13 @@ structured_data: |
                 </div>
             </div>
             <div class="hero-image">
-                <img src="/resources/Nicholas%20Thompson-250.webp" alt="Nicholas A. Thompson for California Governor 2026" width="250" height="250" fetchpriority="high">
+                <img 
+                  src="/resources/Nicholas%20Thompson-250.webp"
+                  srcset="/resources/Nicholas%20Thompson-200.webp 200w, /resources/Nicholas%20Thompson-250.webp 250w, /resources/Nicholas%20Thompson-400.webp 400w"
+                  sizes="(max-width: 480px) 200px, 250px"
+                  alt="Nicholas A. Thompson for California Governor 2026"
+                  width="250" height="250"
+                  fetchpriority="high" decoding="async">
             </div>
         </div>
     </div>
