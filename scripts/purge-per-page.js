@@ -29,7 +29,6 @@ function findFiles(dir, ext) {
 (async () => {
   try {
     if (!fs.existsSync(BASE_CSS_PATH) || !fs.existsSync(SITE_DIR)) {
-      console.log('Skipping per-page CSS (missing base css or site dir)');
       return;
     }
     ensureDir(OUT_DIR);

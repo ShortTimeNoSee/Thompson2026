@@ -66,7 +66,7 @@ function escapeForRegex(s) {
 
       // Remove preload and stylesheet for this CSS.
       const preloadRe = new RegExp(
-        `<link[^>]*rel=("|')preload\\1[^>]*as=("|')style\\2[^>]*href=("|')${escapedWebPath}\\3[^>]*\\/?\\s*>`,
+        `<link(?=[^>]*rel=("|')preload\\1)(?=[^>]*href=("|')${escapedWebPath}\\2)[^>]*>`,
         'ig'
       );
       html = html.replace(preloadRe, '');
