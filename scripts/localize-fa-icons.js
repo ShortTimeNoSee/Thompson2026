@@ -52,7 +52,6 @@ async function downloadFaSvg(iconName, style = 'solid') {
     return fs.readFileSync(cachePath, 'utf8');
   }
   
-  console.log(`Downloading ${iconName} (${style})...`);
   const url = `${FA_SVG_BASE}/${style}/${iconName}.svg`;
   try {
     const svg = await fetchText(url);
@@ -62,11 +61,9 @@ async function downloadFaSvg(iconName, style = 'solid') {
     return svg;
   } catch (e) {
     console.log(`✗ Failed ${iconName} (${style}): ${e.message}`);
-    // Try fallback styles if primary fails
     const fallbacks = ['solid', 'regular', 'brands'].filter(s => s !== style);
     for (const fallback of fallbacks) {
       try {
-        console.log(`  Trying fallback ${iconName} (${fallback})...`);
         const fallbackUrl = `${FA_SVG_BASE}/${fallback}/${iconName}.svg`;
         const svg = await fetchText(fallbackUrl);
         ensureDirSync(FA_CACHE_DIR);
