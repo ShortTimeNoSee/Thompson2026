@@ -6,4 +6,5 @@ iframe {
     filter: invert(1) hue-rotate(180deg);
     mix-blend-mode: difference;
     background-color: var(--primary-color);
+    pointer-events: auto;
 }

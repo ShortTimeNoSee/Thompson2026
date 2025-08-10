@@ -102,7 +102,7 @@ body_id: contact_page
             iframe.marginWidth = '0';
             iframe.loading = 'lazy';
             iframe.referrerPolicy = 'no-referrer';
-            iframe.setAttribute('sandbox', 'allow-forms allow-scripts allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation');
+            iframe.setAttribute('sandbox', 'allow-same-origin allow-forms allow-scripts allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation');
             formContainer.textContent = '';
             formContainer.appendChild(iframe);
         };
