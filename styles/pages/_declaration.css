@@ -22,6 +22,18 @@
     background: url('/resources/chain_shape.webp') repeat;
     opacity: 0.05;
     animation: backgroundScroll 30s linear infinite;
+    animation-delay: 1.2s; /* let initial paint/LCP occur first */
+}
+
+#declaration-main {
+    content-visibility: auto;
+    contain-intrinsic-size: 1200px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #declaration-hero::before {
+        animation: none;
+    }
 }
 
 @keyframes backgroundScroll {
