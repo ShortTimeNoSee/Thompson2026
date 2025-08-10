@@ -21,16 +21,28 @@ function findHtmlFiles(dir) {
   for (const file of files) {
     let html = fs.readFileSync(file, 'utf8');
     const before = html;
-    // Add loading=lazy and fetchpriority=high for hero portrait on homepage only handled in template; here ensure lazy for blog thumbs
+    const isHome = /\\_site\\index\.html$/.test(file) || /\/_site\/index\.html$/.test(file);
+    const isBlogIndex = /\\_site\\blog\\index\.html$/.test(file) || /\/_site\/blog\/index\.html$/.test(file);
+    const sizesHome = '(max-width: 480px) 200px, 322px';
+    const sizesBlog = '322px';
+    const sizesDefault = '(max-width: 640px) 320px, (max-width: 960px) 640px, (max-width: 1280px) 960px, 1200px';
+
+    // Add loading/decoding and normalize sizes for post-card-image
     html = html.replace(/<img([^>]*?)class="post-card-image"([^>]*?)>/g, (m, pre, post) => {
       let tag = `<img${pre}class="post-card-image"${post}>`;
       if (!/loading=/.test(tag)) tag = tag.replace('<img', '<img loading="lazy"');
       if (!/decoding=/.test(tag)) tag = tag.replace('<img', '<img decoding="async"');
-      if (!/sizes=/.test(tag) && /srcset=/.test(tag)) {
-        tag = tag.replace('<img', '<img sizes="(max-width: 640px) 320px, (max-width: 960px) 640px, (max-width: 1280px) 960px, 1200px"');
+      const desired = isHome ? sizesHome : isBlogIndex ? sizesBlog : sizesDefault;
+      if (/srcset=/.test(tag)) {
+        if (/sizes=/.test(tag)) {
+          tag = tag.replace(/sizes=("|')[^"']*(\1)/, `sizes="${desired}"`);
+        } else {
+          tag = tag.replace('<img', `<img sizes="${desired}"`);
+        }
       }
       return tag;
     });
+
     if (html !== before) { fs.writeFileSync(file, html); updated++; }
   }
   console.log(`Blog thumbnails normalized (${updated} files updated)`);
