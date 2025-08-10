@@ -88,10 +88,10 @@
 }
 
 .hero-image img {
-    width: 100%;
-    max-width: 260px;
-    height: auto;
+    width: 250px;
+    height: 250px;
     border-radius: 50%;
+    object-fit: cover;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }

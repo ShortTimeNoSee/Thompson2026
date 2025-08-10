@@ -40,7 +40,6 @@ async function processUrl(url) {
   const outHref = `/resources/external/${hash}.webp`;
   if (!fs.existsSync(outPath)) {
     try {
-      console.log(`Downloading external image: ${url}`);
       const buf = await fetchBuffer(url);
       // Generate responsive sizes and a baseline
       const meta = await sharp(buf).metadata();
@@ -50,13 +49,13 @@ async function processUrl(url) {
         const sizedName = `${hash}-${w}.webp`;
         const sizedPath = path.join(OUT_DIR, sizedName);
         if (!fs.existsSync(sizedPath)) {
-          const resized = await sharp(buf).resize({ width: w }).webp({ quality: 76 }).toBuffer();
+          const resized = await sharp(buf).resize({ width: w }).webp({ quality: 70 }).toBuffer();
           await fs.promises.writeFile(sizedPath, resized);
         }
         srcsetParts.push(`/resources/external/${sizedName} ${w}w`);
       }
       const largest = targetWidths[targetWidths.length - 1] || 1200;
-      const webp = await sharp(buf).resize({ width: largest }).webp({ quality: 76 }).toBuffer();
+      const webp = await sharp(buf).resize({ width: largest }).webp({ quality: 70 }).toBuffer();
       await fs.promises.writeFile(outPath, webp);
       await fs.promises.writeFile(path.join(OUT_DIR, `${hash}.json`), JSON.stringify({ src: outHref, srcset: srcsetParts.join(', ') }));
       console.log(`✓ Localized: ${hash}.webp`);
