@@ -9,7 +9,7 @@ const ROOT = path.resolve(__dirname, '..');
 const TARGET_DIR = path.join(ROOT, '_site', 'resources');
 
 // Optimize local JPEG/PNG only; WebP/AVIF are already optimized
-const supportedExt = new Set(['.jpg', '.jpeg', '.png']);
+const supportedExt = new Set(['.jpg', '.jpeg', '.png', '.webp', '.avif']);
 
 let optimized = 0;
 let skipped = 0;
@@ -26,6 +26,8 @@ async function optimizeFile(filePath) {
       buffer = await image.png({ compressionLevel: 9, palette: true }).toBuffer();
     } else if (ext === '.webp') {
       buffer = await image.webp({ quality: 75 }).toBuffer();
+    } else if (ext === '.avif') {
+      buffer = await image.avif({ quality: 50 }).toBuffer();
     } else {
       return;
     }
@@ -61,6 +63,34 @@ async function walk(dir) {
   } catch (e) {
     console.error('strip-exif failed:', e);
     process.exitCode = 1;
+  }
+  // Ensure WebP copies exist for any non-WebP/AVIF raster images
+  try {
+    const toWebp = [];
+    const collect = async (dir) => {
+      const entries = await fs.promises.readdir(dir, { withFileTypes: true });
+      for (const entry of entries) {
+        const full = path.join(dir, entry.name);
+        if (entry.isDirectory()) {
+          await collect(full);
+        } else {
+          const ext = path.extname(entry.name).toLowerCase();
+          if (['.jpg', '.jpeg', '.png'].includes(ext)) {
+            toWebp.push(full);
+          }
+        }
+      }
+    };
+    await collect(TARGET_DIR);
+    for (const src of toWebp) {
+      const webpPath = src.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+      if (!fs.existsSync(webpPath)) {
+        await sharp(src, { failOnError: false }).webp({ quality: 75 }).toFile(webpPath);
+        console.log('Created WebP:', path.relative(TARGET_DIR, webpPath));
+      }
+    }
+  } catch (e) {
+    console.warn('Creating WebP copies failed:', e.message);
   }
 })();
 

@@ -253,7 +253,7 @@ window.site = {
         if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
             return;
         }
-        const CHAIN_IMAGE_PATH = '/resources/chain_shape.png';
+        const CHAIN_IMAGE_PATH = '/resources/chain_shape.webp';
         const CALIFORNIA_IMAGE_PATH = '/resources/california_outline.png';
         const ctx = canvas.getContext("2d");
         let imagesLoaded = 0;
