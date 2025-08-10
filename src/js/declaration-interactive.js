@@ -167,7 +167,7 @@ class DeclarationComponent {
 
         
         // Create the initial structure
-        this.container.innerHTML = `
+            this.container.innerHTML = `
             <div class="stats-container">
                 <div class="stat">
                     <span class="signatures-count">0</span>
@@ -185,12 +185,14 @@ class DeclarationComponent {
                         <input type="text" id="signer-name" name="name" placeholder="Your Name (Optional)" maxlength="50">
                     </div>
                     <div class="form-group">
-                        <select id="signer-county" name="county" required>
+                        <label for="signer-county" class="sr-only">County</label>
+                        <select id="signer-county" name="county" required aria-describedby="signer-county-help">
                             <option value="">Choose your county...</option>
                             ${CALIFORNIA_COUNTIES.map(county => 
                                 `<option value="${county}">${county}</option>`
                             ).join('')}
                         </select>
+                        <div id="signer-county-help" class="sr-only">Select your county</div>
                     </div>
                     <div class="form-group">
                         <textarea id="signer-comment" name="comment" placeholder="Optional Comment" maxlength="280"></textarea>

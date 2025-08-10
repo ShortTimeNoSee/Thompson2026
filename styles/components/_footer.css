@@ -67,6 +67,10 @@ footer a:hover {
 
 .dev-links .link-text { text-underline-offset: 2px; }
 
+.dev-links a.json-link { color: #fff; font-weight: 600; }
+
+.dev-links a:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 2px; }
+
 /* Sticky Footer */
 .sticky-footer {
     position: fixed;
