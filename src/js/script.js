@@ -198,7 +198,13 @@ window.site = {
                         url &&
                         !/^\s*(javascript:|data:|vbscript:)/i.test(url)
                     ) {
-                        this.preloadPage(url);
+                        try {
+                            const sameOrigin = new URL(url, window.location.href).origin === window.location.origin;
+                            if (sameOrigin) {
+                                this.preloadPage(url);
+                            }
+                        } catch (e) {
+                        }
                     }
                 }, 100);
             });

@@ -65,6 +65,15 @@ function findFiles(dir, ext) {
 
       // Rewrite HTML links to use page CSS
       let html = fs.readFileSync(htmlPath, 'utf8');
+
+      const removeStylesMinPreloads = (inputHtml) => {
+        return inputHtml.replace(/<link\b[^>]*rel=("|')preload\1[^>]*>/ig, (match) => {
+          const isStyle = /\bas=("|')style\1/i.test(match);
+          const isStylesMin = /href=("|')[^"']*styles\.min[^"']*\1/i.test(match);
+          return (isStyle && isStylesMin) ? '' : match;
+        });
+      };
+      html = removeStylesMinPreloads(html);
       const webPath = `/dist/page-css/${cssRel}`;
       // Remove any existing CSS preload for styles.min.* and insert new one
       html = html.replace(/<link[^>]*rel=("|')preload\1[^>]*as=("|')style\2[^>]*href=("|')[^"']*styles\.min[^>]*>/ig, '');
