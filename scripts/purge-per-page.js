@@ -53,21 +53,25 @@ function findFiles(dir, ext) {
         safelist,
       });
       const pageCss = purge[0]?.css || '';
-      // Write CSS to out path named after the page path
+      // Write CSS mirroring the HTML folder structure, dropping trailing /index
       const rel = path.relative(SITE_DIR, htmlPath).replace(/\\/g, '/');
-      const name = rel.replace(/\//g, '_').replace(/\.html$/, '') + '.css';
-      const outPath = path.join(OUT_DIR, name);
+      const cssRel = rel.endsWith('/index.html')
+        ? rel.replace(/\/index\.html$/, '.css')
+        : rel.replace(/\.html$/, '.css');
+      const outPath = path.join(OUT_DIR, cssRel);
+      const outDir = path.dirname(outPath);
+      if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
       fs.writeFileSync(outPath, pageCss);
 
       // Rewrite HTML links to use page CSS
       let html = fs.readFileSync(htmlPath, 'utf8');
-      const webPath = `/dist/page-css/${name}`;
+      const webPath = `/dist/page-css/${cssRel}`;
       // Remove any existing CSS preload for styles.min.* and insert new one
       html = html.replace(/<link[^>]*rel=("|')preload\1[^>]*as=("|')style\2[^>]*href=("|')[^"']*styles\.min[^>]*>/ig, '');
       // Replace stylesheet href to per-page CSS
       html = html.replace(/<link([^>]*?)rel=("|')stylesheet\2([^>]*?)href=("|')[^"']*styles\.min[^"']*\4([^>]*?)>/i, `<link$1rel="stylesheet"$3href="${webPath}"$5>`);
       // If no stylesheet link matched (edge cases), append one in head
-      if (!/href="\/dist\/page-css\//.test(html)) {
+      if (!new RegExp(`href=\"/dist/page-css/`).test(html)) {
         html = html.replace(/<head>/i, `<head>\n    <link rel="stylesheet" href="${webPath}">`);
       }
       // Add a preload right before stylesheet if absent
