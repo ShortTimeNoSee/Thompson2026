@@ -8,8 +8,11 @@ const sharp = require('sharp');
 const ROOT = path.resolve(__dirname, '..');
 const TARGET_DIR = path.join(ROOT, '_site', 'resources');
 
-// Optimize common raster formats
-const supportedExt = new Set(['.jpg', '.jpeg', '.png', '.webp']);
+// Optimize local JPEG/PNG only; WebP/AVIF are already optimized
+const supportedExt = new Set(['.jpg', '.jpeg', '.png']);
+
+let optimized = 0;
+let skipped = 0;
 
 async function optimizeFile(filePath) {
   try {
@@ -28,9 +31,10 @@ async function optimizeFile(filePath) {
     }
 
     await fs.promises.writeFile(filePath, buffer);
-    process.stdout.write('.');
+    optimized++;
   } catch (err) {
-    console.error(`\nImage optimize failed for ${filePath}:`, err.message);
+    // On Windows or CI, files can be transiently locked; skip quietly
+    skipped++;
   }
 }
 
@@ -53,7 +57,7 @@ async function walk(dir) {
       return;
     }
     await walk(TARGET_DIR);
-    console.log('Image optimization complete');
+    console.log(`Image optimization complete (${optimized} optimized, ${skipped} skipped)`);
   } catch (e) {
     console.error('strip-exif failed:', e);
     process.exitCode = 1;
