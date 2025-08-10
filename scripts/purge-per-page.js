@@ -11,7 +11,7 @@ const ROOT = path.resolve(__dirname, '..');
 const SITE_DIR = path.join(ROOT, '_site');
 const DIST_DIR = path.join(ROOT, 'dist');
 const BASE_CSS_PATH = path.join(DIST_DIR, 'styles.min.css');
-const OUT_DIR = path.join(DIST_DIR, 'page-css');
+const OUT_DIR = path.join(SITE_DIR, 'dist', 'page-css');
 
 function ensureDir(dir) { if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true }); }
 
@@ -61,9 +61,24 @@ function findFiles(dir, ext) {
 
       // Rewrite HTML links to use page CSS
       let html = fs.readFileSync(htmlPath, 'utf8');
-      const webPath = '/' + path.relative(ROOT, outPath).replace(/\\/g, '/');
-      html = html.replace(/<link[^>]*rel="preload"[^>]*as="style"[^>]*href="[^"]*styles\.min[^>]*>/i, `<link rel="preload" href="${webPath}" as="style">`);
-      html = html.replace(/<link[^>]*rel="stylesheet"[^>]*href="[^"]*styles\.min[^>]*>/i, `<link rel="stylesheet" href="${webPath}">`);
+      const webPath = `/dist/page-css/${name}`;
+      // Remove any existing CSS preload for styles.min.* and insert new one
+      html = html.replace(/<link[^>]*rel=("|')preload\1[^>]*as=("|')style\2[^>]*href=("|')[^"']*styles\.min[^>]*>/ig, '');
+      // Replace stylesheet href to per-page CSS
+      html = html.replace(/<link([^>]*?)rel=("|')stylesheet\2([^>]*?)href=("|')[^"']*styles\.min[^"']*\4([^>]*?)>/i, `<link$1rel="stylesheet"$3href="${webPath}"$5>`);
+      // If no stylesheet link matched (edge cases), append one in head
+      if (!/href="\/dist\/page-css\//.test(html)) {
+        html = html.replace(/<head>/i, `<head>\n    <link rel="stylesheet" href="${webPath}">`);
+      }
+      // Add a preload right before stylesheet if absent
+      const escapedWebPath = webPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const hrefQuotedRe = new RegExp(`<link[^>]*href=("|')${escapedWebPath}\\1`);
+      if (!hrefQuotedRe.test(html)) {
+        html = html.replace(/<link([^>]*?)rel=("|')stylesheet\2([^>]*?)href=("|')([^"']+)\4([^>]*?)>/i, `<link rel="preload" href="${webPath}" as="style">\n    <link$1rel="stylesheet"$3href="$5"$6>`);
+      } else if (!/rel=("|')preload\1[^>]*as=("|')style\2/.test(html)) {
+        // ensure a preload exists if stylesheet already points to per-page
+        html = html.replace(/<head>/i, `<head>\n    <link rel="preload" href="${webPath}" as="style">`);
+      }
       fs.writeFileSync(htmlPath, html);
       updated++;
     }

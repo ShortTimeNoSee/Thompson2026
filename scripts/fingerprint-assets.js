@@ -54,6 +54,7 @@ function processDir(dir) {
         if (!exts.includes(ext)) continue;
         const full = path.join(dir, f);
         const hash = hashFile(full);
+        if (/\.[a-f0-9]{8}\.[a-z]+$/.test(f)) continue;
         const fingerprinted = f.replace(ext, `.${hash}${ext}`);
         const dest = path.join(dir, fingerprinted);
         if (!fs.existsSync(dest)) fs.copyFileSync(full, dest);
