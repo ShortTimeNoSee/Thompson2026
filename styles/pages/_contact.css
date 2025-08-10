@@ -146,6 +146,8 @@
     overflow: hidden;
     min-height: 400px;
     position: relative;
+    content-visibility: auto;
+    contain-intrinsic-size: 800px;
 }
 
 .form-loading {

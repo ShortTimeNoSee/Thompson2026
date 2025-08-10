@@ -8,7 +8,9 @@
     <!-- Declaration page: preload hero background image -->
     <link rel="preload" as="image" href="/resources/chain_shape.webp" fetchpriority="high">
     {% endif %}
+    {% if body_id == 'contact_page' %}
     <link rel="preconnect" href="https://docs.google.com" crossorigin>
+    {% endif %}
     <!-- Removed external Font Awesome CSS in production; icons are inlined as SVGs during build -->
     
     {% if structured_data %}
