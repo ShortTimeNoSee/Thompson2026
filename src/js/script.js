@@ -91,12 +91,14 @@ window.site = {
             hamburger.classList.toggle('active');
             nav.classList.toggle('active');
             body.style.overflow = nav.classList.contains('active') ? 'hidden' : '';
+            hamburger.setAttribute('aria-expanded', nav.classList.contains('active') ? 'true' : 'false');
         };
 
         const closeMenu = () => {
             hamburger.classList.remove('active');
             nav.classList.remove('active');
             body.style.overflow = '';
+            hamburger.setAttribute('aria-expanded', 'false');
         };
 
         hamburger.addEventListener('click', (e) => {
@@ -148,7 +150,7 @@ window.site = {
     setupStickyFooter: function() {
         const footer = document.createElement("div");
         footer.className = "sticky-footer";
-        footer.innerHTML = `<p><a href="https://registertovote.ca.gov/" target="_blank" style="color: #FED000;">Click here</a> to register to vote in California; support Nicholas in 2026!</p>`;
+        footer.innerHTML = `<p><a href="https://registertovote.ca.gov/" target="_blank" rel="noopener" class="register-link">Register to vote at registertovote.ca.gov</a> to support Nicholas in 2026</p>`;
         document.body.appendChild(footer);
 
         const stickyFooter = document.querySelector('.sticky-footer');

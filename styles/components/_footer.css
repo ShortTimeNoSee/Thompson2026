@@ -56,6 +56,7 @@ footer a:hover {
 }
 .dev-links a {
     color: var(--highlight-color);
+    text-decoration: underline;
 }
 .dev-links a.rss-link {
     color: #ffa044;
@@ -63,6 +64,8 @@ footer a:hover {
 .dev-links a:hover {
     text-decoration: underline;
 }
+
+.dev-links .link-text { text-underline-offset: 2px; }
 
 /* Sticky Footer */
 .sticky-footer {

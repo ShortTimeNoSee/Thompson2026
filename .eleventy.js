@@ -6,6 +6,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("dist");
   eleventyConfig.addPassthroughCopy("resources");
   eleventyConfig.addPassthroughCopy("_headers");
+  eleventyConfig.addPassthroughCopy("robots.txt");
   eleventyConfig.addPassthroughCopy("script.js");
   eleventyConfig.addPassthroughCopy("declaration-interactive.js");
   eleventyConfig.addPassthroughCopy({ "resources/favicon.ico": "/favicon.ico" });
