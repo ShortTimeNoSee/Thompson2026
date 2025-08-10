@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="preload" href="/dist/styles.min.css" as="style">
     <link rel="stylesheet" href="/dist/styles.min.css">
+    
+    {% if true %}
+    <!-- preconnect to cross-origin endpoints used on this site -->
+    <link rel="preconnect" href="https://declaration-signatures.theedenwatcher.workers.dev" crossorigin>
+    <link rel="preconnect" href="https://docs.google.com" crossorigin>
+    {% endif %}
     <!-- Removed external Font Awesome CSS in production; icons are inlined as SVGs during build -->
     
     {% if structured_data %}
