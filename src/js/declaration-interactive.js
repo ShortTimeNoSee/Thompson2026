@@ -152,7 +152,22 @@ class DeclarationComponent {
         this.container = container;
         this.signatures = [];
         this.counties = new Set();
-        this.isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        let productionOrigin = null;
+        const canonicalLink = document.querySelector('link[rel="canonical"]');
+        if (canonicalLink && canonicalLink.href) {
+            try {
+                productionOrigin = new URL(canonicalLink.href).origin;
+            } catch (e) {
+                productionOrigin = null;
+            }
+        }
+        const hostname = window.location.hostname || '';
+        const isLocalHost = hostname === 'localhost' || hostname === '127.0.0.1';
+        const isPrivateLan = /^(10\.|192\.168\.|172\.(1[6-9]|2\d|3[0-1])\.)/.test(hostname);
+        const isProductionOrigin = productionOrigin ? (window.location.origin === productionOrigin) : false;
+        this.isDevelopment = isLocalHost || isPrivateLan || !isProductionOrigin;
+
         this.isDeclarationPage = document.body.id === 'declaration_of_war_page';
         this.currentPage = 1;
         this.signaturesPerPage = 10;
