@@ -97,6 +97,9 @@ body_id: contact_page
                     iframe.marginHeight = '0';
                     iframe.marginWidth = '0';
                     iframe.loading = 'lazy';
+                    iframe.referrerPolicy = 'no-referrer';
+                    // Block third-party cookies/storage by sandboxing without same-origin
+                    iframe.setAttribute('sandbox', 'allow-forms allow-scripts allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation');
                     formContainer.textContent = '';
                     formContainer.appendChild(iframe);
                     observer.disconnect();
@@ -113,6 +116,8 @@ body_id: contact_page
             iframe.marginHeight = '0';
             iframe.marginWidth = '0';
             iframe.loading = 'lazy';
+            iframe.referrerPolicy = 'no-referrer';
+            iframe.setAttribute('sandbox', 'allow-forms allow-scripts allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation');
             formContainer.textContent = '';
             formContainer.appendChild(iframe);
         }
