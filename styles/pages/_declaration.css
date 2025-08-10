@@ -19,7 +19,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('/resources/chain_shape.webp') repeat;
+    background: var(--declaration-hero-bg, none);
     opacity: 0.05;
     animation: backgroundScroll 30s linear infinite;
 }
