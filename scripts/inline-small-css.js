@@ -27,35 +27,51 @@ function getHtmlForCss(cssFile) {
   return fs.existsSync(htmlPath) ? htmlPath : null;
 }
 
+function escapeForRegex(s) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 (async () => {
   try {
     if (!fs.existsSync(PAGE_CSS_DIR)) return;
     const files = fs.readdirSync(PAGE_CSS_DIR).filter(f => f.endsWith('.css'));
     let inlined = 0;
+
     for (const f of files) {
       const full = path.join(PAGE_CSS_DIR, f);
       const stat = fs.statSync(full);
       if (stat.size > SIZE_THRESHOLD) continue;
+
       const htmlPath = getHtmlForCss(f);
       if (!htmlPath) continue;
+
       let html = fs.readFileSync(htmlPath, 'utf8');
       const css = fs.readFileSync(full, 'utf8');
       const webPath = `/dist/page-css/${f}`;
-      // Remove preload and stylesheet for this CSS
-      const preloadRe = new RegExp(`<link[^>]*rel=("|')preload\1[^>]*as=("|')style\2[^>]*href=("|')${webPath.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&')}\3[^>]*>`, 'ig');
+      const escapedWebPath = escapeForRegex(webPath);
+
+      // Remove preload and stylesheet for this CSS.
+      const preloadRe = new RegExp(
+        `<link[^>]*rel=("|')preload\\1[^>]*as=("|')style\\2[^>]*href=("|')${escapedWebPath}\\3[^>]*\\/?\\s*>`,
+        'ig'
+      );
       html = html.replace(preloadRe, '');
-      const stylesheetRe = new RegExp(`<link[^>]*rel=("|')stylesheet\1[^>]*href=("|')${webPath.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&')}\2[^>]*>`, 'i');
+
+      const stylesheetRe = new RegExp(
+        `<link[^>]*rel=("|')stylesheet\\1[^>]*href=("|')${escapedWebPath}\\2[^>]*\\/?\\s*>`,
+        'ig'
+      );
       html = html.replace(stylesheetRe, '');
+
       // Inline before </head>
       html = html.replace(/<\/head>/i, `<style>${css}</style></head>`);
       fs.writeFileSync(htmlPath, html);
       inlined++;
     }
+
     console.log(`Inlined small per-page CSS (${inlined} pages)`);
   } catch (e) {
     console.error('Inline small CSS failed:', e.message);
     process.exitCode = 1;
   }
 })();
-
-
