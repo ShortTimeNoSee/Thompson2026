@@ -43,7 +43,7 @@ async function processUrl(url) {
       const buf = await fetchBuffer(url);
       // Generate responsive sizes and a baseline
       const meta = await sharp(buf).metadata();
-      const targetWidths = [320, 640, 960, 1200].filter(w => !meta.width || w <= meta.width);
+      const targetWidths = [240, 320, 480, 640, 960, 1200].filter(w => !meta.width || w <= meta.width);
       const srcsetParts = [];
       for (const w of targetWidths) {
         const sizedName = `${hash}-${w}.webp`;

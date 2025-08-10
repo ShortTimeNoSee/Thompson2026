@@ -23,7 +23,10 @@ window.site = {
         this.setupPreloadListeners();
         
         // Re-bind the throttled scroll event handler for the sticky header
-        window.addEventListener('scroll', this.throttle(this.stickyHeader.bind(this), 100));
+        const onScroll = this.throttle(() => {
+            window.requestAnimationFrame(() => this.stickyHeader());
+        }, 100);
+        window.addEventListener('scroll', onScroll, { passive: true });
     },
 
     setActiveLink: function() {
@@ -234,7 +237,12 @@ window.site = {
                 if (entry.isIntersecting) {
                     if (!canvas.animationStarted) {
                         canvas.animationStarted = true;
-                        this.startParticleAnimation(canvas);
+                        const start = () => this.startParticleAnimation(canvas);
+                        if ('requestIdleCallback' in window) {
+                            window.requestIdleCallback(start, { timeout: 500 });
+                        } else {
+                            window.requestAnimationFrame(start);
+                        }
                     }
                 } else {
                     if (canvas.animationId) {
