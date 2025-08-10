@@ -417,8 +417,9 @@ window.site = {
     }
 };
 
-// This listener now only initializes things that are NOT dependent on the fetched header.
+// Initialize header-dependent features (header is inline now), then non-header features
 document.addEventListener("DOMContentLoaded", () => {
+    window.site.initHeader();
     window.site.initNonHeader();
 });
 

@@ -144,6 +144,9 @@
         right: 20px;
         cursor: pointer;
         z-index: 1000;
+        background: transparent;
+        border: 0;
+        padding: 0;
     }
 
     /* header minimum height for hamburger button */
@@ -166,6 +169,12 @@
         background-color: var(--text-color);
         transition: all 0.3s ease;
         left: 0;
+    }
+
+    .hamburger:focus-visible {
+        outline: 2px solid var(--accent-color);
+        outline-offset: 4px;
+        border-radius: 4px;
     }
 
     .hamburger::before {
