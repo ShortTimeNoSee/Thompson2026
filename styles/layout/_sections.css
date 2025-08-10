@@ -64,6 +64,8 @@ main {
     width: 100%;
 }
 
+.section .consent-actions a { width: auto; display: inline; }
+
 .section .blog-feed-hint {
     width: auto;
 }

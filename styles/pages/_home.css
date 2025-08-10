@@ -396,7 +396,6 @@
     #index_page #declaration .declaration-container {
         flex-direction: column;
         height: auto;
-        min-height: 400px;
     }
 
     #index_page #declaration #particleCanvas {

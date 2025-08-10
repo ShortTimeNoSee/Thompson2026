@@ -1,3 +1,19 @@
+.contact-info .contact-method {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.contact-info .contact-method > svg.fa-svg {
+    display: block;
+    margin: 0 auto 10px auto;
+}
+
+.contact-info .contact-method > div {
+    width: 100%;
+    text-align: center;
+}
 /* pages/_contact.css */
 #contact-hero {
     padding: 120px 0 100px;
@@ -58,14 +74,16 @@
 
 .contact-method {
     display: flex;
-    align-items: flex-start;
-    gap: 20px;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
     margin-bottom: 25px;
-    padding: 20px;
+    padding: 24px 20px;
     background: var(--secondary-color);
     border: 1px solid var(--accent-alpha);
     border-radius: 4px;
     transition: all 0.3s ease;
+    text-align: center;
 }
 
 .contact-method:hover {
@@ -76,10 +94,14 @@
 
 .contact-method i,
 .contact-method svg.fa-svg {
-    font-size: 1.8em;
+    font-size: 2.2em;
+    width: 1em;
+    height: 1em;
     color: var(--accent-color);
-    margin-top: 5px;
-    min-width: 30px;
+    fill: currentColor;
+    margin: 0 0 8px 0;
+    min-width: 0;
+    display: block;
 }
 
 .contact-method h4 {
@@ -87,6 +109,7 @@
     color: var(--accent-color);
     margin: 0 0 8px 0;
     font-weight: 600;
+    text-align: center;
 }
 
 .contact-method p {
@@ -94,6 +117,7 @@
     color: var(--text-color);
     margin: 0;
     line-height: 1.5;
+    text-align: center;
 }
 
 
@@ -145,7 +169,6 @@
     border: 1px solid var(--accent-alpha);
     border-radius: 4px;
     overflow: hidden;
-    min-height: 400px;
     position: relative;
     content-visibility: auto;
     contain-intrinsic-size: 800px;
@@ -170,6 +193,37 @@
 .form-loading p {
     font-size: 1.1em;
     margin: 0;
+}
+
+.consent-intro {
+    text-align: center;
+    margin-bottom: 16px !important;
+}
+
+.consent-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.consent-actions .or { opacity: 0.8; }
+
+.consent-link {
+    text-decoration: underline;
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+/* Override section-wide anchor stretching for consent UI */
+.contact-form .consent-actions a.consent-link {
+    width: auto;
+    display: inline;
+    text-align: center;
+}
+
+.contact-form .consent-actions .cta-button {
+    width: auto;
 }
 
 
