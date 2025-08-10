@@ -6,7 +6,7 @@
 /* Hero Section */
 #declaration-hero {
     position: relative;
-    padding: 120px 0 100px;
+    padding: 100px 0 80px;
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     text-align: center;
     overflow: hidden;
@@ -20,7 +20,7 @@
     right: 0;
     bottom: 0;
     background: url('/resources/chain_shape.webp') repeat;
-    opacity: 0.05;
+    opacity: 0.04;
     animation: backgroundScroll 30s linear infinite;
 }
 
@@ -35,7 +35,7 @@
 }
 
 .declaration-hero-content h1 {
-    font-size: 4.5em;
+    font-size: clamp(2.4em, 6vw, 4.2em);
     color: var(--accent-color);
     margin-bottom: 30px;
     text-transform: uppercase;
@@ -43,7 +43,7 @@
 }
 
 .declaration-subtitle {
-    font-size: 1.8em;
+    font-size: clamp(1.2em, 3vw, 1.6em);
     color: var(--text-color);
     font-style: italic;
     margin-bottom: 40px;

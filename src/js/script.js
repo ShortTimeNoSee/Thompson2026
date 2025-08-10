@@ -428,7 +428,12 @@ window.site = {
 // Initialize header-dependent features (header is inline now), then non-header features
 document.addEventListener("DOMContentLoaded", () => {
     window.site.initHeader();
-    window.site.initNonHeader();
+    const startNonCritical = () => window.site.initNonHeader();
+    if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(startNonCritical, { timeout: 1200 });
+    } else {
+        window.requestAnimationFrame(startNonCritical);
+    }
 });
 
 function copyToClipboard(text) {
