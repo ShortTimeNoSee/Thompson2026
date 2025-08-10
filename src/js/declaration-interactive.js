@@ -428,8 +428,12 @@ class DeclarationComponent {
 // Initialize the component
 document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('declaration-interactive');
-    if (container) {
-        const component = new DeclarationComponent(container);
-        component.initialize();
+    if (!container) return;
+    const component = new DeclarationComponent(container);
+    const start = () => component.initialize();
+    if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(start, { timeout: 1000 });
+    } else {
+        window.requestAnimationFrame(start);
     }
 });
