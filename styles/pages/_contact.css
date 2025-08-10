@@ -35,8 +35,8 @@
     align-items: start;
 }
 
-.contact-info h3,
-.contact-form h3 {
+.contact-info h2,
+.contact-form h2 {
     font-size: 2.2em;
     color: var(--accent-color);
     margin-bottom: 20px;
@@ -104,7 +104,7 @@
     text-align: center;
 }
 
-.social-connect h4 {
+.social-connect h3 {
     font-size: 1.2em;
     color: var(--accent-color);
     margin-bottom: 15px;
@@ -198,8 +198,8 @@
         font-size: 1.2em;
     }
 
-    .contact-info h3,
-    .contact-form h3 {
+    .contact-info h2,
+    .contact-form h2 {
         font-size: 2em;
     }
 
@@ -233,8 +233,8 @@
         padding: 80px 0;
     }
 
-    .contact-info h3,
-    .contact-form h3 {
+    .contact-info h2,
+    .contact-form h2 {
         font-size: 1.8em;
         padding: 0 15px;
     }

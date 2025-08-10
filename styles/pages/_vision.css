@@ -77,12 +77,12 @@
     font-size: 3em;
     font-weight: 900;
     color: var(--accent-color);
-    opacity: 0.15;
+    opacity: 0.35;
     font-family: monospace;
 }
 
 .future-scene:hover .scene-number {
-    opacity: 0.3;
+    opacity: 0.5;
 }
 
 .future-scene h2 {
