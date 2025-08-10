@@ -8,8 +8,8 @@ const sharp = require('sharp');
 const ROOT = path.resolve(__dirname, '..');
 const TARGET_DIR = path.join(ROOT, '_site', 'resources');
 
-// Focus on JPEG/PNG where EXIF/metadata matters; skip WebP/AVIF
-const supportedExt = new Set(['.jpg', '.jpeg', '.png']);
+// Optimize common raster formats
+const supportedExt = new Set(['.jpg', '.jpeg', '.png', '.webp']);
 
 async function optimizeFile(filePath) {
   try {
@@ -21,6 +21,8 @@ async function optimizeFile(filePath) {
       buffer = await image.jpeg({ quality: 82, chromaSubsampling: '4:2:0', mozjpeg: true }).toBuffer();
     } else if (ext === '.png') {
       buffer = await image.png({ compressionLevel: 9, palette: true }).toBuffer();
+    } else if (ext === '.webp') {
+      buffer = await image.webp({ quality: 75 }).toBuffer();
     } else {
       return;
     }

@@ -42,8 +42,23 @@ async function processUrl(url) {
     try {
       console.log(`Downloading external image: ${url}`);
       const buf = await fetchBuffer(url);
-      const webp = await sharp(buf).webp({ quality: 80 }).toBuffer();
+      // Generate responsive sizes and a baseline
+      const meta = await sharp(buf).metadata();
+      const targetWidths = [320, 640, 960, 1200].filter(w => !meta.width || w <= meta.width);
+      const srcsetParts = [];
+      for (const w of targetWidths) {
+        const sizedName = `${hash}-${w}.webp`;
+        const sizedPath = path.join(OUT_DIR, sizedName);
+        if (!fs.existsSync(sizedPath)) {
+          const resized = await sharp(buf).resize({ width: w }).webp({ quality: 76 }).toBuffer();
+          await fs.promises.writeFile(sizedPath, resized);
+        }
+        srcsetParts.push(`/resources/external/${sizedName} ${w}w`);
+      }
+      const largest = targetWidths[targetWidths.length - 1] || 1200;
+      const webp = await sharp(buf).resize({ width: largest }).webp({ quality: 76 }).toBuffer();
       await fs.promises.writeFile(outPath, webp);
+      await fs.promises.writeFile(path.join(OUT_DIR, `${hash}.json`), JSON.stringify({ src: outHref, srcset: srcsetParts.join(', ') }));
       console.log(`✓ Localized: ${hash}.webp`);
       process.stdout.write('+');
     } catch (e) {
@@ -81,6 +96,15 @@ function findHtmlFiles(dir) {
         const esc = url.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         const re = new RegExp(esc, 'g');
         html = html.replace(re, localHref);
+        try {
+          const hash = localHref.match(/([a-f0-9]{12})/)[1];
+          const sidecar = JSON.parse(fs.readFileSync(path.join(OUT_DIR, `${hash}.json`), 'utf8'));
+          html = html.replace(new RegExp(`<img([^>]*?)src="${localHref.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"([^>]*?)>`, 'g'), (m, pre, post) => {
+            if (/srcset=/.test(m)) return m;
+            // ensure sizes attribute for responsive selection
+            return `<img${pre}src="${sidecar.src}" srcset="${sidecar.srcset}" sizes="(max-width: 640px) 320px, (max-width: 960px) 640px, (max-width: 1280px) 960px, 1200px"${post}>`;
+          });
+        } catch {}
         changed = true;
       }
     }
