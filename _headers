@@ -7,7 +7,7 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=(), browsing-topics=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
   Cross-Origin-Opener-Policy: same-origin
-  # (no CORP on the document; scoped below for static assets only)
+  Cross-Origin-Resource-Policy: same-site
   X-Permitted-Cross-Domain-Policies: none
   Content-Security-Policy: default-src 'self'; base-uri 'none'; frame-ancestors 'self'; form-action 'self'; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://declaration-signatures.theedenwatcher.workers.dev; frame-src https://docs.google.com; upgrade-insecure-requests; sandbox allow-forms allow-scripts allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation
 
@@ -24,16 +24,12 @@
 
 /resources/external/*
   Cache-Control: public, max-age=31536000, immutable
-  Cross-Origin-Resource-Policy: cross-origin
 
 /resources/*
   Cache-Control: public, max-age=31536000, immutable
-  Cross-Origin-Resource-Policy: cross-origin
 
 /dist/*
   Cache-Control: public, max-age=31536000, immutable
-  Cross-Origin-Resource-Policy: cross-origin
 
 /js/*
   Cache-Control: public, max-age=31536000, immutable
-  Cross-Origin-Resource-Policy: cross-origin
