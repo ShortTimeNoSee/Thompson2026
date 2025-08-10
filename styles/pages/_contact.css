@@ -1,6 +1,6 @@
 /* pages/_contact.css */
 #contact-hero {
-    padding: 180px 0 100px;
+    padding: 120px 0 100px;
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     text-align: center;
 }

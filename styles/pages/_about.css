@@ -3,7 +3,7 @@
 
 /* Hero Section */
 #hero {
-    padding: 180px 0 60px;
+    padding: 120px 0 60px;
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
 }
 
