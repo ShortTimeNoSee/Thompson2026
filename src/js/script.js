@@ -1,6 +1,7 @@
 // Create a global object to hold site-wide functions and state
 window.site = {
     pageCache: new Map(),
+    prefetchedUrls: new Set(),
     header: null,
     h1: null,
     h2: null,
@@ -176,15 +177,22 @@ window.site = {
         }
     },
 
-    preloadPage: async function(url) {
-        if (this.pageCache.has(url)) return;
+    preloadPage: function(url) {
         try {
-            const response = await fetch(url);
-            const text = await response.text();
-            this.pageCache.set(url, text);
-        } catch (error) {
-            console.error(`Failed to preload ${url}:`, error);
-        }
+            const target = new URL(url, window.location.href);
+            if (target.origin !== window.location.origin) return;
+            if (this.pageCache.has(target.href) || this.prefetchedUrls.has(target.href)) return;
+
+            const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            if (conn && (conn.saveData || (conn.effectiveType && /^(2g)$/i.test(conn.effectiveType)))) return;
+
+            const link = document.createElement('link');
+            link.rel = 'prefetch';
+            link.href = target.href;
+            link.as = 'document';
+            document.head.appendChild(link);
+            this.prefetchedUrls.add(target.href);
+        } catch {}
     },
 
     setupPreloadListeners: function() {
