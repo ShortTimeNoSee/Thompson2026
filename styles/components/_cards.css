@@ -78,7 +78,8 @@
 }
 
 /* Front/Back Content Styles */
-.card-content h4 {
+.card-content h4,
+.card-content h3.card-title {
     font-size: 1.3rem;
     color: var(--accent-color);
     margin: 10px 0;
