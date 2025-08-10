@@ -4,12 +4,12 @@
   "description": "Nicholas Thompson's 2026 California gubernatorial campaign website",
   "main": "declaration-interactive.js",
   "scripts": {
-    "build": "postcss styles/main.css -o dist/styles.min.css && npx @11ty/eleventy",
-    "build:clean": "rimraf _site && postcss styles/main.css -o dist/styles.min.css && npx @11ty/eleventy",
+    "build": "postcss styles/main.css -o dist/styles.min.css && npx @11ty/eleventy && node scripts/localize-fa-icons.js && purgecss --config purgecss.config.cjs && node scripts/strip-exif.js && node scripts/localize-external-images.js && node scripts/localize-external-scripts.js && node scripts/fingerprint-assets.js && node scripts/precompress.js",
+    "build:clean": "rimraf _site && postcss styles/main.css -o dist/styles.min.css && npx @11ty/eleventy && node scripts/localize-fa-icons.js && purgecss --config purgecss.config.cjs && node scripts/strip-exif.js && node scripts/localize-external-images.js && node scripts/localize-external-scripts.js && node scripts/fingerprint-assets.js && node scripts/precompress.js",
     "build:css": "postcss styles/main.css -o dist/styles.min.css",
     "build:eleventy": "npx @11ty/eleventy",
     "dev": "set NODE_ENV=development&& postcss styles/main.css -o dist/styles.min.css && npx @11ty/eleventy --serve",
-    "serve": "set NODE_ENV=production&& postcss styles/main.css -o dist/styles.min.css && npx @11ty/eleventy --serve",
+    "serve": "postcss styles/main.css -o dist/styles.min.css && npx @11ty/eleventy --serve",
     "watch": "postcss styles/main.css -o dist/styles.min.css --watch",
     "clean": "rimraf _site"
   },

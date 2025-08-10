@@ -65,23 +65,7 @@ module.exports = function(eleventyConfig) {
       .sort((a, b) => (b.date?.getTime?.() || 0) - (a.date?.getTime?.() || 0));
   });
 
-  // Production-only: after build, run post-processors (icon inlining, purgecss, image localization)
-  eleventyConfig.on('afterBuild', async () => {
-    if (process.env.NODE_ENV === 'production') {
-      const { execSync } = require('child_process');
-      try {
-        execSync('node scripts/localize-fa-icons.js', { stdio: 'inherit' });
-        execSync('purgecss --config purgecss.config.cjs', { stdio: 'inherit' });
-        execSync('node scripts/strip-exif.js', { stdio: 'inherit' });
-        execSync('node scripts/localize-external-images.js', { stdio: 'inherit' });
-        execSync('node scripts/localize-external-scripts.js', { stdio: 'inherit' });
-        execSync('node scripts/fingerprint-assets.js', { stdio: 'inherit' });
-        execSync('node scripts/precompress.js', { stdio: 'inherit' });
-      } catch (e) {
-        console.error('Post-build optimization failed:', e.message);
-      }
-    }
-  });
+  // Note: post-processing is invoked by package.json build scripts to ensure CI environments run them
 
   return {
     dir: {
