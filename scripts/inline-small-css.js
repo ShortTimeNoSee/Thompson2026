@@ -10,21 +10,25 @@ const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const SITE_DIR = path.join(ROOT, '_site');
 const PAGE_CSS_DIR = path.join(SITE_DIR, 'dist', 'page-css');
-const SIZE_THRESHOLD = 12 * 1024; // 12KB
+const zlib = require('zlib');
+const RAW_SIZE_THRESHOLD = 12 * 1024; // 12KB uncompressed fallback
+const BROTLI_SIZE_THRESHOLD = 10 * 1024; // 10KB transfer-equivalent
 
 function getHtmlForCss(cssFile) {
-  // cssFile names are like blog_index.css, issues_index.css, index.css, etc.
+  // Handles names like: index.css, blog_index.css, declaration_of_war_index.css
   const base = path.basename(cssFile, '.css');
-  const parts = base.split('_');
-  let htmlPath;
-  if (parts.length === 1) {
-    // index.css => _site/index.html
-    htmlPath = path.join(SITE_DIR, `${base}.html`);
-  } else {
-    const dir = parts[0];
-    htmlPath = path.join(SITE_DIR, dir, 'index.html');
+  if (base === 'index') {
+    const p = path.join(SITE_DIR, 'index.html');
+    return fs.existsSync(p) ? p : null;
   }
-  return fs.existsSync(htmlPath) ? htmlPath : null;
+  if (base.endsWith('_index')) {
+    const dir = base.slice(0, -('_index'.length));
+    const p = path.join(SITE_DIR, dir, 'index.html');
+    return fs.existsSync(p) ? p : null;
+  }
+  // Fallback: treat entire base as a directory name (rare)
+  const p = path.join(SITE_DIR, base, 'index.html');
+  return fs.existsSync(p) ? p : null;
 }
 
 function escapeForRegex(s) {
@@ -40,7 +44,17 @@ function escapeForRegex(s) {
     for (const f of files) {
       const full = path.join(PAGE_CSS_DIR, f);
       const stat = fs.statSync(full);
-      if (stat.size > SIZE_THRESHOLD) continue;
+      let shouldInline = stat.size <= RAW_SIZE_THRESHOLD;
+      if (!shouldInline) {
+        try {
+          const css = fs.readFileSync(full);
+          const br = zlib.brotliCompressSync(css, {
+            params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 5 },
+          });
+          shouldInline = br.length <= BROTLI_SIZE_THRESHOLD;
+        } catch {}
+      }
+      if (!shouldInline) continue;
 
       const htmlPath = getHtmlForCss(f);
       if (!htmlPath) continue;
