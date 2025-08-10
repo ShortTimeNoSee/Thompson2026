@@ -191,7 +191,10 @@ window.site = {
             link.addEventListener('mouseenter', () => {
                 timer = setTimeout(() => {
                     const url = link.href;
-                    if (url && !url.startsWith('javascript:')) {
+                    if (
+                        url &&
+                        !/^\s*(javascript:|data:|vbscript:)/i.test(url)
+                    ) {
                         this.preloadPage(url);
                     }
                 }, 100);
