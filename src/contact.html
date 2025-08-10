@@ -73,8 +73,8 @@ body_id: contact_page
                 <h2>Send a Message</h2>
                 <div id="form-container" class="form-wrapper">
                     <div class="form-loading">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        <p>Loading contact form...</p>
+                        <p>The embedded Google Form is blocked by default for privacy and performance.</p>
+                        <p><button id="load-contact-form" class="cta-button secondary">Load Contact Form</button> or <a href="https://docs.google.com/forms/d/e/1FAIpQLSdUE-m4oRBI2AWM-E_kpgF6W3QicNX6rfM238OUSnVL1lMXHg/viewform" target="_blank" rel="noopener">open it on Google</a>.</p>
                     </div>
                 </div>
             </div>
@@ -85,28 +85,9 @@ body_id: contact_page
 <script defer>
     document.addEventListener("DOMContentLoaded", function() {
         const formContainer = document.getElementById('form-container');
-        if ('IntersectionObserver' in window) {
-            const observer = new IntersectionObserver((entries) => {
-                if (entries[0].isIntersecting) {
-                    const iframe = document.createElement('iframe');
-                    iframe.title = 'Contact Nicholas A. Thompson';
-                    iframe.src = 'https://docs.google.com/forms/d/e/1FAIpQLSdUE-m4oRBI2AWM-E_kpgF6W3QicNX6rfM238OUSnVL1lMXHg/viewform?embedded=true';
-                    iframe.width = '100%';
-                    iframe.height = '800';
-                    iframe.frameBorder = '0';
-                    iframe.marginHeight = '0';
-                    iframe.marginWidth = '0';
-                    iframe.loading = 'lazy';
-                    iframe.referrerPolicy = 'no-referrer';
-                    // Block third-party cookies/storage by sandboxing without same-origin
-                    iframe.setAttribute('sandbox', 'allow-forms allow-scripts allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation');
-                    formContainer.textContent = '';
-                    formContainer.appendChild(iframe);
-                    observer.disconnect();
-                }
-            });
-            observer.observe(formContainer);
-        } else {
+        const loadBtn = document.getElementById('load-contact-form');
+        const loadForm = () => {
+            if (!formContainer) return;
             const iframe = document.createElement('iframe');
             iframe.title = 'Contact Nicholas A. Thompson';
             iframe.src = 'https://docs.google.com/forms/d/e/1FAIpQLSdUE-m4oRBI2AWM-E_kpgF6W3QicNX6rfM238OUSnVL1lMXHg/viewform?embedded=true';
@@ -120,6 +101,9 @@ body_id: contact_page
             iframe.setAttribute('sandbox', 'allow-forms allow-scripts allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation');
             formContainer.textContent = '';
             formContainer.appendChild(iframe);
+        };
+        if (loadBtn) {
+            loadBtn.addEventListener('click', loadForm, { once: true });
         }
     });
 </script>
