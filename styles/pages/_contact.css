@@ -41,6 +41,7 @@
     color: var(--accent-color);
     margin-bottom: 20px;
     font-weight: 600;
+    text-align: center;
 }
 
 .contact-info > p {
