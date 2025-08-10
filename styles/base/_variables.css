@@ -13,3 +13,7 @@
     --shadow-color: #0003;
     --transparent: #1130;
 }
+
+html, body {
+    background-color: var(--primary-color);
+}

@@ -16,16 +16,14 @@ window.site = {
         this.sticky = this.header.offsetTop;
         this.h1 = this.header.querySelector("h1");
         this.h2 = this.header.querySelector("h2");
-        
-        console.log("Header element found, initializing header-related functions...");
-        
+                
         // Setup all header-dependent functionalities
         this.setActiveLink();
         this.setupHamburgerToggle();
         this.setupPreloadListeners();
         
         // Re-bind the throttled scroll event handler for the sticky header
-        window.onscroll = this.throttle(this.stickyHeader.bind(this), 100);
+        window.addEventListener('scroll', this.throttle(this.stickyHeader.bind(this), 100));
     },
 
     setActiveLink: function() {
@@ -142,7 +140,6 @@ window.site = {
     // --- NON-HEADER-DEPENDENT FUNCTIONS ---
     
     initNonHeader: function() {
-        console.log("Initializing non-header related functions...");
         this.setupStickyFooter();
         this.initializeIssueCards();
         this.initParticleShatter();
@@ -226,7 +223,6 @@ window.site = {
         const isHomePage = window.location.pathname === '/' || window.location.pathname === '/index.html';
         if (!isHomePage) return;
 
-        console.log('Initializing particle shatter on homepage');
         
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -249,6 +245,9 @@ window.site = {
     },
     
     startParticleAnimation: function(canvas) {
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            return;
+        }
         const CHAIN_IMAGE_PATH = '/resources/chain_shape.png';
         const CALIFORNIA_IMAGE_PATH = '/resources/california_outline.png';
         const ctx = canvas.getContext("2d");
@@ -415,7 +414,6 @@ window.site = {
 
 // This listener now only initializes things that are NOT dependent on the fetched header.
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("DOM fully loaded. Initializing non-header components.");
     window.site.initNonHeader();
 });
 

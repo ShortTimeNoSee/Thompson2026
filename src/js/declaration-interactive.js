@@ -215,7 +215,6 @@ class DeclarationComponent {
 
         // Add development signatures immediately in dev environment
         if (this.isDevelopment) {
-            console.log('Development environment detected, adding historical signatures...');
             devSignatures.forEach(sig => {
                 this.signatures.push(sig);
                 this.counties.add(sig.county);
@@ -294,16 +293,31 @@ class DeclarationComponent {
         const endIndex = startIndex + this.signaturesPerPage;
         const signaturesToShow = this.signatures.slice(startIndex, endIndex);
 
-        signatureGrid.innerHTML = signaturesToShow
-            .map(sig => `
-                <div class="signature-entry">
-                    <div class="signer-name">${sig.name}</div>
-                    <div class="signer-county">${sig.county}</div>
-                    ${sig.comment ? `<div class="signer-comment">${sig.comment}</div>` : ''}
-                    <div class="sign-date">${new Date(sig.timestamp || sig.date).toLocaleDateString()}</div>
-                </div>
-            `)
-            .join('');
+        signatureGrid.textContent = '';
+        for (const sig of signaturesToShow) {
+            const entry = document.createElement('div');
+            entry.className = 'signature-entry';
+            const name = document.createElement('div');
+            name.className = 'signer-name';
+            name.textContent = sig.name || '';
+            const county = document.createElement('div');
+            county.className = 'signer-county';
+            county.textContent = sig.county || '';
+            if (sig.comment) {
+                const comment = document.createElement('div');
+                comment.className = 'signer-comment';
+                comment.textContent = sig.comment;
+                entry.appendChild(comment);
+            }
+            const date = document.createElement('div');
+            date.className = 'sign-date';
+            const ts = sig.timestamp || sig.date;
+            date.textContent = new Date(ts).toLocaleDateString();
+            entry.prepend(county);
+            entry.prepend(name);
+            entry.appendChild(date);
+            signatureGrid.appendChild(entry);
+        }
 
         this.updatePagination();
     }

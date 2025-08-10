@@ -5,6 +5,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/js");
   eleventyConfig.addPassthroughCopy("dist");
   eleventyConfig.addPassthroughCopy("resources");
+  eleventyConfig.addPassthroughCopy("_headers");
   eleventyConfig.addPassthroughCopy("script.js");
   eleventyConfig.addPassthroughCopy("declaration-interactive.js");
   eleventyConfig.addPassthroughCopy({ "resources/favicon.ico": "/favicon.ico" });
@@ -74,6 +75,7 @@ module.exports = function(eleventyConfig) {
         execSync('node scripts/strip-exif.js', { stdio: 'inherit' });
         execSync('node scripts/localize-external-images.js', { stdio: 'inherit' });
         execSync('node scripts/localize-external-scripts.js', { stdio: 'inherit' });
+        execSync('node scripts/fingerprint-assets.js', { stdio: 'inherit' });
         execSync('node scripts/precompress.js', { stdio: 'inherit' });
       } catch (e) {
         console.error('Post-build optimization failed:', e.message);

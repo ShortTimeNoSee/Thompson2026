@@ -12,8 +12,7 @@ export default {
       "http://localhost:8083",
       "http://127.0.0.1:8083",
       "null",
-      "file://",
-      "*"
+      "file://"
     ];
 
     const corsHeaders = {
@@ -22,14 +21,12 @@ export default {
     };
 
     const origin = request.headers.get("Origin");
-    if (allowedOrigins.includes(origin)) {
-      corsHeaders["Access-Control-Allow-Origin"] = origin;
-    } else {
-      corsHeaders["Access-Control-Allow-Origin"] = "https://thompson2026.com";
-    }
+    const isAllowed = origin && allowedOrigins.includes(origin);
 
     if (request.method === "OPTIONS") {
-      return new Response(null, { headers: corsHeaders });
+      const headers = { ...corsHeaders, "Vary": "Origin" };
+      if (isAllowed) headers["Access-Control-Allow-Origin"] = origin;
+      return new Response(null, { status: 204, headers });
     }
 
     const url = new URL(request.url);
@@ -37,6 +34,9 @@ export default {
 
     // Route for Printful API
     if (url.pathname.startsWith('/api/shop/printful/order')) {
+      if (!isAllowed) {
+        return new Response(JSON.stringify({ error: 'Forbidden' }), { status: 403, headers: { 'Content-Type': 'application/json', 'Vary': 'Origin' } });
+      }
       if (request.method !== 'POST') {
         return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders } });
       }
@@ -57,12 +57,15 @@ export default {
       
       return new Response(data, {
         status: printfulResponse.status,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        headers: { ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin', 'Content-Type': 'application/json' }
       });
     }
 
     // Route for WooCommerce API
     if (url.pathname.startsWith('/api/shop/')) {
+      if (!isAllowed) {
+        return new Response(JSON.stringify({ error: 'Forbidden' }), { status: 403, headers: { 'Content-Type': 'application/json', 'Vary': 'Origin' } });
+      }
       const path = url.pathname.replace('/api/shop', '');
       const target = `https://shop.thompson2026.com/wp-json/wc/v3${path}`;
       
@@ -97,7 +100,7 @@ export default {
 
       return new Response(data, {
         status: wcResponse.status,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        headers: { ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin', 'Content-Type': 'application/json' }
       });
     }
 
@@ -130,11 +133,17 @@ export default {
     // Verify admin authentication for endpoints under /api/admin/
     const isAdminRequest = url.pathname.includes("/api/admin/");
     if (isAdminRequest) {
+      if (!isAllowed) {
+        return new Response(
+          JSON.stringify({ error: "Forbidden" }),
+          { status: 403, headers: { "Content-Type": "application/json", 'Vary': 'Origin' } }
+        );
+      }
       const authHeader = request.headers.get("Authorization");
       if (!authHeader || authHeader !== `Bearer ${env.ADMIN_KEY}`) {
         return new Response(
           JSON.stringify({ error: "Unauthorized" }),
-          { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders } }
+          { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
         );
       }
     }
@@ -144,7 +153,7 @@ export default {
       if (request.method !== "POST") {
         return new Response(
           JSON.stringify({ error: "Method not allowed" }),
-          { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders } }
+          { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
         );
       }
       const jsonError = requireJSON(request);
@@ -156,7 +165,7 @@ export default {
         if (!oldTimestamp || !county || !timestamp) {
           return new Response(
             JSON.stringify({ error: "Missing required fields" }),
-            { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+            { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
           );
         }
 
@@ -198,13 +207,13 @@ export default {
 
         return new Response(
           JSON.stringify({ success: true, signatures: signaturesList.length, counties: uniqueCounties.length, signaturesList }),
-          { headers: { "Content-Type": "application/json", ...corsHeaders } }
+          { headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
         );
       } catch (error) {
         console.error("Edit signature error:", error);
         return new Response(
           JSON.stringify({ error: "Failed to edit signature", details: error.message }),
-          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
+          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
         );
       }
     }
@@ -214,7 +223,7 @@ export default {
       if (request.method !== "POST") {
         return new Response(
           JSON.stringify({ error: "Method not allowed" }),
-          { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders } }
+          { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
         );
       }
       const jsonError = requireJSON(request);
@@ -252,23 +261,26 @@ export default {
 
         return new Response(
           JSON.stringify({ success: true, signatures: newCount, counties: uniqueCounties.length, signaturesList: newSignaturesList }),
-          { headers: { "Content-Type": "application/json", ...corsHeaders } }
+          { headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
         );
       } catch (error) {
         console.error("Remove signature error:", error);
         return new Response(
           JSON.stringify({ error: "Failed to remove signature", details: error.message }),
-          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
+          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
         );
       }
     }
 
     // Endpoint: Sign declaration
     if (url.pathname.includes("/api/sign-declaration")) {
+      if (!isAllowed) {
+        return new Response(JSON.stringify({ error: 'Forbidden' }), { status: 403, headers: { 'Content-Type': 'application/json', 'Vary': 'Origin' } });
+      }
       if (request.method !== "POST") {
         return new Response(
           JSON.stringify({ error: "Method not allowed" }),
-          { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders } }
+          { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
         );
       }
       const jsonError = requireJSON(request);
@@ -284,7 +296,7 @@ export default {
           if (timeSinceLastSign < 86400000) { // 24-hour cooldown
             return new Response(
               JSON.stringify({ error: "Rate limit exceeded", message: "You can only sign once every 24 hours" }),
-              { status: 429, headers: { "Content-Type": "application/json", ...corsHeaders } }
+              { status: 429, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
             );
           }
         }
@@ -294,7 +306,7 @@ export default {
         if (!county) {
           return new Response(
             JSON.stringify({ error: "County is required" }),
-            { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+            { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
           );
         }
 
@@ -387,14 +399,14 @@ export default {
         }
 
         return new Response(
-          JSON.stringify({ success: true, signatures: currentSignatures + 1, counties: countiesList.length, signaturesList }),
-          { headers: { "Content-Type": "application/json", ...corsHeaders } }
+          JSON.stringify({ success: true, signatures: currentSignatures + 1, counties: countiesList.length }),
+          { headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
         );
       } catch (error) {
         console.error("Signature error:", error);
         return new Response(
           JSON.stringify({ error: "Failed to process signature", details: error.message }),
-          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
+          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
         );
       }
     }
@@ -412,18 +424,22 @@ export default {
           signaturesList = [];
         }
 
+        const publicList = signaturesList
+          .sort((a, b) => b.timestamp - a.timestamp)
+          .map(({ name, county, timestamp, comment }) => ({ name, county, timestamp, comment }));
+
         return new Response(
           JSON.stringify({
             signatures: parseInt(signatures),
             counties: parseInt(counties),
-            signaturesList: signaturesList.sort((a, b) => b.timestamp - a.timestamp)
+            signaturesList: publicList
           }),
-          { headers: { "Content-Type": "application/json", ...corsHeaders } }
+          { headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
         );
       } catch (error) {
         return new Response(
           JSON.stringify({ error: "Failed to fetch stats", details: error.message }),
-          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
+          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
         );
       }
     }
@@ -441,7 +457,7 @@ export default {
         error: "Worker Route Not Found", 
         pathname: url.pathname // This will show us the exact path it's trying to match
       }),
-      { status: 404, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      { status: 404, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
     );
   }
 };

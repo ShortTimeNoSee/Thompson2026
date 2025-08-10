@@ -1,13 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Background CSS to prevent seizure-inducing flash -->
-    <style>
-        body{background-color: #113}
-    </style>
-    <!-- Non-critical styles, loaded asynchronously -->
-    <link rel="preload" href="/dist/styles.min.css" as="style" onload="this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/dist/styles.min.css"></noscript>
+    <link rel="stylesheet" href="/dist/styles.min.css">
     <!-- Removed external Font Awesome CSS in production; icons are inlined as SVGs during build -->
     
     {% if structured_data %}
@@ -56,9 +50,9 @@
     
     <title>{{ title }} - Nicholas A. Thompson 2026</title>
 </head>
-<body{% if body_id %} id="{{ body_id }}"{% endif %} style="display: none">
+<body{% if body_id %} id="{{ body_id }}"{% endif %}>
 
-    <div id="header-container"></div>
+    {% include "header.html" %}
 
     <main>
         {{ content | safe }}
@@ -75,44 +69,12 @@
         </div>
     </footer>
     
-    <script>
-        // Load header and basic functionality
-        document.addEventListener("DOMContentLoaded", () => {
-            fetch('/header/')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    document.getElementById('header-container').innerHTML = data;
-                    
-                    // Now that the header is in the DOM, initialize it
-                    if (window.site && typeof window.site.initHeader === 'function') {
-                        window.site.initHeader();
-                    } else {
-                        console.error('site.initHeader function not found.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error loading header:', error);
-                    // Show fallback header or retry
-                    setTimeout(() => {
-                        location.reload();
-                    }, 2000);
-                });
-            
-            // Make body visible after content is loaded
-            document.body.style.display = 'block';
-        });
-    </script>
+    
     
     {% if need_declaration_script %}
-    <script src="/declaration-interactive.js" defer></script>
+    <script src="/js/declaration-interactive.js" defer></script>
     {% endif %}
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.3/purify.min.js"></script>
-    <script src="/script.js" defer></script>
+    <script src="/js/script.js" defer></script>
 </body>
 </html>
