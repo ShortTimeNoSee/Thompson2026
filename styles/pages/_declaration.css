@@ -171,7 +171,7 @@
     border-radius: 4px;
 }
 
-.sign-form h3 {
+.sign-form h2 {
     font-size: 1.8em;
     color: var(--accent-color);
     margin-bottom: 1.5rem;
@@ -265,7 +265,7 @@
     border-radius: 4px;
 }
 
-.signatures-list-container h4 {
+.signatures-list-container h3 {
     font-size: 1.8em;
     color: var(--accent-color);
     margin-bottom: 1.5rem;
@@ -283,6 +283,7 @@
     border: 1px solid var(--accent-alpha);
     border-radius: 4px;
     transition: all 0.3s ease;
+    color: var(--text-color);
 }
 
 .signature-entry:hover {
@@ -313,9 +314,9 @@
 }
 
 .sign-date {
-    font-size: 0.8em;
+    font-size: 0.85em;
     color: var(--text-color);
-    opacity: 0.6;
+    opacity: 0.8;
     text-align: right;
     margin-top: 10px;
 }

@@ -179,7 +179,7 @@ class DeclarationComponent {
                 </div>
             </div>
             <div class="sign-form">
-                <h3>Sign the Declaration</h3>
+                <h2>Sign the Declaration</h2>
                 <form id="declaration-form">
                     <div class="form-group">
                         <input type="text" id="signer-name" name="name" placeholder="Your Name (Optional)" maxlength="50">
@@ -205,7 +205,7 @@ class DeclarationComponent {
             </div>
             ${this.isDeclarationPage ? `
             <div class="signatures-list-container">
-                <h4>Recent Signatures</h4>
+                <h3>Recent Signatures</h3>
                 <div class="signature-grid"></div>
                 <div class="pagination-container">
                     <button class="pagination-btn prev-btn" disabled>← Previous</button>
