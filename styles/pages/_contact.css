@@ -103,7 +103,7 @@
     height: 1em;
     color: var(--accent-color);
     fill: currentColor;
-    margin: 0;
+    margin: 0 0 8px 0;
     min-width: 0;
     display: block;
 }
@@ -114,6 +114,7 @@
     margin: 0 0 8px 0;
     font-weight: 600;
     text-align: center;
+    min-height: 1.6em;
 }
 
 .contact-method p {
@@ -122,6 +123,7 @@
     margin: 0;
     line-height: 1.5;
     text-align: center;
+    min-height: 3em;
 }
 
 .contact-method > div { width: 100%; }
