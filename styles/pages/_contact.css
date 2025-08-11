@@ -65,6 +65,7 @@
     line-height: 1.6;
     color: var(--text-color);
     margin-bottom: 35px;
+    min-height: 3.6em;
 }
 
 
@@ -113,6 +114,7 @@
     margin: 0 0 8px 0;
     font-weight: 600;
     text-align: center;
+    min-height: 1.4em; /* reserve one-line heading height */
 }
 
 .contact-method p {
@@ -121,6 +123,7 @@
     margin: 0;
     line-height: 1.5;
     text-align: center;
+    min-height: 3em; /* reserve ~2 lines of body text */
 }
 
 .contact-method > div {
