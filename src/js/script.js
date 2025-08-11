@@ -149,6 +149,7 @@ window.site = {
         this.setupStickyFooter();
         this.initializeIssueCards();
         this.initParticleShatter();
+        this.initEmailLinks();
     },
 
     setupStickyFooter: function() {
@@ -405,6 +406,20 @@ window.site = {
 
         window.addEventListener("resize", resizeCanvas);
         resizeCanvas();
+    },
+
+    initEmailLinks: function() {
+        try {
+            document.querySelectorAll('a.email-link[data-user][data-domain]').forEach(a => {
+                a.addEventListener('click', (e) => {
+                    const user = a.getAttribute('data-user');
+                    const domain = a.getAttribute('data-domain');
+                    if (!user || !domain) return;
+                    const addr = `${user}@${domain}`;
+                    a.href = `mailto:${addr}`;
+                }, { once: true });
+            });
+        } catch {}
     },
 
     // --- UTILITY FUNCTIONS ---
