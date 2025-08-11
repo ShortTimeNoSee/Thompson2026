@@ -65,28 +65,29 @@
     line-height: 1.6;
     color: var(--text-color);
     margin-bottom: 35px;
-    min-height: 3.6em;
 }
 
 
 .contact-methods {
     margin-bottom: 40px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
 }
 
 .contact-method {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 25px;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    justify-items: center;
+    align-items: start;
+    gap: 10px;
     padding: 24px 20px;
     background: var(--secondary-color);
     border: 1px solid var(--accent-alpha);
     border-radius: 4px;
     transition: all 0.3s ease;
     text-align: center;
-    min-height: 132px;
+    min-height: 140px;
 }
 
 .contact-method:hover {
@@ -102,19 +103,17 @@
     height: 1em;
     color: var(--accent-color);
     fill: currentColor;
-    margin: 0 0 8px 0;
+    margin: 0;
     min-width: 0;
     display: block;
-    flex: 0 0 auto;
 }
 
-.contact-method h4 {
+.contact-method h3, .contact-method h4 {
     font-size: 1.3em;
     color: var(--accent-color);
     margin: 0 0 8px 0;
     font-weight: 600;
     text-align: center;
-    min-height: 1.4em; /* reserve one-line heading height */
 }
 
 .contact-method p {
@@ -123,12 +122,9 @@
     margin: 0;
     line-height: 1.5;
     text-align: center;
-    min-height: 3em; /* reserve ~2 lines of body text */
 }
 
-.contact-method > div {
-    flex: 1 0 auto;
-}
+.contact-method > div { width: 100%; }
 
 
 .social-connect {
@@ -311,11 +307,7 @@
         padding: 0 15px;
     }
 
-    .contact-method {
-        padding: 18px;
-        margin-bottom: 20px;
-        min-height: 110px;
-    }
+    .contact-method { min-height: 120px; padding: 18px; }
 
     .contact-method i {
         font-size: 1.6em;
