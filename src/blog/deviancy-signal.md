@@ -8,7 +8,7 @@ tags:
   - surveillance
   - civil-liberties
 excerpt: 'There''s a special kind of contempt I reserve for the person who says, "I have nothing to hide." These people aren''t just surrendering their own liberty; they''re actively forging the chains for the rest of us. The "Deviancy Signal" is the threat they don''t understand.'
-description: 'Nicholas Thompson explores how complacency in this digitial age strengthens systems of control, turning routine openness into the standard by which all are judged.'
+description: 'Nicholas Thompson explores how complacency in this digital age strengthens systems of control, turning routine openness into the standard by which all are judged.'
 keywords: privacy, surveillance, nothing to hide, deviancy signal, civil liberties, encryption, operational security, baseline, state power, opsec
 og_title: 'The Deviancy Signal: Having "Nothing to Hide" is a Threat to Us All'
 og_image: https://images.unsplash.com/photo-1754477720127-34bbe64e3b0b?w=1200&q=20&auto=format
