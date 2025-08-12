@@ -1,6 +1,6 @@
 ---
 layout: post.html
-title: 'The Deviancy Signal: Having “Nothing to Hide” is a Threat to Us All"
+title: 'The Deviancy Signal: Having “Nothing to Hide” is a Threat to Us All'
 date: 2025-08-12
 author: Nicholas A. Thompson
 tags:
