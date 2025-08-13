@@ -77,13 +77,13 @@
         <div class="container">
             <h2>Main Pages</h2>
             <ul class="sitemap-list">
-                <li><a href="/">Home</a></li>
-                <li><a href="about">About Me</a></li>
-                <li><a href="issues">Key Issues</a></li>
-                <li><a href="vision">My Vision</a></li>
-                <li><a href="declaration_of_war">Declaration of War</a></li>
-                <li><a href="contact">Contact</a></li>
-                <li><a href="blog">Blog</a></li>
+				<li><a href="{{ '/' | url }}">Home</a></li>
+				<li><a href="{{ '/about' | url }}">About Me</a></li>
+				<li><a href="{{ '/issues' | url }}">Key Issues</a></li>
+				<li><a href="{{ '/vision' | url }}">My Vision</a></li>
+				<li><a href="{{ '/declaration_of_war' | url }}">Declaration of War</a></li>
+				<li><a href="{{ '/contact' | url }}">Contact</a></li>
+				<li><a href="{{ '/blog' | url }}">Blog</a></li>
             </ul>
             
             {%- if collections.posts.length > 0 %}
@@ -91,10 +91,10 @@
             <ul class="sitemap-list">
                 {%- assign sorted_posts = collections.posts | sort: "date" | reverse %}
                 {%- for post in sorted_posts %}
-                <li>
-                    <a href="{{ post.url }}">{{ post.data.title }}</a>
-                    <span class="post-date">({{ post.date | readableDate }})</span>
-                </li>
+				<li>
+					<a href="{{ post.url | url }}">{{ post.data.title }}</a>
+					<span class="post-date">({{ post.date | readableDate }})</span>
+				</li>
                 {%- endfor %}
             </ul>
             {%- endif %}
