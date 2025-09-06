@@ -479,8 +479,324 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function handleCheckout() {
-        console.log("Checkout process initiated...");
-        // Checkout logic...
+        if (state.cart.length === 0) {
+            alert('Your cart is empty!');
+            return;
+        }
+
+        // Show customer info form first
+        showCustomerInfoForm();
+    }
+
+    function showCustomerInfoForm() {
+        const formModal = document.createElement('div');
+        formModal.className = 'checkout-modal';
+        formModal.innerHTML = `
+            <div class="checkout-form-container">
+                <div class="checkout-form-header">
+                    <h3>Checkout Information</h3>
+                    <button class="close-checkout" onclick="this.closest('.checkout-modal').remove()">&times;</button>
+                </div>
+                <form id="checkout-customer-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="checkout-first-name">First Name *</label>
+                            <input type="text" id="checkout-first-name" name="first_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkout-last-name">Last Name *</label>
+                            <input type="text" id="checkout-last-name" name="last_name" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout-email">Email *</label>
+                        <input type="email" id="checkout-email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout-phone">Phone</label>
+                        <input type="tel" id="checkout-phone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout-address">Address *</label>
+                        <input type="text" id="checkout-address" name="address_1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout-address2">Address Line 2</label>
+                        <input type="text" id="checkout-address2" name="address_2">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="checkout-city">City *</label>
+                            <input type="text" id="checkout-city" name="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkout-state">State *</label>
+                            <input type="text" id="checkout-state" name="state" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkout-zip">ZIP Code *</label>
+                            <input type="text" id="checkout-zip" name="postcode" required>
+                        </div>
+                    </div>
+                    <div class="checkout-summary">
+                        <h4>Order Summary</h4>
+                        ${state.cart.map(item => `
+                            <div class="checkout-item">
+                                <span>${item.name} (x${item.quantity})</span>
+                                <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                            </div>
+                        `).join('')}
+                        <div class="checkout-total">
+                            <strong>Total: $${state.cart.reduce((total, item) => total + (parseFloat(item.price) * item.quantity), 0).toFixed(2)}</strong>
+                        </div>
+                    </div>
+                    <button type="submit" class="cta-button primary" id="complete-checkout-btn">Complete Order</button>
+                </form>
+            </div>
+        `;
+        
+        formModal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            overflow-y: auto;
+        `;
+        
+        const formContainer = formModal.querySelector('.checkout-form-container');
+        formContainer.style.cssText = `
+            background: var(--secondary-color);
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid var(--accent-color);
+            position: relative;
+        `;
+        
+        // Style the form elements
+        const style = document.createElement('style');
+        style.textContent = `
+            .checkout-form-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1.5rem;
+                border-bottom: 1px solid var(--accent-alpha);
+                padding-bottom: 1rem;
+            }
+            .close-checkout {
+                background: none;
+                border: none;
+                color: var(--accent-color);
+                font-size: 2rem;
+                cursor: pointer;
+                line-height: 1;
+            }
+            .form-row {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+            .form-row.three-col {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+            .checkout-form-container .form-group {
+                margin-bottom: 1rem;
+            }
+            .checkout-form-container .form-group label {
+                display: block;
+                margin-bottom: 0.5rem;
+                color: var(--text-color);
+                font-weight: 600;
+            }
+            .checkout-form-container .form-group input {
+                width: 100%;
+                padding: 0.75rem;
+                border: 1px solid var(--accent-alpha);
+                border-radius: 4px;
+                background: var(--primary-color);
+                color: var(--text-color);
+                font-size: 1rem;
+            }
+            .checkout-form-container .form-group input:focus {
+                border-color: var(--accent-color);
+                outline: none;
+                box-shadow: 0 0 0 2px var(--accent-alpha);
+            }
+            .checkout-summary {
+                background: var(--primary-color);
+                padding: 1.5rem;
+                border-radius: 4px;
+                margin: 1.5rem 0;
+                border: 1px solid var(--accent-alpha);
+            }
+            .checkout-item {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 0.5rem;
+                padding-bottom: 0.5rem;
+                border-bottom: 1px solid var(--accent-alpha);
+            }
+            .checkout-total {
+                margin-top: 1rem;
+                padding-top: 1rem;
+                border-top: 2px solid var(--accent-color);
+                text-align: right;
+                font-size: 1.2rem;
+                color: var(--accent-color);
+            }
+            @media (max-width: 768px) {
+                .form-row {
+                    grid-template-columns: 1fr;
+                }
+                .form-row.three-col {
+                    grid-template-columns: 1fr;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        document.body.appendChild(formModal);
+        
+        // Handle form submission
+        const form = formModal.querySelector('#checkout-customer-form');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const customerData = Object.fromEntries(formData);
+            
+            formModal.remove();
+            await processCheckout(customerData);
+        });
+    }
+
+    async function processCheckout(customerData) {
+        setLoading(true);
+        
+        try {
+            // Create WooCommerce order with cart items and customer data
+            const orderData = {
+                payment_method: 'woocommerce_payments',
+                payment_method_title: 'Credit Card (WooPayments)',
+                set_paid: false,
+                billing: {
+                    first_name: customerData.first_name,
+                    last_name: customerData.last_name,
+                    email: customerData.email,
+                    phone: customerData.phone || '',
+                    address_1: customerData.address_1,
+                    address_2: customerData.address_2 || '',
+                    city: customerData.city,
+                    state: customerData.state,
+                    postcode: customerData.postcode,
+                    country: 'US'
+                },
+                shipping: {
+                    first_name: customerData.first_name,
+                    last_name: customerData.last_name,
+                    address_1: customerData.address_1,
+                    address_2: customerData.address_2 || '',
+                    city: customerData.city,
+                    state: customerData.state,
+                    postcode: customerData.postcode,
+                    country: 'US'
+                },
+                line_items: state.cart.map(item => ({
+                    product_id: item.product_id,
+                    variation_id: item.variant_id || 0,
+                    quantity: item.quantity
+                })),
+                status: 'pending'
+            };
+
+            console.log('Creating WooCommerce order...', orderData);
+
+            const response = await fetch(`${apiBase}/orders`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(orderData)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.text();
+                console.error('Order creation failed:', errorData);
+                throw new Error(`Failed to create order: ${response.statusText}`);
+            }
+
+            const order = await response.json();
+            console.log('Order created successfully:', order);
+
+            // Clear the cart
+            state.cart = [];
+            saveCartToStorage();
+            renderCart();
+            renderProductPageCart();
+
+            // Redirect to WooCommerce checkout with the order
+            const checkoutUrl = `https://shop.thompson2026.com/checkout/?order-pay=${order.id}&key=${order.order_key}`;
+            window.open(checkoutUrl, '_blank');
+
+            // Show success message
+            showCheckoutSuccess(order.id);
+
+        } catch (error) {
+            console.error('Checkout error:', error);
+            alert(`Checkout failed: ${error.message}. Please try again.`);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    function showCheckoutSuccess(orderId) {
+        const successMessage = document.createElement('div');
+        successMessage.className = 'checkout-success';
+        successMessage.innerHTML = `
+            <div class="success-content">
+                <h3>Order Created Successfully!</h3>
+                <p>Order #${orderId} has been created.</p>
+                <p>You've been redirected to complete payment.</p>
+                <button onclick="this.parentElement.parentElement.remove()" class="cta-button primary">Continue Shopping</button>
+            </div>
+        `;
+        successMessage.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        `;
+        successMessage.querySelector('.success-content').style.cssText = `
+            background: var(--secondary-color);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 400px;
+            border: 1px solid var(--accent-color);
+        `;
+        document.body.appendChild(successMessage);
+        
+        // Auto-remove after 10 seconds
+        setTimeout(() => {
+            if (successMessage.parentElement) {
+                successMessage.remove();
+            }
+        }, 10000);
     }
 
     // =================================================================================
