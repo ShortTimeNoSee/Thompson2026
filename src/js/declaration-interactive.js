@@ -210,7 +210,7 @@ class DeclarationComponent {
                         <div id="signer-county-help" class="sr-only">Select your county</div>
                     </div>
                     <div class="form-group">
-                        <textarea id="signer-comment" name="comment" placeholder="Optional Comment" maxlength="280"></textarea>
+                        <textarea id="signer-comment" name="comment" placeholder="Comment (Optional)" maxlength="280"></textarea>
                         <div class="char-count">0/280</div>
                     </div>
                     <div class="sign-button-container">

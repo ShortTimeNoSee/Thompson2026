@@ -32,6 +32,84 @@ export default {
     const url = new URL(request.url);
     const clientIP = request.headers.get("CF-Connecting-IP");
 
+    // Cart handoff: sign payload and return redirect URL to shop site
+    if (url.pathname === '/api/cart-handoff') {
+      if (!isAllowed) {
+        return new Response(JSON.stringify({ error: 'Forbidden' }), { status: 403, headers: { 'Content-Type': 'application/json', 'Vary': 'Origin' } });
+      }
+      if (request.method !== 'POST') {
+        return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers: { 'Content-Type': 'application/json', ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } });
+      }
+      const jsonError = (function requireJSON(req){
+        const ct = req.headers.get('Content-Type') || '';
+        if (!ct.includes('application/json')) {
+          return new Response(JSON.stringify({ error: 'Content-Type must be application/json' }), { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } });
+        }
+        return null;
+      })(request);
+      if (jsonError) return jsonError;
+
+      try {
+        const body = await request.json();
+        const items = Array.isArray(body.items) ? body.items : [];
+        const shipping = body.shipping || {};
+        const billing = body.billing || {};
+        const returnUrl = body.return_url || 'https://thompson2026.com/shop/';
+
+        if (!items.length) {
+          return new Response(JSON.stringify({ error: 'No items provided' }), { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } });
+        }
+
+        if (!env.CART_HANDOFF_SECRET) {
+          return new Response(JSON.stringify({ error: 'Server not configured: CART_HANDOFF_SECRET missing' }), { status: 500, headers: { 'Content-Type': 'application/json', ...corsHeaders } });
+        }
+
+        const payload = {
+          items: items.map(it => ({
+            product_id: parseInt(it.product_id, 10),
+            variation_id: it.variant_id ? parseInt(it.variant_id, 10) : 0,
+            quantity: parseInt(it.quantity, 10) || 1
+          })),
+          shipping,
+          billing,
+          ts: Date.now(),
+          return_url: returnUrl
+        };
+
+        const enc = new TextEncoder();
+        const secretKey = await crypto.subtle.importKey(
+          'raw',
+          enc.encode(env.CART_HANDOFF_SECRET),
+          { name: 'HMAC', hash: 'SHA-256' },
+          false,
+          ['sign']
+        );
+        const dataStr = JSON.stringify(payload);
+        const sigBuf = await crypto.subtle.sign('HMAC', secretKey, enc.encode(dataStr));
+
+        function toB64UrlFromBytes(bytes) {
+          let binary = '';
+          const len = bytes.length;
+          for (let i = 0; i < len; i++) binary += String.fromCharCode(bytes[i]);
+          const b64 = btoa(binary);
+          return b64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/,'');
+        }
+
+        const dataB64 = toB64UrlFromBytes(enc.encode(dataStr));
+        const sigB64 = toB64UrlFromBytes(new Uint8Array(sigBuf));
+
+        const redirectUrl = `https://shop.thompson2026.com/cart-handoff/?data=${dataB64}&sig=${sigB64}`;
+
+        return new Response(
+          JSON.stringify({ redirectUrl }),
+          { status: 200, headers: { 'Content-Type': 'application/json', ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
+        );
+      } catch (e) {
+        console.error('Cart handoff error:', e);
+        return new Response(JSON.stringify({ error: 'Failed to create handoff', details: e.message }), { status: 500, headers: { 'Content-Type': 'application/json', ...corsHeaders } });
+      }
+    }
+
     // Route for Printful API
     if (url.pathname.startsWith('/api/shop/printful/order')) {
       if (!isAllowed) {
@@ -136,7 +214,7 @@ export default {
       if (!isAllowed) {
         return new Response(
           JSON.stringify({ error: "Forbidden" }),
-          { status: 403, headers: { "Content-Type": "application/json", 'Vary': 'Origin' } }
+          { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
         );
       }
       const authHeader = request.headers.get("Authorization");
@@ -448,7 +526,7 @@ export default {
     if (url.pathname.includes("/api/admin/verify")) {
       return new Response(
         JSON.stringify({ success: true }),
-        { headers: { "Content-Type": "application/json", ...corsHeaders } }
+        { headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
       );
     }
 

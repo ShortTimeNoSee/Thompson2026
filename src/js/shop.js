@@ -683,20 +683,18 @@ document.addEventListener('DOMContentLoaded', () => {
         setLoading(true);
         
         try {
-            // Create WooCommerce order with cart items and customer data
-            const orderData = {
-                set_paid: false,
+            // Build handoff payload for Woo cart population
+            const payload = {
+                items: state.cart.map(item => ({
+                    product_id: item.product_id,
+                    variant_id: item.variant_id || 0,
+                    quantity: item.quantity,
+                })),
                 billing: {
                     first_name: customerData.first_name,
                     last_name: customerData.last_name,
                     email: customerData.email,
-                    phone: customerData.phone || '',
-                    address_1: customerData.address_1,
-                    address_2: customerData.address_2 || '',
-                    city: customerData.city,
-                    state: customerData.state,
-                    postcode: customerData.postcode,
-                    country: 'US'
+                    phone: customerData.phone || ''
                 },
                 shipping: {
                     first_name: customerData.first_name,
@@ -708,46 +706,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     postcode: customerData.postcode,
                     country: 'US'
                 },
-                line_items: state.cart.map(item => ({
-                    product_id: item.product_id,
-                    variation_id: item.variant_id || 0,
-                    quantity: item.quantity
-                })),
-                status: 'pending'
+                return_url: window.location.href
             };
 
-            console.log('Creating WooCommerce order...', orderData);
-
-            const response = await fetch(`${apiBase}/orders`, {
+            // Request signed handoff URL from worker
+            const handoffRes = await fetch(`${apiBase.replace('/api/shop','')}/api/cart-handoff`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(orderData)
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
             });
-
-            if (!response.ok) {
-                const errorData = await response.text();
-                console.error('Order creation failed:', errorData);
-                throw new Error(`Failed to create order: ${response.statusText}`);
+            if (!handoffRes.ok) {
+                const errTxt = await handoffRes.text();
+                throw new Error(`Handoff failed: ${errTxt}`);
             }
+            const { redirectUrl } = await handoffRes.json();
 
-            const order = await response.json();
-            console.log('Order created successfully:', order);
-
-            // Clear the cart
+            // Clear local cart and redirect to Woo cart handoff to let Woo calculate shipping/taxes
             state.cart = [];
             saveCartToStorage();
             renderCart();
             renderProductPageCart();
 
-            // Redirect to WooCommerce order payment endpoint to render gateway form
-            const checkoutUrl = `https://shop.thompson2026.com/checkout/order-pay/${order.id}/?pay_for_order=true&key=${order.order_key}`;
-            window.open(checkoutUrl, '_blank');
-
-            // Show success message
-            showCheckoutSuccess(order.id);
-
+            window.location.href = redirectUrl;
         } catch (error) {
             console.error('Checkout error:', error);
             alert(`Checkout failed: ${error.message}. Please try again.`);
