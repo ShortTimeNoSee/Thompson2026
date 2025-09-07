@@ -685,8 +685,6 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // Create WooCommerce order with cart items and customer data
             const orderData = {
-                payment_method: 'woocommerce_payments',
-                payment_method_title: 'Credit Card (WooPayments)',
                 set_paid: false,
                 billing: {
                     first_name: customerData.first_name,
@@ -743,8 +741,8 @@ document.addEventListener('DOMContentLoaded', () => {
             renderCart();
             renderProductPageCart();
 
-            // Redirect to WooCommerce checkout with the order
-            const checkoutUrl = `https://shop.thompson2026.com/checkout/?order-pay=${order.id}&key=${order.order_key}`;
+            // Redirect to WooCommerce order payment endpoint to render gateway form
+            const checkoutUrl = `https://shop.thompson2026.com/checkout/order-pay/${order.id}/?pay_for_order=true&key=${order.order_key}`;
             window.open(checkoutUrl, '_blank');
 
             // Show success message
