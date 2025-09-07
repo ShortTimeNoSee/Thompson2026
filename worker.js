@@ -35,15 +35,24 @@ export default {
     // Cart handoff: sign payload and return redirect URL to shop site
     if (url.pathname === '/api/cart-handoff') {
       if (!isAllowed) {
-        return new Response(JSON.stringify({ error: 'Forbidden' }), { status: 403, headers: { 'Content-Type': 'application/json', 'Vary': 'Origin' } });
+        return new Response(
+          JSON.stringify({ error: 'Forbidden' }),
+          { status: 403, headers: { 'Content-Type': 'application/json', ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
+        );
       }
       if (request.method !== 'POST') {
-        return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers: { 'Content-Type': 'application/json', ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } });
+        return new Response(
+          JSON.stringify({ error: 'Method not allowed' }),
+          { status: 405, headers: { 'Content-Type': 'application/json', ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
+        );
       }
       const jsonError = (function requireJSON(req){
         const ct = req.headers.get('Content-Type') || '';
         if (!ct.includes('application/json')) {
-          return new Response(JSON.stringify({ error: 'Content-Type must be application/json' }), { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } });
+          return new Response(
+            JSON.stringify({ error: 'Content-Type must be application/json' }),
+            { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
+          );
         }
         return null;
       })(request);
@@ -57,11 +66,17 @@ export default {
         const returnUrl = body.return_url || 'https://thompson2026.com/shop/';
 
         if (!items.length) {
-          return new Response(JSON.stringify({ error: 'No items provided' }), { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders } });
+          return new Response(
+            JSON.stringify({ error: 'No items provided' }),
+            { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
+          );
         }
 
         if (!env.CART_HANDOFF_SECRET) {
-          return new Response(JSON.stringify({ error: 'Server not configured: CART_HANDOFF_SECRET missing' }), { status: 500, headers: { 'Content-Type': 'application/json', ...corsHeaders } });
+          return new Response(
+            JSON.stringify({ error: 'Server not configured: CART_HANDOFF_SECRET missing' }),
+            { status: 500, headers: { 'Content-Type': 'application/json', ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
+          );
         }
 
         const payload = {
@@ -100,13 +115,16 @@ export default {
 
         const redirectUrl = `https://shop.thompson2026.com/cart-handoff/?data=${dataB64}&sig=${sigB64}`;
 
-        return new Response(
-          JSON.stringify({ redirectUrl }),
-          { status: 200, headers: { 'Content-Type': 'application/json', ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
-        );
+        return new Response(JSON.stringify({ redirectUrl }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json', ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' }
+        });
       } catch (e) {
         console.error('Cart handoff error:', e);
-        return new Response(JSON.stringify({ error: 'Failed to create handoff', details: e.message }), { status: 500, headers: { 'Content-Type': 'application/json', ...corsHeaders } });
+        return new Response(
+          JSON.stringify({ error: 'Failed to create handoff', details: e.message }),
+          { status: 500, headers: { 'Content-Type': 'application/json', ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
+        );
       }
     }
 
