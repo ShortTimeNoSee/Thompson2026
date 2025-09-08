@@ -7,6 +7,7 @@ export default {
     const allowedOrigins = [
       "https://thompson2026.com",
       "https://www.thompson2026.com",
+      "https://shop.thompson2026.com",
       "http://localhost:5500",
       "http://127.0.0.1:5500",
       "http://localhost:8083",
@@ -32,98 +33,84 @@ export default {
     const url = new URL(request.url);
     const clientIP = request.headers.get("CF-Connecting-IP");
 
-    // Cart handoff: sign payload and return redirect URL to shop site
-    if (url.pathname === '/api/cart-handoff') {
+    async function hmacSHA256(keyString, dataString) {
+      const enc = new TextEncoder();
+      const key = await crypto.subtle.importKey(
+        "raw",
+        enc.encode(keyString),
+        { name: "HMAC", hash: "SHA-256" },
+        false,
+        ["sign"]
+      );
+      const signature = await crypto.subtle.sign("HMAC", key, enc.encode(dataString));
+      const bytes = new Uint8Array(signature);
+      let bin = "";
+      for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+      return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+    }
+
+    function base64UrlEncodeString(str) {
+      // Encode a string as base64url without padding
+      const utf8 = new TextEncoder().encode(str);
+      let bin = "";
+      for (let i = 0; i < utf8.length; i++) bin += String.fromCharCode(utf8[i]);
+      return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+    }
+
+    // Cart handoff endpoint (frontend -> worker -> WP)
+    if (url.pathname === "/api/cart-handoff") {
       if (!isAllowed) {
         return new Response(
-          JSON.stringify({ error: 'Forbidden' }),
-          { status: 403, headers: { 'Content-Type': 'application/json', ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
+          JSON.stringify({ error: "Forbidden" }),
+          { status: 403, headers: { "Content-Type": "application/json", "Vary": "Origin" } }
         );
       }
-      if (request.method !== 'POST') {
+      if (request.method !== "POST") {
         return new Response(
-          JSON.stringify({ error: 'Method not allowed' }),
-          { status: 405, headers: { 'Content-Type': 'application/json', ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
+          JSON.stringify({ error: "Method not allowed" }),
+          { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
         );
       }
-      const jsonError = (function requireJSON(req){
-        const ct = req.headers.get('Content-Type') || '';
-        if (!ct.includes('application/json')) {
-          return new Response(
-            JSON.stringify({ error: 'Content-Type must be application/json' }),
-            { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
-          );
-        }
-        return null;
-      })(request);
+      const jsonError = requireJSON(request);
       if (jsonError) return jsonError;
 
       try {
         const body = await request.json();
         const items = Array.isArray(body.items) ? body.items : [];
-        const shipping = body.shipping || {};
-        const billing = body.billing || {};
-        const returnUrl = body.return_url || 'https://thompson2026.com/shop/';
+        const address = body.address || {};
 
+        // Minimal validation
         if (!items.length) {
           return new Response(
-            JSON.stringify({ error: 'No items provided' }),
-            { status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
-          );
-        }
-
-        if (!env.CART_HANDOFF_SECRET) {
-          return new Response(
-            JSON.stringify({ error: 'Server not configured: CART_HANDOFF_SECRET missing' }),
-            { status: 500, headers: { 'Content-Type': 'application/json', ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
+            JSON.stringify({ error: "No items provided" }),
+            { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
           );
         }
 
         const payload = {
-          items: items.map(it => ({
-            product_id: parseInt(it.product_id, 10),
-            variation_id: it.variant_id ? parseInt(it.variant_id, 10) : 0,
-            quantity: parseInt(it.quantity, 10) || 1
-          })),
-          shipping,
-          billing,
-          ts: Date.now(),
-          return_url: returnUrl
+          items,
+          address,
+          ts: Date.now()
         };
+        const payloadJson = JSON.stringify(payload);
 
-        const enc = new TextEncoder();
-        const secretKey = await crypto.subtle.importKey(
-          'raw',
-          enc.encode(env.CART_HANDOFF_SECRET),
-          { name: 'HMAC', hash: 'SHA-256' },
-          false,
-          ['sign']
-        );
-        const dataStr = JSON.stringify(payload);
-        const sigBuf = await crypto.subtle.sign('HMAC', secretKey, enc.encode(dataStr));
+        const secret = env.HANDOFF_SECRET || env.ADMIN_KEY || "dev-secret";
+        const sig = await hmacSHA256(secret, payloadJson);
+        const payloadB64 = base64UrlEncodeString(payloadJson);
 
-        function toB64UrlFromBytes(bytes) {
-          let binary = '';
-          const len = bytes.length;
-          for (let i = 0; i < len; i++) binary += String.fromCharCode(bytes[i]);
-          const b64 = btoa(binary);
-          return b64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/,'');
-        }
+        const handoffUrl = new URL("https://shop.thompson2026.com/");
+        handoffUrl.searchParams.set("wc_cart_handoff", "1");
+        handoffUrl.searchParams.set("payload", payloadB64);
+        handoffUrl.searchParams.set("sig", sig);
 
-        const dataB64 = toB64UrlFromBytes(enc.encode(dataStr));
-        const sigB64 = toB64UrlFromBytes(new Uint8Array(sigBuf));
-
-        const redirectUrl = `https://shop.thompson2026.com/cart-handoff/?data=${dataB64}&sig=${sigB64}`;
-
-        return new Response(JSON.stringify({ redirectUrl }), {
-          status: 200,
-          headers: { 'Content-Type': 'application/json', ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' }
-        });
-      } catch (e) {
-        console.error('Cart handoff error:', e);
         return new Response(
-          JSON.stringify({ error: 'Failed to create handoff', details: e.message }),
-          { status: 500, headers: { 'Content-Type': 'application/json', ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
+          JSON.stringify({ url: handoffUrl.toString() }),
+          { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
+        );
+      } catch (e) {
+        return new Response(
+          JSON.stringify({ error: "Failed to create handoff", details: e.message }),
+          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
         );
       }
     }
@@ -232,7 +219,7 @@ export default {
       if (!isAllowed) {
         return new Response(
           JSON.stringify({ error: "Forbidden" }),
-          { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
+          { status: 403, headers: { "Content-Type": "application/json", 'Vary': 'Origin' } }
         );
       }
       const authHeader = request.headers.get("Authorization");
@@ -544,7 +531,7 @@ export default {
     if (url.pathname.includes("/api/admin/verify")) {
       return new Response(
         JSON.stringify({ success: true }),
-        { headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
+        { headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
 

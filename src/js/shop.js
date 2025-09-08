@@ -683,53 +683,46 @@ document.addEventListener('DOMContentLoaded', () => {
         setLoading(true);
         
         try {
-            // Build handoff payload for Woo cart population
-            const payload = {
-                items: state.cart.map(item => ({
-                    product_id: item.product_id,
-                    variant_id: item.variant_id || 0,
-                    quantity: item.quantity,
-                })),
-                billing: {
-                    first_name: customerData.first_name,
-                    last_name: customerData.last_name,
-                    email: customerData.email,
-                    phone: customerData.phone || ''
-                },
-                shipping: {
-                    first_name: customerData.first_name,
-                    last_name: customerData.last_name,
-                    address_1: customerData.address_1,
-                    address_2: customerData.address_2 || '',
-                    city: customerData.city,
-                    state: customerData.state,
-                    postcode: customerData.postcode,
-                    country: 'US'
-                },
-                return_url: window.location.href
+            // Prepare items and address for handoff
+            const items = state.cart.map(item => ({
+                product_id: item.product_id,
+                variation_id: item.variant_id || null,
+                quantity: item.quantity
+            }));
+            const address = {
+                first_name: customerData.first_name,
+                last_name: customerData.last_name,
+                email: customerData.email,
+                phone: customerData.phone || '',
+                address_1: customerData.address_1,
+                address_2: customerData.address_2 || '',
+                city: customerData.city,
+                state: customerData.state,
+                postcode: customerData.postcode,
+                country: 'US'
             };
 
-            // Request signed handoff URL from worker
-            const handoffRes = await fetch(`${apiBase.replace('/api/shop','')}/api/cart-handoff`, {
+            const res = await fetch(`${apiBase.replace('/api/shop','')}/cart-handoff`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
+                body: JSON.stringify({ items, address })
             });
-            if (!handoffRes.ok) {
-                const errTxt = await handoffRes.text();
-                throw new Error(`Handoff failed: ${errTxt}`);
+            if (!res.ok) {
+                const txt = await res.text();
+                throw new Error(`Handoff failed: ${res.status} ${txt}`);
             }
-            const { redirectUrl } = await handoffRes.json();
+            const data = await res.json();
+            if (!data.url) throw new Error('No handoff URL provided');
 
-            // Clear local cart and redirect to Woo cart handoff to let Woo calculate shipping/taxes
+            // Clear local cart and redirect to WP for native checkout
             state.cart = [];
             saveCartToStorage();
             renderCart();
             renderProductPageCart();
 
-            window.location.href = redirectUrl;
+            window.location.href = data.url;
         } catch (error) {
-            console.error('Checkout error:', error);
+            console.error('Checkout handoff error:', error);
             alert(`Checkout failed: ${error.message}. Please try again.`);
         } finally {
             setLoading(false);
