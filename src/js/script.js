@@ -23,7 +23,7 @@ window.site = {
         this.setupHamburgerToggle();
         this.setupPreloadListeners();
         
-        // Re-bind the throttled scroll event handler for the sticky header
+        // Re-bind the throttled scrollz event handler for the sticky header
         const onScroll = this.throttle(() => {
             window.requestAnimationFrame(() => this.stickyHeader());
         }, 100);
