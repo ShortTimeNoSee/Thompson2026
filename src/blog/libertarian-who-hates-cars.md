@@ -39,7 +39,7 @@ And what came with those highways?
 
 The myth that cars are a purely capitalist creation, a myth championed by both self-proclaimed capitalists and socialists, ignores the massive government role in forcing this reality on us. Real capitalism thrives on choice and the efficient allocation of resources based on genuine demand and accurate pricing. Our car-centric system distorts these principles at every turn.
 
-Consider the **externalities**, the costs associated with driving that aren't borne by the individual driver. Congestion, pollution, and the wear and tear on public infrastructure are all socialized costs, meaning everyone pays for them, regardless of their car usage. In a truly free market, these costs would be internalized through mechanisms like congestion pricing or carbon taxes, making driving more expensive to those abusing it and making other options more competitive.
+Consider the **externalities**, the costs associated with driving that aren't borne by the individual driver. Congestion, pollution, and the wear and tear on public infrastructure are all socialized costs, meaning everyone pays for them, regardless of their car usage. In a truly free market, these costs would be internalized through mechanisms like congestion pricing, making driving more expensive to those abusing it and making other options more competitive.
 
 ## What a Real Free Market Could Deliver
 
