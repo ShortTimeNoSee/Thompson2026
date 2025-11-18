@@ -153,20 +153,13 @@ class DeclarationComponent {
         this.signatures = [];
         this.counties = new Set();
 
-        let productionOrigin = null;
-        const canonicalLink = document.querySelector('link[rel="canonical"]');
-        if (canonicalLink && canonicalLink.href) {
-            try {
-                productionOrigin = new URL(canonicalLink.href).origin;
-            } catch (e) {
-                productionOrigin = null;
-            }
-        }
+        // Simplified environment detection
         const hostname = window.location.hostname || '';
         const isLocalHost = hostname === 'localhost' || hostname === '127.0.0.1';
-        const isPrivateLan = /^(10\.|192\.168\.|172\.(1[6-9]|2\d|3[0-1])\.)/.test(hostname);
-        const isProductionOrigin = productionOrigin ? (window.location.origin === productionOrigin) : false;
-        this.isDevelopment = isLocalHost || isPrivateLan || !isProductionOrigin;
+        const isProduction = hostname.includes('thompson2026.com');
+        
+        this.shouldFetch = isLocalHost || isProduction;
+        this.isDevelopment = !this.shouldFetch;
 
         this.isDeclarationPage = document.body.id === 'declaration_of_war_page';
         this.currentPage = 1;
@@ -178,8 +171,6 @@ class DeclarationComponent {
             console.error('Declaration component container not found');
             return;
         }
-        
-
         
         // Create the initial structure
             this.container.innerHTML = `
@@ -230,12 +221,14 @@ class DeclarationComponent {
             </div>
             ` : ''}`; // Only show signatures list on declaration page
 
-        // Add development signatures immediately in dev environment
+        // Add development signatures only if we strictly cannot fetch
         if (this.isDevelopment) {
             devSignatures.forEach(sig => {
                 this.signatures.push(sig);
                 this.counties.add(sig.county);
             });
+            this.updateStats();
+            if (this.isDeclarationPage) this.renderSignatures();
         }
 
         // Setup character counter for comment
@@ -263,8 +256,8 @@ class DeclarationComponent {
         }
 
         try {
-            // Only try to fetch from worker in production
-            if (!this.isDevelopment) {
+            // Attempt to fetch from worker if we are on an allowed origin
+            if (this.shouldFetch) {
                 const response = await fetch(`${WORKER_URL}/api/declaration-stats`);
                 
                 if (!response.ok) {
@@ -274,19 +267,28 @@ class DeclarationComponent {
                 const data = await response.json();
                 this.signatures = data.signaturesList || [];
                 this.counties = new Set(this.signatures.map(sig => sig.county));
+                
+                // Force update UI with fetched data
+                this.updateStats();
+                if (this.isDeclarationPage) {
+                    this.renderSignatures();
+                    this.updatePagination();
+                }
             }
         } catch (error) {
             console.error('Error fetching signatures:', error);
-            if (!this.isDevelopment) {
-                this.showError();
+            // Fallback to dev signatures on error if list is empty
+            if (this.signatures.length === 0) {
+                 devSignatures.forEach(sig => {
+                    this.signatures.push(sig);
+                    this.counties.add(sig.county);
+                });
+                this.updateStats();
+                if (this.isDeclarationPage) this.renderSignatures();
             }
         }
 
-        this.updateStats();
-        if (this.isDeclarationPage) {
-            this.renderSignatures(); // Only render signatures on declaration page
-            this.setupPagination(); // pagination controls
-        }
+        this.setupPagination(); // pagination controls
         this.setupForm();
     }
 
@@ -346,6 +348,8 @@ class DeclarationComponent {
         const prevBtn = this.container.querySelector('.prev-btn');
         const nextBtn = this.container.querySelector('.next-btn');
 
+        if (!currentPageSpan || !totalPagesSpan || !prevBtn || !nextBtn) return;
+
         if (totalPages === 0) {
             if (currentPageSpan) currentPageSpan.textContent = 0;
             if (totalPagesSpan) totalPagesSpan.textContent = 0;
@@ -398,16 +402,8 @@ class DeclarationComponent {
                 timestamp: Date.now()
             };
 
-            if (this.isDevelopment) {
-                // In development, just add to local signatures
-                this.signatures.unshift(signature);
-                this.counties.add(signature.county);
-                this.updateStats();
-                this.currentPage = 1;
-                this.renderSignatures();
-                form.reset();
-            } else {
-                // In production, submit to worker
+            // If we are in a "fetchable" environment (prod or localhost), try to submit
+            if (this.shouldFetch) {
                 try {
                     const response = await fetch(`${WORKER_URL}/api/sign-declaration`, {
                         method: 'POST',
@@ -422,12 +418,24 @@ class DeclarationComponent {
                         this.counties.add(signature.county);
                         this.updateStats();
                         this.currentPage = 1;
-                        this.renderSignatures();
+                        if (this.isDeclarationPage) this.renderSignatures();
                         form.reset();
+                    } else {
+                        const err = await response.json();
+                        alert(err.message || 'Error signing declaration');
                     }
                 } catch (error) {
                     console.error('Error submitting signature:', error);
+                    alert('Network error. Please try again.');
                 }
+            } else {
+                // Fallback for strictly local files/previews that don't have CORS
+                this.signatures.unshift(signature);
+                this.counties.add(signature.county);
+                this.updateStats();
+                this.currentPage = 1;
+                if (this.isDeclarationPage) this.renderSignatures();
+                form.reset();
             }
         });
     }
