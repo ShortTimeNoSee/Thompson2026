@@ -265,6 +265,9 @@
     border-radius: 4px;
     transition: all 0.3s ease;
     color: var(--text-color);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
 }
 
 .signature-entry:hover {
@@ -277,6 +280,7 @@
     font-weight: bold;
     color: var(--accent-color);
     margin-bottom: 5px;
+    grid-column: 1 / -1;
 }
 
 .signer-county {
@@ -284,6 +288,7 @@
     color: var(--text-color);
     opacity: 0.8;
     margin-bottom: 10px;
+    grid-column: 1 / -1;
 }
 
 .signer-comment {
@@ -478,6 +483,55 @@
 
     .signature-grid {
         grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .signature-entry {
+        padding: 1.2rem;
+        grid-template-columns: 1fr;
+    }
+
+    .signer-name {
+        font-size: 1.1em;
+        margin-bottom: 8px;
+    }
+
+    .signer-county {
+        font-size: 0.85em;
+        margin-bottom: 8px;
+    }
+
+    .signer-comment {
+        font-size: 0.95em;
+        margin: 8px 0;
+    }
+
+    .sign-date {
+        font-size: 0.85em;
+        margin-top: 8px;
+    }
+
+    .floating-ballot-cta {
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        max-width: none;
+        padding: 15px;
+    }
+
+    .floating-cta-content {
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+    }
+
+    .floating-cta-text {
+        text-align: center;
+    }
+
+    .floating-cta-button {
+        width: 100%;
+        text-align: center;
     }
 
     #particleCanvas {
@@ -613,11 +667,100 @@
     border-radius: 4px;
     padding: 40px;
     margin-top: 60px;
+    margin-bottom: 60px;
     text-align: center;
 }
 
-.ballot-petition-cta-bottom {
-    margin-bottom: 60px;
+.floating-ballot-cta {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+    border: 2px solid var(--accent-color);
+    border-radius: 8px;
+    padding: 20px 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    z-index: 900;
+    max-width: 450px;
+    opacity: 0;
+    transform: translateY(100px);
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.floating-ballot-cta.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+}
+
+.floating-ballot-cta.hidden {
+    display: none;
+}
+
+.floating-cta-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.floating-cta-text {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+}
+
+.floating-cta-text strong {
+    color: var(--accent-color);
+    font-size: 1.1em;
+}
+
+.floating-cta-text span {
+    color: var(--text-color);
+    font-size: 0.9em;
+    opacity: 0.9;
+}
+
+.floating-cta-button {
+    display: inline-block;
+    padding: 12px 24px;
+    background: var(--accent-color);
+    color: var(--primary-color);
+    border-radius: 6px;
+    font-size: 1em;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.floating-cta-button:hover {
+    background: var(--highlight-color);
+    transform: translateY(-2px);
+}
+
+.floating-cta-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    font-size: 1.3em;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+}
+
+.floating-cta-close:hover {
+    opacity: 1;
+    color: var(--accent-color);
 }
 
 .ballot-petition-cta h2 {

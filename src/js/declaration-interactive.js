@@ -459,4 +459,66 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         window.requestAnimationFrame(start);
     }
+
+    // Floating ballot CTA logic
+    initFloatingBallotCTA();
 });
+
+function initFloatingBallotCTA() {
+    const floatingCta = document.getElementById('floating-ballot-cta');
+    if (!floatingCta) return;
+
+    const closeBtn = floatingCta.querySelector('.floating-cta-close');
+    const mainCta = document.querySelector('.ballot-petition-cta');
+    const signaturesSection = document.getElementById('signatures-list');
+
+    let hasBeenClosed = sessionStorage.getItem('ballotCtaClosed') === 'true';
+    let isCtaVisible = false;
+
+    // Close button handler
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            floatingCta.classList.remove('visible');
+            floatingCta.classList.add('hidden');
+            sessionStorage.setItem('ballotCtaClosed', 'true');
+            hasBeenClosed = true;
+        });
+    }
+
+    // Scroll handler
+    function handleScroll() {
+        if (hasBeenClosed) return;
+
+        const mainCtaRect = mainCta ? mainCta.getBoundingClientRect() : null;
+        const signaturesRect = signaturesSection ? signaturesSection.getBoundingClientRect() : null;
+        
+        // Show CTA when:
+        // 1. Main CTA is scrolled out of view (top is above viewport)
+        // 2. User has scrolled past signatures section
+        const mainCtaOutOfView = mainCtaRect && mainCtaRect.bottom < 0;
+        const inSignaturesSection = signaturesRect && signaturesRect.top < window.innerHeight / 2;
+
+        const shouldShow = mainCtaOutOfView && inSignaturesSection;
+
+        if (shouldShow && !isCtaVisible) {
+            floatingCta.classList.add('visible');
+            floatingCta.classList.remove('hidden');
+            isCtaVisible = true;
+        } else if (!shouldShow && isCtaVisible) {
+            floatingCta.classList.remove('visible');
+            isCtaVisible = false;
+        }
+    }
+
+    // Throttle scroll events
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+        if (scrollTimeout) {
+            window.cancelAnimationFrame(scrollTimeout);
+        }
+        scrollTimeout = window.requestAnimationFrame(handleScroll);
+    }, { passive: true });
+
+    // Initial check
+    handleScroll();
+}
