@@ -221,7 +221,7 @@ header.scrolled {
 
 .quick-actions-menu {
     position: absolute;
-    top: calc(100% + 10px);
+    top: 100%;
     right: 0;
     min-width: 160px;
     background: var(--secondary-color);
@@ -233,9 +233,21 @@ header.scrolled {
     transform: translateY(-10px);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     pointer-events: none;
+    margin-top: 8px;
+    padding-top: 2px;
+}
+
+.quick-actions-menu::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 0;
+    right: 0;
+    height: 8px;
 }
 
 .quick-actions:hover .quick-actions-menu,
+.quick-actions-menu:hover,
 .quick-actions-trigger[aria-expanded="true"] + .quick-actions-menu {
     opacity: 1;
     visibility: visible;
