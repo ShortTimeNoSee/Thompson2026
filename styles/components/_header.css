@@ -267,9 +267,9 @@ header.scrolled {
 .hamburger {
     display: none;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
     width: 28px;
-    height: 28px;
+    height: 22px;
     background: transparent;
     border: none;
     cursor: pointer;
@@ -288,11 +288,18 @@ header.scrolled {
     border-radius: 10px;
     transition: all 0.3s ease;
     transform-origin: center;
+    display: block;
+}
+
+.hamburger[aria-expanded="true"] {
+    justify-content: center;
+    gap: 0;
 }
 
 .hamburger[aria-expanded="true"] span:nth-child(1) {
-    transform: rotate(45deg) translate(8px, 8px);
+    transform: rotate(45deg);
     background: var(--accent-color);
+    position: absolute;
 }
 
 .hamburger[aria-expanded="true"] span:nth-child(2) {
@@ -300,8 +307,9 @@ header.scrolled {
 }
 
 .hamburger[aria-expanded="true"] span:nth-child(3) {
-    transform: rotate(-45deg) translate(8px, -8px);
+    transform: rotate(-45deg);
     background: var(--accent-color);
+    position: absolute;
 }
 
 .mobile-nav {
@@ -336,22 +344,7 @@ header.scrolled {
 }
 
 .mobile-nav-close {
-    background: transparent;
-    border: none;
-    color: var(--text-color);
-    font-size: 1.5em;
-    cursor: pointer;
-    padding: 0;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: color 0.2s ease;
-}
-
-.mobile-nav-close:hover {
-    color: var(--accent-color);
+    display: none;
 }
 
 .mobile-nav-content {
@@ -383,6 +376,12 @@ header.scrolled {
 
 .mobile-nav-section {
     margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--accent-alpha);
+}
+
+.mobile-nav-section:last-child {
+    border-bottom: none;
 }
 
 .mobile-nav-label {

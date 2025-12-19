@@ -449,6 +449,7 @@
     color: var(--accent-color);
     font-size: 1.3em;
     margin-bottom: 10px;
+    text-align: center;
 }
 
 .instruction-content p {
@@ -526,8 +527,22 @@
 
 .mobile-email-option p {
     color: var(--text-color);
-    font-size: 1.1em;
-    margin-bottom: 15px;
+    font-size: 1.05em;
+    margin-bottom: 12px;
+    text-align: left;
+}
+
+.printing-locations {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0 25px;
+    text-align: left;
+}
+
+.printing-locations li {
+    padding: 8px 0;
+    color: var(--text-color);
+    font-size: 1em;
 }
 
 .secondary-button {
@@ -537,10 +552,11 @@
     color: var(--accent-color);
     border: 2px solid var(--accent-color);
     border-radius: 4px;
-    font-size: 1.1em;
+    font-size: 1.05em;
     font-weight: 600;
     text-decoration: none;
     transition: all 0.3s ease;
+    margin-top: 10px;
 }
 
 .secondary-button:hover {
@@ -550,8 +566,9 @@
 
 .help-text {
     font-size: 0.95em;
-    opacity: 0.8;
+    opacity: 0.9;
     margin-top: 10px;
+    text-align: left;
 }
 
 .change-county {
