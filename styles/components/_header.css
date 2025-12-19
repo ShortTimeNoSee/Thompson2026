@@ -80,6 +80,18 @@ nav ul li a[data-page="blog"] {
     border: 1px solid var(--accent-color);
 }
 
+nav ul li a.sign-link {
+    background: var(--accent-color);
+    color: var(--primary-color);
+    font-weight: 700;
+    border: 1px solid var(--accent-color);
+}
+
+nav ul li a.sign-link:hover {
+    background: transparent;
+    color: var(--accent-color);
+}
+
 nav ul li a:hover {
     background: var(--accent-alpha);
     color: var(--accent-color);

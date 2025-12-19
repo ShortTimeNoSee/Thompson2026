@@ -42,8 +42,8 @@
     }
   },
   "dependencies": {
+    "http-server": "^14.1.1",
     "luxon": "^3.7.1",
-    "sharp": "^0.34.3",
-    "http-server": "^14.1.1"
+    "sharp": "^0.34.5"
   }
 }

@@ -1,0 +1,209 @@
+---
+layout: base.html
+title: Sign the Ballot Petition - Nicholas A. Thompson 2026
+description: Help Nicholas Thompson get on the 2026 California Governor ballot. Download, sign, and submit your ballot petition.
+keywords: Nicholas A. Thompson, California Governor 2026, ballot access, petition, signature collection, grassroots campaign
+og_title: Sign the Ballot Petition - Thompson 2026
+og_description: Crowdsourcing democracy. Download and submit your ballot petition to get Nicholas Thompson on the ballot.
+body_id: sign_page
+need_sign_script: true
+---
+
+<section id="sign-hero" class="section">
+    <div class="container">
+        <div class="sign-hero-content">
+            <h1>Sign the Ballot Petition</h1>
+            <p class="sign-subtitle">Crowdsourcing Democracy</p>
+            <p class="sign-mission">The state puts up a $5,000 paywall to democracy. We're tearing it down with a PDF.</p>
+        </div>
+    </div>
+</section>
+
+<section id="sign-main" class="section">
+    <div class="container">
+        <div class="sign-content">
+            <div class="mission-statement">
+                <h2>The Mission</h2>
+                <p>To get on the ballot, I need to either <strong>pay ~$5,000</strong> OR turn in <strong>6,000 signatures</strong>. Each signature is worth approximately $0.82.</p>
+                <p>Usually, rich campaigns hire people to collect these signatures. We're doing something different.</p>
+                <p><strong>We're letting YOU become the circulator.</strong></p>
+                <p>Download the official legal petition. Sign it at home. Get your roommates, neighbors, or friends to sign it. Then drop it off yourself at your county registrar's office.</p>
+                <p class="groundbreaking">You can circulate your own signature. You sign as your own witness. Ultimate loophole. Groundbreaking if we can pull this off.</p>
+            </div>
+
+            <div id="petition-interactive">
+                <div class="step-indicator">
+                    <div class="step active" data-step="1">
+                        <span class="step-number">1</span>
+                        <span class="step-label">Select County</span>
+                    </div>
+                    <div class="step" data-step="2">
+                        <span class="step-number">2</span>
+                        <span class="step-label">Get Instructions</span>
+                    </div>
+                    <div class="step" data-step="3">
+                        <span class="step-number">3</span>
+                        <span class="step-label">Download & Submit</span>
+                    </div>
+                </div>
+
+                <div class="petition-form" id="county-selector">
+                    <h3>Step 1: Select Your County</h3>
+                    <p>We need to tell you which county to write on your form and where to drop it off.</p>
+                    <div class="form-group">
+                        <label for="county-select" class="sr-only">Your County</label>
+                        <select id="county-select" name="county" required>
+                            <option value="">Choose your county...</option>
+                        </select>
+                    </div>
+                    <button id="county-submit" class="action-button" disabled>Continue</button>
+                </div>
+
+                <div class="petition-instructions hidden" id="instructions-section">
+                    <h3>Your Drop-Off Location</h3>
+                    <div class="registrar-card">
+                        <div class="registrar-name" id="registrar-name"></div>
+                        <div class="registrar-official" id="registrar-official"></div>
+                        <div class="registrar-address">
+                            <div id="registrar-street"></div>
+                            <div id="registrar-city"></div>
+                        </div>
+                        <div class="registrar-contact">
+                            <div id="registrar-phone"></div>
+                            <div id="registrar-hours"></div>
+                        </div>
+                        <div class="registrar-links">
+                            <a id="registrar-website" href="#" target="_blank" rel="noopener noreferrer">Visit Website</a>
+                            <a id="registrar-maps" href="#" target="_blank" rel="noopener noreferrer">Get Directions</a>
+                        </div>
+                    </div>
+
+                    <div class="download-section">
+                        <h3>Download Your Petition</h3>
+                        
+                        <div class="warning-box critical">
+                            <h4>⚠️ CRITICAL: Duplex Printing Required</h4>
+                            <p>This form <strong>MUST BE PRINTED DOUBLE-SIDED</strong> (duplex printing).</p>
+                            <p>If you print page 1 and page 2 on separate sheets, the form is invalid and will be rejected.</p>
+                            <div class="duplex-instructions">
+                                <p><strong>Don't have a duplex printer?</strong></p>
+                                <ol>
+                                    <li>Print page 1 only</li>
+                                    <li>Take the printed page out</li>
+                                    <li>Flip it over and reinsert it</li>
+                                    <li>Print page 2 on the back</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <a href="/resources/petition.pdf" class="download-button" download>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            Download Petition PDF
+                        </a>
+                        <p class="file-info">Letter size (8.5" x 11") | Must be printed double-sided</p>
+                    </div>
+
+                    <div class="signing-instructions">
+                        <h3>How to Complete Your Petition</h3>
+                        
+                        <div class="instruction-step">
+                            <div class="instruction-number">A</div>
+                            <div class="instruction-content">
+                                <h4>Write Your County Name</h4>
+                                <p>In the blank space that says "I am a resident of ______ County", write:</p>
+                                <div class="county-name-box" id="county-name-display"></div>
+                                <p class="warning-text">⚠️ Write it exactly as shown above. If you write the wrong county name, your form is void.</p>
+                            </div>
+                        </div>
+
+                        <div class="instruction-step">
+                            <div class="instruction-number">B</div>
+                            <div class="instruction-content">
+                                <h4>Collect Signatures</h4>
+                                <p><strong>Sign Line 1 yourself.</strong> You are now officially a circulator!</p>
+                                <p>Pass it to anyone else in your house, dorm, or neighborhood who is a registered California voter from <span class="county-emphasis" id="county-emphasis-1"></span>. They can sign Lines 2-10.</p>
+                                <p><strong>All signers on one form must be from the same county.</strong></p>
+                                <p>You can print more copies if you want, but even just one signature (yours) is enough! Every signature counts.</p>
+                            </div>
+                        </div>
+
+                        <div class="instruction-step">
+                            <div class="instruction-number">C</div>
+                            <div class="instruction-content">
+                                <h4>Sign the Circulator's Affidavit (Back of Form)</h4>
+                                <p>Flip the page over. You'll see the "Circulator's Affidavit" section.</p>
+                                <p><strong>YOU are the circulator</strong>, even if you only signed it yourself. Sign this section under penalty of perjury.</p>
+                                <div class="warning-box">
+                                    <p><strong>Important:</strong> You do NOT need to sign the "Notary Public" section! That section is optional and often scares people. Ignore it. Your signature under penalty of perjury is sufficient!</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="instruction-step">
+                            <div class="instruction-number">D</div>
+                            <div class="instruction-content">
+                                <h4>Drop It Off In Person</h4>
+                                <p>Take your completed form to the address shown above:</p>
+                                <div class="dropoff-address-repeat" id="dropoff-address-repeat"></div>
+                                <p><strong>Walk it into the office.</strong> Identify yourself as a circulator submitting a ballot petition for Nicholas A. Thompson for Governor.</p>
+                                <p class="office-hours">Office hours: <span id="office-hours-repeat"></span></p>
+                                <p class="no-mail-warning">⚠️ Do not mail it. We don't have clearance on mailing protocols yet. Physical drop-off only.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mobile-email-option">
+                        <h3>Can't Print Right Now?</h3>
+                        <p>Viewing this on your phone? No printer nearby?</p>
+                        <a href="/contact" class="secondary-button">Email Me These Instructions</a>
+                        <p class="help-text">Or bookmark this page and come back when you can print. Check out your local library too!</p>
+                    </div>
+
+                    <div class="change-county">
+                        <button id="change-county-btn" class="text-button">← Choose a different county</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="why-this-matters">
+                <h2>Why This Matters</h2>
+                <p>Most campaigns pay professionals per signature to collect these. That creates a barrier where only wealthy candidates or those backed by big donors can get on the ballot.</p>
+                <p><strong>We're crowdsourcing the bureaucracy.</strong></p>
+                <p>You're not just a voter. You're an active agent in tearing down the barriers that keep independent candidates off the ballot.</p>
+                <p>Every petition you submit is worth ~$0.82 to the campaign. But more importantly, it's a statement that democracy shouldn't have a paywall! We're all in this together.</p>
+            </div>
+
+            <div class="questions-section">
+                <h2>Questions?</h2>
+                <div class="faq">
+                    <div class="faq-item">
+                        <h4>Do I need to be a registered voter to circulate?</h4>
+                        <p>Yes, you must be a registered California voter to sign. But you can circulate your own signature, so if you can sign, you can circulate.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Can I get signatures from people in other counties?</h4>
+                        <p>All signatures on one petition form must be from the same county. But you can print multiple forms for different counties if you know people spread across California. Just note you'll have to drop off each form separately in each county!</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>What if I mess up the form?</h4>
+                        <p>Just print another one! The PDF is free to download and print as many times as you need.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Do I really need to print it double-sided?</h4>
+                        <p>YES. This is a requirement. Single-sided printing will result in rejection. Follow the manual flip instructions if you don't have a duplex printer.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Can I mail it instead of dropping it off?</h4>
+                        <p>Not right now. We're still confirming mailing protocols with county registrars. For now, please drop it off in person to ensure it's properly received.</p>
+                    </div>
+                </div>
+                <p class="more-questions">Still have questions? <a href="/contact">Contact us</a>.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
