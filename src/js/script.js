@@ -15,15 +15,12 @@ window.site = {
             return;
         }
         this.sticky = this.header.offsetTop;
-        this.h1 = this.header.querySelector("h1");
-        this.h2 = this.header.querySelector("h2");
                 
-        // Setup all header-dependent functionalities
         this.setActiveLink();
         this.setupHamburgerToggle();
+        this.setupQuickActions();
         this.setupPreloadListeners();
         
-        // Re-bind the throttled scrollz event handler for the sticky header
         const onScroll = this.throttle(() => {
             window.requestAnimationFrame(() => this.stickyHeader());
         }, 100);
@@ -33,7 +30,7 @@ window.site = {
     setActiveLink: function() {
         const path = window.location.pathname;
         const bodyId = document.body.id;
-        const navLinks = document.querySelectorAll('nav ul li a');
+        const navLinks = document.querySelectorAll('.nav-item, .mobile-nav-section a');
 
         navLinks.forEach(link => {
             const href = link.getAttribute('href');
@@ -60,49 +57,34 @@ window.site = {
     stickyHeader: function() {
         if (!this.header) return;
 
-        if (window.scrollY > this.sticky) {
-            this.header.classList.add("sticky");
-            const scrollProgress = Math.min(window.scrollY / this.sticky, 1);
-            
-            if (window.innerWidth > 768) {
-                if (this.h1) this.h1.style.fontSize = `${2 - 0.5 * scrollProgress}em`;
-                if (this.h2) this.h2.style.fontSize = `${1.2 - 0.2 * scrollProgress}em`;
-            }
-            this.header.style.padding = `${10 - 5 * scrollProgress}px 0`;
+        if (window.scrollY > 50) {
+            this.header.classList.add("scrolled");
         } else {
-            this.header.classList.remove("sticky");
-            if (window.innerWidth > 768) {
-                if (this.h1) this.h1.style.fontSize = "2em";
-                if (this.h2) this.h2.style.fontSize = "1.2em";
-            }
-            this.header.style.padding = "10px 0";
+            this.header.classList.remove("scrolled");
         }
     },
 
     setupHamburgerToggle: function() {
         const hamburger = document.getElementById('hamburger');
-        const nav = document.querySelector('nav ul');
+        const mobileNav = document.getElementById('mobile-nav');
+        const closeBtn = document.querySelector('.mobile-nav-close');
         const body = document.body;
 
-        if (!hamburger || !nav) {
-            console.error("Hamburger menu setup failed: elements not found.");
+        if (!hamburger || !mobileNav) {
             return;
         }
 
-        hamburger.innerHTML = '<div></div>'; // Create the visual bars
-
-        const toggleMenu = () => {
-            hamburger.classList.toggle('active');
-            nav.classList.toggle('active');
-            body.style.overflow = nav.classList.contains('active') ? 'hidden' : '';
-            hamburger.setAttribute('aria-expanded', nav.classList.contains('active') ? 'true' : 'false');
-        };
-
         const closeMenu = () => {
-            hamburger.classList.remove('active');
-            nav.classList.remove('active');
+            mobileNav.classList.remove('active');
             body.style.overflow = '';
             hamburger.setAttribute('aria-expanded', 'false');
+        };
+
+        const toggleMenu = () => {
+            const isOpen = mobileNav.classList.contains('active');
+            mobileNav.classList.toggle('active');
+            body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+            hamburger.setAttribute('aria-expanded', mobileNav.classList.contains('active') ? 'true' : 'false');
         };
 
         hamburger.addEventListener('click', (e) => {
@@ -111,36 +93,57 @@ window.site = {
             toggleMenu();
         });
 
-        const dropBtn = document.querySelector('.dropbtn');
-        if (dropBtn) {
-            dropBtn.addEventListener('click', (e) => {
-                if (window.innerWidth <= 768) {
-                    e.preventDefault();
-                }
-            });
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeMenu);
         }
 
-        nav.querySelectorAll('a:not(.dropbtn)').forEach(link => {
+        mobileNav.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', closeMenu);
         });
 
         document.addEventListener('click', (e) => {
-            if (nav.classList.contains('active') && !nav.contains(e.target) && !hamburger.contains(e.target)) {
+            if (mobileNav.classList.contains('active') && 
+                !mobileNav.contains(e.target) && 
+                !hamburger.contains(e.target)) {
                 closeMenu();
             }
         });
 
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && nav.classList.contains('active')) {
+            if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
                 closeMenu();
             }
         });
 
         window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
+            if (window.innerWidth > 992) {
                 closeMenu();
             }
         });
+    },
+
+    setupQuickActions: function() {
+        const trigger = document.querySelector('.quick-actions-trigger');
+        const menu = document.querySelector('.quick-actions-menu');
+
+        if (!trigger || !menu) return;
+
+        trigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+            trigger.setAttribute('aria-expanded', !isOpen);
+            
+            if (!isOpen) {
+                document.addEventListener('click', closeQuickActions);
+            }
+        });
+
+        function closeQuickActions(e) {
+            if (!menu.contains(e.target) && e.target !== trigger) {
+                trigger.setAttribute('aria-expanded', 'false');
+                document.removeEventListener('click', closeQuickActions);
+            }
+        }
     },
     
     // --- NON-HEADER-DEPENDENT FUNCTIONS ---
