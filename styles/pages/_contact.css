@@ -234,6 +234,224 @@
     width: auto;
 }
 
+.circulator-section {
+    background: var(--secondary-color);
+    padding: 60px 0;
+    border-top: 3px solid var(--accent-color);
+    border-bottom: 3px solid var(--accent-color);
+}
+
+.circulator-section.hidden {
+    display: none;
+}
+
+.circulator-content {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.circulator-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.circulator-icon {
+    font-size: 4em;
+    margin-bottom: 20px;
+}
+
+.circulator-header h2 {
+    font-size: 2.5em;
+    color: var(--accent-color);
+    margin-bottom: 15px;
+    font-weight: 800;
+}
+
+.circulator-lead {
+    font-size: 1.3em;
+    color: var(--text-color);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.circulator-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.circulator-requirements,
+.circulator-process {
+    background: var(--primary-color);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.circulator-requirements h3,
+.circulator-process h3 {
+    font-size: 1.4em;
+    color: var(--accent-color);
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.circulator-requirements ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.circulator-requirements li {
+    font-size: 1.1em;
+    color: var(--text-color);
+    padding: 10px 0;
+    border-bottom: 1px solid var(--accent-alpha);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.circulator-requirements li:last-child {
+    border-bottom: none;
+}
+
+.circulator-requirements li::before {
+    content: "✓";
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+.circulator-requirements li strong {
+    color: var(--accent-color);
+}
+
+.requirements-note {
+    margin-top: 15px;
+    padding: 15px;
+    background: var(--secondary-color);
+    border-radius: 8px;
+    font-size: 1em;
+    color: var(--accent-color);
+    font-weight: 600;
+    text-align: center;
+}
+
+.circulator-process ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: step-counter;
+}
+
+.circulator-process li {
+    font-size: 1.05em;
+    color: var(--text-color);
+    padding: 12px 0;
+    border-bottom: 1px solid var(--accent-alpha);
+    counter-increment: step-counter;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.circulator-process li:last-child {
+    border-bottom: none;
+}
+
+.circulator-process li::before {
+    content: counter(step-counter);
+    background: var(--accent-color);
+    color: var(--primary-color);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9em;
+    flex-shrink: 0;
+}
+
+.circulator-process li strong {
+    color: var(--accent-color);
+}
+
+.circulator-impact {
+    text-align: center;
+    background: var(--primary-color);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.circulator-impact p {
+    font-size: 1.15em;
+    color: var(--text-color);
+    margin: 0;
+    line-height: 1.8;
+}
+
+.circulator-impact p:first-child {
+    font-size: 1.4em;
+    color: var(--accent-color);
+    margin-bottom: 10px;
+}
+
+.contact-method.circulator-highlight {
+    border: 2px solid var(--accent-color);
+    background: var(--secondary-color);
+    box-shadow: 0 0 0 2px var(--accent-alpha);
+}
+
+.contact-method.circulator-highlight.active {
+    animation: pulse-border 2s ease-in-out infinite;
+}
+
+@keyframes pulse-border {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(254, 208, 0, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 8px rgba(254, 208, 0, 0);
+    }
+}
+
+@media (max-width: 900px) {
+    .circulator-details {
+        grid-template-columns: 1fr;
+    }
+
+    .circulator-header h2 {
+        font-size: 2em;
+    }
+}
+
+@media (max-width: 600px) {
+    .circulator-section {
+        padding: 50px 0;
+    }
+
+    .circulator-header h2 {
+        font-size: 1.7em;
+    }
+
+    .circulator-lead {
+        font-size: 1.1em;
+    }
+
+    .circulator-requirements,
+    .circulator-process {
+        padding: 25px 20px;
+    }
+
+    .circulator-requirements li,
+    .circulator-process li {
+        font-size: 1em;
+    }
+}
 
 @media (max-width: 1200px) {
     .contact-hero-content h1 {

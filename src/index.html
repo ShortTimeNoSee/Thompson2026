@@ -28,7 +28,7 @@ structured_data: |
                 <p class="hero-lead">I'm Nicholas Thompson, running for governor to restore what Sacramento has destroyed.</p>
                 <p class="hero-subtitle">No more asking permission to be free. No more funding their failures. No more being treated like subjects instead of citizens.</p>
                 <div class="hero-buttons">
-                    <a href="/declaration_of_war" class="cta-button primary">Join the Fight</a>
+                    <a href="/sign" class="cta-button primary">Get Me On the Ballot</a>
                     <a href="/about" class="cta-button secondary">My Story</a>
                 </div>
             </div>
@@ -41,6 +41,51 @@ structured_data: |
                   width="250" height="250"
                   fetchpriority="high" decoding="async">
             </div>
+        </div>
+    </div>
+</section>
+
+<section id="ballot-access" class="section ballot-access-section">
+    <div class="container">
+        <div class="ballot-access-content">
+            <div class="ballot-access-header">
+                <h2>Help Me Get On the Ballot</h2>
+                <p class="ballot-lead">California's ballot access laws are designed to keep outsiders out. The state wants <strong>$5,000</strong> or <strong>6,000 signatures</strong>. We're choosing signatures. And we're crowdsourcing democracy.</p>
+            </div>
+            <div class="ballot-visual">
+                <canvas id="ballotParticleCanvas"></canvas>
+            </div>
+            <div class="ballot-stats-row">
+                <div class="ballot-stat">
+                    <span class="stat-value">6,000</span>
+                    <span class="stat-label">Signatures Needed</span>
+                </div>
+                <div class="ballot-stat">
+                    <span class="stat-value">~$0.82</span>
+                    <span class="stat-label">Value Per Signature</span>
+                </div>
+                <div class="ballot-stat">
+                    <span class="stat-value">YOU</span>
+                    <span class="stat-label">Can Make It Happen</span>
+                </div>
+            </div>
+            <div class="ballot-actions">
+                <div class="ballot-action-card">
+                    <div class="action-icon">✍️</div>
+                    <h3>Sign the Petition</h3>
+                    <p>Download the official petition, sign it, and drop it at your county registrar. Takes 10 minutes.</p>
+                    <p class="card-clarification">Signing ≠ voting for me. It means voters deserve the choice.</p>
+                    <a href="/sign" class="action-btn primary">Sign Now →</a>
+                </div>
+                <div class="ballot-action-card featured">
+                    <div class="action-badge">MULTIPLY YOUR IMPACT</div>
+                    <div class="action-icon">📋</div>
+                    <h3>Become a Circulator</h3>
+                    <p>Anyone 18+ can circulate petitions. No registration or citizenship required. Collect signatures from friends, family, neighbors.</p>
+                    <a href="/contact?circulator=true" class="action-btn primary">Become a Circulator →</a>
+                </div>
+            </div>
+            <p class="ballot-note">Every signature is a statement that democracy shouldn't have a paywall.</p>
         </div>
     </div>
 </section>
@@ -182,30 +227,24 @@ structured_data: |
     </div>
 </section>
 
-<!-- Interactive Engagement: Social proof and action -->
 <section id="declaration" class="section">
     <div class="container">
         <a href="declaration_of_war">
             <h3>Declaration of War <i class="fas fa-arrow-right"></i></h3>
         </a>
-        <p class="section-intro">Join thousands of Californians who are done being pushed around. This is our declaration of independence from government tyranny.</p>
-        <div class="declaration-container">
-            <canvas id="particleCanvas"></canvas>
-            <div id="declaration-interactive"></div>
-        </div>
+        <p class="section-intro">Join Californians who are done being pushed around. Sign the declaration, then take the next step: <a href="/sign" class="inline-link">sign the ballot petition</a> to actually get me on the ballot.</p>
+        <div id="declaration-interactive"></div>
     </div>
 </section>
 
-<!-- Clear Call-to-Action: Multiple engagement paths -->
 <section id="support" class="section dark-section">
     <div class="container">
         <h3>Ready to Push Back?</h3>
-        <p class="section-intro">This movement needs your voice. Whether you sign the declaration, share our message, or show your support, every action matters.</p>
+        <p class="section-intro">This movement needs action, not just agreement. The ballot petition is what actually gets me in the race.</p>
         <div class="support-actions">
-            <a href="/declaration_of_war" class="cta-button primary">Sign the Declaration</a>
-            <a href="https://choosechange.etsy.com" target="_blank" class="cta-button secondary">Shop & Support</a>
-            <!-- <a href="/shop" class="cta-button secondary">Shop & Support</a> --> <!-- TODO: enable shop page when ready -->
-            <a href="/contact" class="cta-button tertiary">Get Involved</a>
+            <a href="/sign" class="cta-button primary">Sign the Ballot Petition</a>
+            <a href="/contact?circulator=true" class="cta-button secondary">Become a Circulator</a>
+            <a href="/declaration_of_war" class="cta-button tertiary">Sign the Declaration</a>
         </div>
     </div>
 </section>

@@ -11,8 +11,45 @@ body_id: contact_page
 <section id="contact-hero" class="section dark-section">
     <div class="container">
         <div class="contact-hero-content">
-            <h1>Ready to Join the Fight?</h1>
-            <p class="contact-lead">Sacramento doesn't want to hear from you. But I do. Your voice matters, and together we can restore what they've destroyed.</p>
+            <h1 id="contact-hero-title">Ready to Join the Fight?</h1>
+            <p class="contact-lead" id="contact-hero-lead">Sacramento doesn't want to hear from you. But I do. Your voice matters, and together we can restore what they've destroyed.</p>
+        </div>
+    </div>
+</section>
+
+<section id="circulator-info" class="section circulator-section hidden">
+    <div class="container">
+        <div class="circulator-content">
+            <div class="circulator-header">
+                <div class="circulator-icon">📋</div>
+                <h2>Become a Petition Circulator</h2>
+                <p class="circulator-lead">Multiply your impact. One circulator can collect dozens of signatures.</p>
+            </div>
+            <div class="circulator-details">
+                <div class="circulator-requirements">
+                    <h3>Who Can Circulate?</h3>
+                    <ul>
+                        <li><strong>Anyone 18 or older</strong></li>
+                        <li>No voter registration required</li>
+                        <li>No citizenship required</li>
+                        <li>Any California resident or visitor</li>
+                    </ul>
+                    <p class="requirements-note">The only requirement: you must be 18+. That's it.</p>
+                </div>
+                <div class="circulator-process">
+                    <h3>How It Works</h3>
+                    <ol>
+                        <li><strong>Reach out below</strong> Mention you want to be a circulator</li>
+                        <li><strong>Get the materials</strong> I'll send you the official petition and instructions</li>
+                        <li><strong>Collect signatures</strong> From friends, family, coworkers, neighbors</li>
+                        <li><strong>Submit</strong> Drop completed petitions at your county registrar</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="circulator-impact">
+                <p><strong>Each signature you collect = ~$0.82 saved</strong></p>
+                <p>10 signatures = $8.20 | 50 signatures = $41 | 100 signatures = $82</p>
+            </div>
         </div>
     </div>
 </section>
@@ -22,22 +59,22 @@ body_id: contact_page
         <div class="contact-grid">
             <div class="contact-info">
                 <h2>Let's Connect</h2>
-                <p>Whether you want to volunteer, share your story, ask questions, or just tell me what's on your mind - I want to hear from you.</p>
+                <p>Whether you want to circulate petitions, share your story, ask questions, or just tell me what's on your mind, I want to hear from you.</p>
                 
                 <div class="contact-methods">
+                    <div class="contact-method circulator-highlight">
+                        <i class="fas fa-clipboard-list"></i>
+                        <div>
+                            <h3>Become a Circulator</h3>
+                            <p>Get petition materials and collect signatures in your community</p>
+                        </div>
+                    </div>
+
                     <div class="contact-method">
                         <i class="fas fa-envelope"></i>
                         <div>
-                            <h3>Reach Out to Me</h3>
-                            <p>For general inquiries and campaign questions</p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-method">
-                        <i class="fas fa-users"></i>
-                        <div>
-                            <h3>Volunteer</h3>
-                            <p>Help spread the message across California</p>
+                            <h3>General Inquiries</h3>
+                            <p>Campaign questions and feedback</p>
                         </div>
                     </div>
                     
@@ -108,6 +145,28 @@ body_id: contact_page
         };
         if (loadBtn) {
             loadBtn.addEventListener('click', loadForm, { once: true });
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('circulator') === 'true') {
+            const circulatorSection = document.getElementById('circulator-info');
+            const heroTitle = document.getElementById('contact-hero-title');
+            const heroLead = document.getElementById('contact-hero-lead');
+            
+            if (circulatorSection) {
+                circulatorSection.classList.remove('hidden');
+            }
+            if (heroTitle) {
+                heroTitle.textContent = 'Become a Petition Circulator';
+            }
+            if (heroLead) {
+                heroLead.textContent = 'You can collect signatures from anyone. Friends, family, coworkers, strangers. Anyone 18+ can circulate, regardless of voter registration or citizenship.';
+            }
+            
+            const circulatorHighlight = document.querySelector('.circulator-highlight');
+            if (circulatorHighlight) {
+                circulatorHighlight.classList.add('active');
+            }
         }
     });
 </script>

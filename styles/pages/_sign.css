@@ -87,6 +87,25 @@
     font-weight: 600;
 }
 
+.clarification-box {
+    margin-top: 25px;
+    padding: 18px 22px;
+    background: var(--primary-color);
+    border-left: 4px solid var(--accent-color);
+    border-radius: 4px;
+}
+
+.clarification-box p {
+    margin: 0;
+    font-size: 1.05em;
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+.clarification-box strong {
+    color: var(--accent-color);
+}
+
 /* Step Indicator */
 .step-indicator {
     display: flex;
@@ -795,6 +814,127 @@
     .county-name-box {
         font-size: 1.2em;
         padding: 12px 20px;
+    }
+}
+
+.circulator-upsell {
+    margin: 60px 0;
+    padding: 0;
+}
+
+.upsell-content {
+    background: var(--secondary-color);
+    border: 2px solid var(--accent-color);
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.upsell-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.upsell-icon {
+    font-size: 2.5em;
+}
+
+.upsell-content h3 {
+    font-size: 1.8em;
+    color: var(--accent-color);
+    margin: 0;
+    font-weight: 700;
+}
+
+.upsell-content p {
+    font-size: 1.15em;
+    color: var(--text-color);
+    line-height: 1.6;
+    margin: 15px auto;
+    max-width: 600px;
+}
+
+.upsell-content p strong {
+    color: var(--accent-color);
+}
+
+.impact-stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 25px 0 30px;
+    padding: 20px;
+    background: var(--primary-color);
+    border-radius: 8px;
+}
+
+.impact-stat {
+    font-size: 1em;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.upsell-button {
+    display: inline-block;
+    padding: 16px 35px;
+    background: var(--accent-color);
+    color: var(--primary-color);
+    border: 2px solid var(--accent-color);
+    border-radius: 8px;
+    font-size: 1.2em;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.upsell-button:hover {
+    background: transparent;
+    color: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(254, 208, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+    .upsell-content {
+        padding: 30px 25px;
+    }
+
+    .upsell-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .upsell-icon {
+        font-size: 2em;
+    }
+
+    .upsell-content h3 {
+        font-size: 1.5em;
+    }
+
+    .upsell-content p {
+        font-size: 1.05em;
+    }
+
+    .impact-stats {
+        flex-direction: column;
+        gap: 10px;
+        padding: 15px;
+    }
+
+    .impact-stat {
+        font-size: 0.95em;
+    }
+
+    .upsell-button {
+        padding: 14px 28px;
+        font-size: 1.1em;
+        width: 100%;
     }
 }
 

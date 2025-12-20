@@ -250,34 +250,13 @@
 }
 
 
-#index_page #declaration .declaration-container {
+#index_page #declaration #declaration-interactive {
     max-width: 850px;
     margin: 40px auto 0;
-    display: flex;
-    align-items: center;
+    padding: 40px;
     background: var(--secondary-color);
     border: 1px solid var(--accent-alpha);
     border-radius: 4px;
-    min-height: 280px;
-    height: auto;
-}
-
-#index_page #declaration #particleCanvas {
-    width: 350px;
-    height: 350px;
-    flex-shrink: 0;
-    background: transparent;
-    border: none;
-}
-
-#index_page #declaration #declaration-interactive {
-    flex: 1;
-    padding: 15px 20px;
-    background: rgba(0, 0, 0, 0.6);
-    min-height: 240px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
 
@@ -306,6 +285,16 @@
     line-height: 1.5;
 }
 
+.section-intro .inline-link {
+    color: var(--accent-color);
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.section-intro .inline-link:hover {
+    color: var(--highlight-color);
+}
+
 .section {
     padding: 70px 0;
 }
@@ -314,6 +303,271 @@
     padding: 80px 0;
 }
 
+.ballot-access-section {
+    background: var(--secondary-color);
+    padding: 80px 0;
+    border-top: 3px solid var(--accent-color);
+    border-bottom: 3px solid var(--accent-color);
+}
+
+.ballot-access-content {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.ballot-access-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.ballot-access-header h2 {
+    font-size: 2.8em;
+    color: var(--accent-color);
+    margin-bottom: 20px;
+    font-weight: 800;
+}
+
+.ballot-lead {
+    font-size: 1.3em;
+    color: var(--text-color);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.ballot-lead strong {
+    color: var(--accent-color);
+}
+
+.ballot-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0 40px;
+}
+
+#ballotParticleCanvas {
+    width: 350px;
+    height: 250px;
+    background: transparent;
+    border: none;
+}
+
+.ballot-stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+}
+
+.ballot-stat {
+    text-align: center;
+    padding: 25px;
+    background: var(--primary-color);
+    border-radius: 12px;
+    min-width: 160px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.ballot-stat .stat-value {
+    display: block;
+    font-size: 2.5em;
+    font-weight: 800;
+    color: var(--accent-color);
+    line-height: 1.2;
+}
+
+.ballot-stat .stat-label {
+    display: block;
+    font-size: 0.9em;
+    color: var(--text-color);
+    margin-top: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.ballot-actions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.ballot-action-card {
+    background: var(--primary-color);
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 35px;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.ballot-action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.ballot-action-card.featured {
+    border-color: var(--accent-color);
+    background: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--accent-alpha);
+}
+
+.action-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent-color);
+    color: var(--primary-color);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.75em;
+    font-weight: 700;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+.action-icon {
+    font-size: 3em;
+    margin-bottom: 20px;
+}
+
+.ballot-action-card h3 {
+    font-size: 1.5em;
+    color: var(--accent-color);
+    margin-bottom: 15px;
+}
+
+.ballot-action-card p {
+    font-size: 1.05em;
+    color: var(--text-color);
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.card-clarification {
+    font-size: 0.95em;
+    color: var(--text-color);
+    opacity: 0.85;
+    font-style: italic;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.ballot-action-card > .action-btn {
+    margin-top: auto;
+}
+
+.action-btn {
+    display: inline-block;
+    padding: 14px 30px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.action-btn.primary {
+    background: var(--accent-color);
+    color: var(--primary-color);
+    border: 2px solid var(--accent-color);
+}
+
+.action-btn.primary:hover {
+    background: transparent;
+    color: var(--accent-color);
+}
+
+.ballot-note {
+    text-align: center;
+    font-size: 1.15em;
+    color: var(--text-color);
+    font-style: italic;
+    font-weight: 500;
+}
+
+.ballot-note::before {
+    content: "→ ";
+    color: var(--accent-color);
+    font-weight: 700;
+}
+
+@media (max-width: 900px) {
+    .ballot-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .ballot-stats-row {
+        gap: 20px;
+    }
+
+    .ballot-stat {
+        min-width: 140px;
+        padding: 20px;
+    }
+
+    .ballot-stat .stat-value {
+        font-size: 2em;
+    }
+
+    .ballot-access-header h2 {
+        font-size: 2.2em;
+    }
+
+    #ballotParticleCanvas {
+        width: 100%;
+        max-width: 350px;
+        height: 200px;
+    }
+}
+
+@media (max-width: 600px) {
+    .ballot-access-section {
+        padding: 60px 0;
+    }
+
+    .ballot-access-header h2 {
+        font-size: 1.9em;
+    }
+
+    .ballot-lead {
+        font-size: 1.1em;
+    }
+
+    .ballot-visual {
+        margin: 20px 0 30px;
+    }
+
+    #ballotParticleCanvas {
+        width: 100%;
+        height: 150px;
+    }
+
+    .ballot-stats-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .ballot-stat {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    .ballot-action-card {
+        padding: 30px 25px;
+    }
+
+    .action-icon {
+        font-size: 2.5em;
+    }
+}
 
 @media (max-width: 1200px) {
     .hero-text h1 {
@@ -392,20 +646,8 @@
         gap: 20px;
     }
 
-    /* Stack declaration container */
-    #index_page #declaration .declaration-container {
-        flex-direction: column;
-        height: auto;
-    }
-
-    #index_page #declaration #particleCanvas {
-        width: 100%;
-        height: 200px;
-    }
-
     #index_page #declaration #declaration-interactive {
-        width: 100%;
-        padding: 25px;
+        padding: 30px 25px;
     }
 
     /* Stack support actions */
@@ -506,12 +748,7 @@
         font-size: 2.2em;
     }
 
-    /* Smaller canvas for mobile */
-    #index_page #declaration #particleCanvas {
-        height: 180px;
-    }
-
-    #index_page #declaration .declaration-container {
-        min-height: 350px;
+    #index_page #declaration #declaration-interactive {
+        padding: 25px 20px;
     }
 }

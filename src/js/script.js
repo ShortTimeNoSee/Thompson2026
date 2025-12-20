@@ -243,13 +243,12 @@ window.site = {
     },
 
     initParticleShatter: function() {
-        const canvas = document.getElementById('particleCanvas');
-        if (!canvas) return;
-        
         const isHomePage = window.location.pathname === '/' || window.location.pathname === '/index.html';
         if (!isHomePage) return;
 
-        
+        const canvas = document.getElementById('ballotParticleCanvas');
+        if (!canvas) return;
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {

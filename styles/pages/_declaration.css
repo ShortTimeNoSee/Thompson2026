@@ -983,6 +983,17 @@
     color: var(--accent-color);
 }
 
+.modal-clarification {
+    font-size: 1em;
+    color: var(--text-color);
+    opacity: 0.9;
+    font-style: italic;
+    padding: 12px 18px;
+    background: var(--primary-color);
+    border-radius: 6px;
+    margin: 20px 0;
+}
+
 .ballot-modal-actions {
     display: flex;
     flex-direction: column;

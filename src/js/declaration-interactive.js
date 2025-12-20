@@ -478,6 +478,7 @@ class DeclarationComponent {
                 <div class="ballot-modal-body">
                     <p class="modal-emphasis">Digital signatures don't get me on the ballot. Official petitions do.</p>
                     <p>Your voice matters, but <strong>only petition signatures count</strong> for ballot access.</p>
+                    <p class="modal-clarification">Signing the petition ≠ voting for me. Any party, any ideology. You're just saying voters should have the option.</p>
                     <div class="modal-stats">
                         <div class="modal-stat">
                             <span class="stat-number">$5,000</span>
