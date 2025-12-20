@@ -1,55 +1,152 @@
 /* pages/_issues.css */
+
 #issues-hero {
-    padding: 180px 0 100px;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    padding: 200px 0 100px;
+    background: 
+        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(254, 208, 0, 0.08) 0%, transparent 50%),
+        linear-gradient(180deg, var(--secondary-color) 0%, var(--primary-color) 100%);
     text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+#issues-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 100px,
+            rgba(254, 208, 0, 0.02) 100px,
+            rgba(254, 208, 0, 0.02) 101px
+        );
+    pointer-events: none;
+}
+
+.issues-hero-content {
+    position: relative;
+    z-index: 1;
 }
 
 .issues-hero-content h1 {
-    font-size: 4.5em;
-    line-height: 1.1;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    line-height: 1.05;
     color: var(--accent-color);
     margin-bottom: 30px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
 }
 
 .issues-lead {
-    font-size: 2em;
-    line-height: 1.3;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    line-height: 1.4;
     color: var(--text-color);
-    max-width: 800px;
+    max-width: 750px;
     margin: 0 auto 20px;
-    font-weight: 500;
+    font-weight: 400;
 }
 
 .issues-subtitle {
-    font-size: 1.4em;
-    line-height: 1.4;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    line-height: 1.5;
     color: var(--highlight-color);
     max-width: 600px;
     margin: 0 auto;
+    font-weight: 500;
+}
+
+
+#issues-feature {
+    padding: 80px 0;
+    background: var(--secondary-color);
+    border-bottom: 1px solid rgba(254, 208, 0, 0.1);
+}
+
+.feature-issue {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 50px;
+    align-items: start;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.feature-icon {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, rgba(254, 208, 0, 0.15) 0%, rgba(254, 208, 0, 0.05) 100%);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(254, 208, 0, 0.2);
+}
+
+.feature-icon i,
+.feature-icon svg.fa-svg {
+    font-size: 2.8rem;
+    color: var(--accent-color);
+    fill: currentColor;
+}
+
+.feature-content h2 {
+    font-size: 2.2rem;
+    color: var(--accent-color);
+    margin: 0 0 16px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+#issues-feature .feature-content p {
+    text-align: left;
+    max-width: none;
+    margin: 0 0 20px;
+}
+
+#issues-feature .feature-content p:last-child {
+    margin-bottom: 0;
+}
+
+#issues-feature .feature-lead {
+    font-size: 1.3rem;
+    color: var(--text-color);
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+#issues-feature .feature-content p:not(.feature-lead) {
+    font-size: 1.1rem;
+    color: var(--highlight-color);
+    line-height: 1.7;
 }
 
 
 #issues-main {
-    padding: 120px 0;
+    padding: 100px 0 120px;
     background: var(--primary-color);
+    position: relative;
 }
 
 .issues-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
     padding: 0;
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
 .issue-card {
     width: 100%;
-    aspect-ratio: 1.2 / 1;
+    min-height: 400px;
     perspective: 1200px;
     position: relative;
-    border-radius: 4px;
+    border-radius: 6px;
     overflow: visible;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -57,7 +154,7 @@
 }
 
 .issue-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-6px);
 }
 
 
@@ -70,27 +167,46 @@
     height: 100%;
     backface-visibility: hidden;
     transform-style: preserve-3d;
-    border-radius: 4px;
+    border-radius: 6px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 30px;
+    padding: 40px 36px;
     color: var(--text-color);
-    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    border: 1px solid var(--accent-alpha);
+    transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+    border: 1px solid rgba(254, 208, 0, 0.12);
     overflow: hidden;
 }
 
 .issue-card .front {
-    background: var(--secondary-color);
+    background: 
+        linear-gradient(135deg, rgba(254, 208, 0, 0.03) 0%, transparent 50%),
+        var(--secondary-color);
     transform: rotateY(0deg);
     z-index: 2;
 }
 
+.issue-card .front::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.issue-card:hover .front::after {
+    opacity: 1;
+}
+
 .issue-card .back {
-    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+    background: 
+        linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
     transform: rotateY(180deg);
 }
 
@@ -106,76 +222,91 @@
 
 .issue-card:hover .front,
 .issue-card:hover .back {
-    border-color: var(--accent-color);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border-color: rgba(254, 208, 0, 0.35);
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(254, 208, 0, 0.1);
 }
 
 
-.card-content h4 {
-    font-size: 1.6em;
+.card-content h3.card-title {
+    font-size: 1.5rem;
     color: var(--accent-color);
-    margin: 15px 0;
+    margin: 18px 0 0;
     font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.card-content h4 {
+    font-size: 1.4rem;
+    color: var(--accent-color);
+    margin: 0 0 18px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
 }
 
 .card-content p {
-    font-size: 1.1em;
+    font-size: 1.05rem;
     color: var(--text-color);
-    line-height: 1.6;
+    line-height: 1.65;
     text-align: left;
+    margin: 0;
 }
 
 .card-content i,
 .card-content svg.fa-svg {
-    font-size: 3em;
+    font-size: 2.8rem;
     width: 1em;
     height: 1em;
     color: var(--accent-color);
     fill: currentColor;
-    margin-bottom: 15px;
 }
 
 
 #issues-call {
     padding: 120px 0;
     text-align: center;
+    background: 
+        radial-gradient(ellipse 60% 40% at 50% 100%, rgba(254, 208, 0, 0.06) 0%, transparent 60%),
+        linear-gradient(180deg, var(--primary-color) 0%, var(--secondary-color) 100%);
 }
 
 .call-content {
-    max-width: 800px;
+    max-width: 750px;
     margin: 0 auto;
 }
 
 .call-content h2 {
-    font-size: 3.2em;
-    line-height: 1.2;
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1.15;
     color: var(--accent-color);
-    margin-bottom: 30px;
+    margin-bottom: 25px;
+    font-weight: 700;
 }
 
 .call-text {
-    font-size: 1.5em;
+    font-size: 1.25rem;
     line-height: 1.6;
     color: var(--text-color);
-    margin-bottom: 50px;
+    margin-bottom: 45px;
 }
 
 .call-actions {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 18px;
     flex-wrap: wrap;
 }
 
 .cta-button {
     display: inline-block;
-    padding: 18px 35px;
-    font-size: 1.2em;
+    padding: 16px 32px;
+    font-size: 1rem;
     font-weight: 600;
     border-radius: 4px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    transition: all 0.3s ease;
+    letter-spacing: 0.08em;
+    transition: all 0.25s ease;
     border: 2px solid transparent;
 }
 
@@ -188,8 +319,8 @@
 .cta-button.primary:hover {
     background: transparent;
     color: var(--accent-color);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
 }
 
 .cta-button.secondary {
@@ -201,90 +332,155 @@
 .cta-button.secondary:hover {
     color: var(--primary-color);
     background: var(--accent-color);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
 }
 
-
-@media (max-width: 1200px) {
-    .issues-hero-content h1 {
-        font-size: 3.8em;
-    }
-
-    .issues-lead {
-        font-size: 1.8em;
-    }
-
-    .issues-subtitle {
-        font-size: 1.3em;
-    }
-
-    .issues-grid {
-        gap: 25px;
-    }
-}
 
 @media (max-width: 900px) {
+    #issues-hero {
+        padding: 160px 0 80px;
+    }
+
+    #issues-feature {
+        padding: 60px 0;
+    }
+
+    .feature-issue {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .feature-icon {
+        width: 80px;
+        height: 80px;
+    }
+
+    .feature-icon i,
+    .feature-icon svg.fa-svg {
+        font-size: 2.2rem;
+    }
+
+    .feature-content h2 {
+        font-size: 1.9rem;
+    }
+
+    .feature-lead {
+        font-size: 1.15rem;
+    }
+
+    .feature-content p {
+        font-size: 1rem;
+    }
+
     .issues-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
+        grid-template-columns: 1fr;
+        gap: 22px;
+        max-width: 500px;
+    }
+
+    .issue-card {
+        min-height: 340px;
     }
 
     .call-actions {
         flex-direction: column;
         align-items: center;
-        gap: 15px;
+        gap: 14px;
     }
 
     .cta-button {
         width: 100%;
-        max-width: 300px;
+        max-width: 280px;
+        text-align: center;
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 500px) {
+    #issues-hero {
+        padding: 140px 0 70px;
+    }
+
     .issues-hero-content h1 {
-        font-size: 2.8em;
-        padding: 0 15px;
+        padding: 0 20px;
     }
 
-    .issues-lead {
-        font-size: 1.5em;
-        padding: 0 15px;
-    }
-
+    .issues-lead,
     .issues-subtitle {
-        font-size: 1.2em;
-        padding: 0 15px;
+        padding: 0 20px;
+    }
+
+    #issues-feature {
+        padding: 50px 0;
+    }
+
+    .feature-icon {
+        width: 70px;
+        height: 70px;
+    }
+
+    .feature-icon i,
+    .feature-icon svg.fa-svg {
+        font-size: 1.8rem;
+    }
+
+    .feature-content h2 {
+        font-size: 1.6rem;
+    }
+
+    .feature-lead {
+        font-size: 1.05rem;
+    }
+
+    .feature-content p {
+        font-size: 0.95rem;
+    }
+
+    #issues-main {
+        padding: 70px 0 90px;
     }
 
     .issues-grid {
-        grid-template-columns: 1fr;
+        gap: 20px;
     }
 
     .issue-card {
-        aspect-ratio: 1.1 / 1;
+        min-height: 320px;
     }
 
-    .card-content {
-        padding: 25px 20px;
+    .issue-card .front,
+    .issue-card .back {
+        padding: 28px 24px;
+    }
+
+    .card-content h3.card-title {
+        font-size: 1.3rem;
     }
 
     .card-content h4 {
-        font-size: 1.4em;
+        font-size: 1.25rem;
     }
 
     .card-content p {
-        font-size: 1em;
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    .card-content i,
+    .card-content svg.fa-svg {
+        font-size: 2.4rem;
+    }
+
+    #issues-call {
+        padding: 70px 0;
     }
 
     .call-content h2 {
-        font-size: 2.6em;
-        padding: 0 15px;
+        padding: 0 20px;
     }
 
     .call-text {
-        font-size: 1.3em;
-        padding: 0 15px;
+        font-size: 1.1rem;
+        padding: 0 20px;
     }
 }
