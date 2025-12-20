@@ -12,6 +12,12 @@ const CALIFORNIA_COUNTIES = [
 
 const WORKER_URL = 'https://declaration-signatures.theedenwatcher.workers.dev';
 
+function decodeHTMLEntities(text) {
+    const textarea = document.createElement('textarea');
+    textarea.innerHTML = text;
+    return textarea.value;
+}
+
 const devSignatures = [
     {
         name: "Patrick Henry",
@@ -318,14 +324,14 @@ class DeclarationComponent {
             entry.className = 'signature-entry';
             const name = document.createElement('div');
             name.className = 'signer-name';
-            name.textContent = sig.name || '';
+            name.textContent = decodeHTMLEntities(sig.name || '');
             const county = document.createElement('div');
             county.className = 'signer-county';
-            county.textContent = sig.county || '';
+            county.textContent = decodeHTMLEntities(sig.county || '');
             if (sig.comment) {
                 const comment = document.createElement('div');
                 comment.className = 'signer-comment';
-                comment.textContent = sig.comment;
+                comment.textContent = decodeHTMLEntities(sig.comment);
                 entry.appendChild(comment);
             }
             const date = document.createElement('div');
