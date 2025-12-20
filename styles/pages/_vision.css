@@ -15,10 +15,10 @@
 
 /* Hero Section */
 #vision-hero {
-    min-height: 60vh;
+    min-height: 45vh;
     display: flex;
     align-items: center;
-    padding: 120px 0 100px;
+    padding: 100px 0 100px;
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     text-align: center;
 }
