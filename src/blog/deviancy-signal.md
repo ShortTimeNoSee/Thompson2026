@@ -17,7 +17,7 @@ og_description: 'A sharp indictment of the “nothing to hide” mindset and its
 medium_url: "https://medium.com/@nicholas4liberty/deviancy-signal-665e4baee8ca"
 ---
 
-There's a special kind of contempt I reserve for the person who says, "I have nothing to hide." It's not the gentle pity you'd have for the naive. It's the cold, hard anger you hold for a collaborator. These people aren't just surrendering their own liberty; they're actively forging the chains for the rest of us. They are a threat, and it's time they were told so.
+There's a special kind of contempt I reserve for the person who says, "I have nothing to hide." It's not the gentle pity you'd have for the naive. It's the cold, hard anger you hold for a collaborator. Because these people aren't just surrendering their own liberty. They're instead actively forging the chains for the rest of us. They are a threat, and I think it's time they were told so.
 
 Their argument is a pathology of the present tense, a failure of imagination so profound it borders on a moral crime. What they fail to grasp is that by living as an open book, they are creating the most dangerous weapon imaginable: a baseline of "normalcy." They are meticulously crafting a data profile for the State's machine, teaching its algorithms what a "good, transparent citizen" looks like. Every unencrypted text, every thoughtless search, every location-tagged post is another brick in the wall of their own cage.
 
