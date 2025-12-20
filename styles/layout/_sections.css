@@ -74,6 +74,14 @@ main {
     width: auto;
 }
 
+.section .inline-link,
+.section .section-intro a,
+.section .more-questions a,
+.section p a {
+    display: inline;
+    width: auto;
+}
+
 .section a:hover h3 i {
     transform: translateX(5px);
 }
