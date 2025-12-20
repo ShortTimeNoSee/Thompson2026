@@ -416,6 +416,33 @@
     opacity: 0.8;
 }
 
+.download-fallback {
+    text-align: center;
+    color: var(--text-color);
+    font-size: 0.85em;
+    margin-top: 15px;
+    padding: 12px;
+    background: var(--accent-alpha);
+    border-radius: 4px;
+    opacity: 0.9;
+}
+
+.download-fallback strong {
+    color: var(--accent-color);
+    display: block;
+    margin-bottom: 5px;
+}
+
+.download-fallback a {
+    color: var(--accent-color);
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.download-fallback a:hover {
+    color: var(--highlight-color);
+}
+
 /* Signing Instructions */
 .signing-instructions {
     margin: 40px 0;
