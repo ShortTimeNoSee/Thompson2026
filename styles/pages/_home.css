@@ -1,9 +1,9 @@
 /* pages/_home.css */
 #hero {
-    min-height: 65vh;
+    min-height: 45vh;
     display: flex;
     align-items: center;
-    padding: 160px 0 80px;
+    padding: 100px 0 80px;
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
 }
 
@@ -421,7 +421,6 @@
         text-align: center;
     }
 
-    /* Homepage issues grid - single column on mobile */
     #index_page #issues .issues-grid {
         grid-template-columns: 1fr;
         gap: 20px;
@@ -429,10 +428,9 @@
 }
 
 @media (max-width: 600px) {
-    /* Reduce hero section padding for mobile */
     #hero {
-        padding: 120px 0 60px;
-        min-height: 60vh;
+        padding: 100px 0 60px;
+        min-height: 45vh;
     }
 
     .hero-text h1 {
