@@ -9,6 +9,11 @@ body_id: sign_page
 need_sign_script: true
 ---
 
+<script>
+// @ts-nocheck
+window.REGISTRAR_DATA = {{ registrars | json }};
+</script>
+
 <section id="sign-hero" class="section">
     <div class="container">
         <div class="sign-hero-content">
