@@ -426,6 +426,9 @@ class DeclarationComponent {
                         this.currentPage = 1;
                         if (this.isDeclarationPage) this.renderSignatures();
                         form.reset();
+                        
+                        sessionStorage.setItem('declarationCounty', signature.county);
+                        this.showBallotPetitionModal(signature.county);
                     } else {
                         const err = await response.json();
                         alert(err.message || 'Error signing declaration');
@@ -442,6 +445,9 @@ class DeclarationComponent {
                 this.currentPage = 1;
                 if (this.isDeclarationPage) this.renderSignatures();
                 form.reset();
+                
+                sessionStorage.setItem('declarationCounty', signature.county);
+                this.showBallotPetitionModal(signature.county);
             }
         });
     }
@@ -451,6 +457,80 @@ class DeclarationComponent {
         errorMessage.className = 'error-message';
         errorMessage.textContent = 'Unable to load signatures. Please try again later.';
         this.container.appendChild(errorMessage);
+    }
+
+    showBallotPetitionModal(county) {
+        const existingModal = document.getElementById('ballot-petition-modal');
+        if (existingModal) {
+            existingModal.remove();
+        }
+
+        const modal = document.createElement('div');
+        modal.id = 'ballot-petition-modal';
+        modal.className = 'ballot-modal-overlay';
+        modal.innerHTML = `
+            <div class="ballot-modal-content">
+                <div class="ballot-modal-header">
+                    <div class="ballot-modal-icon">⚔️</div>
+                    <h2>You've Declared War.</h2>
+                    <h3>Now Pick Up the Weapon.</h3>
+                </div>
+                <div class="ballot-modal-body">
+                    <p class="modal-emphasis">Digital signatures don't get me on the ballot. Official petitions do.</p>
+                    <p>Your voice matters, but <strong>only petition signatures count</strong> for ballot access.</p>
+                    <div class="modal-stats">
+                        <div class="modal-stat">
+                            <span class="stat-number">$5,000</span>
+                            <span class="stat-label">State Filing Fee</span>
+                        </div>
+                        <div class="modal-stat-or">OR</div>
+                        <div class="modal-stat">
+                            <span class="stat-number">6,000</span>
+                            <span class="stat-label">Valid Signatures</span>
+                        </div>
+                    </div>
+                    <p class="modal-value">We're crowdsourcing democracy. Each signature = ~$0.82 saved.</p>
+                    <p class="modal-county">Your county: <strong>${county}</strong> (already saved for you)</p>
+                </div>
+                <div class="ballot-modal-actions">
+                    <a href="/sign" class="modal-primary-btn">Sign the Ballot Petition →</a>
+                    <button class="modal-secondary-btn" id="modal-close-btn">Maybe Later</button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+        document.body.style.overflow = 'hidden';
+
+        setTimeout(() => {
+            modal.classList.add('modal-visible');
+        }, 100);
+
+        const closeModal = () => {
+            modal.classList.remove('modal-visible');
+            setTimeout(() => {
+                modal.remove();
+                document.body.style.overflow = '';
+            }, 300);
+        };
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        const closeBtn = modal.querySelector('#modal-close-btn');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeModal);
+        }
+
+        document.addEventListener('keydown', function escHandler(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+                document.removeEventListener('keydown', escHandler);
+            }
+        });
     }
 }
 

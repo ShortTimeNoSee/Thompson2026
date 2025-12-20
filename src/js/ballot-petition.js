@@ -25,6 +25,43 @@ class BallotPetitionComponent {
             option.textContent = county;
             select.appendChild(option);
         });
+
+        const savedCounty = sessionStorage.getItem('declarationCounty');
+        if (savedCounty && counties.includes(savedCounty)) {
+            select.value = savedCounty;
+            this.selectedCounty = savedCounty;
+            this.countyData = window.REGISTRAR_DATA.counties[savedCounty];
+            const countySubmit = document.getElementById('county-submit');
+            if (countySubmit) {
+                countySubmit.disabled = false;
+            }
+            
+            const banner = document.createElement('div');
+            banner.className = 'county-prefilled-banner';
+            banner.innerHTML = `
+                <span class="banner-icon">✓</span>
+                <span>Your county (<strong>${savedCounty}</strong>) has been pre-selected from your Declaration signature.</span>
+                <button class="banner-close" aria-label="Dismiss">✕</button>
+            `;
+            
+            const countySelector = document.getElementById('county-selector');
+            if (countySelector) {
+                countySelector.insertBefore(banner, countySelector.firstChild);
+                
+                const closeBtn = banner.querySelector('.banner-close');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', () => {
+                        banner.remove();
+                    });
+                }
+                
+                setTimeout(() => {
+                    banner.classList.add('banner-visible');
+                }, 100);
+            }
+
+            select.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
     }
 
     setupEventListeners() {
