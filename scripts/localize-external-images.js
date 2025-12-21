@@ -108,6 +108,13 @@ function findHtmlFiles(dir) {
       }
     }
     if (changed) {
+      // Convert relative image paths in meta tags to absolute URLs for Twitter/OG
+      html = html.replace(
+        /(<meta\s+(?:property|name)=["'](?:og:image|twitter:image)["']\s+content=["'])(\/resources\/[^"']+)(["'])/g,
+        (match, prefix, path, suffix) => {
+          return `${prefix}https://thompson2026.com${path}${suffix}`;
+        }
+      );
       fs.writeFileSync(file, html);
       process.stdout.write('.');
     }

@@ -8,11 +8,14 @@ og_type: article
 {%- endcomment -%}
 {%- assign default_image_path = '/resources/Nicholas%20Thompson-250.webp' -%}
 {%- if og_image -%}
-  {%- assign image_path = og_image -%}
+  {%- if og_image contains 'http://' or og_image contains 'https://' -%}
+    {%- assign image_url = og_image -%}
+  {%- else -%}
+    {%- assign image_url = "https://thompson2026.com" | append: og_image -%}
+  {%- endif -%}
 {%- else -%}
-  {%- assign image_path = default_image_path -%}
+  {%- assign image_url = "https://thompson2026.com" | append: default_image_path -%}
 {%- endif -%}
-{%- assign image_url = "https://thompson2026.com" | append: image_path -%}
 
 {%- if author -%}
   {%- assign author_name = author -%}
