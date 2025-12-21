@@ -1,7 +1,7 @@
 ---
 layout: post.html
 title: "Enshittification is Not a Market Failure. It's a Government Success."
-date: 2025-12-20
+date: 2025-12-21
 author: Nicholas A. Thompson
 tags:
   - capitalism
