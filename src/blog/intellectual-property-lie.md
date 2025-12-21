@@ -15,6 +15,9 @@ og_image: https://images.unsplash.com/photo-1593444285553-28163240e3f1?w=1200&q=
 og_image_alt: Close-up of a vintage typewriter with a sheet of paper loaded that reads "COPYRIGHT CLAIM" in bold black letters
 og_description: Intellectual property is not real property. It's a government-granted monopoly that violates actual property rights and creates artificial scarcity.
 medium_url: "https://medium.com/@nicholas4liberty/intellectual-property-lie-5dfd115a87a4"
+cta_text: "Right to Repair and IP reform will never make it to the mainstream debate unless someone forces the issue. Help me get on that stage and make California's governor defend these corporate monopolies."
+cta_button_text: "Get Me On the Ballot"
+cta_button_link: "/sign"
 ---
 
 I get a lot of sideways glances for many of my views. But nothing gets the "normies" more confused than when I say I want to see the entire system of intellectual property burned to the ground.

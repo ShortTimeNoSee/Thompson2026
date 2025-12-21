@@ -289,6 +289,51 @@
     font-weight: 600;
 }
 
+/* Post CTA */
+.post-cta {
+    margin: 60px 0 50px;
+    background: linear-gradient(135deg, rgba(254, 208, 0, 0.10) 0%, rgba(254, 208, 0, 0.05) 100%);
+    border: 2px solid var(--accent-color);
+    border-radius: 8px;
+    padding: 40px;
+    text-align: center;
+}
+
+.post-cta .cta-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.post-cta .cta-text {
+    font-size: 1.2rem;
+    line-height: 1.7;
+    color: var(--text-color);
+    margin: 0 0 25px;
+    font-weight: 500;
+}
+
+.post-cta .cta-button {
+    display: inline-block;
+    background: var(--accent-color);
+    color: var(--primary-color);
+    padding: 16px 40px;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    border: 2px solid var(--accent-color);
+}
+
+.post-cta .cta-button:hover {
+    background: transparent;
+    color: var(--accent-color);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(254, 208, 0, 0.3);
+}
+
 .post-footer {
     margin-top: 50px;
     padding-top: 30px;
@@ -482,6 +527,21 @@
     .share-buttons a {
         width: 200px;
         justify-content: center;
+    }
+    
+    .post-cta {
+        padding: 30px 20px;
+        margin: 40px 0 35px;
+    }
+    
+    .post-cta .cta-text {
+        font-size: 1rem;
+    }
+    
+    .post-cta .cta-button {
+        width: 100%;
+        padding: 14px 25px;
+        font-size: 1rem;
     }
 }
 

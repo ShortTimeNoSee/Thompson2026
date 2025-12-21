@@ -13,8 +13,11 @@ keywords: privacy, surveillance, nothing to hide, deviancy signal, civil liberti
 og_title: 'The Deviancy Signal: Having "Nothing to Hide" is a Threat to Us All'
 og_image: https://images.unsplash.com/photo-1754477720127-34bbe64e3b0b?w=1200&q=20&auto=format
 og_image_alt: A grid of 35 silhouette icons representing people, arranged in 5 rows and 7 columns. All silhouettes are green except for the center one in the center, which is black.
-og_description: 'A sharp indictment of the “nothing to hide” mindset and its role in building the very surveillance state that will one day turn against you.'
+og_description: 'A sharp indictment of the "nothing to hide" mindset and its role in building the very surveillance state that will one day turn against you.'
 medium_url: "https://medium.com/@nicholas4liberty/deviancy-signal-665e4baee8ca"
+cta_text: "The surveillance state wins when privacy advocates stay silent. Help me force this conversation onto the debate stage where California's next governor will have to answer for it."
+cta_button_text: "Get Me On the Ballot"
+cta_button_link: "/sign"
 ---
 
 There's a special kind of contempt I reserve for the person who says, "I have nothing to hide." It's not the gentle pity you'd have for the naive. It's the cold, hard anger you hold for a collaborator. Because these people aren't just surrendering their own liberty. They're instead actively forging the chains for the rest of us. They are a threat, and I think it's time they were told so.

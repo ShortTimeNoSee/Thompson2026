@@ -15,6 +15,9 @@ og_title: "Election Interference: Why is iSideWith.com Lying to Voters?"
 og_image: https://i.imgur.com/IlBJJGW.png
 og_image_alt: Screenshot of iSideWith.com showing Nicholas Thompson incorrectly marked as 'Dropped Out' in the 2026 California Gubernatorial race
 og_description: "iSideWith.com is hiding my active campaign from voters. This is election interference disguised as a data error."
+cta_text: "Sick of establishment gatekeeping? Help me break through the barriers they put up to keep independents off the ballot. Every signature is a vote against their rigged system."
+cta_button_text: "Sign the Ballot Petition"
+cta_button_link: "/sign"
 ---
 
 If you go to iSideWith.com right now to see who matches your values for the 2026 California Governor's race, you won't find me.

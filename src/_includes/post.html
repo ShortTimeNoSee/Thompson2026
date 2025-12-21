@@ -85,6 +85,23 @@ og_type: article
             {{ content | safe }}
         </div>
 
+        {%- if cta_text or cta_preset %}
+        <div class="post-cta">
+            <div class="cta-content">
+                {%- if cta_preset == "petition" %}
+                    <p class="cta-text">Want to see these issues discussed on the debate stage? Help me get on the ballot. Every signature brings these conversations closer to the mainstream.</p>
+                    <a href="/sign" class="cta-button">Sign the Ballot Petition</a>
+                {%- elsif cta_preset == "declaration" %}
+                    <p class="cta-text">If this resonates with you, don't just agree. Take action. Join the growing movement of Californians pushing back against government overreach.</p>
+                    <a href="/declaration_of_war" class="cta-button">Sign the Declaration</a>
+                {%- else %}
+                    <p class="cta-text">{{ cta_text }}</p>
+                    <a href="{{ cta_button_link }}" class="cta-button">{{ cta_button_text }}</a>
+                {%- endif %}
+            </div>
+        </div>
+        {%- endif %}
+
         {%- if medium_url %}
         <div class="medium-crosspost">
             <p><i class="fab fa-medium"></i> Also available on <a href="{{ medium_url }}" target="_blank" rel="noopener">Medium</a></p>
