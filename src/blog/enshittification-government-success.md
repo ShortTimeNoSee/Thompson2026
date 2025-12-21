@@ -16,7 +16,7 @@ og_title: "Enshittification is Not a Market Failure. It's a Government Success."
 og_image: https://images.unsplash.com/photo-1611371805429-8b5c1b2c34ba?w=1200&q=20
 og_image_alt: A gold train token on a Monopoly board, positioned on a red property space next to the B. & O. Railroad.
 og_description: "The degradation of digital platforms isn't capitalism gone wrong. It's government-granted monopolies working exactly as designed."
-cta_text: "Right to Repair and IP reform will never make it to the mainstream debate unless someone forces the issue. Help me get on that stage and make California's governor defend these corporate monopolies."
+cta_text: "Right to Repair and IP reform will never make it to the mainstream debate unless someone forces the issue. Help me get on that stage and make California's candidates defend these corporate monopolies."
 cta_button_text: "Get Me On the Ballot"
 cta_button_link: "/sign"
 ---
