@@ -106,6 +106,80 @@
     color: var(--accent-color);
 }
 
+/* Voter Registration Check */
+.voter-reg-check {
+    background: linear-gradient(135deg, rgba(254, 208, 0, 0.08) 0%, rgba(254, 208, 0, 0.03) 100%);
+    border: 2px solid var(--accent-color);
+    border-radius: 6px;
+    padding: 35px 40px;
+    margin-bottom: 50px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+.voter-reg-check .check-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--accent-color);
+    color: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.voter-reg-check h3 {
+    font-size: 1.6rem;
+    color: var(--accent-color);
+    margin: 0 0 12px;
+    font-weight: 600;
+}
+
+.voter-reg-check p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin: 0 0 20px;
+    color: var(--text-color);
+}
+
+.voter-reg-check .check-note {
+    font-size: 0.95rem;
+    color: var(--highlight-color);
+    margin-top: 12px;
+    font-style: italic;
+}
+
+.check-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--accent-color);
+    color: var(--primary-color);
+    padding: 14px 28px;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.check-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(254, 208, 0, 0.3);
+}
+
+.check-button svg {
+    width: 16px;
+    height: 16px;
+}
+
 /* Step Indicator */
 .step-indicator {
     display: flex;
@@ -782,6 +856,35 @@
 
     #petition-interactive {
         padding: 25px 15px;
+    }
+
+    .voter-reg-check {
+        grid-template-columns: 1fr;
+        padding: 25px 20px;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .voter-reg-check .check-icon {
+        margin: 0 auto;
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+
+    .voter-reg-check h3 {
+        font-size: 1.3rem;
+    }
+
+    .voter-reg-check p {
+        font-size: 1rem;
+    }
+
+    .check-button {
+        width: 100%;
+        justify-content: center;
+        font-size: 1rem;
+        padding: 12px 20px;
     }
 
     .mission-statement,

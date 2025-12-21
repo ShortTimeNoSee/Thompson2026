@@ -106,8 +106,23 @@ class BallotPetitionComponent {
         this.updateSteps(2);
         this.populateRegistrarInfo();
         this.populateInstructions();
+        
+        this.triggerAutomaticDownload();
 
         instructionsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    triggerAutomaticDownload() {
+        const link = document.createElement('a');
+        link.href = '/resources/petition.pdf';
+        link.download = 'Thompson2026-Ballot-Petition.pdf';
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        
+        setTimeout(() => {
+            link.click();
+            document.body.removeChild(link);
+        }, 500);
     }
 
     resetToCountySelection() {
