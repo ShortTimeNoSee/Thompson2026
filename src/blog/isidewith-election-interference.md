@@ -38,7 +38,7 @@ In the tech world, we call this a data integrity failure. In politics, we call i
 
 iSideWith is supposed to be the neutral ground. It is a tool where young voters go to escape the bias of mainstream media and find candidates who actually align with their specific policy views. By falsely flagging active candidates as "dropped out," they are interfering with the discovery process and artificially narrowing the field. They are taking voters who are looking for an alternative and steering them back toward the establishment options by hiding the very match they were looking for.
 
-I am demanding that iSideWith.com correct their database to reflect my status as an **Active** candidate for California Governor.
+I am demanding that iSideWith.com correct their database to reflect my status as an **Active** candidate for California Governor, and do the same for all other active candidates that may have met the same fate.
 
 Democracy requires accurate data. Right now, iSideWith is failing that basic test.
 
