@@ -26,7 +26,7 @@ It does not matter if you take the 30-minute policy quiz and agree with every si
 
 This is because the platform has my campaign falsely flagged in their database as "Dropped Out."
 
-This isn't just a matter of scrolling down to find my name. The site completely suppresses candidates with this status from the main results. To find me, you have to navigate away from your results, find a specific page detailing the chart of support for the race, and manually expand a hidden list of inactive candidates. Only there will you see my name, grayed out and incorrectly labeled.
+This isn't just a matter of scrolling down to find my name. The site completely suppresses candidates with this status from the main results. To find me, you have to navigate away from your results, find a specific page detailing the chart of support for the race, and manually expand a hidden list of inactive candidates. Only there will you see my name, incorrectly labeled with a big red tag.
 
 I haven't dropped out. I am an active, declared candidate. I am currently collecting signatures to get on the ballot. I am listed on the California Secretary of State's roster. I am on Ballotpedia. I am featured in the Libertarian Party of California's newsletter.
 
