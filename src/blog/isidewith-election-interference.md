@@ -32,7 +32,7 @@ I haven't dropped out. I am an active, declared candidate. I am currently collec
 
 So why is one of the largest political data aggregators in the country telling their algorithm that my campaign is dead?
 
-This isn't a new error. This designation has been incorrect for at least nine months. My team has emailed their support line. Peers and supporters who took the quiz and noticed my absense have emailed them. We have been met with total silence.
+This isn't a new error. This designation has been incorrect for at least nine months. My team has emailed their support line. Peers and supporters who took the quiz and noticed my absense have emailed them. We have been met with total silence every single time.
 
 In the tech world, we call this a data integrity failure. In politics, we call it election interference.
 
