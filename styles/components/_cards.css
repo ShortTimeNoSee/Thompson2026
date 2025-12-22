@@ -131,7 +131,7 @@
 .post-card-image {
   display: block;
   width: 100%;
-  max-height: 180px;
+  height: 180px;
   object-fit: cover;
   border-radius: 12px;
   margin-bottom: 1rem;

@@ -1,5 +1,5 @@
 /*
-  Downloads external Unsplash images referenced in built HTML, converts to WebP,
+  Downloads external images (Unsplash, Imgur) referenced in built HTML, converts to WebP,
   saves under _site/resources/external, and rewrites HTML to local paths.
 */
 const fs = require('fs');
@@ -12,7 +12,7 @@ const ROOT = path.resolve(__dirname, '..');
 const SITE_DIR = path.join(ROOT, '_site');
 const OUT_DIR = path.join(SITE_DIR, 'resources', 'external');
 
-const URL_REGEX = /(https:\/\/images\.unsplash\.com\/[A-Za-z0-9_\-./?=&%]+)/g;
+const URL_REGEX = /(https:\/\/(?:images\.unsplash\.com|i\.imgur\.com)\/[A-Za-z0-9_\-./?=&%]+)/g;
 
 function ensureDirSync(dir) {
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
