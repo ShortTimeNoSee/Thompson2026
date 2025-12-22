@@ -41,6 +41,21 @@
                 },
                 {
                     "@type": "SiteNavigationElement",
+                    "name": "Blog",
+                    "url": "https://thompson2026.com/blog"
+                },
+                {
+                    "@type": "SiteNavigationElement",
+                    "name": "Sign Ballot Petition",
+                    "url": "https://thompson2026.com/sign"
+                },
+                {
+                    "@type": "SiteNavigationElement",
+                    "name": "Declaration of War",
+                    "url": "https://thompson2026.com/declaration_of_war"
+                },
+                {
+                    "@type": "SiteNavigationElement",
                     "name": "Contact",
                     "url": "https://thompson2026.com/contact"
                 }
@@ -81,10 +96,24 @@
 				<li><a href="{{ '/about' | url }}">About Me</a></li>
 				<li><a href="{{ '/issues' | url }}">Key Issues</a></li>
 				<li><a href="{{ '/vision' | url }}">My Vision</a></li>
+				<li><a href="{{ '/blog' | url }}">Blog</a></li>
+				<li><a href="{{ '/sign' | url }}">Sign Ballot Petition</a></li>
 				<li><a href="{{ '/declaration_of_war' | url }}">Declaration of War</a></li>
 				<li><a href="{{ '/contact' | url }}">Contact</a></li>
-				<li><a href="{{ '/blog' | url }}">Blog</a></li>
             </ul>
+            
+            {%- if collections.posts.length > 0 %}
+            <h2>Blog Posts</h2>
+            <ul class="sitemap-list">
+                {%- assign sorted_posts = collections.posts | sort: "date" | reverse %}
+                {%- for post in sorted_posts %}
+				<li>
+					<a href="{{ post.url | url }}">{{ post.data.title }}</a>
+					<span class="post-date">({{ post.date | readableDate }})</span>
+				</li>
+                {%- endfor %}
+            </ul>
+            {%- endif %}
             
             {%- if collections.posts.length > 0 %}
             <h2>Blog Posts</h2>
