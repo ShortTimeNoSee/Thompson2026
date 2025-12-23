@@ -141,5 +141,59 @@ og_type: article
                 </div>
             </div>
         </footer>
+
+        <section class="subscribe-section">
+            <div class="subscribe-box">
+                <div class="subscribe-content">
+                    <i class="fas fa-envelope subscribe-icon"></i>
+                    <h3>Get New Posts in Your Inbox</h3>
+                    <p>Subscribe to receive notifications when I publish new articles. No spam, unsubscribe anytime.</p>
+                </div>
+                <form id="subscribe-form" class="subscribe-form">
+                    <div class="subscribe-fields">
+                        <input type="text" name="name" placeholder="Your name (optional)" autocomplete="name">
+                        <input type="email" name="email" placeholder="Your email address" required autocomplete="email">
+                        <button type="submit">Subscribe</button>
+                    </div>
+                    <div id="subscribe-form-message" class="form-message" style="display: none;"></div>
+                </form>
+            </div>
+        </section>
+
+        <section class="comments-section" id="comments">
+            <h2><i class="fas fa-comments"></i> Comments <span class="comments-count">(<span id="comments-count">0</span>)</span></h2>
+            
+            <div id="comments-list" class="comments-list">
+                <p class="comments-loading"><span class="spinner"></span> Loading comments...</p>
+            </div>
+
+            <div class="comment-form-container">
+                <h3>Leave a Comment</h3>
+                <p class="comment-form-note">Your email address will not be published or shared. Comments are moderated before appearing.</p>
+                
+                <form id="comment-form" class="comment-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="comment-name">Name <span class="required">*</span></label>
+                            <input type="text" id="comment-name" name="name" required placeholder="Your name" autocomplete="name" maxlength="100">
+                        </div>
+                        <div class="form-group">
+                            <label for="comment-email">Email <span class="required">*</span></label>
+                            <input type="email" id="comment-email" name="email" required placeholder="your@email.com" autocomplete="email" maxlength="254">
+                            <span class="field-note">Only visible to me, never published</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="comment-text">Comment <span class="required">*</span></label>
+                        <textarea id="comment-text" name="comment" required placeholder="Share your thoughts..." rows="5" maxlength="2000" minlength="10"></textarea>
+                        <span class="char-count" id="comment-char-count">0/2000</span>
+                    </div>
+                    <div id="comment-form-message" class="form-message" style="display: none;"></div>
+                    <button type="submit" class="comment-submit-btn">Post Comment</button>
+                </form>
+            </div>
+        </section>
     </div>
 </article>
+
+<script src="/js/blog-comments.js" defer></script>

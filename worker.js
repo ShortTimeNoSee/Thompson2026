@@ -535,6 +535,440 @@ export default {
       );
     }
 
+    // ============================================
+    // BLOG COMMENTS & NEWSLETTER SUBSCRIPTION
+    // ============================================
+
+    // Helper: Send email notification via Brevo
+    async function sendBrevoNotification(env, subject, htmlContent, textContent) {
+      if (!env.BREVO_API_KEY) {
+        console.log("Brevo API key not configured, skipping email notification");
+        return false;
+      }
+      try {
+        const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+          method: "POST",
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "api-key": env.BREVO_API_KEY
+          },
+          body: JSON.stringify({
+            sender: { name: "Thompson 2026 Blog", email: "blog@thompson2026.com" },
+            to: [{ email: env.ADMIN_EMAIL || "nicholas4liberty@gmail.com", name: "Nick" }],
+            subject: subject,
+            htmlContent: htmlContent,
+            textContent: textContent
+          })
+        });
+        return response.ok;
+      } catch (e) {
+        console.error("Brevo notification error:", e);
+        return false;
+      }
+    }
+
+    // Helper: Validate email format
+    function isValidEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
+
+    // POST /api/blog/comment - Submit a new comment
+    if (url.pathname === "/api/blog/comment") {
+      if (!isAllowed) {
+        return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: { "Content-Type": "application/json", "Vary": "Origin" } });
+      }
+      if (request.method !== "POST") {
+        return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+      }
+      const jsonError = requireJSON(request);
+      if (jsonError) return jsonError;
+
+      try {
+        const now = Date.now();
+        
+        // Rate limiting: 1 comment per 2 minutes per IP
+        const commentRateKey = `comment_rate:${clientIP}`;
+        const lastCommentTime = await env.DECLARATION_KV.get(commentRateKey);
+        if (lastCommentTime && (now - parseInt(lastCommentTime)) < 120000) {
+          return new Response(
+            JSON.stringify({ error: "Rate limit exceeded", message: "Please wait before posting another comment" }),
+            { status: 429, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+          );
+        }
+
+        const { name, email, comment, postSlug } = await request.json();
+
+        // Validation
+        if (!name || !name.trim()) {
+          return new Response(JSON.stringify({ error: "Name is required" }), { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+        }
+        if (!email || !isValidEmail(email)) {
+          return new Response(JSON.stringify({ error: "Valid email is required" }), { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+        }
+        if (!comment || !comment.trim() || comment.trim().length < 10) {
+          return new Response(JSON.stringify({ error: "Comment must be at least 10 characters" }), { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+        }
+        if (!postSlug || !postSlug.trim()) {
+          return new Response(JSON.stringify({ error: "Post slug is required" }), { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+        }
+        if (comment.length > 2000) {
+          return new Response(JSON.stringify({ error: "Comment too long (max 2000 characters)" }), { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+        }
+
+        // Sanitize inputs
+        const sanitizedName = escapeHTML(name.trim().substring(0, 100));
+        const sanitizedEmail = email.trim().toLowerCase().substring(0, 254);
+        const sanitizedComment = escapeHTML(comment.trim().substring(0, 2000));
+        const sanitizedSlug = postSlug.trim().replace(/[^a-z0-9-]/gi, "").substring(0, 100);
+
+        // Store rate limit
+        await env.DECLARATION_KV.put(commentRateKey, now.toString(), { expirationTtl: 120 });
+
+        // Create comment object
+        const commentObj = {
+          id: `${now}-${Math.random().toString(36).substr(2, 9)}`,
+          name: sanitizedName,
+          email: sanitizedEmail,
+          comment: sanitizedComment,
+          postSlug: sanitizedSlug,
+          timestamp: now,
+          approved: false,
+          metadata: {
+            ip: clientIP,
+            userAgent: request.headers.get("User-Agent"),
+            country: request.cf?.country,
+            city: request.cf?.city
+          }
+        };
+
+        // Get existing comments for this post
+        const commentsKey = `blog_comments:${sanitizedSlug}`;
+        let comments = [];
+        try {
+          comments = JSON.parse(await env.DECLARATION_KV.get(commentsKey) || "[]");
+        } catch (e) {
+          comments = [];
+        }
+        comments.push(commentObj);
+        await env.DECLARATION_KV.put(commentsKey, JSON.stringify(comments));
+
+        // Also add to global comments list for admin
+        let allComments = [];
+        try {
+          allComments = JSON.parse(await env.DECLARATION_KV.get("blog_comments_all") || "[]");
+        } catch (e) {
+          allComments = [];
+        }
+        allComments.push(commentObj);
+        await env.DECLARATION_KV.put("blog_comments_all", JSON.stringify(allComments));
+
+        // Send email notification
+        const emailSubject = `New Blog Comment on "${sanitizedSlug}"`;
+        const emailHtml = `
+          <h2>New Comment Pending Approval</h2>
+          <p><strong>Post:</strong> ${sanitizedSlug}</p>
+          <p><strong>From:</strong> ${sanitizedName} (${sanitizedEmail})</p>
+          <p><strong>Location:</strong> ${request.cf?.city || "Unknown"}, ${request.cf?.country || "Unknown"}</p>
+          <p><strong>Comment:</strong></p>
+          <blockquote style="border-left: 3px solid #ccc; padding-left: 10px; margin: 10px 0;">${sanitizedComment}</blockquote>
+          <p><a href="https://thompson2026.com/blog/${sanitizedSlug}">View Post</a></p>
+          <p style="color: #666; font-size: 12px;">Use the admin dashboard to approve or delete this comment.</p>
+        `;
+        const emailText = `New comment on "${sanitizedSlug}" from ${sanitizedName} (${sanitizedEmail}): ${sanitizedComment}`;
+        await sendBrevoNotification(env, emailSubject, emailHtml, emailText);
+
+        return new Response(
+          JSON.stringify({ success: true, message: "Comment submitted for approval" }),
+          { headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      } catch (error) {
+        console.error("Comment submission error:", error);
+        return new Response(
+          JSON.stringify({ error: "Failed to submit comment", details: error.message }),
+          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      }
+    }
+
+    // GET /api/blog/comments?slug=xxx - Get approved comments for a post
+    if (url.pathname === "/api/blog/comments" && request.method === "GET") {
+      try {
+        const postSlug = url.searchParams.get("slug");
+        if (!postSlug) {
+          return new Response(JSON.stringify({ error: "Post slug required" }), { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+        }
+
+        const sanitizedSlug = postSlug.trim().replace(/[^a-z0-9-]/gi, "").substring(0, 100);
+        const commentsKey = `blog_comments:${sanitizedSlug}`;
+        
+        let comments = [];
+        try {
+          comments = JSON.parse(await env.DECLARATION_KV.get(commentsKey) || "[]");
+        } catch (e) {
+          comments = [];
+        }
+
+        // Only return approved comments, strip email and metadata for public
+        const publicComments = comments
+          .filter(c => c.approved)
+          .sort((a, b) => a.timestamp - b.timestamp)
+          .map(({ id, name, comment, timestamp }) => ({ id, name, comment, timestamp }));
+
+        return new Response(
+          JSON.stringify({ comments: publicComments, count: publicComments.length }),
+          { headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      } catch (error) {
+        return new Response(
+          JSON.stringify({ error: "Failed to fetch comments", details: error.message }),
+          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      }
+    }
+
+    // POST /api/blog/subscribe - Subscribe to newsletter
+    if (url.pathname === "/api/blog/subscribe") {
+      if (!isAllowed) {
+        return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: { "Content-Type": "application/json", "Vary": "Origin" } });
+      }
+      if (request.method !== "POST") {
+        return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+      }
+      const jsonError = requireJSON(request);
+      if (jsonError) return jsonError;
+
+      try {
+        const now = Date.now();
+        
+        // Rate limiting: 1 subscribe attempt per 10 minutes per IP
+        const subRateKey = `subscribe_rate:${clientIP}`;
+        const lastSubTime = await env.DECLARATION_KV.get(subRateKey);
+        if (lastSubTime && (now - parseInt(lastSubTime)) < 600000) {
+          return new Response(
+            JSON.stringify({ error: "Rate limit exceeded", message: "Please wait before trying again" }),
+            { status: 429, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+          );
+        }
+
+        const { email, name } = await request.json();
+
+        if (!email || !isValidEmail(email)) {
+          return new Response(JSON.stringify({ error: "Valid email is required" }), { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+        }
+
+        const sanitizedEmail = email.trim().toLowerCase().substring(0, 254);
+        const sanitizedName = escapeHTML((name || "").trim().substring(0, 100)) || "Subscriber";
+
+        // Store rate limit
+        await env.DECLARATION_KV.put(subRateKey, now.toString(), { expirationTtl: 600 });
+
+        // Get existing subscribers
+        let subscribers = [];
+        try {
+          subscribers = JSON.parse(await env.DECLARATION_KV.get("blog_subscribers") || "[]");
+        } catch (e) {
+          subscribers = [];
+        }
+
+        // Check if already subscribed
+        if (subscribers.some(s => s.email === sanitizedEmail)) {
+          return new Response(
+            JSON.stringify({ success: true, message: "You're already subscribed!" }),
+            { headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+          );
+        }
+
+        // Add subscriber
+        const subscriber = {
+          id: `${now}-${Math.random().toString(36).substr(2, 9)}`,
+          email: sanitizedEmail,
+          name: sanitizedName,
+          timestamp: now,
+          confirmed: true,
+          metadata: {
+            ip: clientIP,
+            country: request.cf?.country,
+            city: request.cf?.city
+          }
+        };
+        subscribers.push(subscriber);
+        await env.DECLARATION_KV.put("blog_subscribers", JSON.stringify(subscribers));
+
+        // Send notification to admin
+        const emailSubject = "New Blog Subscriber";
+        const emailHtml = `
+          <h2>New Newsletter Subscriber</h2>
+          <p><strong>Email:</strong> ${sanitizedEmail}</p>
+          <p><strong>Name:</strong> ${sanitizedName}</p>
+          <p><strong>Location:</strong> ${request.cf?.city || "Unknown"}, ${request.cf?.country || "Unknown"}</p>
+          <p><strong>Total Subscribers:</strong> ${subscribers.length}</p>
+        `;
+        const emailText = `New subscriber: ${sanitizedName} (${sanitizedEmail}). Total: ${subscribers.length}`;
+        await sendBrevoNotification(env, emailSubject, emailHtml, emailText);
+
+        return new Response(
+          JSON.stringify({ success: true, message: "Successfully subscribed!" }),
+          { headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      } catch (error) {
+        console.error("Subscribe error:", error);
+        return new Response(
+          JSON.stringify({ error: "Failed to subscribe", details: error.message }),
+          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      }
+    }
+
+    // Admin: Get all comments (for moderation)
+    if (url.pathname === "/api/admin/comments") {
+      if (request.method !== "GET") {
+        return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+      }
+      try {
+        let allComments = [];
+        try {
+          allComments = JSON.parse(await env.DECLARATION_KV.get("blog_comments_all") || "[]");
+        } catch (e) {
+          allComments = [];
+        }
+        
+        // Sort by timestamp descending
+        allComments.sort((a, b) => b.timestamp - a.timestamp);
+
+        return new Response(
+          JSON.stringify({ comments: allComments, count: allComments.length }),
+          { headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      } catch (error) {
+        return new Response(
+          JSON.stringify({ error: "Failed to fetch comments", details: error.message }),
+          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      }
+    }
+
+    // Admin: Approve/reject comment
+    if (url.pathname === "/api/admin/comment-action") {
+      if (request.method !== "POST") {
+        return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+      }
+      const jsonError = requireJSON(request);
+      if (jsonError) return jsonError;
+
+      try {
+        const { commentId, action, postSlug } = await request.json();
+
+        if (!commentId || !action || !postSlug) {
+          return new Response(JSON.stringify({ error: "Missing required fields" }), { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+        }
+
+        const sanitizedSlug = postSlug.trim().replace(/[^a-z0-9-]/gi, "").substring(0, 100);
+        const commentsKey = `blog_comments:${sanitizedSlug}`;
+
+        // Update in post-specific comments
+        let comments = [];
+        try {
+          comments = JSON.parse(await env.DECLARATION_KV.get(commentsKey) || "[]");
+        } catch (e) {
+          comments = [];
+        }
+
+        if (action === "approve") {
+          comments = comments.map(c => c.id === commentId ? { ...c, approved: true } : c);
+        } else if (action === "delete") {
+          comments = comments.filter(c => c.id !== commentId);
+        }
+        await env.DECLARATION_KV.put(commentsKey, JSON.stringify(comments));
+
+        // Update in global comments list
+        let allComments = [];
+        try {
+          allComments = JSON.parse(await env.DECLARATION_KV.get("blog_comments_all") || "[]");
+        } catch (e) {
+          allComments = [];
+        }
+
+        if (action === "approve") {
+          allComments = allComments.map(c => c.id === commentId ? { ...c, approved: true } : c);
+        } else if (action === "delete") {
+          allComments = allComments.filter(c => c.id !== commentId);
+        }
+        await env.DECLARATION_KV.put("blog_comments_all", JSON.stringify(allComments));
+
+        return new Response(
+          JSON.stringify({ success: true, comments: allComments }),
+          { headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      } catch (error) {
+        return new Response(
+          JSON.stringify({ error: "Failed to update comment", details: error.message }),
+          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      }
+    }
+
+    // Admin: Get all subscribers
+    if (url.pathname === "/api/admin/subscribers") {
+      if (request.method !== "GET") {
+        return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+      }
+      try {
+        let subscribers = [];
+        try {
+          subscribers = JSON.parse(await env.DECLARATION_KV.get("blog_subscribers") || "[]");
+        } catch (e) {
+          subscribers = [];
+        }
+        
+        subscribers.sort((a, b) => b.timestamp - a.timestamp);
+
+        return new Response(
+          JSON.stringify({ subscribers: subscribers, count: subscribers.length }),
+          { headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      } catch (error) {
+        return new Response(
+          JSON.stringify({ error: "Failed to fetch subscribers", details: error.message }),
+          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      }
+    }
+
+    // Admin: Remove subscriber
+    if (url.pathname === "/api/admin/subscriber-remove") {
+      if (request.method !== "POST") {
+        return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+      }
+      const jsonError = requireJSON(request);
+      if (jsonError) return jsonError;
+
+      try {
+        const { subscriberId } = await request.json();
+
+        let subscribers = [];
+        try {
+          subscribers = JSON.parse(await env.DECLARATION_KV.get("blog_subscribers") || "[]");
+        } catch (e) {
+          subscribers = [];
+        }
+
+        subscribers = subscribers.filter(s => s.id !== subscriberId);
+        await env.DECLARATION_KV.put("blog_subscribers", JSON.stringify(subscribers));
+
+        return new Response(
+          JSON.stringify({ success: true, subscribers: subscribers }),
+          { headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      } catch (error) {
+        return new Response(
+          JSON.stringify({ error: "Failed to remove subscriber", details: error.message }),
+          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      }
+    }
+
     return new Response(
       JSON.stringify({ 
         error: "Worker Route Not Found", 
