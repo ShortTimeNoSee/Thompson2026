@@ -1239,6 +1239,129 @@ export default {
       }
     }
 
+    // Admin: Draft Brevo Campaign
+    if (url.pathname === "/api/admin/draft-campaign") {
+      if (request.method !== "POST") {
+        return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+      }
+      const jsonError = requireJSON(request);
+      if (jsonError) return jsonError;
+
+      try {
+        if (!env.BREVO_API_KEY) {
+          return new Response(JSON.stringify({ error: "Brevo API key not configured" }), { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+        }
+
+        const { subject, preview, htmlContent } = await request.json();
+
+        if (!subject || !htmlContent) {
+          return new Response(JSON.stringify({ error: "Subject and content are required" }), { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+        }
+
+        // Get subscribers
+        let subscribers = [];
+        try {
+          subscribers = JSON.parse(await env.DECLARATION_KV.get("blog_subscribers") || "[]");
+        } catch (e) {
+          subscribers = [];
+        }
+
+        if (subscribers.length === 0) {
+          return new Response(JSON.stringify({ error: "No subscribers to send campaign to" }), { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+        }
+
+        // Step 1: Create or update a contact list for campaign subscribers
+        const listName = "Thompson 2026 Newsletter";
+        let listId = null;
+
+        // Check if list exists
+        const listsResponse = await fetch("https://api.brevo.com/v3/contacts/lists?limit=50", {
+          headers: { "Accept": "application/json", "api-key": env.BREVO_API_KEY }
+        });
+        const listsData = await listsResponse.json();
+        
+        if (listsData.lists) {
+          const existingList = listsData.lists.find(l => l.name === listName);
+          if (existingList) {
+            listId = existingList.id;
+          }
+        }
+
+        // Create list if it doesn't exist
+        if (!listId) {
+          const createListResponse = await fetch("https://api.brevo.com/v3/contacts/lists", {
+            method: "POST",
+            headers: { "Accept": "application/json", "Content-Type": "application/json", "api-key": env.BREVO_API_KEY },
+            body: JSON.stringify({ name: listName, folderId: 1 })
+          });
+          const createListData = await createListResponse.json();
+          listId = createListData.id;
+        }
+
+        // Step 2: Add/update contacts in Brevo
+        const contacts = subscribers.map(s => ({
+          email: s.email,
+          attributes: { FIRSTNAME: s.name || "Supporter" },
+          listIds: [listId],
+          updateEnabled: true
+        }));
+
+        // Import contacts in batch
+        await fetch("https://api.brevo.com/v3/contacts/import", {
+          method: "POST",
+          headers: { "Accept": "application/json", "Content-Type": "application/json", "api-key": env.BREVO_API_KEY },
+          body: JSON.stringify({
+            listIds: [listId],
+            jsonBody: contacts,
+            updateExistingContacts: true
+          })
+        });
+
+        // Step 3: Create email campaign draft
+        const campaignName = `${subject} - ${new Date().toLocaleDateString()}`;
+        const campaignResponse = await fetch("https://api.brevo.com/v3/emailCampaigns", {
+          method: "POST",
+          headers: { "Accept": "application/json", "Content-Type": "application/json", "api-key": env.BREVO_API_KEY },
+          body: JSON.stringify({
+            name: campaignName,
+            subject: subject,
+            sender: { name: "Nicholas A. Thompson", email: "blog@thompson2026.com" },
+            replyTo: env.ADMIN_EMAIL || "nicholas4liberty@gmail.com",
+            recipients: { listIds: [listId] },
+            htmlContent: htmlContent,
+            previewText: preview || "",
+            inlineImageActivation: false
+          })
+        });
+
+        if (!campaignResponse.ok) {
+          const errorData = await campaignResponse.json();
+          return new Response(
+            JSON.stringify({ error: "Failed to create campaign", details: errorData.message || JSON.stringify(errorData) }),
+            { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+          );
+        }
+
+        const campaignData = await campaignResponse.json();
+
+        return new Response(
+          JSON.stringify({ 
+            success: true, 
+            message: "Campaign draft created in Brevo",
+            campaignId: campaignData.id,
+            subscriberCount: subscribers.length
+          }),
+          { headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      } catch (error) {
+        console.error("Campaign creation error:", error);
+        return new Response(
+          JSON.stringify({ error: "Failed to create campaign", details: error.message }),
+          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      }
+    }
+
     return new Response(
       JSON.stringify({ 
         error: "Worker Route Not Found", 
