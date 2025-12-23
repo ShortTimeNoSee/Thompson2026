@@ -545,3 +545,240 @@
         padding: 20px;
     }
 }
+
+/* Native Contact Form Styles */
+.native-contact-form {
+    padding: 30px;
+    background: var(--secondary-color);
+    border: 1px solid var(--accent-alpha);
+    border-radius: 8px;
+}
+
+.native-contact-form .form-group {
+    margin-bottom: 24px;
+}
+
+.native-contact-form .form-group:last-of-type {
+    margin-bottom: 20px;
+}
+
+.native-contact-form label {
+    display: block;
+    font-size: 1em;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 8px;
+}
+
+.native-contact-form label .required {
+    color: #ff6b6b;
+}
+
+.native-contact-form label .optional {
+    font-weight: 400;
+    opacity: 0.7;
+    font-size: 0.9em;
+}
+
+.native-contact-form input[type="text"],
+.native-contact-form input[type="email"],
+.native-contact-form textarea {
+    width: 100%;
+    padding: 14px 16px;
+    background: var(--primary-color);
+    border: 2px solid var(--accent-alpha);
+    border-radius: 6px;
+    color: var(--text-color);
+    font-size: 1em;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.native-contact-form input[type="text"]:focus,
+.native-contact-form input[type="email"]:focus,
+.native-contact-form textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px var(--accent-alpha);
+}
+
+.native-contact-form input::placeholder,
+.native-contact-form textarea::placeholder {
+    color: var(--text-color);
+    opacity: 0.5;
+}
+
+.native-contact-form textarea {
+    min-height: 150px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.native-contact-form .char-count {
+    text-align: right;
+    font-size: 0.85em;
+    color: var(--text-color);
+    opacity: 0.6;
+    margin-top: 6px;
+}
+
+.native-contact-form .char-count.warning {
+    color: #ffa500;
+    opacity: 1;
+}
+
+.native-contact-form .char-count.error {
+    color: #ff6b6b;
+    opacity: 1;
+}
+
+/* Subscription checkbox in contact form */
+.native-contact-form .subscription-option {
+    padding: 16px;
+    background: rgba(254, 208, 0, 0.05);
+    border: 1px solid var(--accent-alpha);
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.native-contact-form .checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    margin: 0;
+}
+
+.native-contact-form .checkbox-label input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.native-contact-form .checkbox-custom {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--accent-color);
+    border-radius: 4px;
+    background: var(--primary-color);
+    position: relative;
+    transition: all 0.2s ease;
+    margin-top: 2px;
+}
+
+.native-contact-form .checkbox-label input[type="checkbox"]:checked + .checkbox-custom {
+    background: var(--accent-color);
+}
+
+.native-contact-form .checkbox-label input[type="checkbox"]:checked + .checkbox-custom::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 6px;
+    height: 12px;
+    border: solid var(--primary-color);
+    border-width: 0 2.5px 2.5px 0;
+    transform: rotate(45deg);
+}
+
+.native-contact-form .checkbox-label input[type="checkbox"]:focus + .checkbox-custom {
+    box-shadow: 0 0 0 3px var(--accent-alpha);
+}
+
+.native-contact-form .checkbox-text {
+    flex: 1;
+    font-size: 0.95em;
+    color: var(--text-color);
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+/* Form message */
+.native-contact-form .form-message {
+    padding: 14px 18px;
+    border-radius: 6px;
+    font-size: 0.95em;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.native-contact-form .form-message.success {
+    background: rgba(76, 175, 80, 0.15);
+    border: 1px solid rgba(76, 175, 80, 0.4);
+    color: #81c784;
+}
+
+.native-contact-form .form-message.error {
+    background: rgba(244, 67, 54, 0.15);
+    border: 1px solid rgba(244, 67, 54, 0.4);
+    color: #ef5350;
+}
+
+/* Submit button */
+.native-contact-form .submit-button {
+    width: 100%;
+    padding: 16px 30px;
+    background: linear-gradient(135deg, var(--accent-color), #e6bc00);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.native-contact-form .submit-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(254, 208, 0, 0.3);
+}
+
+.native-contact-form .submit-button:active {
+    transform: translateY(0);
+}
+
+.native-contact-form .submit-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.native-contact-form .submit-button .spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--primary-color);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .native-contact-form {
+        padding: 20px;
+    }
+
+    .native-contact-form input[type="text"],
+    .native-contact-form input[type="email"],
+    .native-contact-form textarea {
+        padding: 12px 14px;
+    }
+
+    .native-contact-form .submit-button {
+        padding: 14px 24px;
+        font-size: 1em;
+    }
+}

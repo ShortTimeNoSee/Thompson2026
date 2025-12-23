@@ -210,6 +210,22 @@ class DeclarationComponent {
                         <textarea id="signer-comment" name="comment" placeholder="Comment (Optional)" maxlength="280"></textarea>
                         <div class="char-count">0/280</div>
                     </div>
+                    <div class="form-group email-group">
+                        <input type="email" id="signer-email" name="email" placeholder="Email (Optional - for updates)" maxlength="254">
+                        <p class="field-note">Your email is private and never shown publicly.</p>
+                    </div>
+                    <div class="subscription-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="subscribe-blog" name="subscribeBlog">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">Get notified when I publish new blog posts</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="volunteer-interest" name="volunteerInterest">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">I'm interested in volunteering (low commitment, CA residents)</span>
+                        </label>
+                    </div>
                     <div class="sign-button-container">
                         <button type="submit" class="sign-button">Sign Declaration</button>
                     </div>
@@ -405,6 +421,9 @@ class DeclarationComponent {
                 name: formData.get('name'),
                 county: formData.get('county'),
                 comment: formData.get('comment'),
+                email: formData.get('email') || '',
+                subscribeBlog: formData.get('subscribeBlog') === 'on',
+                volunteerInterest: formData.get('volunteerInterest') === 'on',
                 timestamp: Date.now()
             };
 

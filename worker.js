@@ -219,7 +219,7 @@ export default {
       if (!isAllowed) {
         return new Response(
           JSON.stringify({ error: "Forbidden" }),
-          { status: 403, headers: { "Content-Type": "application/json", 'Vary': 'Origin' } }
+          { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
         );
       }
       const authHeader = request.headers.get("Authorization");
@@ -384,7 +384,7 @@ export default {
           }
         }
 
-        const { county, name, comment } = await request.json();
+        const { county, name, comment, email, subscribeBlog, volunteerInterest } = await request.json();
 
         if (!county) {
           return new Response(
@@ -397,6 +397,7 @@ export default {
         const sanitizedCounty = escapeHTML(county);
         const sanitizedName = escapeHTML(name?.trim() || "Citizen");
         const sanitizedComment = escapeHTML(comment?.trim() || "");
+        const sanitizedEmail = email ? email.trim().toLowerCase().substring(0, 254) : "";
 
         // Store signing time for rate limiting
         await env.DECLARATION_KV.put(rateLimitKey, now.toString(), { expirationTtl: 86400 });
@@ -481,6 +482,85 @@ export default {
           await env.DECLARATION_KV.put("counties_represented", countiesList.length.toString());
         }
 
+        // Handle blog subscription if email provided and subscribeBlog is true
+        if (sanitizedEmail && subscribeBlog) {
+          try {
+            let subscribers = [];
+            try {
+              subscribers = JSON.parse(await env.DECLARATION_KV.get("blog_subscribers") || "[]");
+            } catch (e) {
+              subscribers = [];
+            }
+
+            // Only add if not already subscribed
+            if (!subscribers.some(s => s.email === sanitizedEmail)) {
+              const subscriber = {
+                id: `${now}-${Math.random().toString(36).substr(2, 9)}`,
+                email: sanitizedEmail,
+                name: sanitizedName,
+                timestamp: now,
+                source: "declaration",
+                confirmed: true,
+                metadata: {
+                  ip: clientIP,
+                  country: request.cf?.country,
+                  city: request.cf?.city
+                }
+              };
+              subscribers.push(subscriber);
+              await env.DECLARATION_KV.put("blog_subscribers", JSON.stringify(subscribers));
+            }
+          } catch (subError) {
+            console.error("Blog subscription error:", subError);
+          }
+        }
+
+        // Handle volunteer interest notification
+        if (volunteerInterest && sanitizedEmail) {
+          try {
+            // Store in volunteer interests list
+            let volunteers = [];
+            try {
+              volunteers = JSON.parse(await env.DECLARATION_KV.get("volunteer_interests") || "[]");
+            } catch (e) {
+              volunteers = [];
+            }
+
+            // Add if not already in list
+            if (!volunteers.some(v => v.email === sanitizedEmail)) {
+              const volunteer = {
+                id: `${now}-${Math.random().toString(36).substr(2, 9)}`,
+                email: sanitizedEmail,
+                name: sanitizedName,
+                county: sanitizedCounty,
+                timestamp: now,
+                metadata: {
+                  ip: clientIP,
+                  country: request.cf?.country,
+                  city: request.cf?.city
+                }
+              };
+              volunteers.push(volunteer);
+              await env.DECLARATION_KV.put("volunteer_interests", JSON.stringify(volunteers));
+
+              // Send admin notification for new volunteer interest
+              const volSubject = "New Volunteer Interest from Declaration";
+              const volHtml = `
+                <h2>Someone wants to volunteer!</h2>
+                <p><strong>Name:</strong> ${sanitizedName}</p>
+                <p><strong>Email:</strong> ${sanitizedEmail}</p>
+                <p><strong>County:</strong> ${sanitizedCounty}</p>
+                <p><strong>Location:</strong> ${request.cf?.city || "Unknown"}, ${request.cf?.country || "Unknown"}</p>
+                <p style="color: #666; font-size: 12px;">They signed the Declaration and expressed interest in volunteering.</p>
+              `;
+              const volText = `New volunteer interest: ${sanitizedName} (${sanitizedEmail}) from ${sanitizedCounty} County`;
+              await sendBrevoNotification(env, volSubject, volHtml, volText);
+            }
+          } catch (volError) {
+            console.error("Volunteer interest error:", volError);
+          }
+        }
+
         return new Response(
           JSON.stringify({ success: true, signatures: currentSignatures + 1, counties: countiesList.length }),
           { headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
@@ -531,7 +611,7 @@ export default {
     if (url.pathname.includes("/api/admin/verify")) {
       return new Response(
         JSON.stringify({ success: true }),
-        { headers: { "Content-Type": "application/json", ...corsHeaders } }
+        { headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
       );
     }
 
@@ -540,12 +620,22 @@ export default {
     // ============================================
 
     // Helper: Send email notification via Brevo
-    async function sendBrevoNotification(env, subject, htmlContent, textContent) {
+    async function sendBrevoNotification(env, subject, htmlContent, textContent, replyTo = null) {
       if (!env.BREVO_API_KEY) {
         console.log("Brevo API key not configured, skipping email notification");
         return false;
       }
       try {
+        const emailPayload = {
+          sender: { name: "Thompson 2026 Blog", email: "blog@thompson2026.com" },
+          to: [{ email: env.ADMIN_EMAIL || "nicholas4liberty@gmail.com", name: "Nick" }],
+          subject: subject,
+          htmlContent: htmlContent,
+          textContent: textContent
+        };
+        if (replyTo) {
+          emailPayload.replyTo = { email: replyTo };
+        }
         const response = await fetch("https://api.brevo.com/v3/smtp/email", {
           method: "POST",
           headers: {
@@ -553,13 +643,7 @@ export default {
             "Content-Type": "application/json",
             "api-key": env.BREVO_API_KEY
           },
-          body: JSON.stringify({
-            sender: { name: "Thompson 2026 Blog", email: "blog@thompson2026.com" },
-            to: [{ email: env.ADMIN_EMAIL || "nicholas4liberty@gmail.com", name: "Nick" }],
-            subject: subject,
-            htmlContent: htmlContent,
-            textContent: textContent
-          })
+          body: JSON.stringify(emailPayload)
         });
         return response.ok;
       } catch (e) {
@@ -821,6 +905,132 @@ export default {
       }
     }
 
+    // POST /api/contact - Contact form submission
+    if (url.pathname === "/api/contact") {
+      if (!isAllowed) {
+        return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: { "Content-Type": "application/json", "Vary": "Origin" } });
+      }
+      if (request.method !== "POST") {
+        return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+      }
+      const jsonError = requireJSON(request);
+      if (jsonError) return jsonError;
+
+      try {
+        const now = Date.now();
+        
+        // Rate limiting: 1 contact message per 5 minutes per IP
+        const contactRateKey = `contact_rate:${clientIP}`;
+        const lastContactTime = await env.DECLARATION_KV.get(contactRateKey);
+        if (lastContactTime && (now - parseInt(lastContactTime)) < 300000) {
+          return new Response(
+            JSON.stringify({ error: "Rate limit exceeded", message: "Please wait a few minutes before sending another message" }),
+            { status: 429, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+          );
+        }
+
+        const { name, email, message, subscribe } = await request.json();
+
+        if (!email || !isValidEmail(email)) {
+          return new Response(JSON.stringify({ error: "Valid email is required" }), { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+        }
+        if (!message || message.trim().length < 10) {
+          return new Response(JSON.stringify({ error: "Message must be at least 10 characters" }), { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+        }
+        if (message.length > 5000) {
+          return new Response(JSON.stringify({ error: "Message is too long (max 5000 characters)" }), { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+        }
+
+        const sanitizedEmail = email.trim().toLowerCase().substring(0, 254);
+        const sanitizedName = escapeHTML((name || "").trim().substring(0, 100)) || "Anonymous";
+        const sanitizedMessage = escapeHTML(message.trim().substring(0, 5000));
+
+        // Store rate limit
+        await env.DECLARATION_KV.put(contactRateKey, now.toString(), { expirationTtl: 300 });
+
+        // Store the message for reference
+        const contactMessage = {
+          id: `${now}-${Math.random().toString(36).substr(2, 9)}`,
+          name: sanitizedName,
+          email: sanitizedEmail,
+          message: sanitizedMessage,
+          subscribe: !!subscribe,
+          timestamp: now,
+          metadata: {
+            ip: clientIP,
+            userAgent: request.headers.get("User-Agent"),
+            country: request.cf?.country,
+            city: request.cf?.city
+          }
+        };
+
+        let contactMessages = [];
+        try {
+          contactMessages = JSON.parse(await env.DECLARATION_KV.get("contact_messages") || "[]");
+        } catch (e) {
+          contactMessages = [];
+        }
+        contactMessages.push(contactMessage);
+        await env.DECLARATION_KV.put("contact_messages", JSON.stringify(contactMessages));
+
+        // Handle subscription if opted in
+        if (subscribe) {
+          let subscribers = [];
+          try {
+            subscribers = JSON.parse(await env.DECLARATION_KV.get("blog_subscribers") || "[]");
+          } catch (e) {
+            subscribers = [];
+          }
+
+          if (!subscribers.some(s => s.email === sanitizedEmail)) {
+            const subscriber = {
+              id: `${now}-${Math.random().toString(36).substr(2, 9)}`,
+              email: sanitizedEmail,
+              name: sanitizedName,
+              timestamp: now,
+              source: "contact",
+              confirmed: true,
+              metadata: {
+                ip: clientIP,
+                country: request.cf?.country,
+                city: request.cf?.city
+              }
+            };
+            subscribers.push(subscriber);
+            await env.DECLARATION_KV.put("blog_subscribers", JSON.stringify(subscribers));
+          }
+        }
+
+        // Send email notification to admin
+        const emailSubject = `Contact Form: ${sanitizedName}`;
+        const emailHtml = `
+          <h2>New Contact Form Message</h2>
+          <p><strong>From:</strong> ${sanitizedName}</p>
+          <p><strong>Email:</strong> <a href="mailto:${sanitizedEmail}">${sanitizedEmail}</a></p>
+          <p><strong>Location:</strong> ${request.cf?.city || "Unknown"}, ${request.cf?.country || "Unknown"}</p>
+          <p><strong>Subscribed to updates:</strong> ${subscribe ? "Yes" : "No"}</p>
+          <hr style="border: 1px solid #ddd; margin: 20px 0;">
+          <p><strong>Message:</strong></p>
+          <div style="background: #f5f5f5; padding: 15px; border-radius: 5px; white-space: pre-wrap;">${sanitizedMessage}</div>
+          <hr style="border: 1px solid #ddd; margin: 20px 0;">
+          <p style="color: #666; font-size: 12px;">Reply directly to this email to respond to ${sanitizedName}.</p>
+        `;
+        const emailText = `New contact message from ${sanitizedName} (${sanitizedEmail}):\n\n${message}\n\nSubscribed: ${subscribe ? "Yes" : "No"}`;
+        await sendBrevoNotification(env, emailSubject, emailHtml, emailText, sanitizedEmail);
+
+        return new Response(
+          JSON.stringify({ success: true, message: "Message sent successfully!" }),
+          { headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      } catch (error) {
+        console.error("Contact form error:", error);
+        return new Response(
+          JSON.stringify({ error: "Failed to send message", details: error.message }),
+          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      }
+    }
+
     // Admin: Get all comments (for moderation)
     if (url.pathname === "/api/admin/comments") {
       if (request.method !== "GET") {
@@ -931,6 +1141,66 @@ export default {
       } catch (error) {
         return new Response(
           JSON.stringify({ error: "Failed to fetch subscribers", details: error.message }),
+          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      }
+    }
+
+    // Admin: Get volunteer interests
+    if (url.pathname === "/api/admin/volunteers") {
+      if (request.method !== "GET") {
+        return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+      }
+      try {
+        let volunteers = [];
+        try {
+          volunteers = JSON.parse(await env.DECLARATION_KV.get("volunteer_interests") || "[]");
+        } catch (e) {
+          volunteers = [];
+        }
+        
+        volunteers.sort((a, b) => b.timestamp - a.timestamp);
+
+        return new Response(
+          JSON.stringify({ volunteers: volunteers, count: volunteers.length }),
+          { headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      } catch (error) {
+        return new Response(
+          JSON.stringify({ error: "Failed to fetch volunteers", details: error.message }),
+          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      }
+    }
+
+    // Admin: Remove volunteer
+    if (url.pathname === "/api/admin/volunteer-remove") {
+      if (request.method !== "POST") {
+        return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+      }
+      const jsonError = requireJSON(request);
+      if (jsonError) return jsonError;
+
+      try {
+        const { volunteerId } = await request.json();
+
+        let volunteers = [];
+        try {
+          volunteers = JSON.parse(await env.DECLARATION_KV.get("volunteer_interests") || "[]");
+        } catch (e) {
+          volunteers = [];
+        }
+
+        volunteers = volunteers.filter(v => v.id !== volunteerId);
+        await env.DECLARATION_KV.put("volunteer_interests", JSON.stringify(volunteers));
+
+        return new Response(
+          JSON.stringify({ success: true, volunteers: volunteers }),
+          { headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      } catch (error) {
+        return new Response(
+          JSON.stringify({ error: "Failed to remove volunteer", details: error.message }),
           { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
         );
       }

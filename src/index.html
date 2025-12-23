@@ -248,18 +248,3 @@ structured_data: |
         </div>
     </div>
 </section>
-
-<script defer>
-    document.addEventListener("DOMContentLoaded", function() {
-        const formContainer = document.getElementById('form-container');
-        if (formContainer && 'IntersectionObserver' in window) {
-            const observer = new IntersectionObserver((entries) => {
-                if (entries[0].isIntersecting) {
-                    formContainer.innerHTML = `<iframe title="Contact Form" src="https://docs.google.com/forms/d/e/1FAIpQLSdUE-m4oRBI2AWM-E_kpgF6W3QicNX6rfM238OUSnVL1lMXHg/viewform?embedded=true" width="100%" height="825px" frameborder="0" marginheight="0" marginwidth="0"></iframe>`;
-                    observer.disconnect();
-                }
-            });
-            observer.observe(formContainer);
-        }
-    });
-</script>

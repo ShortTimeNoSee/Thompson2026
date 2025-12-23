@@ -4,5 +4,5 @@
 /_site
 *repomix*
 package-lock.json
-admin-dashboard.html
 WEBSITE_*.md
+admin-dashboard.html
