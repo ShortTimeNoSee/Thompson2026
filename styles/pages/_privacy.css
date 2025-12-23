@@ -1,0 +1,251 @@
+/* pages/_privacy.css */
+/* Privacy Policy Page Styles */
+
+/* Hero Section */
+#privacy-hero {
+    padding: 80px 0 60px;
+    text-align: center;
+}
+
+#privacy-hero h1 {
+    font-size: 3rem;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+}
+
+#privacy-hero .hero-lead {
+    font-size: 1.4rem;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+#privacy-hero .hero-subtitle {
+    font-size: 1.1rem;
+    color: var(--highlight-color);
+}
+
+/* Content Container */
+.privacy-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Intro */
+.privacy-intro {
+    background: var(--secondary-color);
+    padding: 20px 25px;
+    border-radius: 8px;
+    margin-bottom: 40px;
+    border-left: 4px solid var(--accent-color);
+}
+
+.privacy-intro p {
+    margin: 0;
+    color: var(--text-color);
+}
+
+.privacy-intro p + p {
+    margin-top: 10px;
+}
+
+.privacy-intro a {
+    color: var(--accent-color);
+}
+
+/* Sections */
+.privacy-section {
+    margin-bottom: 50px;
+}
+
+.privacy-section h2 {
+    font-size: 1.8rem;
+    color: var(--accent-color);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--accent-alpha);
+}
+
+.privacy-section h3 {
+    font-size: 1.3rem;
+    color: var(--text-color);
+    margin: 30px 0 15px;
+}
+
+.privacy-section p {
+    color: var(--text-color);
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
+
+.privacy-section ul {
+    color: var(--text-color);
+    line-height: 1.8;
+    padding-left: 25px;
+    margin-bottom: 20px;
+}
+
+.privacy-section li {
+    margin-bottom: 8px;
+}
+
+.privacy-section a {
+    color: var(--accent-color);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.privacy-section a:hover {
+    color: var(--text-color);
+}
+
+/* Summary List */
+.privacy-summary {
+    list-style: none;
+    padding: 0;
+}
+
+.privacy-summary li {
+    padding: 12px 15px 12px 45px;
+    position: relative;
+    background: var(--secondary-color);
+    margin-bottom: 10px;
+    border-radius: 6px;
+}
+
+.privacy-summary li::before {
+    content: "✓";
+    position: absolute;
+    left: 15px;
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+/* Data Tables */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0 30px;
+    font-size: 0.95rem;
+}
+
+.data-table th,
+.data-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--secondary-color);
+}
+
+.data-table th {
+    background: var(--secondary-color);
+    color: var(--accent-color);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.data-table td {
+    color: var(--text-color);
+}
+
+.data-table tr:hover td {
+    background: var(--primary-alpha);
+}
+
+.data-table a {
+    color: var(--accent-color);
+}
+
+/* Philosophy Section */
+.privacy-section.philosophy {
+    background: var(--secondary-color);
+    padding: 30px;
+    border-radius: 12px;
+    margin-top: 60px;
+}
+
+.privacy-section.philosophy h2 {
+    border-bottom: none;
+    margin-bottom: 15px;
+}
+
+.privacy-section.philosophy blockquote {
+    margin: 0 0 20px;
+    padding: 20px 25px;
+    background: var(--primary-color);
+    border-left: 4px solid var(--accent-color);
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    color: var(--text-color);
+}
+
+.privacy-section.philosophy blockquote p {
+    margin: 0;
+    line-height: 1.6;
+}
+
+.privacy-section.philosophy > p {
+    color: var(--highlight-color);
+    line-height: 1.8;
+}
+
+/* License */
+.privacy-license {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid var(--secondary-color);
+    text-align: center;
+}
+
+.privacy-license p {
+    color: var(--highlight-color);
+    font-size: 0.9rem;
+}
+
+.privacy-license a {
+    color: var(--accent-color);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #privacy-hero h1 {
+        font-size: 2.2rem;
+    }
+    
+    #privacy-hero .hero-lead {
+        font-size: 1.2rem;
+    }
+    
+    .privacy-section h2 {
+        font-size: 1.5rem;
+    }
+    
+    .data-table {
+        font-size: 0.85rem;
+    }
+    
+    .data-table th,
+    .data-table td {
+        padding: 10px 8px;
+    }
+    
+    .privacy-section.philosophy {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .data-table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .privacy-summary li {
+        padding-left: 35px;
+    }
+    
+    .privacy-summary li::before {
+        left: 10px;
+    }
+}
