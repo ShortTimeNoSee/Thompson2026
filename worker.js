@@ -1361,6 +1361,48 @@ export default {
         }
 
         // Step 3: Create email campaign draft
+        // Brevo requires the sender to be an active/validated Marketing sender.
+        const desiredSenderEmail = (env.BREVO_CAMPAIGN_SENDER_EMAIL || "blog@thompson2026.com").toLowerCase();
+        const sendersResponse = await fetch("https://api.brevo.com/v3/senders", {
+          headers: { "Accept": "application/json", "api-key": env.BREVO_API_KEY }
+        });
+        if (!sendersResponse.ok) {
+          const errBody = await safeReadBrevoBody(sendersResponse);
+          return new Response(
+            JSON.stringify({ error: "Failed to fetch Brevo senders", details: errBody || sendersResponse.statusText }),
+            { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+          );
+        }
+        const sendersData = await safeReadBrevoBody(sendersResponse) || {};
+        const senders = Array.isArray(sendersData.senders) ? sendersData.senders : [];
+        const matchingSender = senders.find(s => (s.email || "").toLowerCase() === desiredSenderEmail);
+        if (!matchingSender) {
+          return new Response(
+            JSON.stringify({
+              error: "Sender is invalid / inactive",
+              details: {
+                message: `Brevo does not have an active sender configured for ${desiredSenderEmail}. Add/verify it in Brevo (Settings -> Senders) and try again, or set BREVO_CAMPAIGN_SENDER_EMAIL to a sender email that is active in Brevo.`,
+                desiredSenderEmail,
+                availableSenders: senders.map(s => ({ email: s.email, active: s.active, id: s.id }))
+              }
+            }),
+            { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+          );
+        }
+        if (matchingSender.active === false) {
+          return new Response(
+            JSON.stringify({
+              error: "Sender is invalid / inactive",
+              details: {
+                message: `Brevo sender ${desiredSenderEmail} exists but is not active. Verify/activate it in Brevo (Settings -> Senders) and try again.`,
+                desiredSenderEmail,
+                sender: { email: matchingSender.email, active: matchingSender.active, id: matchingSender.id }
+              }
+            }),
+            { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+          );
+        }
+
         const campaignName = `${subject} - ${new Date().toLocaleDateString()}`;
         const campaignResponse = await fetch("https://api.brevo.com/v3/emailCampaigns", {
           method: "POST",
@@ -1368,7 +1410,8 @@ export default {
           body: JSON.stringify({
             name: campaignName,
             subject: subject,
-            sender: { name: "Nicholas A. Thompson", email: "blog@thompson2026.com" },
+            // Prefer sender id since Brevo campaign senders must be validated.
+            sender: matchingSender.id ? { id: matchingSender.id } : { name: "Nicholas A. Thompson", email: desiredSenderEmail },
             replyTo: env.ADMIN_EMAIL || "nicholas4liberty@gmail.com",
             recipients: { listIds: [listId] },
             htmlContent: htmlContent,
