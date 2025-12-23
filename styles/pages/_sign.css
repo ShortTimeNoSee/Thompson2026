@@ -1120,3 +1120,121 @@
     }
 }
 
+/* Deadline Banner */
+.deadline-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    background: linear-gradient(135deg, rgba(255, 50, 0, 0.2) 0%, rgba(255, 100, 0, 0.15) 100%);
+    border: 2px solid rgba(255, 100, 0, 0.6);
+    border-radius: 8px;
+    padding: 20px 30px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.deadline-icon {
+    font-size: 2rem;
+}
+
+.deadline-text {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.deadline-text strong {
+    font-size: 1.4rem;
+    color: #ff6b35;
+}
+
+.deadline-text span {
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+/* Info-style warning box (for printing options) */
+.warning-box.info {
+    background: rgba(254, 208, 0, 0.1);
+    border-color: rgba(254, 208, 0, 0.4);
+}
+
+.warning-box.info h4 {
+    color: var(--accent-color);
+}
+
+.warning-box.info strong {
+    color: var(--accent-color);
+}
+
+.warning-box.info .duplex-instructions {
+    border-left-color: var(--accent-color);
+}
+
+/* Submission Options */
+.submission-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.submission-option {
+    background: var(--secondary-color);
+    border-radius: 8px;
+    padding: 25px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.submission-option h5 {
+    font-size: 1.2rem;
+    color: var(--accent-color);
+    margin-bottom: 12px;
+}
+
+.submission-option p {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+.mail-option {
+    border-color: var(--accent-color);
+    background: linear-gradient(135deg, rgba(254, 208, 0, 0.08) 0%, rgba(254, 208, 0, 0.03) 100%);
+}
+
+.walkin-option {
+    border-color: var(--accent-alpha);
+}
+
+.deadline-warning {
+    background: rgba(255, 50, 0, 0.15);
+    border: 1px solid rgba(255, 100, 0, 0.4);
+    border-radius: 6px;
+    padding: 15px;
+    margin-top: 15px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.deadline-warning strong {
+    color: #ff6b35;
+}
+
+@media (max-width: 768px) {
+    .submission-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .deadline-banner {
+        flex-direction: column;
+        padding: 20px;
+    }
+    
+    .deadline-text strong {
+        font-size: 1.2rem;
+    }
+}
+

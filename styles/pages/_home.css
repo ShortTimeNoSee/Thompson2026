@@ -459,6 +459,17 @@
     margin-bottom: 20px;
 }
 
+.card-deadline {
+    font-size: 1em;
+    color: #ff6b35;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.card-deadline strong {
+    color: #ff6b35;
+}
+
 .ballot-action-card > .action-btn {
     margin-top: auto;
 }

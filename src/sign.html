@@ -16,10 +16,17 @@ window.REGISTRAR_DATA = {{ registrars | json }};
 
 <section id="sign-hero" class="section">
     <div class="container">
+        <div class="deadline-banner">
+            <div class="deadline-icon">⏰</div>
+            <div class="deadline-text">
+                <strong>DEADLINE: February 4, 2025</strong>
+                <span>Forms must ARRIVE at your county registrar by this date. Mail it, or walk it in for 100% certainty (and to skip postage).</span>
+            </div>
+        </div>
         <div class="sign-hero-content">
             <h1>Sign the Ballot Petition</h1>
-            <p class="sign-subtitle">Refusing to Pay the Extortion Fee</p>
-            <p class="sign-mission">California wants $5,000 to let voters hear from me. I'm proving you don't need money to challenge the establishment.</p>
+            <p class="sign-subtitle">Print. Sign. Mail. Done.</p>
+            <p class="sign-mission">California wants $5,000 to let voters hear from me. You can help me skip that paywall in under 5 minutes from your kitchen table.</p>
         </div>
     </div>
 </section>
@@ -31,9 +38,10 @@ window.REGISTRAR_DATA = {{ registrars | json }};
                 <h2>Why Signatures Instead of Cash</h2>
                 <p>California gives candidates two options: <strong>pay $5,000</strong> or collect <strong>6,000 signatures</strong> from registered voters.</p>
                 <p>Most campaigns write the check. It's faster, cleaner, and requires no grassroots support. The state prefers it that way. A filing fee keeps the ballot limited to candidates who can afford the entry price or have donors willing to pay it.</p>
-                <p>I'm taking the other path. Signatures prove something a check never will, that real people want these conversation on the ballot.</p>
-                <p><strong>You can circulate your own petition.</strong> Download it, sign it as a voter, sign it again as the circulator, and drop it at your county registrar. One person, two signatures, zero dollars. That's the loophole they didn't think anyone would use.</p>
-                <p>This is a test case. If we can get 6,000 Californians to print a PDF and walk it into their county office, we prove you don't need to be wealthy or connected to challenge the establishment. Every signature is a statement that ballot access should require support, not payment.</p>
+                <p>I'm taking the other path. Signatures prove something a check never will: that real people want this conversation on the ballot.</p>
+                <p><strong>Here's the breakthrough:</strong> You can print the petition at home, sign it, and <strong>mail it directly to your county registrar</strong>. No notary. No middleman. No showing up anywhere. One person, one envelope, zero dollars (except a stamp). That's it.</p>
+                <p><strong>Want to be 100% sure it gets there?</strong> Walk it in during office hours. That also lets you skip postage.</p>
+                <p>This isn't a petition drive. It's a direct mail operation where you pay the postage. If 6,000 Californians can print a PDF and drop it in a mailbox, we prove you don't need to be wealthy or connected to challenge the establishment. Every signature is a statement that ballot access should require support, not payment.</p>
                 <div class="clarification-box">
                     <p><strong>Signing this petition does NOT mean you're voting for me.</strong> It means you think voters deserve the option to hear from candidates who won't pay the entry fee. Any party, any ideology. If you believe the ballot shouldn't be for sale, sign it.</p>
                 </div>
@@ -106,12 +114,13 @@ window.REGISTRAR_DATA = {{ registrars | json }};
                     <div class="download-section">
                         <h3>Download Your Petition</h3>
                         
-                        <div class="warning-box critical">
-                            <h4>⚠️ CRITICAL: Duplex Printing Required</h4>
-                            <p>This form <strong>MUST BE PRINTED DOUBLE-SIDED</strong> (duplex printing).</p>
-                            <p>If you print page 1 and page 2 on separate sheets, the form is invalid and will be rejected.</p>
+                        <div class="warning-box info">
+                            <h4>📄 Printing Options</h4>
+                            <p><strong>IDEAL:</strong> Print double-sided (duplex) on one sheet.</p>
+                            <p><strong>ALSO ACCEPTED:</strong> Print single-sided on two sheets and <strong>staple them together</strong>.</p>
+                            <p>Both formats are accepted by county registrars. Double-sided is cleaner, but don't let printer limitations stop you.</p>
                             <div class="duplex-instructions">
-                                <p><strong>Don't have a duplex printer?</strong></p>
+                                <p><strong>Manual duplex (if your printer doesn't auto-duplex):</strong></p>
                                 <ol>
                                     <li>Print page 1 only</li>
                                     <li>Take the printed page out</li>
@@ -129,7 +138,7 @@ window.REGISTRAR_DATA = {{ registrars | json }};
                             </svg>
                             Download Petition PDF
                         </a>
-                        <p class="file-info">Letter size (8.5" x 11") | Must be printed double-sided</p>
+                        <p class="file-info">Letter size (8.5" x 11") | Double-sided preferred, single-sided stapled OK</p>
                         <p class="download-fallback">
                             <strong>Download button didn't work?</strong> 
                             <a href="/resources/petition.pdf" target="_blank" rel="noopener noreferrer">Open PDF in new tab</a> 
@@ -176,12 +185,26 @@ window.REGISTRAR_DATA = {{ registrars | json }};
                         <div class="instruction-step">
                             <div class="instruction-number">D</div>
                             <div class="instruction-content">
-                                <h4>Drop It Off In Person</h4>
-                                <p>Take your completed form to the address shown here:</p>
+                                <h4>Submit Your Form</h4>
+                                <p>Send your completed form to your county registrar:</p>
                                 <div class="dropoff-address-repeat" id="dropoff-address-repeat"></div>
-                                <p><strong>Walk it into the office.</strong> Identify yourself as a circulator submitting a ballot petition for Nicholas A. Thompson for Governor.</p>
-                                <p class="office-hours">Office hours: <span id="office-hours-repeat"></span></p>
-                                <p class="no-mail-warning">⚠️ Do not mail it. We don't have clearance on mailing protocols yet. Physical drop-off only.</p>
+                                
+                                <div class="submission-options">
+                                    <div class="submission-option mail-option">
+                                        <h5>📬 Option 1: Mail It (Easiest)</h5>
+                                        <p>Put your signed form in an envelope and mail it to the address above. No notary required. Wet signature only (no digital).</p>
+                                        <div class="deadline-warning">
+                                            <strong>⚠️ CRITICAL DEADLINE:</strong> Forms must <strong>ARRIVE</strong> by <strong>February 4, 2025</strong>.<br>
+                                            <strong>Mail by January 28</strong> to be safe. After that date, walk it in.
+                                        </div>
+                                    </div>
+                                    <div class="submission-option walkin-option">
+                                        <h5>🚶 Option 2: Walk It In (Guaranteed)</h5>
+                                        <p>For 100% certainty, deliver it in person during office hours.</p>
+                                        <p class="office-hours">Office hours: <span id="office-hours-repeat"></span></p>
+                                        <p>Walk-in deadline: <strong>February 4, 2025</strong></p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -211,7 +234,7 @@ window.REGISTRAR_DATA = {{ registrars | json }};
                 <h2>Why This Matters</h2>
                 <p>The $5,000 filing fee exists to filter the ballot. It keeps out candidates who can't write a check or convince donors to write it for them. The signature option exists as a legal alternative, but most campaigns ignore it because hiring professionals to collect signatures costs more than just paying the fee.</p>
                 <p><strong>That's the barrier.</strong> Not the $5,000 itself, but the assumption that only candidates with money or institutional backing can clear it.</p>
-                <p>If 6,000 Californians can print a PDF, walk it into their county office, and get me on the ballot without a dollar changing hands, we prove the system can be beaten. We demonstrate that ballot access can be earned through actual support instead of purchased through wealth.</p>
+                <p>If 6,000 Californians can print a PDF, drop it in a mailbox, and get me on the ballot without a dollar changing hands, we prove the system can be beaten. We demonstrate that ballot access can be earned through actual support instead of purchased through wealth.</p>
                 <p>This isn't about me winning. It's about breaking the model that says you need to be rich or connected to even get in the race.</p>
             </div>
 
@@ -249,7 +272,7 @@ window.REGISTRAR_DATA = {{ registrars | json }};
                     </div>
                     <div class="faq-item">
                         <h4>Can I get signatures from people in other counties?</h4>
-                        <p>All signatures on one petition form must be from the same county. But you can print multiple forms for different counties if you know people spread across California. Just note you'll have to drop off each form separately in each county!</p>
+                        <p>All signatures on one petition form must be from the same county. But you can print multiple forms for different counties if you know people spread across California. Each form gets mailed to that county's registrar.</p>
                     </div>
                     <div class="faq-item">
                         <h4>What if I mess up the form?</h4>
@@ -257,11 +280,15 @@ window.REGISTRAR_DATA = {{ registrars | json }};
                     </div>
                     <div class="faq-item">
                         <h4>Do I really need to print it double-sided?</h4>
-                        <p>YES. This is a requirement. Single-sided printing will result in rejection. Follow the manual flip instructions if you don't have a duplex printer.</p>
+                        <p><strong>No!</strong> Double-sided is ideal, but single-sided pages stapled together are also accepted. We confirmed this directly with LA and San Diego county registrars. Don't let printer limitations stop you.</p>
                     </div>
                     <div class="faq-item">
                         <h4>Can I mail it instead of dropping it off?</h4>
-                        <p>Not right now. We're still confirming mailing protocols with county registrars. For now, please drop it off in person to ensure it's properly received.</p>
+                        <p><strong>Yes!</strong> Mailing is allowed and doesn't require notarization. Just put it in an envelope and mail it to your county registrar. The critical detail: forms must <strong>ARRIVE</strong> by February 4, 2025. Mail by January 28 to be safe. After that, walk it in.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Can I sign digitally or electronically?</h4>
+                        <p><strong>No.</strong> Wet signatures only. You must physically sign the paper with a pen. Digital or electronic signatures will be rejected.</p>
                     </div>
                 </div>
                 <p class="more-questions">Still have questions? <a href="/contact">Contact&nbsp;us</a></p>

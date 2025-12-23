@@ -516,24 +516,16 @@ class DeclarationComponent {
                 </div>
                 <div class="ballot-modal-body">
                     <p class="modal-emphasis">Digital signatures don't get me on the ballot. Official petitions do.</p>
-                    <p>Your voice matters, but <strong>only petition signatures count</strong> for ballot access.</p>
+                    <p class="modal-breakthrough"><strong>Good news:</strong> You can print it, sign it, and <strong>mail it</strong>. No showing up anywhere. 5 minutes from your kitchen table. If you want 100% certainty (and to skip postage), walk it in.</p>
                     <p class="modal-clarification">Signing the petition ≠ voting for me. Any party, any ideology. You're just saying voters should have the option.</p>
-                    <div class="modal-stats">
-                        <div class="modal-stat">
-                            <span class="stat-number">$5,000</span>
-                            <span class="stat-label">State Filing Fee</span>
-                        </div>
-                        <div class="modal-stat-or">OR</div>
-                        <div class="modal-stat">
-                            <span class="stat-number">6,000</span>
-                            <span class="stat-label">Valid Signatures</span>
-                        </div>
+                    <div class="modal-deadline">
+                        <span class="deadline-icon">⏰</span>
+                        <span><strong>Deadline: February 4, 2025</strong> (sincerely, just mail it)</span>
                     </div>
-                    <p class="modal-value">We're crowdsourcing democracy. Each signature = ~$0.82 saved.</p>
                     <p class="modal-county">Your county: <strong>${county}</strong> (already saved for you)</p>
                 </div>
                 <div class="ballot-modal-actions">
-                    <a href="/sign" class="modal-primary-btn">Sign the Ballot Petition →</a>
+                    <a href="/sign" class="modal-primary-btn">Print & Sign Petition →</a>
                     <button class="modal-secondary-btn" id="modal-close-btn">Maybe Later</button>
                 </div>
             </div>
