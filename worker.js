@@ -1258,6 +1258,20 @@ export default {
           return new Response(JSON.stringify({ error: "Subject and content are required" }), { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
         }
 
+        async function safeReadBrevoBody(res) {
+          try {
+            const text = await res.text();
+            if (!text) return null;
+            try {
+              return JSON.parse(text);
+            } catch {
+              return { raw: text };
+            }
+          } catch {
+            return null;
+          }
+        }
+
         // Get subscribers
         let subscribers = [];
         try {
@@ -1278,7 +1292,15 @@ export default {
         const listsResponse = await fetch("https://api.brevo.com/v3/contacts/lists?limit=50", {
           headers: { "Accept": "application/json", "api-key": env.BREVO_API_KEY }
         });
-        const listsData = await listsResponse.json();
+        if (!listsResponse.ok) {
+          const errBody = await safeReadBrevoBody(listsResponse);
+          return new Response(
+            JSON.stringify({ error: "Failed to fetch Brevo lists", details: errBody || listsResponse.statusText }),
+            { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+          );
+        }
+
+        const listsData = await safeReadBrevoBody(listsResponse) || {};
         
         if (listsData.lists) {
           const existingList = listsData.lists.find(l => l.name === listName);
@@ -1292,10 +1314,23 @@ export default {
           const createListResponse = await fetch("https://api.brevo.com/v3/contacts/lists", {
             method: "POST",
             headers: { "Accept": "application/json", "Content-Type": "application/json", "api-key": env.BREVO_API_KEY },
-            body: JSON.stringify({ name: listName, folderId: 1 })
+            body: JSON.stringify({ name: listName })
           });
-          const createListData = await createListResponse.json();
+          if (!createListResponse.ok) {
+            const errBody = await safeReadBrevoBody(createListResponse);
+            return new Response(
+              JSON.stringify({ error: "Failed to create Brevo list", details: errBody || createListResponse.statusText }),
+              { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+            );
+          }
+          const createListData = await safeReadBrevoBody(createListResponse) || {};
           listId = createListData.id;
+          if (!listId) {
+            return new Response(
+              JSON.stringify({ error: "Failed to create Brevo list", details: createListData }),
+              { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+            );
+          }
         }
 
         // Step 2: Add/update contacts in Brevo
@@ -1307,7 +1342,7 @@ export default {
         }));
 
         // Import contacts in batch
-        await fetch("https://api.brevo.com/v3/contacts/import", {
+        const importResponse = await fetch("https://api.brevo.com/v3/contacts/import", {
           method: "POST",
           headers: { "Accept": "application/json", "Content-Type": "application/json", "api-key": env.BREVO_API_KEY },
           body: JSON.stringify({
@@ -1316,6 +1351,14 @@ export default {
             updateExistingContacts: true
           })
         });
+
+        if (!importResponse.ok) {
+          const errBody = await safeReadBrevoBody(importResponse);
+          return new Response(
+            JSON.stringify({ error: "Failed to import contacts to Brevo", details: errBody || importResponse.statusText }),
+            { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+          );
+        }
 
         // Step 3: Create email campaign draft
         const campaignName = `${subject} - ${new Date().toLocaleDateString()}`;
@@ -1335,14 +1378,14 @@ export default {
         });
 
         if (!campaignResponse.ok) {
-          const errorData = await campaignResponse.json();
+          const errorData = await safeReadBrevoBody(campaignResponse);
           return new Response(
-            JSON.stringify({ error: "Failed to create campaign", details: errorData.message || JSON.stringify(errorData) }),
+            JSON.stringify({ error: "Failed to create campaign", details: errorData }),
             { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
           );
         }
 
-        const campaignData = await campaignResponse.json();
+        const campaignData = await safeReadBrevoBody(campaignResponse) || {};
 
         return new Response(
           JSON.stringify({ 
