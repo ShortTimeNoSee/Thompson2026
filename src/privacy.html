@@ -214,6 +214,9 @@ body_class: privacy
                 <li>Advertising networks</li>
                 <li>Data brokers</li>
             </ul>
+
+            <p><strong>Build-time localization:</strong> In some blog posts we may reference externally hosted media during authoring. During the site build, we run scripts that download supported external images and rewrite pages to serve the local copies from <strong>/resources/external</strong>. This reduces third-party requests when you visit the site.</p>
+            <p><strong>Image metadata:</strong> We run build-time image optimization that strips metadata (including EXIF) from images we host and recompresses them. This is intended to reduce file size and remove embedded metadata from published images.</p>
         </div>
 
         <div class="privacy-section">
