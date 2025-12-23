@@ -210,8 +210,8 @@ class DeclarationComponent {
                         <textarea id="signer-comment" name="comment" placeholder="Comment (Optional)" maxlength="280"></textarea>
                         <div class="char-count">0/280</div>
                     </div>
-                    <div class="form-group email-group">
-                        <input type="email" id="signer-email" name="email" placeholder="Email (Optional - for updates)" maxlength="254">
+                    <div class="form-group email-group" style="display: none;">
+                        <input type="email" id="signer-email" name="email" placeholder="Email (required for updates)" maxlength="254">
                         <p class="field-note">Your email is private and never shown publicly.</p>
                     </div>
                     <div class="subscription-options">
@@ -262,6 +262,21 @@ class DeclarationComponent {
                 charCount.textContent = `${count}/280`;
             });
         }
+
+        // Email field only appears when user opts into blog notifications and/or volunteering
+        const emailGroup = this.container.querySelector('.email-group');
+        const emailInput = this.container.querySelector('#signer-email');
+        const subscribeBlogCheckbox = this.container.querySelector('#subscribe-blog');
+        const volunteerCheckbox = this.container.querySelector('#volunteer-interest');
+        const updateEmailState = () => {
+            const needsEmail = !!(subscribeBlogCheckbox?.checked || volunteerCheckbox?.checked);
+            if (emailGroup) emailGroup.style.display = needsEmail ? 'block' : 'none';
+            if (emailInput) emailInput.required = needsEmail;
+            if (!needsEmail && emailInput) emailInput.value = '';
+        };
+        if (subscribeBlogCheckbox) subscribeBlogCheckbox.addEventListener('change', updateEmailState);
+        if (volunteerCheckbox) volunteerCheckbox.addEventListener('change', updateEmailState);
+        updateEmailState();
 
         // Setup focus on name field when clicking any sign button that links to the form
         const signButtons = document.querySelectorAll('a[href="#declaration-interactive"]');
@@ -416,6 +431,11 @@ class DeclarationComponent {
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
             const formData = new FormData(form);
             const signature = {
                 name: formData.get('name'),
