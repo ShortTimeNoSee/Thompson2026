@@ -587,51 +587,62 @@
 }
 
 .subscribe-box {
-    background: linear-gradient(135deg, var(--secondary-color), rgba(254, 208, 0, 0.08));
+    background: linear-gradient(135deg, rgba(254, 208, 0, 0.12) 0%, rgba(254, 208, 0, 0.04) 100%);
     border: 2px solid var(--accent-color);
-    border-radius: 12px;
-    padding: 35px;
+    border-radius: 16px;
+    padding: 40px 35px;
     text-align: center;
     transition: all 0.3s ease;
+    box-shadow: 0 8px 32px rgba(254, 208, 0, 0.1);
+}
+
+.subscribe-box:hover {
+    box-shadow: 0 12px 40px rgba(254, 208, 0, 0.15);
+    transform: translateY(-2px);
 }
 
 .subscribe-box.subscribed {
     border-color: #4caf50;
-    background: linear-gradient(135deg, var(--secondary-color), rgba(76, 175, 80, 0.1));
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.15) 0%, rgba(76, 175, 80, 0.05) 100%);
+    box-shadow: 0 8px 32px rgba(76, 175, 80, 0.1);
 }
 
 .subscribe-content {
-    margin-bottom: 25px;
+    margin-bottom: 28px;
 }
 
 .subscribe-icon {
-    font-size: 2.5rem;
+    font-size: 3rem;
     color: var(--accent-color);
-    margin-bottom: 15px;
+    margin-bottom: 18px;
+    display: block;
+    filter: drop-shadow(0 4px 8px rgba(254, 208, 0, 0.3));
 }
 
 .subscribe-box h3 {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     color: var(--text-color);
-    margin: 0 0 10px;
+    margin: 0 0 12px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
 }
 
 .subscribe-box p {
     color: var(--highlight-color);
-    font-size: 0.95rem;
-    margin: 0;
-    max-width: 500px;
+    font-size: 1rem;
     margin: 0 auto;
+    max-width: 450px;
+    line-height: 1.6;
 }
 
 .subscribe-form {
-    max-width: 500px;
+    max-width: 560px;
     margin: 0 auto;
 }
 
 .subscribe-fields {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     flex-wrap: wrap;
     justify-content: center;
 }
@@ -639,41 +650,54 @@
 .subscribe-fields input[type="text"],
 .subscribe-fields input[type="email"] {
     flex: 1;
-    min-width: 180px;
-    padding: 12px 16px;
-    border: 2px solid var(--highlight-color);
-    border-radius: 8px;
-    background: var(--primary-color);
+    min-width: 200px;
+    padding: 14px 18px;
+    border: 2px solid rgba(170, 170, 204, 0.4);
+    border-radius: 10px;
+    background: rgba(17, 17, 51, 0.8);
     color: var(--text-color);
     font-size: 1rem;
-    transition: border-color 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.subscribe-fields input::placeholder {
+    color: rgba(170, 170, 204, 0.6);
 }
 
 .subscribe-fields input:focus {
     outline: none;
     border-color: var(--accent-color);
+    background: rgba(17, 17, 51, 1);
+    box-shadow: 0 0 0 3px rgba(254, 208, 0, 0.15);
 }
 
 .subscribe-fields button {
-    padding: 12px 28px;
+    padding: 14px 32px;
     background: var(--accent-color);
     color: var(--primary-color);
     border: 2px solid var(--accent-color);
-    border-radius: 8px;
+    border-radius: 10px;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 4px 12px rgba(254, 208, 0, 0.3);
 }
 
 .subscribe-fields button:hover {
     background: transparent;
     color: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(254, 208, 0, 0.4);
 }
 
 .subscribe-fields button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
 /* ============================================
@@ -840,26 +864,57 @@
 }
 
 .comment-submit-btn {
-    background: var(--accent-color);
+    background: linear-gradient(135deg, var(--accent-color) 0%, #e6bc00 100%);
     color: var(--primary-color);
-    border: 2px solid var(--accent-color);
-    padding: 14px 32px;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
+    border: none;
+    padding: 16px 40px;
+    border-radius: 10px;
+    font-size: 1.05rem;
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-top: 15px;
+    margin-top: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    box-shadow: 0 4px 15px rgba(254, 208, 0, 0.35);
+    position: relative;
+    overflow: hidden;
+}
+
+.comment-submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
 }
 
 .comment-submit-btn:hover {
-    background: transparent;
-    color: var(--accent-color);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(254, 208, 0, 0.45);
+}
+
+.comment-submit-btn:hover::before {
+    left: 100%;
+}
+
+.comment-submit-btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(254, 208, 0, 0.35);
 }
 
 .comment-submit-btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.comment-submit-btn:disabled::before {
+    display: none;
 }
 
 /* Form Messages */
