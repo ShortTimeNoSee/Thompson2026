@@ -13,7 +13,7 @@ excerpt: "The critics are right: massive data centers are a waste and a centrali
 description: Nicholas Thompson argues that the shift to local AI is a political necessity, framing efficient, offline models as the ultimate check against censorship and state control.
 keywords: local AI, LLM, censorship, decentralized computing, open weights, hardware, libertarian, efficiency, quantization
 og_title: We Must Seize the Means of Compute
-og_image: https://images.unsplash.com/photo-1535321572345-8cc5124cf538?fit=crop&h=675&w=1200&q=20
+og_image: https://images.unsplash.com/photo-1535321572345-8cc5124cf538?fit=crop&h=675&w=1200&q=50
 og_image_alt: A high-contrast, black-and-white photograph of a laptop in a dark room. The screen is glowing bright white, reflecting off the glossy surface of the palm rest. The keyboard and a charging cable plugged into the side are partially visible in the shadows.
 og_description: "The critics are right: massive data centers are a waste. But the solution isn't to ban the math. It is to run it on your own metal."
 medium_url: ""

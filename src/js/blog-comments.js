@@ -147,6 +147,9 @@ class BlogComments {
                     // Store name/email for convenience
                     localStorage.setItem('blog_commenter_name', name);
                     localStorage.setItem('blog_commenter_email', email);
+                    
+                    // Show pending comment in the list
+                    this.showPendingComment(name, comment);
                 } else {
                     this.showFormMessage(formMessage, data.message || data.error || 'Failed to submit comment.', 'error');
                 }
@@ -245,6 +248,39 @@ class BlogComments {
         const div = document.createElement('div');
         div.textContent = str;
         return div.innerHTML;
+    }
+
+    showPendingComment(name, comment) {
+        const commentsContainer = document.getElementById('comments-list');
+        if (!commentsContainer) return;
+        
+        // Remove "no comments" message if present
+        const noComments = commentsContainer.querySelector('.no-comments');
+        if (noComments) noComments.remove();
+        
+        // Create pending comment element
+        const pendingComment = document.createElement('div');
+        pendingComment.className = 'comment comment-pending';
+        pendingComment.innerHTML = `
+            <div class="comment-header">
+                <span class="comment-author">${this.escapeHtml(name)}</span>
+                <span class="comment-pending-badge">Pending Moderation</span>
+                <time class="comment-date">Just now</time>
+            </div>
+            <div class="comment-body">
+                ${this.escapeHtml(comment).replace(/\n/g, '<br>')}
+            </div>
+        `;
+        
+        // Insert at the beginning of the comments list
+        commentsContainer.insertBefore(pendingComment, commentsContainer.firstChild);
+        
+        // Update comment count display
+        const commentsCount = document.getElementById('comments-count');
+        if (commentsCount) {
+            const current = parseInt(commentsCount.textContent) || 0;
+            commentsCount.textContent = current + 1;
+        }
     }
 
     formatDate(timestamp) {

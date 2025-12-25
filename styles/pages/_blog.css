@@ -776,6 +776,25 @@
     font-size: 0.95rem;
 }
 
+/* Pending Comment (awaiting moderation) */
+.comment.comment-pending {
+    opacity: 0.65;
+    border-left-color: var(--highlight-color);
+    position: relative;
+}
+
+.comment-pending-badge {
+    display: inline-block;
+    background: var(--highlight-color);
+    color: var(--primary-color);
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
 /* Comment Form */
 .comment-form-container {
     background: var(--secondary-color);
