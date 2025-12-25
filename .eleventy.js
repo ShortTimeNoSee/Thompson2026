@@ -10,6 +10,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("script.js");
   eleventyConfig.addPassthroughCopy("declaration-interactive.js");
   eleventyConfig.addPassthroughCopy({ "resources/favicon.ico": "/favicon.ico" });
+  eleventyConfig.addPassthroughCopy(".well-known");
 
   // --- UNIVERSAL FILTERS ---
 
