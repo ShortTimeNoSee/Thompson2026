@@ -128,6 +128,11 @@ body_id: contact_page
                             <span class="checkbox-custom"></span>
                             <span class="checkbox-text">Keep me updated on campaign news and blog posts</span>
                         </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="contact-volunteer" name="volunteerInterest">
+                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-text">I'm interested in volunteering (low commitment, CA residents)</span>
+                        </label>
                     </div>
                     <div id="contact-form-message" class="form-message" style="display: none;"></div>
                     <button type="submit" class="submit-button">
@@ -172,6 +177,7 @@ body_id: contact_page
                 const email = formData.get('email')?.trim();
                 const message = formData.get('message')?.trim();
                 const subscribe = formData.get('subscribe') === 'on';
+                const volunteerInterest = formData.get('volunteerInterest') === 'on';
 
                 // Validation
                 if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -195,7 +201,7 @@ body_id: contact_page
                     const response = await fetch(`${WORKER_URL}/api/contact`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ name, email, message, subscribe })
+                        body: JSON.stringify({ name, email, message, subscribe, volunteerInterest })
                     });
 
                     const data = await response.json();

@@ -929,7 +929,7 @@ export default {
           );
         }
 
-        const { name, email, message, subscribe } = await request.json();
+        const { name, email, message, subscribe, volunteerInterest } = await request.json();
 
         if (!email || !isValidEmail(email)) {
           return new Response(JSON.stringify({ error: "Valid email is required" }), { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
@@ -955,6 +955,7 @@ export default {
           email: sanitizedEmail,
           message: sanitizedMessage,
           subscribe: !!subscribe,
+          volunteerInterest: !!volunteerInterest,
           timestamp: now,
           metadata: {
             ip: clientIP,
@@ -1001,6 +1002,48 @@ export default {
           }
         }
 
+        // Handle volunteer interest notification
+        if (volunteerInterest && sanitizedEmail) {
+          try {
+            let volunteers = [];
+            try {
+              volunteers = JSON.parse(await env.DECLARATION_KV.get("volunteer_interests") || "[]");
+            } catch (e) {
+              volunteers = [];
+            }
+
+            if (!volunteers.some(v => v.email === sanitizedEmail)) {
+              const volunteer = {
+                id: `${now}-${Math.random().toString(36).substr(2, 9)}`,
+                email: sanitizedEmail,
+                name: sanitizedName,
+                timestamp: now,
+                source: "contact",
+                metadata: {
+                  ip: clientIP,
+                  country: request.cf?.country,
+                  city: request.cf?.city
+                }
+              };
+              volunteers.push(volunteer);
+              await env.DECLARATION_KV.put("volunteer_interests", JSON.stringify(volunteers));
+
+              const volSubject = "New Volunteer Interest from Contact Form";
+              const volHtml = `
+                <h2>Someone wants to volunteer!</h2>
+                <p><strong>Name:</strong> ${sanitizedName}</p>
+                <p><strong>Email:</strong> <a href="mailto:${sanitizedEmail}">${sanitizedEmail}</a></p>
+                <p><strong>Location:</strong> ${request.cf?.city || "Unknown"}, ${request.cf?.country || "Unknown"}</p>
+                <p style="color: #666; font-size: 12px;">They submitted a contact form and expressed interest in volunteering.</p>
+              `;
+              const volText = `New volunteer interest: ${sanitizedName} (${sanitizedEmail})`;
+              await sendBrevoNotification(env, volSubject, volHtml, volText);
+            }
+          } catch (volError) {
+            console.error("Volunteer interest error:", volError);
+          }
+        }
+
         // Send email notification to admin
         const emailSubject = `Contact Form: ${sanitizedName}`;
         const emailHtml = `
@@ -1009,13 +1052,14 @@ export default {
           <p><strong>Email:</strong> <a href="mailto:${sanitizedEmail}">${sanitizedEmail}</a></p>
           <p><strong>Location:</strong> ${request.cf?.city || "Unknown"}, ${request.cf?.country || "Unknown"}</p>
           <p><strong>Subscribed to updates:</strong> ${subscribe ? "Yes" : "No"}</p>
+          <p><strong>Interested in volunteering:</strong> ${volunteerInterest ? "Yes" : "No"}</p>
           <hr style="border: 1px solid #ddd; margin: 20px 0;">
           <p><strong>Message:</strong></p>
           <div style="background: #f5f5f5; padding: 15px; border-radius: 5px; white-space: pre-wrap;">${sanitizedMessage}</div>
           <hr style="border: 1px solid #ddd; margin: 20px 0;">
           <p style="color: #666; font-size: 12px;">Reply directly to this email to respond to ${sanitizedName}.</p>
         `;
-        const emailText = `New contact message from ${sanitizedName} (${sanitizedEmail}):\n\n${message}\n\nSubscribed: ${subscribe ? "Yes" : "No"}`;
+        const emailText = `New contact message from ${sanitizedName} (${sanitizedEmail}):\n\n${message}\n\nSubscribed: ${subscribe ? "Yes" : "No"}\nInterested in volunteering: ${volunteerInterest ? "Yes" : "No"}`;
         await sendBrevoNotification(env, emailSubject, emailHtml, emailText, sanitizedEmail);
 
         return new Response(
