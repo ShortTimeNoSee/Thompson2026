@@ -223,7 +223,7 @@ class DeclarationComponent {
                         <label class="checkbox-label">
                             <input type="checkbox" id="volunteer-interest" name="volunteerInterest">
                             <span class="checkbox-custom"></span>
-                            <span class="checkbox-text">I'm interested in volunteering (low commitment, CA residents)</span>
+                            <span class="checkbox-text">I'm interested in volunteering (low commitment, in CA)</span>
                         </label>
                     </div>
                     <div class="sign-button-container">
