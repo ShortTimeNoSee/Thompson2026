@@ -284,8 +284,8 @@ window.site = {
         let imagesLoaded = 0;
         let displayWidth, displayHeight;
         const particles = [];
-        const particleCount = 2000;
-        const baseParticleRadius = 4;
+        const particleCount = 4500;
+        const baseParticleRadius = 2.2;
         let shattered = false;
         let shatterX = 0, shatterY = 0;
         const clickPadding = 10;
@@ -320,6 +320,7 @@ window.site = {
             const imageData = offCtx.getImageData(0, 0, chainImage.width, chainImage.height).data;
             generateParticles(imageData, chainImage.width, chainImage.height);
             canvas.animationId = requestAnimationFrame(animate);
+            setTimeout(showClickHint, 3500);
         };
 
         chainImage.onload = californiaImage.onload = () => {
@@ -401,6 +402,49 @@ window.site = {
             shattered = true;
             shatterX = mx;
             shatterY = my;
+            hideClickHint();
+        };
+        
+        const showClickHint = () => {
+            if (shattered) return;
+            const visualContainer = canvas.closest('.ballot-visual');
+            if (!visualContainer) return;
+            
+            let hint = visualContainer.querySelector('.canvas-hint');
+            if (!hint) {
+                hint = document.createElement('div');
+                hint.className = 'canvas-hint';
+                const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+                hint.textContent = isTouchDevice ? 'Tap to break the chain' : 'Click to break the chain';
+                visualContainer.appendChild(hint);
+            }
+            
+            setTimeout(() => {
+                if (!shattered && hint.parentNode) {
+                    hint.classList.add('visible');
+                    setTimeout(() => {
+                        if (hint.parentNode && !shattered) {
+                            hint.classList.remove('visible');
+                            setTimeout(() => {
+                                if (hint.parentNode && !shattered) {
+                                    hint.remove();
+                                }
+                            }, 500);
+                        }
+                    }, 3000);
+                }
+            }, 100);
+        };
+        
+        const hideClickHint = () => {
+            const visualContainer = canvas.closest('.ballot-visual');
+            if (visualContainer) {
+                const hint = visualContainer.querySelector('.canvas-hint');
+                if (hint) {
+                    hint.classList.remove('visible');
+                    setTimeout(() => hint.remove(), 500);
+                }
+            }
         };
         
         canvas.addEventListener("click", e => handleShatter(e.clientX - canvas.getBoundingClientRect().left, e.clientY - canvas.getBoundingClientRect().top));

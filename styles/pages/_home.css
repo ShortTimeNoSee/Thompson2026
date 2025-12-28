@@ -351,6 +351,50 @@
     height: 250px;
     background: transparent;
     border: none;
+    cursor: pointer;
+    transition: filter 0.3s ease, transform 0.2s ease;
+    position: relative;
+}
+
+#ballotParticleCanvas:hover {
+    filter: brightness(1.1);
+    transform: scale(1.02);
+}
+
+#ballotParticleCanvas:active {
+    transform: scale(0.98);
+}
+
+.ballot-visual {
+    position: relative;
+}
+
+.canvas-hint {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.85em;
+    color: var(--accent-color);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    white-space: nowrap;
+    font-style: italic;
+}
+
+.canvas-hint.visible {
+    opacity: 0.7;
+    animation: gentlePulse 2s ease-in-out infinite;
+}
+
+@keyframes gentlePulse {
+    0%, 100% {
+        opacity: 0.7;
+    }
+    50% {
+        opacity: 0.4;
+    }
 }
 
 .ballot-stats-row {
@@ -521,6 +565,11 @@
     .ballot-stat {
         min-width: 140px;
         padding: 20px;
+    }
+
+    .canvas-hint {
+        font-size: 0.75em;
+        bottom: -25px;
     }
 
     .ballot-stat .stat-value {
