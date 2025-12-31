@@ -1,5 +1,5 @@
 /* pages/_home.css */
-#hero {
+#index_page #hero {
     min-height: 45vh;
     display: flex;
     align-items: center;
@@ -296,7 +296,7 @@
 }
 
 .section {
-    padding: 70px 0;
+    padding: 70px 0 0 0;
 }
 
 .section.dark-section {
@@ -730,7 +730,7 @@
 }
 
 @media (max-width: 600px) {
-    #hero {
+    #index_page #hero {
         padding: 100px 0 60px;
         min-height: 45vh;
     }

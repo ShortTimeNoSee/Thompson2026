@@ -2,8 +2,8 @@
 /* About Page Styles */
 
 /* Hero Section */
-#hero {
-    padding: 120px 0 60px;
+#about_page #hero {
+    padding: 100px 0 60px;
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
 }
 
