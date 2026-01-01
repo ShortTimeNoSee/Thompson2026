@@ -63,6 +63,85 @@
     <link rel="shortcut icon" href="/resources/favicon.ico">
     
     <title>{{ title }} - Nicholas A. Thompson 2026</title>
+    <noscript>
+        <style>
+            /* Global no-JS styles */
+            .js-only { display: none !important; }
+            .no-js-hidden { display: block !important; }
+            
+            /* Mobile nav: show main nav, hide hamburger and mobile drawer */
+            .hamburger { display: none !important; }
+            .mobile-nav { display: none !important; }
+            .header-center { 
+                display: flex !important;
+                flex-wrap: wrap !important;
+                gap: 10px !important;
+            }
+            .header-center .nav-item {
+                font-size: 0.85em !important;
+                padding: 5px 8px !important;
+            }
+            
+            /* Quick actions menu: always show inline */
+            .quick-actions-menu {
+                position: static !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                background: transparent !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                border-radius: 0 !important;
+            }
+            .quick-actions-trigger { display: none !important; }
+            .quick-actions { display: flex !important; align-items: center !important; }
+            
+            /* Issue cards: show both sides stacked */
+            .issue-card .back { 
+                display: block !important;
+                position: static !important;
+                transform: none !important;
+                backface-visibility: visible !important;
+                opacity: 1 !important;
+                height: auto !important;
+            }
+            .issue-card .front {
+                margin-bottom: 15px;
+                position: static !important;
+                transform: none !important;
+                backface-visibility: visible !important;
+            }
+            .issue-card {
+                transform: none !important;
+                height: auto !important;
+            }
+            .issue-card:hover {
+                transform: none !important;
+            }
+            .issue-card .card-content {
+                position: static !important;
+                height: auto !important;
+            }
+            
+            /* Canvas: hide decorative canvases */
+            #ballotParticleCanvas { display: none !important; }
+            .canvas-hint { display: none !important; }
+            
+            /* Declaration interactive: hide JS container */
+            #declaration-interactive { display: none !important; }
+            #signatures-list { display: none !important; }
+            .floating-ballot-cta { display: none !important; }
+            
+            /* Blog: hide JS-only elements */
+            .share-copy { display: none !important; }
+            #comments-list .comments-loading { display: none !important; }
+            
+            /* Char counters: hide */
+            .char-count { display: none !important; }
+            
+            /* Circulator section: show by default */
+            #circulator-info.hidden { display: block !important; }
+        </style>
+    </noscript>
 </head>
 <body{% if body_id %} id="{{ body_id }}"{% endif %}>
 

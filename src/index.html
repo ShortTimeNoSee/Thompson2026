@@ -54,6 +54,11 @@ structured_data: |
             </div>
             <div class="ballot-visual">
                 <canvas id="ballotParticleCanvas"></canvas>
+                <noscript>
+                    <div class="ballot-visual-fallback">
+                        <img src="/resources/chain_shape.webp" alt="Break the chain - Help me get on the ballot" loading="lazy">
+                    </div>
+                </noscript>
             </div>
             <div class="ballot-stats-row">
                 <div class="ballot-stat">
@@ -235,6 +240,12 @@ structured_data: |
         </a>
         <p class="section-intro">Join Californians who are done being pushed around. Sign the declaration, then take the next step: <a href="/sign" class="inline-link">sign the ballot petition</a> to actually get me on the ballot.</p>
         <div id="declaration-interactive"></div>
+        <noscript>
+            <div class="no-js-declaration-cta">
+                <p>Read and sign the Declaration of War to join the movement.</p>
+                <a href="/declaration_of_war" class="cta-button primary">Read & Sign Declaration →</a>
+            </div>
+        </noscript>
     </div>
 </section>
 

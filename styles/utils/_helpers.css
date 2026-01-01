@@ -14,3 +14,157 @@
   white-space: nowrap !important;
   border: 0 !important;
 }
+
+/* No-JS Fallback Styles */
+.no-js-email-fallback,
+.no-js-declaration-fallback,
+.no-js-comments-notice,
+.no-js-subscribe-notice,
+.no-js-declaration-cta {
+    background: var(--secondary-color);
+    border: 2px solid var(--accent-color);
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.no-js-email-fallback p,
+.no-js-comments-notice p,
+.no-js-subscribe-notice p {
+    color: var(--text-color);
+    margin-bottom: 15px;
+}
+
+.email-fallback-link,
+.email-fallback-button,
+.email-comment-link,
+.rss-subscribe-link,
+.action-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 25px;
+    background: var(--accent-color);
+    color: var(--primary-color);
+    border-radius: 6px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin: 10px 0;
+}
+
+.email-fallback-link:hover,
+.email-fallback-button:hover,
+.email-comment-link:hover,
+.rss-subscribe-link:hover,
+.action-button:hover {
+    background: transparent;
+    color: var(--accent-color);
+    border: 2px solid var(--accent-color);
+}
+
+.no-js-note,
+.no-js-alt {
+    color: var(--highlight-color);
+    font-size: 0.9em;
+    font-style: italic;
+    margin-top: 15px;
+    opacity: 0.8;
+}
+
+/* Declaration page no-JS */
+.no-js-declaration-fallback {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    text-align: left;
+}
+
+.no-js-sign-box,
+.no-js-action-box {
+    background: var(--primary-color);
+    padding: 25px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.no-js-sign-box h3,
+.no-js-action-box h3 {
+    color: var(--accent-color);
+    margin-bottom: 15px;
+}
+
+.no-js-sign-box p,
+.no-js-action-box p {
+    color: var(--text-color);
+    margin-bottom: 15px;
+}
+
+@media (max-width: 768px) {
+    .no-js-declaration-fallback {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Ballot visual fallback */
+.ballot-visual-fallback {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.ballot-visual-fallback img {
+    max-width: 300px;
+    height: auto;
+    opacity: 0.8;
+}
+
+/* Shop fallback */
+.no-js-shop-fallback {
+    background: var(--secondary-color);
+    border: 2px solid var(--accent-color);
+    border-radius: 12px;
+    padding: 60px 40px;
+    text-align: center;
+    max-width: 500px;
+    margin: 40px auto;
+}
+
+.no-js-shop-fallback h2 {
+    color: var(--accent-color);
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.no-js-shop-fallback p {
+    color: var(--text-color);
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.etsy-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 35px;
+    background: #f45800;
+    color: white;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1.2em;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.etsy-button:hover {
+    background: #d14d00;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px var(--shadow-med);
+}
+
+.etsy-button svg {
+    width: 24px;
+    height: 24px;
+}

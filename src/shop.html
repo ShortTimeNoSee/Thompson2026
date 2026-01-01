@@ -22,7 +22,18 @@ priority: 0.7
 
 <section id="shop-main" class="section">
     <div class="container">
-        <div id="shop-container">
+        <noscript>
+            <div class="no-js-shop-fallback">
+                <h2>Shop on Etsy</h2>
+                <p>The shop requires JavaScript to display products and handle checkout. You can visit our Etsy store directly:</p>
+                <a href="https://choosechange.etsy.com" target="_blank" rel="noopener noreferrer" class="etsy-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8.559 2c-1.635 0-2.963 1.322-2.963 2.956v14.088c0 1.633 1.328 2.956 2.963 2.956h6.882c1.635 0 2.963-1.323 2.963-2.956V4.956C18.404 3.322 17.076 2 15.441 2H8.559zm-.563 5.592h3.892V5.464h.939v2.128h3.892v.844h-3.892v2.952h3.892v.844h-3.892v2.952h3.892v.845h-3.892v2.127h-.939v-2.127H7.996v-.845h3.892v-2.952H7.996v-.844h3.892V8.436H7.996v-.844z"/></svg>
+                    Shop on Etsy
+                </a>
+                <p class="no-js-note">All purchases support the campaign.</p>
+            </div>
+        </noscript>
+        <div id="shop-container" class="js-only">
             <div id="shop-grid" class="shop-grid">
                 <!-- Products will be loaded here by JavaScript -->
                 <div class="loading-spinner"></div>
