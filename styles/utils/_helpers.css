@@ -112,13 +112,29 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 40px;
+    padding: 20px;
 }
 
 .ballot-visual-fallback img {
-    max-width: 300px;
-    height: auto;
+    width: 350px;
+    height: 250px;
+    object-fit: contain;
     opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+    .ballot-visual-fallback img {
+        width: 100%;
+        max-width: 350px;
+        height: 200px;
+    }
+}
+
+@media (max-width: 600px) {
+    .ballot-visual-fallback img {
+        width: 100%;
+        height: 150px;
+    }
 }
 
 /* Shop fallback */

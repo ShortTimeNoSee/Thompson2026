@@ -252,7 +252,7 @@
 
 #index_page #declaration #declaration-interactive {
     max-width: 850px;
-    margin: 40px auto 0;
+    margin: 40px auto 60px;
     padding: 40px;
     background: var(--secondary-color);
     border: 1px solid var(--accent-alpha);

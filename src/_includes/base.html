@@ -69,7 +69,6 @@
             .js-only { display: none !important; }
             .no-js-hidden { display: block !important; }
             
-            /* Mobile nav: show main nav, hide hamburger and mobile drawer */
             .hamburger { display: none !important; }
             .mobile-nav { display: none !important; }
             .header-center { 
@@ -81,8 +80,22 @@
                 font-size: 0.85em !important;
                 padding: 5px 8px !important;
             }
+
+            .header-center .nav-item[href="/blog"],
+            .header-center .nav-item[href="/blog/"],
+            .header-center .nav-item[href*="/blog/"] {
+                color: var(--blog-red) !important;
+                text-decoration: underline !important;
+                text-decoration-color: var(--blog-red) !important;
+            }
+
+            .header-right {
+                display: flex !important;
+            }
+            .quick-actions {
+                order: 1 !important;
+            }
             
-            /* Quick actions menu: always show inline */
             .quick-actions-menu {
                 position: static !important;
                 opacity: 1 !important;
@@ -95,31 +108,41 @@
             .quick-actions-trigger { display: none !important; }
             .quick-actions { display: flex !important; align-items: center !important; }
             
-            /* Issue cards: show both sides stacked */
-            .issue-card .back { 
-                display: block !important;
-                position: static !important;
-                transform: none !important;
-                backface-visibility: visible !important;
-                opacity: 1 !important;
-                height: auto !important;
-            }
-            .issue-card .front {
-                margin-bottom: 15px;
-                position: static !important;
-                transform: none !important;
-                backface-visibility: visible !important;
-            }
             .issue-card {
                 transform: none !important;
                 height: auto !important;
+                min-height: 0 !important;
+                perspective: none !important;
+                cursor: default !important;
+                margin-bottom: 30px !important;
             }
             .issue-card:hover {
                 transform: none !important;
             }
+            .issue-card .front,
+            .issue-card .back {
+                position: static !important;
+                transform: none !important;
+                backface-visibility: visible !important;
+                height: auto !important;
+            }
+            .issue-card .front {
+                margin-bottom: 15px;
+            }
+            .issue-card .back { 
+                display: block !important;
+                opacity: 1 !important;
+            }
             .issue-card .card-content {
                 position: static !important;
                 height: auto !important;
+            }
+ 
+            #index_page #issues {
+                padding-bottom: 100px !important;
+            }
+            #index_page #issues .issues-grid {
+                margin-bottom: 40px !important;
             }
             
             /* Canvas: hide decorative canvases */
