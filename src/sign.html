@@ -25,8 +25,17 @@ window.REGISTRAR_DATA = {{ registrars | json }};
         </div>
         <div class="sign-hero-content">
             <h1>Sign the Ballot Petition</h1>
-            <p class="sign-subtitle">Print. Sign. Mail. Done.</p>
-            <p class="sign-mission">They won't talk about the surveillance state or the housing cartel unless we force them. Getting me on the ballot is a demand for answers. California wants $5,000 to keep this conversation off the stage. You can help me skip that paywall in under 5 minutes.</p>
+            <p class="sign-subtitle">Print. Sign. Mail. DONE!</p>
+            
+            <div class="no-notary-banner">
+                <div class="no-notary-icon">✓</div>
+                <div class="no-notary-text">
+                    <strong>NO NOTARY REQUIRED</strong>
+                    <span>Write your county. Sign the table and back. Mail it or walk it in. That's it.</span>
+                </div>
+            </div>
+            
+            <p class="sign-mission">They won't talk about the surveillance state or the housing cartel unless we force them. Getting me on the ballot is a demand for answers. You can help me skip the $5,000 paywall in under 5 minutes.</p>
         </div>
     </div>
 </section>
@@ -35,23 +44,45 @@ window.REGISTRAR_DATA = {{ registrars | json }};
     <div class="container">
         <div class="sign-content">
             <div class="mission-statement">
-                <h2>Why Signatures Instead of Cash</h2>
-                <p>California gives candidates two options: <strong>pay $5,000</strong> or collect <strong>6,000 signatures</strong> from registered voters.</p>
-                <p>Most campaigns write the check. It's faster, cleaner, and requires no grassroots support. The state prefers it that way. A filing fee keeps the ballot limited to candidates who can afford the entry price or have donors willing to pay it.</p>
-                <p>I'm taking the other path. Signatures prove something a check never will: that real people want these questions asked on that debate stage. Why does California buy your location data? Why did zoning laws create the housing crisis? Why are we funding fusion centers while people sleep in tents? The establishment won't answer unless someone makes them.</p>
-                <p><strong>Here's the breakthrough:</strong> You can print the petition at home, sign it, and <strong>mail it directly to your county registrar</strong>. No notary. No middleman. No showing up anywhere. One person, one envelope, zero dollars (except a stamp). That's it.</p>
-                <p><strong>Want to be 100% sure it gets there?</strong> Walk it in during office hours. That also lets you skip postage.</p>
-                <p>This isn't a petition drive. It's a direct mail operation where you pay the postage. If 6,000 Californians can print a PDF and drop it in a mailbox, we force the other candidates to defend the surveillance state and the housing cartel on stage. Every signature is a demand that they answer for what they've done.</p>
-                <div class="clarification-box">
-                    <p><strong>Signing this petition does NOT mean you're voting for me.</strong> It means you think voters deserve the option to hear from candidates who won't pay the entry fee. Any party, any ideology. If you believe the ballot shouldn't be for sale, sign it.</p>
+                <h2>The Core Process</h2>
+                <div class="simple-steps-visual">
+                    <div class="simple-step">
+                        <div class="simple-step-number">1</div>
+                        <div class="simple-step-text">Write your county name</div>
+                    </div>
+                    <div class="simple-step">
+                        <div class="simple-step-number">2</div>
+                        <div class="simple-step-text">Sign the table (and collect others if you want)</div>
+                    </div>
+                    <div class="simple-step">
+                        <div class="simple-step-number">3</div>
+                        <div class="simple-step-text">Sign the back under penalty of perjury</div>
+                    </div>
+                    <div class="simple-step">
+                        <div class="simple-step-number">4</div>
+                        <div class="simple-step-text">Mail it or walk it in</div>
+                    </div>
                 </div>
+                
+                <div class="clarification-box">
+                    <p><strong>Signing this petition does NOT mean you're voting for me.</strong> It means you think voters deserve the option to hear from candidates who won't pay the $5,000 entry fee. Any party, any ideology.</p>
+                </div>
+                
+                <details class="why-details">
+                    <summary>Why signatures instead of cash?</summary>
+                    <div class="why-content">
+                        <p>California gives candidates two options: <strong>pay $5,000</strong> or collect <strong>6,000 signatures</strong>.</p>
+                        <p>Most campaigns write the check. The state prefers it that way. A filing fee keeps the ballot limited to candidates who can afford it.</p>
+                        <p>I'm taking the other path. If 6,000 Californians can print a PDF and drop it in a mailbox, we force the establishment to defend the surveillance state and the housing cartel on that debate stage. Every signature is a demand that they answer for what they've done.</p>
+                    </div>
+                </details>
             </div>
 
             <div class="voter-reg-check">
                 <div class="check-icon">✓</div>
                 <div class="check-content">
                     <h3>Before You Sign: Check Your Voter Registration</h3>
-                    <p>You must be a registered California voter to sign this petition. Not sure if you're registered or need to update your address?</p>
+                    <p>You must be a registered <strong>California voter</strong> to sign this petition. Not sure if you're registered or need to update your address?</p>
                     <a href="https://voterstatus.sos.ca.gov" target="_blank" rel="noopener noreferrer" class="check-button">
                         Check Your Registration Status
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -173,11 +204,12 @@ window.REGISTRAR_DATA = {{ registrars | json }};
                         <div class="instruction-step">
                             <div class="instruction-number">C</div>
                             <div class="instruction-content">
-                                <h4>Sign the Circulator's Affidavit (Back of Form)</h4>
-                                <p>Flip the page over. You'll see the "Circulator's Affidavit" section.</p>
-                                <p><strong>YOU are the circulator</strong>, even if you only signed it yourself. Sign this section under penalty of perjury.</p>
-                                <div class="warning-box">
-                                    <p><strong>Important:</strong> You do NOT need to sign the "Notary Public" section! That section is optional and often scares people. Ignore it. Your signature under penalty of perjury is sufficient!</p>
+                                <h4>Sign the Back (Circulator's Affidavit)</h4>
+                                <p>Flip the page over. Sign under "Circulator's Affidavit" under penalty of perjury.</p>
+                                <p><strong>YOU are the circulator</strong>, even if you only signed it yourself.</p>
+                                <div class="warning-box no-notary-warning">
+                                    <p><strong>🚫 IGNORE THE NOTARY SECTION</strong></p>
+                                    <p>You will see a "Notary Public" section on the back. <strong>Leave it blank.</strong> It's optional. Your signature under penalty of perjury is all you need. <strong>NO NOTARY REQUIRED.</strong></p>
                                 </div>
                             </div>
                         </div>
@@ -191,18 +223,19 @@ window.REGISTRAR_DATA = {{ registrars | json }};
                                 
                                 <div class="submission-options">
                                     <div class="submission-option mail-option">
-                                        <h5>📬 Option 1: Mail It (Easiest)</h5>
-                                        <p>Put your signed form in an envelope and mail it to the address above. No notary required. Wet signature only (no digital).</p>
+                                        <h5>📬 Mail It (Easiest)</h5>
+                                        <p>Put your signed form in an envelope. Sign the back of the envelope (as circulator). Mail it to the address above.</p>
+                                        <p><strong>No notary. No witness.</strong> Just you, a stamp, and a mailbox.</p>
                                         <div class="deadline-warning">
                                             <strong>⚠️ CRITICAL DEADLINE:</strong> Forms must <strong>ARRIVE</strong> by <strong>February 4, 2025</strong>.<br>
-                                            <strong>Mail by January 28</strong> to be safe. After that date, walk it in.
+                                            <strong>Mail by January 28</strong> to be safe. After that, walk it in.
                                         </div>
                                     </div>
                                     <div class="submission-option walkin-option">
-                                        <h5>🚶 Option 2: Walk It In (Guaranteed)</h5>
-                                        <p>For 100% certainty, deliver it in person during office hours.</p>
-                                        <p class="office-hours">Office hours: <span id="office-hours-repeat"></span></p>
-                                        <p>Walk-in deadline: <strong>February 4, 2025</strong></p>
+                                        <h5>🚶 Walk It In (100% Certain)</h5>
+                                        <p>Deliver it in person during office hours. Skip postage. Know it arrived.</p>
+                                        <p class="office-hours">Hours: <span id="office-hours-repeat"></span></p>
+                                        <p>Deadline: <strong>February 4, 2025</strong></p>
                                     </div>
                                 </div>
                             </div>
@@ -283,8 +316,12 @@ window.REGISTRAR_DATA = {{ registrars | json }};
                         <p><strong>No!</strong> Double-sided is ideal, but single-sided pages stapled together are also accepted. We confirmed this directly with LA and San Diego county registrars. Don't let printer limitations stop you.</p>
                     </div>
                     <div class="faq-item">
+                        <h4>Do I need a notary?</h4>
+                        <p><strong>NO.</strong> The notary section on the back is optional. Leave it blank. Your signature under penalty of perjury is sufficient. No notary. No witness. No extra steps.</p>
+                    </div>
+                    <div class="faq-item">
                         <h4>Can I mail it instead of dropping it off?</h4>
-                        <p><strong>Yes!</strong> Mailing is allowed and doesn't require notarization. Just put it in an envelope and mail it to your county registrar. The critical detail: forms must <strong>ARRIVE</strong> by February 4, 2025. Mail by January 28 to be safe. After that, walk it in.</p>
+                        <p><strong>Yes!</strong> Mailing is the easiest option. No notary required. Just sign, envelope, stamp, mail. Forms must <strong>ARRIVE</strong> by February 4, 2025. Mail by January 28 to be safe.</p>
                     </div>
                     <div class="faq-item">
                         <h4>Can I sign digitally or electronically?</h4>
