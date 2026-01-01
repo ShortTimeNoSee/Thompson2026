@@ -95,7 +95,45 @@ window.REGISTRAR_DATA = {{ registrars | json }};
                 </div>
             </div>
 
-            <div id="petition-interactive">
+            <noscript>
+                <style>
+                    .js-only { display: none !important; }
+                </style>
+                <div class="no-js-petition-section">
+                    <div class="simple-download-card">
+                        <h3>Download Petition</h3>
+                        <p class="download-description">Print the petition, fill in your county name, sign it, and mail or walk it in to your county registrar.</p>
+                        
+                        <a href="/resources/petition.pdf" class="download-button" download>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            Download Petition PDF
+                        </a>
+                        
+                        <div class="simple-instructions">
+                            <h4>Quick Steps</h4>
+                            <p class="no-js-note">No JavaScript? No problem. This works perfectly without it.</p>
+                            <ol>
+                                <li>Download and print (double-sided preferred, or staple two single-sided pages)</li>
+                                <li>Write your county name in the blank space</li>
+                                <li>Sign the table on front (Line 1 at minimum)</li>
+                                <li>Sign the back under "Circulator's Affidavit" (ignore the notary section)</li>
+                                <li>Mail or walk it in to your county registrar by <strong>February 4, 2025</strong></li>
+                            </ol>
+                            
+                            <div class="county-lookup">
+                                <p class="lookup-label">Find your county registrar:</p>
+                                <a href="https://www.sos.ca.gov/elections/voting-resources/county-elections-offices" target="_blank" rel="noopener" class="external-link">California County Elections Offices →</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </noscript>
+
+            <div id="petition-interactive" class="js-only">
                 <div class="step-indicator">
                     <div class="step active" data-step="1">
                         <span class="step-number">1</span>
@@ -145,9 +183,44 @@ window.REGISTRAR_DATA = {{ registrars | json }};
                     <div class="download-section">
                         <h3>Download Your Petition</h3>
                         
+                        <div class="download-options">
+                            <div class="download-option-card primary">
+                                <div class="download-option-header">
+                                    <span class="download-option-badge">Recommended</span>
+                                    <h4>County Pre-Filled</h4>
+                                </div>
+                                <p>We'll fill in "<span class="county-name-inline" id="county-name-prefill"></span>" for you. One less thing to write!</p>
+                                <button id="download-personalized" class="download-button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="7 10 12 15 17 10"></polyline>
+                                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                                    </svg>
+                                    <span>Download Pre-Filled PDF</span>
+                                </button>
+                            </div>
+                            
+                            <div class="download-option-card secondary">
+                                <div class="download-option-header">
+                                    <span class="download-option-badge secondary-badge">Manual</span>
+                                    <h4>Blank Form</h4>
+                                </div>
+                                <p>Prefer to write your county name by hand? Download the blank form.</p>
+                                <a href="/resources/petition.pdf" class="download-button blank" download>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="7 10 12 15 17 10"></polyline>
+                                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                                    </svg>
+                                    <span>Download Blank PDF</span>
+                                </a>
+                            </div>
+                        </div>
+                        
                         <div class="warning-box info">
                             <h4>📄 Printing Options</h4>
-                            <p><strong>IDEAL:</strong> Print double-sided (duplex) on one sheet.</p>
+                            <p class="file-specs"><strong>Format:</strong> Letter size (8.5" × 11") | <strong>Scale:</strong> 100% (default) | <strong>Margins:</strong> Default</p>
+                            <p><strong>IDEAL:</strong> Print double-sided (duplex, flip on long edge) on one sheet.</p>
                             <p><strong>ALSO ACCEPTED:</strong> Print single-sided on two sheets and <strong>staple them together</strong> (like a packet).</p>
                             <p>Both formats are accepted by county registrars. Double-sided is cleaner, but don't let printer limitations stop you.</p>
                             <div class="duplex-instructions">
@@ -155,26 +228,11 @@ window.REGISTRAR_DATA = {{ registrars | json }};
                                 <ol>
                                     <li>Print page 1 only</li>
                                     <li>Take the printed page out</li>
-                                    <li>Flip it over and reinsert it</li>
+                                    <li>Flip it over on the long edge and reinsert it</li>
                                     <li>Print page 2 on the back</li>
                                 </ol>
                             </div>
                         </div>
-
-                        <a href="/resources/petition.pdf" class="download-button" download>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                <polyline points="7 10 12 15 17 10"></polyline>
-                                <line x1="12" y1="15" x2="12" y2="3"></line>
-                            </svg>
-                            Download Petition PDF
-                        </a>
-                        <p class="file-info">Letter size (8.5" x 11") | Double-sided preferred, single-sided stapled OK</p>
-                        <p class="download-fallback">
-                            <strong>Download button didn't work?</strong> 
-                            <a href="/resources/petition.pdf" target="_blank" rel="noopener noreferrer">Open PDF in new tab</a> 
-                            and use your browser's save (Ctrl+S) or print function (Ctrl+P).
-                        </p>
                     </div>
 
                     <div class="signing-instructions">
@@ -184,7 +242,8 @@ window.REGISTRAR_DATA = {{ registrars | json }};
                             <div class="instruction-number">A</div>
                             <div class="instruction-content">
                                 <h4>Write Your County Name</h4>
-                                <p>In the blank space that says "I am a resident of ______ County", write:</p>
+                                <p><strong>If you downloaded the pre-filled PDF:</strong> Skip this step! We already filled it in for you.</p>
+                                <p><strong>If you downloaded the blank PDF:</strong> Write your county name in the blank space that says "I am a resident of ______ County":</p>
                                 <div class="county-name-box" id="county-name-display"></div>
                                 <p class="warning-text">⚠️ Write it exactly as shown above. If you write the wrong county name, your form is void.</p>
                             </div>
@@ -209,7 +268,8 @@ window.REGISTRAR_DATA = {{ registrars | json }};
                                 <p><strong>YOU are the circulator</strong>, even if you only signed it yourself.</p>
                                 <div class="warning-box no-notary-warning">
                                     <p><strong>🚫 IGNORE THE NOTARY SECTION</strong></p>
-                                    <p>You will see a "Notary Public" section on the back. <strong>Leave it blank.</strong> It's optional. Your signature under penalty of perjury is all you need. <strong>NO NOTARY REQUIRED.</strong></p>
+                                    <p>You will see a "Notary Public" section on the back. <strong>Leave it blank.</strong> It's optional.</p>
+                                    <p>Your signature under penalty of perjury is all you need. <strong>NO NOTARY REQUIRED.</strong></p>
                                 </div>
                             </div>
                         </div>

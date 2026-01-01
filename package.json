@@ -4,8 +4,8 @@
   "description": "Nicholas Thompson's 2026 California gubernatorial campaign website",
   "main": "declaration-interactive.js",
   "scripts": {
-    "build": "rimraf _site dist && postcss styles/main.css -o dist/styles.min.css && npx @11ty/eleventy && node scripts/localize-fa-icons.js && purgecss --config purgecss.config.cjs && node scripts/strip-exif.js && node scripts/localize-external-images.js && node scripts/localize-external-scripts.js && node scripts/fingerprint-assets.js && node scripts/purge-per-page.js && node scripts/inline-small-css.js && node scripts/fix-blog-thumbs.js && node scripts/precompress.js",
-    "build:clean": "rimraf _site dist && postcss styles/main.css -o dist/styles.min.css && npx @11ty/eleventy && node scripts/localize-fa-icons.js && purgecss --config purgecss.config.cjs && node scripts/strip-exif.js && node scripts/localize-external-images.js && node scripts/localize-external-scripts.js && node scripts/fingerprint-assets.js && node scripts/purge-per-page.js && node scripts/inline-small-css.js && node scripts/fix-blog-thumbs.js && node scripts/precompress.js",
+    "build": "rimraf _site dist && postcss styles/main.css -o dist/styles.min.css && npx @11ty/eleventy && node scripts/download-pdf-lib.js && node scripts/localize-fa-icons.js && purgecss --config purgecss.config.cjs && node scripts/strip-exif.js && node scripts/localize-external-images.js && node scripts/localize-external-scripts.js && node scripts/fingerprint-assets.js && node scripts/purge-per-page.js && node scripts/inline-small-css.js && node scripts/fix-blog-thumbs.js && node scripts/precompress.js",
+    "build:clean": "rimraf _site dist && postcss styles/main.css -o dist/styles.min.css && npx @11ty/eleventy && node scripts/download-pdf-lib.js && node scripts/localize-fa-icons.js && purgecss --config purgecss.config.cjs && node scripts/strip-exif.js && node scripts/localize-external-images.js && node scripts/localize-external-scripts.js && node scripts/fingerprint-assets.js && node scripts/purge-per-page.js && node scripts/inline-small-css.js && node scripts/fix-blog-thumbs.js && node scripts/precompress.js",
     "build:css": "postcss styles/main.css -o dist/styles.min.css",
     "build:eleventy": "npx @11ty/eleventy",
     "dev": "set NODE_ENV=development&& postcss styles/main.css -o dist/styles.min.css && npx @11ty/eleventy --serve",
@@ -44,6 +44,7 @@
   "dependencies": {
     "http-server": "^14.1.1",
     "luxon": "^3.7.1",
+    "pdf-lib": "^1.17.1",
     "sharp": "^0.34.5"
   }
 }

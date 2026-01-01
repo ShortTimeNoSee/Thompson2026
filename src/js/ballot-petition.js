@@ -68,6 +68,8 @@ class BallotPetitionComponent {
         const countySelect = document.getElementById('county-select');
         const countySubmit = document.getElementById('county-submit');
         const changeCountyBtn = document.getElementById('change-county-btn');
+        const personalizedDownloadBtn = document.getElementById('download-personalized');
+        const blankDownloadLink = document.querySelector('.download-button.blank');
 
         if (countySelect) {
             countySelect.addEventListener('change', (e) => {
@@ -92,6 +94,56 @@ class BallotPetitionComponent {
                 this.resetToCountySelection();
             });
         }
+
+        if (personalizedDownloadBtn) {
+            personalizedDownloadBtn.addEventListener('click', async () => {
+                await this.downloadPersonalizedPDF();
+                this.updateSteps(3);
+            });
+        }
+
+        if (blankDownloadLink) {
+            blankDownloadLink.addEventListener('click', () => {
+                this.updateSteps(3);
+            });
+        }
+    }
+
+    async downloadPersonalizedPDF() {
+        if (!this.selectedCounty) return;
+
+        const btn = document.getElementById('download-personalized');
+        const originalText = btn.innerHTML;
+        
+        btn.disabled = true;
+        btn.innerHTML = '<span>Generating PDF...</span>';
+
+        try {
+            if (!window.generatePersonalizedPetition) {
+                const script = document.createElement('script');
+                script.src = '/js/pdf-generator.js';
+                document.head.appendChild(script);
+                
+                await new Promise((resolve, reject) => {
+                    script.onload = resolve;
+                    script.onerror = reject;
+                    setTimeout(reject, 10000);
+                });
+            }
+
+            const success = await window.generatePersonalizedPetition(this.selectedCounty);
+            
+            if (!success) {
+                throw new Error('PDF generation failed');
+            }
+
+        } catch (error) {
+            console.error('Failed to generate personalized PDF:', error);
+            alert('Failed to generate personalized PDF. Please try the blank form instead.');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+        }
     }
 
     showInstructions() {
@@ -106,23 +158,8 @@ class BallotPetitionComponent {
         this.updateSteps(2);
         this.populateRegistrarInfo();
         this.populateInstructions();
-        
-        this.triggerAutomaticDownload();
 
         instructionsSection.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    triggerAutomaticDownload() {
-        const link = document.createElement('a');
-        link.href = '/resources/petition.pdf';
-        link.download = 'Thompson2026-Ballot-Petition.pdf';
-        link.style.display = 'none';
-        document.body.appendChild(link);
-        
-        setTimeout(() => {
-            link.click();
-            document.body.removeChild(link);
-        }, 500);
     }
 
     resetToCountySelection() {
@@ -176,12 +213,17 @@ class BallotPetitionComponent {
         if (!this.countyData) return;
 
         const countyNameDisplay = document.getElementById('county-name-display');
+        const countyNamePrefill = document.getElementById('county-name-prefill');
         const countyEmphasis = document.querySelectorAll('.county-emphasis');
         const dropoffAddress = document.getElementById('dropoff-address-repeat');
         const officeHours = document.getElementById('office-hours-repeat');
 
         if (countyNameDisplay) {
             countyNameDisplay.textContent = this.countyData.name;
+        }
+
+        if (countyNamePrefill) {
+            countyNamePrefill.textContent = this.countyData.name;
         }
 
         countyEmphasis.forEach(el => {

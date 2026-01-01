@@ -42,6 +42,8 @@ window.site = {
                 isActive = true;
             } else if (path !== '/' && href === path) {
                 isActive = true;
+            } else if (href === '/blog' && path.startsWith('/blog/')) {
+                isActive = true;
             } else if (bodyId && dataPage && bodyId.includes(dataPage)) {
                 isActive = true;
             }

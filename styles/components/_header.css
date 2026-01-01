@@ -105,6 +105,40 @@ header.scrolled {
     width: 100%;
 }
 
+/* Blog Link - Red Glow */
+.header-center .nav-item[href="/blog"],
+.header-center .nav-item[href="/blog/"],
+.header-center .nav-item[href*="/blog/"] {
+    color: var(--blog-red) !important;
+    text-decoration: underline;
+    text-decoration-color: var(--blog-red);
+    text-underline-offset: 4px;
+    text-shadow: 0 0 8px var(--blog-red-glow);
+}
+
+.header-center .nav-item[href="/blog"]::after,
+.header-center .nav-item[href="/blog/"]::after,
+.header-center .nav-item[href*="/blog/"]::after {
+    background: var(--blog-red);
+    box-shadow: 0 0 8px var(--blog-red-glow-strong);
+}
+
+.header-center .nav-item[href="/blog"]:hover,
+.header-center .nav-item[href="/blog/"]:hover,
+.header-center .nav-item[href*="/blog/"]:hover {
+    color: var(--blog-red-hover) !important;
+    text-shadow: 0 0 12px var(--blog-red-glow-hover);
+}
+
+.header-center .nav-item[href="/blog"].active,
+.header-center .nav-item[href="/blog/"].active,
+.header-center .nav-item[href*="/blog/"].active {
+    color: var(--blog-red) !important;
+    text-decoration: underline;
+    text-decoration-color: var(--blog-red);
+    text-shadow: 0 0 10px var(--blog-red-glow-strong);
+}
+
 .header-right {
     justify-self: end;
     display: flex;
@@ -422,6 +456,26 @@ header.scrolled {
     background: var(--accent-alpha);
     color: var(--accent-color);
     padding-left: 20px;
+}
+
+/* Mobile Blog Link - Red Glow */
+.mobile-nav-section a[href="/blog"],
+.mobile-nav-section a[href="/blog/"],
+.mobile-nav-section a[href*="/blog/"] {
+    color: var(--blog-red);
+    text-decoration: underline;
+    text-decoration-color: var(--blog-red);
+    text-underline-offset: 3px;
+}
+
+.mobile-nav-section a[href="/blog"]:hover,
+.mobile-nav-section a[href="/blog/"]:hover,
+.mobile-nav-section a[href*="/blog/"]:hover,
+.mobile-nav-section a[href="/blog"].active,
+.mobile-nav-section a[href="/blog/"].active,
+.mobile-nav-section a[href*="/blog/"].active {
+    color: var(--blog-red-hover);
+    background: var(--blog-red-alpha);
 }
 
 @media (max-width: 1200px) {

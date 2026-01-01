@@ -4,14 +4,49 @@
 :root {
     --primary-color: #113;
     --primary-alpha: #113B;
+    --primary-transparent-light: rgba(17, 17, 51, 0.8);
+    --primary-transparent-solid: rgba(17, 17, 51, 1);
     --secondary-color: #224;
+    --secondary-transparent-high: rgba(34, 34, 68, 0.98);
+    --secondary-transparent-med: rgba(34, 34, 68, 0.95);
     --tertiary-color: #002;
     --accent-color: #FED000;
     --accent-alpha: #FED00022;
+    --accent-shadow: rgba(254, 208, 0, 0.3);
+    --accent-shadow-strong: rgba(254, 208, 0, 0.4);
+    --accent-glow-subtle: rgba(254, 208, 0, 0.05);
+    --accent-glow-light: rgba(254, 208, 0, 0.08);
+    --accent-glow-med: rgba(254, 208, 0, 0.1);
+    --accent-glow-strong: rgba(254, 208, 0, 0.15);
     --text-color: #CCB;
+    --text-transparent-high: rgba(170, 170, 204, 0.6);
+    --text-transparent-low: rgba(170, 170, 204, 0.4);
     --highlight-color: #998;
     --shadow-color: #0003;
+    --shadow-light: rgba(0, 0, 0, 0.1);
+    --shadow-med: rgba(0, 0, 0, 0.2);
+    --shadow-strong: rgba(0, 0, 0, 0.3);
+    --shadow-heavy: rgba(0, 0, 0, 0.4);
+    --shadow-very-heavy: rgba(0, 0, 0, 0.5);
+    --overlay-dark: rgba(0, 0, 0, 0.85);
     --transparent: #1130;
+    --blog-red: #ff4444;
+    --blog-red-hover: #ff5555;
+    --blog-red-alpha: rgba(255, 68, 68, 0.1);
+    --blog-red-glow: rgba(255, 68, 68, 0.5);
+    --blog-red-glow-strong: rgba(255, 68, 68, 0.6);
+    --blog-red-glow-hover: rgba(255, 85, 85, 0.7);
+    --warning-orange: rgba(255, 100, 0, 0.1);
+    --warning-orange-border: rgba(255, 100, 0, 0.4);
+    --warning-orange-glow: rgba(255, 100, 0, 0.6);
+    --critical-red: rgba(255, 50, 0, 0.15);
+    --critical-red-border: rgba(255, 50, 0, 0.6);
+    --success-green: #4caf50;
+    --success-green-glow: rgba(76, 175, 80, 0.15);
+    --error-red: #f44336;
+    --error-red-glow: rgba(244, 67, 54, 0.15);
+    --white-transparent: rgba(255, 255, 255, 0.9);
+    --white-shine: rgba(255, 255, 255, 0.2);
 }
 
 html, body {
