@@ -4,6 +4,13 @@
 
 const WORKER_URL = 'https://declaration-signatures.theedenwatcher.workers.dev';
 
+function decodeHTMLEntities(text) {
+    if (!text) return '';
+    const textarea = document.createElement('textarea');
+    textarea.innerHTML = text;
+    return textarea.value;
+}
+
 class BlogComments {
     constructor() {
         this.postSlug = this.getPostSlug();
@@ -171,7 +178,7 @@ class BlogComments {
                     <div class="comment-content">
                 <div class="comment-header">
                             <span class="comment-author">
-                                ${this.escapeHtml(comment.name)}
+                                ${decodeHTMLEntities(comment.name)}
                                 ${isAuthor ? '<span class="author-badge">Author</span>' : ''}
                             </span>
                             ${comment.pending ? '<span class="comment-pending-badge">Pending</span>' : ''}
@@ -188,7 +195,7 @@ class BlogComments {
                         <div class="comment-actions">
                             <button class="comment-action-btn reply-btn" 
                                     data-id="${this.escapeHtml(comment.id)}"
-                                    data-name="${this.escapeHtml(comment.name)}"
+                                    data-name="${decodeHTMLEntities(comment.name)}"
                                     ${depth >= maxDepth ? 'disabled title="Max reply depth reached"' : ''}>
                                 <svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></svg>
                                 Reply
@@ -212,7 +219,8 @@ class BlogComments {
 
     renderMarkdown(text) {
         if (!text) return '';
-        let html = this.escapeHtml(text);
+        let html = decodeHTMLEntities(text);
+        html = this.escapeHtml(html);
         html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
         html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
         html = html.replace(/`(.+?)`/g, '<code>$1</code>');
@@ -665,7 +673,7 @@ class BlogComments {
                 </div>
                 <div class="comment-content">
             <div class="comment-header">
-                <span class="comment-author">${this.escapeHtml(name)}</span>
+                <span class="comment-author">${name}</span>
                 <span class="comment-pending-badge">Pending Moderation</span>
                 <time class="comment-date">Just now</time>
             </div>

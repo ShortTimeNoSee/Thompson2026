@@ -827,6 +827,7 @@
     background: var(--secondary-color);
     border-radius: 12px;
     padding: 30px;
+    margin-bottom: 40px;
 }
 
 .comment-form-container h3 {
@@ -970,6 +971,7 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 15px;
+    margin-top: 20px;
     margin-bottom: 25px;
 }
 
