@@ -25,6 +25,8 @@ module.exports = {
       /negative/,
       /voted/,
       /author-badge/,
+      /checkbox/,
+      /quick-nav/,
     ],
   },
   output: '.',

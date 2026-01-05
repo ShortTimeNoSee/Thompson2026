@@ -317,9 +317,10 @@ class BlogComments {
                 <textarea name="comment" placeholder="Write your reply... (Supports **bold**, *italic*, \`code\`, [links](url))" 
                           required minlength="10" maxlength="2000" rows="3"></textarea>
                 <div class="reply-form-footer">
-                    <label class="notify-checkbox">
+                    <label class="checkbox-label">
                         <input type="checkbox" name="notifyReplies" checked>
-                        <span>Notify me of replies to my comment</span>
+                        <span class="checkbox-custom"></span>
+                        <span class="checkbox-text">Notify me of replies to this thread</span>
                     </label>
                     <button type="submit" class="reply-submit-btn">Post Reply</button>
                 </div>
