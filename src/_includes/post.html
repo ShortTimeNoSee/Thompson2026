@@ -84,6 +84,21 @@ og_type: article
             {%- endif %}
         </header>
         
+        <nav class="post-quick-actions js-only" aria-label="Quick navigation">
+            <a href="#comments" class="quick-action-btn">
+                <i class="fas fa-comments"></i>
+                <span>Comments</span>
+            </a>
+            <a href="#share" class="quick-action-btn">
+                <i class="fas fa-share-alt"></i>
+                <span>Share</span>
+            </a>
+            <a href="#subscribe" class="quick-action-btn">
+                <i class="fas fa-envelope"></i>
+                <span>Subscribe</span>
+            </a>
+        </nav>
+        
         <div class="post-content">
             {{ content | safe }}
         </div>
@@ -116,7 +131,7 @@ og_type: article
                 <a href="/blog" class="back-to-blogs">← Back to Blog</a>
             </div>
             
-            <div class="post-share">
+            <div class="post-share" id="share">
                 <p>Share this post:</p>
                 <div class="share-buttons">
                     {%- assign share_url = "https://thompson2026.com" | append: page.url -%}
@@ -142,7 +157,7 @@ og_type: article
             </div>
         </footer>
 
-        <section class="subscribe-section">
+        <section class="subscribe-section" id="subscribe">
             <div class="subscribe-box">
                 <div class="subscribe-content">
                     <i class="fas fa-envelope subscribe-icon"></i>
@@ -232,17 +247,5 @@ og_type: article
         </section>
     </div>
 </article>
-
-<nav class="post-quick-nav js-only" aria-label="Quick navigation">
-    <button class="quick-nav-btn" onclick="document.getElementById('comments').scrollIntoView({behavior:'smooth'})" title="Jump to Comments">
-        <i class="fas fa-comments"></i>
-    </button>
-    <button class="quick-nav-btn" onclick="document.querySelector('.post-share').scrollIntoView({behavior:'smooth'})" title="Share this post">
-        <i class="fas fa-link"></i>
-    </button>
-    <button class="quick-nav-btn" onclick="document.querySelector('.subscribe-section').scrollIntoView({behavior:'smooth'})" title="Subscribe">
-        <i class="fas fa-envelope"></i>
-    </button>
-</nav>
 
 <script src="/js/blog-comments.js" defer></script>

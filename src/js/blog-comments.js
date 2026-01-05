@@ -188,6 +188,9 @@ class BlogComments {
                         ${this.formatDate(comment.timestamp)}
                     </time>
                             </a>
+                            <button class="copy-comment-link" data-comment-id="${this.escapeHtml(comment.id)}" title="Copy comment link">
+                                <svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                            </button>
                 </div>
                 <div class="comment-body">
                             ${this.renderMarkdown(comment.comment)}
@@ -242,6 +245,49 @@ class BlogComments {
         document.querySelectorAll('.report-btn').forEach(btn => {
             btn.addEventListener('click', (e) => this.handleReport(e));
         });
+        
+        document.querySelectorAll('.copy-comment-link').forEach(btn => {
+            btn.addEventListener('click', (e) => this.handleCopyCommentLink(e));
+        });
+    }
+
+    async handleCopyCommentLink(e) {
+        e.preventDefault();
+        const btn = e.currentTarget;
+        const commentId = btn.dataset.commentId;
+        const url = `${window.location.origin}${window.location.pathname}#comment-${commentId}`;
+        
+        try {
+            await navigator.clipboard.writeText(url);
+            const originalTitle = btn.title;
+            btn.title = 'Copied!';
+            btn.style.color = 'var(--accent-color)';
+            setTimeout(() => {
+                btn.title = originalTitle;
+                btn.style.color = '';
+            }, 2000);
+        } catch (error) {
+            console.error('Failed to copy:', error);
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = url;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                btn.title = 'Copied!';
+                btn.style.color = 'var(--accent-color)';
+                setTimeout(() => {
+                    btn.title = 'Copy comment link';
+                    btn.style.color = '';
+                }, 2000);
+            } catch (err) {
+                console.error('Fallback copy failed:', err);
+            }
+            document.body.removeChild(textArea);
+        }
     }
 
     async handleVote(e) {
