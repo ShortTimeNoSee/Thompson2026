@@ -1408,6 +1408,56 @@ export default {
         }
         await env.DECLARATION_KV.put("blog_comments_all", JSON.stringify(allComments));
 
+        // Send approval confirmation email to the comment author
+        if (action === "approve" && approvedComment && approvedComment.email) {
+          const postUrl = `https://thompson2026.com/blog/${sanitizedSlug}#comment-${approvedComment.id}`;
+          
+          const approvalSubject = `Your comment on Thompson 2026 has been published`;
+          const approvalHtml = `
+            <div style="font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+              <h2 style="color: #fed000;">Comment Published!</h2>
+              <p>Hi ${approvedComment.name},</p>
+              <p>Your comment on <strong>"${sanitizedSlug.replace(/-/g, ' ')}"</strong> has been approved and is now live on the blog.</p>
+              
+              <div style="background: #f5f5f5; padding: 15px; border-radius: 8px; margin: 20px 0;">
+                <p style="margin: 0; color: #333;">${escapeHTML(approvedComment.comment)}</p>
+              </div>
+              
+              <p><a href="${postUrl}" style="display: inline-block; background: #fed000; color: #1a1a2e; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 600;">View Your Comment</a></p>
+              
+              <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
+              
+              <p style="color: #666; font-size: 12px;">
+                Thanks for engaging with the campaign!<br>
+                Nicholas A. Thompson
+              </p>
+            </div>
+          `;
+          const approvalText = `Your comment on "${sanitizedSlug}" has been approved and is now live.\n\nView your comment: ${postUrl}`;
+          
+          try {
+            if (env.BREVO_API_KEY) {
+              await fetch("https://api.brevo.com/v3/smtp/email", {
+                method: "POST",
+                headers: {
+                  "Accept": "application/json",
+                  "Content-Type": "application/json",
+                  "api-key": env.BREVO_API_KEY
+                },
+                body: JSON.stringify({
+                  sender: { name: "Nicholas A. Thompson", email: "blog@thompson2026.com" },
+                  to: [{ email: approvedComment.email, name: approvedComment.name }],
+                  subject: approvalSubject,
+                  htmlContent: approvalHtml,
+                  textContent: approvalText
+                })
+              });
+            }
+          } catch (approvalError) {
+            console.error("Approval notification error:", approvalError);
+          }
+        }
+
         // Send reply notification if this is an approved reply
         if (action === "approve" && approvedComment && approvedComment.replyTo) {
           const parentComment = allComments.find(c => c.id === approvedComment.replyTo);

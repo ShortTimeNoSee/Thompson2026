@@ -169,7 +169,7 @@ class BlogComments {
                         </button>
                     </div>
                     <div class="comment-content">
-                        <div class="comment-header">
+                <div class="comment-header">
                             <span class="comment-author">
                                 ${this.escapeHtml(comment.name)}
                                 ${isAuthor ? '<span class="author-badge">Author</span>' : ''}
@@ -178,11 +178,11 @@ class BlogComments {
                             <a href="#comment-${this.escapeHtml(comment.id)}" class="comment-date comment-permalink" 
                                title="Permalink to this comment">
                                 <time datetime="${new Date(comment.timestamp).toISOString()}">
-                                    ${this.formatDate(comment.timestamp)}
-                                </time>
+                        ${this.formatDate(comment.timestamp)}
+                    </time>
                             </a>
-                        </div>
-                        <div class="comment-body">
+                </div>
+                <div class="comment-body">
                             ${this.renderMarkdown(comment.comment)}
                         </div>
                         <div class="comment-actions">
@@ -664,12 +664,12 @@ class BlogComments {
                     <button class="vote-btn vote-down" disabled><svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 20l8-8h-5v-8h-6v8h-5z"/></svg></button>
                 </div>
                 <div class="comment-content">
-                    <div class="comment-header">
-                        <span class="comment-author">${this.escapeHtml(name)}</span>
-                        <span class="comment-pending-badge">Pending Moderation</span>
-                        <time class="comment-date">Just now</time>
-                    </div>
-                    <div class="comment-body">
+            <div class="comment-header">
+                <span class="comment-author">${this.escapeHtml(name)}</span>
+                <span class="comment-pending-badge">Pending Moderation</span>
+                <time class="comment-date">Just now</time>
+            </div>
+            <div class="comment-body">
                         ${this.renderMarkdown(comment)}
                     </div>
                 </div>
@@ -690,7 +690,7 @@ class BlogComments {
                 commentsContainer.insertBefore(pendingComment, commentsContainer.firstChild);
             }
         } else {
-            commentsContainer.insertBefore(pendingComment, commentsContainer.firstChild);
+        commentsContainer.insertBefore(pendingComment, commentsContainer.firstChild);
         }
         
         const commentsCount = document.getElementById('comments-count');
