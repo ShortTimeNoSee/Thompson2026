@@ -28,6 +28,7 @@ module.exports = {
       /checkbox/,
       /quick-action/,
       /copy-comment/,
+      /report-modal/,
     ],
   },
   output: '.',

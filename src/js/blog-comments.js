@@ -189,7 +189,7 @@ class BlogComments {
                     </time>
                             </a>
                             <button class="copy-comment-link" data-comment-id="${this.escapeHtml(comment.id)}" title="Copy comment link">
-                                <svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                                <i class="fas fa-link"></i>
                             </button>
                 </div>
                 <div class="comment-body">
@@ -461,39 +461,107 @@ class BlogComments {
         }
     }
 
+    showReportModal(commentId) {
+        const existingModal = document.querySelector('.report-modal');
+        if (existingModal) existingModal.remove();
+
+        const modal = document.createElement('div');
+        modal.className = 'report-modal';
+        modal.innerHTML = `
+            <div class="report-modal-overlay"></div>
+            <div class="report-modal-content">
+                <div class="report-modal-header">
+                    <h3>Report Comment</h3>
+                    <button class="report-modal-close" aria-label="Close">&times;</button>
+                </div>
+                <div class="report-modal-body">
+                    <p>Why are you reporting this comment?</p>
+                    <p class="report-modal-note">If you want to delete YOUR OWN comment, email nicholas@thompson2026.com from the same email address you used when posting.</p>
+                    <form class="report-form">
+                        <textarea name="reason" placeholder="Please describe the issue..." rows="4" required minlength="10" maxlength="500"></textarea>
+                        <div class="report-form-message" style="display: none;"></div>
+                        <div class="report-form-actions">
+                            <button type="button" class="report-cancel-btn">Cancel</button>
+                            <button type="submit" class="report-submit-btn">Submit Report</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        const overlay = modal.querySelector('.report-modal-overlay');
+        const closeBtn = modal.querySelector('.report-modal-close');
+        const cancelBtn = modal.querySelector('.report-cancel-btn');
+        const form = modal.querySelector('.report-form');
+
+        const closeModal = () => modal.remove();
+
+        overlay.addEventListener('click', closeModal);
+        closeBtn.addEventListener('click', closeModal);
+        cancelBtn.addEventListener('click', closeModal);
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const reason = formData.get('reason').trim();
+
+            const formMessage = form.querySelector('.report-form-message');
+            
+            if (!reason || reason.length < 10) {
+                this.showFormMessage(formMessage, 'Please provide at least 10 characters describing the issue.', 'error');
+                return;
+            }
+
+            const submitBtn = form.querySelector('.report-submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner"></span> Submitting...';
+
+            try {
+                const response = await fetch(`${WORKER_URL}/api/blog/report`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        commentId,
+                        postSlug: this.postSlug,
+                        reason: reason
+                    })
+                });
+
+                if (response.ok) {
+                    const reportBtn = document.querySelector(`.report-btn[data-id="${commentId}"]`);
+                    if (reportBtn) {
+                        reportBtn.classList.add('reported');
+                        reportBtn.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Reported';
+                        reportBtn.disabled = true;
+                    }
+                    closeModal();
+                    this.showFormMessage(document.getElementById('comments-list'), 'Thank you for your report. It has been sent for review.', 'success');
+                } else {
+                    const data = await response.json();
+                    this.showFormMessage(formMessage, data.message || 'Failed to submit report. Please try again.', 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'Submit Report';
+                }
+            } catch (error) {
+                console.error('Report error:', error);
+                this.showFormMessage(formMessage, 'Network error. Please try again.', 'error');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Submit Report';
+            }
+        });
+
+        form.querySelector('textarea').focus();
+    }
+
     async handleReport(e) {
         const btn = e.currentTarget;
         const commentId = btn.dataset.id;
         
         if (btn.classList.contains('reported')) return;
         
-        const reason = prompt(
-            'Why are you reporting this comment?\n\n' +
-            '(If you want to delete YOUR OWN comment, email nicholas@thompson2026.com from the same email address you used when posting.)'
-        );
-        if (reason === null) return;
-        
-        try {
-            const response = await fetch(`${WORKER_URL}/api/blog/report`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    commentId,
-                    postSlug: this.postSlug,
-                    reason: reason || 'No reason provided'
-                })
-            });
-            
-            if (response.ok) {
-                btn.classList.add('reported');
-                btn.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Reported';
-                btn.disabled = true;
-                alert('Thank you for your report. It has been sent for review.');
-            }
-        } catch (error) {
-            console.error('Report error:', error);
-            alert('Failed to submit report. Please try again.');
-        }
+        this.showReportModal(commentId);
     }
 
     setupSortControls() {
