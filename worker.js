@@ -682,7 +682,7 @@ export default {
           );
         }
 
-        const { name, email, comment, postSlug } = await request.json();
+        const { name, email, comment, postSlug, replyTo, notifyReplies } = await request.json();
 
         // Validation
         if (!name || !name.trim()) {
@@ -706,11 +706,15 @@ export default {
         const sanitizedEmail = email.trim().toLowerCase().substring(0, 254);
         const sanitizedComment = escapeHTML(comment.trim().substring(0, 2000));
         const sanitizedSlug = postSlug.trim().replace(/[^a-z0-9-]/gi, "").substring(0, 100);
+        const sanitizedReplyTo = replyTo ? replyTo.trim().substring(0, 50) : null;
 
         // Store rate limit
         await env.DECLARATION_KV.put(commentRateKey, now.toString(), { expirationTtl: 120 });
 
-        // Create comment object
+        // Generate unsubscribe token for reply notifications
+        const unsubscribeToken = `${now}-${Math.random().toString(36).substr(2, 16)}`;
+
+        // Create comment object with enhanced fields
         const commentObj = {
           id: `${now}-${Math.random().toString(36).substr(2, 9)}`,
           name: sanitizedName,
@@ -719,6 +723,12 @@ export default {
           postSlug: sanitizedSlug,
           timestamp: now,
           approved: false,
+          replyTo: sanitizedReplyTo,
+          notifyReplies: notifyReplies !== false,
+          unsubscribeToken: unsubscribeToken,
+          upvoters: [],
+          downvoters: [],
+          reported: false,
           metadata: {
             ip: clientIP,
             userAgent: request.headers.get("User-Agent"),
@@ -794,11 +804,19 @@ export default {
           comments = [];
         }
 
-        // Only return approved comments, strip email and metadata for public
+        // Only return approved comments, include vote counts, strip email and metadata for public
         const publicComments = comments
           .filter(c => c.approved)
           .sort((a, b) => a.timestamp - b.timestamp)
-          .map(({ id, name, comment, timestamp }) => ({ id, name, comment, timestamp }));
+          .map(({ id, name, comment, timestamp, replyTo, upvoters, downvoters }) => ({ 
+            id, 
+            name, 
+            comment, 
+            timestamp, 
+            replyTo: replyTo || null,
+            upvotes: (upvoters || []).length,
+            downvotes: (downvoters || []).length
+          }));
 
         return new Response(
           JSON.stringify({ comments: publicComments, count: publicComments.length }),
@@ -809,6 +827,242 @@ export default {
           JSON.stringify({ error: "Failed to fetch comments", details: error.message }),
           { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
         );
+      }
+    }
+
+    // POST /api/blog/vote - Vote on a comment
+    if (url.pathname === "/api/blog/vote") {
+      if (!isAllowed) {
+        return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: { "Content-Type": "application/json", "Vary": "Origin" } });
+      }
+      if (request.method !== "POST") {
+        return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+      }
+      const jsonError = requireJSON(request);
+      if (jsonError) return jsonError;
+
+      try {
+        const { commentId, postSlug, vote, voterId } = await request.json();
+
+        if (!commentId || !postSlug || !voterId) {
+          return new Response(JSON.stringify({ error: "Missing required fields" }), { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+        }
+
+        const sanitizedSlug = postSlug.trim().replace(/[^a-z0-9-]/gi, "").substring(0, 100);
+        const commentsKey = `blog_comments:${sanitizedSlug}`;
+
+        let comments = [];
+        try {
+          comments = JSON.parse(await env.DECLARATION_KV.get(commentsKey) || "[]");
+        } catch (e) {
+          comments = [];
+        }
+
+        const commentIndex = comments.findIndex(c => c.id === commentId);
+        if (commentIndex === -1) {
+          return new Response(JSON.stringify({ error: "Comment not found" }), { status: 404, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+        }
+
+        const comment = comments[commentIndex];
+        if (!comment.upvoters) comment.upvoters = [];
+        if (!comment.downvoters) comment.downvoters = [];
+
+        // Remove any existing vote from this voter
+        comment.upvoters = comment.upvoters.filter(v => v !== voterId);
+        comment.downvoters = comment.downvoters.filter(v => v !== voterId);
+
+        // Apply new vote
+        if (vote === 1) {
+          comment.upvoters.push(voterId);
+        } else if (vote === -1) {
+          comment.downvoters.push(voterId);
+        }
+        // vote === 0 means remove vote (already done above)
+
+        comments[commentIndex] = comment;
+        await env.DECLARATION_KV.put(commentsKey, JSON.stringify(comments));
+
+        // Also update global comments list
+        let allComments = [];
+        try {
+          allComments = JSON.parse(await env.DECLARATION_KV.get("blog_comments_all") || "[]");
+        } catch (e) {
+          allComments = [];
+        }
+        const allIndex = allComments.findIndex(c => c.id === commentId);
+        if (allIndex !== -1) {
+          allComments[allIndex] = comment;
+          await env.DECLARATION_KV.put("blog_comments_all", JSON.stringify(allComments));
+        }
+
+        return new Response(
+          JSON.stringify({ 
+            success: true, 
+            upvotes: comment.upvoters.length, 
+            downvotes: comment.downvoters.length 
+          }),
+          { headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      } catch (error) {
+        console.error("Vote error:", error);
+        return new Response(
+          JSON.stringify({ error: "Failed to process vote", details: error.message }),
+          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      }
+    }
+
+    // POST /api/blog/report - Report a comment
+    if (url.pathname === "/api/blog/report") {
+      if (!isAllowed) {
+        return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: { "Content-Type": "application/json", "Vary": "Origin" } });
+      }
+      if (request.method !== "POST") {
+        return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+      }
+      const jsonError = requireJSON(request);
+      if (jsonError) return jsonError;
+
+      try {
+        const { commentId, postSlug, reason } = await request.json();
+
+        if (!commentId || !postSlug) {
+          return new Response(JSON.stringify({ error: "Missing required fields" }), { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+        }
+
+        const sanitizedSlug = postSlug.trim().replace(/[^a-z0-9-]/gi, "").substring(0, 100);
+        const commentsKey = `blog_comments:${sanitizedSlug}`;
+
+        let comments = [];
+        try {
+          comments = JSON.parse(await env.DECLARATION_KV.get(commentsKey) || "[]");
+        } catch (e) {
+          comments = [];
+        }
+
+        const comment = comments.find(c => c.id === commentId);
+        if (!comment) {
+          return new Response(JSON.stringify({ error: "Comment not found" }), { status: 404, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+        }
+
+        // Send report notification to admin
+        const emailSubject = `Comment Reported on "${sanitizedSlug}"`;
+        const emailHtml = `
+          <h2>⚠️ Comment Reported</h2>
+          <p><strong>Post:</strong> ${sanitizedSlug}</p>
+          <p><strong>Comment by:</strong> ${comment.name}</p>
+          <p><strong>Comment:</strong></p>
+          <blockquote style="border-left: 3px solid #f44336; padding-left: 10px; margin: 10px 0;">${escapeHTML(comment.comment)}</blockquote>
+          <p><strong>Reason:</strong> ${escapeHTML(reason || "No reason provided")}</p>
+          <p><strong>Reporter IP:</strong> ${clientIP}</p>
+          <p><a href="https://thompson2026.com/blog/${sanitizedSlug}#comment-${commentId}">View Comment</a></p>
+          <p style="color: #666; font-size: 12px;">Use the admin dashboard to review and take action.</p>
+        `;
+        const emailText = `Comment reported on "${sanitizedSlug}" by ${comment.name}. Reason: ${reason || "No reason provided"}`;
+        await sendBrevoNotification(env, emailSubject, emailHtml, emailText);
+
+        return new Response(
+          JSON.stringify({ success: true, message: "Report submitted" }),
+          { headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      } catch (error) {
+        console.error("Report error:", error);
+        return new Response(
+          JSON.stringify({ error: "Failed to submit report", details: error.message }),
+          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      }
+    }
+
+    // GET /api/blog/unsubscribe - Unsubscribe from reply notifications
+    if (url.pathname === "/api/blog/unsubscribe" && request.method === "GET") {
+      try {
+        const token = url.searchParams.get("token");
+        const commentId = url.searchParams.get("commentId");
+        
+        if (!token || !commentId) {
+          return new Response(`
+            <!DOCTYPE html>
+            <html><head><title>Invalid Link</title></head>
+            <body style="font-family: sans-serif; padding: 40px; text-align: center;">
+              <h1>Invalid Unsubscribe Link</h1>
+              <p>This unsubscribe link is invalid or has expired.</p>
+              <a href="https://thompson2026.com/blog">Return to Blog</a>
+            </body></html>
+          `, { status: 400, headers: { "Content-Type": "text/html" } });
+        }
+
+        // Find and update the comment in all posts
+        let allComments = [];
+        try {
+          allComments = JSON.parse(await env.DECLARATION_KV.get("blog_comments_all") || "[]");
+        } catch (e) {
+          allComments = [];
+        }
+
+        const comment = allComments.find(c => c.id === commentId && c.unsubscribeToken === token);
+        if (!comment) {
+          return new Response(`
+            <!DOCTYPE html>
+            <html><head><title>Not Found</title></head>
+            <body style="font-family: sans-serif; padding: 40px; text-align: center;">
+              <h1>Comment Not Found</h1>
+              <p>This comment may have been deleted or the link is invalid.</p>
+              <a href="https://thompson2026.com/blog">Return to Blog</a>
+            </body></html>
+          `, { status: 404, headers: { "Content-Type": "text/html" } });
+        }
+
+        // Disable notifications for this comment
+        comment.notifyReplies = false;
+        
+        // Update in global list
+        const allIndex = allComments.findIndex(c => c.id === commentId);
+        if (allIndex !== -1) {
+          allComments[allIndex] = comment;
+          await env.DECLARATION_KV.put("blog_comments_all", JSON.stringify(allComments));
+        }
+
+        // Update in post-specific list
+        const commentsKey = `blog_comments:${comment.postSlug}`;
+        let postComments = [];
+        try {
+          postComments = JSON.parse(await env.DECLARATION_KV.get(commentsKey) || "[]");
+        } catch (e) {
+          postComments = [];
+        }
+        const postIndex = postComments.findIndex(c => c.id === commentId);
+        if (postIndex !== -1) {
+          postComments[postIndex].notifyReplies = false;
+          await env.DECLARATION_KV.put(commentsKey, JSON.stringify(postComments));
+        }
+
+        return new Response(`
+          <!DOCTYPE html>
+          <html><head><title>Unsubscribed</title>
+          <style>
+            body { font-family: system-ui, sans-serif; padding: 40px; text-align: center; background: #1a1a2e; color: #eee; }
+            h1 { color: #fed000; }
+            a { color: #fed000; }
+          </style>
+          </head>
+          <body>
+            <h1>✓ Unsubscribed</h1>
+            <p>You will no longer receive email notifications for replies to your comment.</p>
+            <p><a href="https://thompson2026.com/blog/${comment.postSlug}">Return to the article</a></p>
+          </body></html>
+        `, { headers: { "Content-Type": "text/html" } });
+      } catch (error) {
+        console.error("Unsubscribe error:", error);
+        return new Response(`
+          <!DOCTYPE html>
+          <html><head><title>Error</title></head>
+          <body style="font-family: sans-serif; padding: 40px; text-align: center;">
+            <h1>Error</h1>
+            <p>Something went wrong. Please try again later.</p>
+            <a href="https://thompson2026.com/blog">Return to Blog</a>
+          </body></html>
+        `, { status: 500, headers: { "Content-Type": "text/html" } });
       }
     }
 
@@ -1129,6 +1383,9 @@ export default {
           comments = [];
         }
 
+        // Find the comment being approved
+        const approvedComment = comments.find(c => c.id === commentId);
+
         if (action === "approve") {
           comments = comments.map(c => c.id === commentId ? { ...c, approved: true } : c);
         } else if (action === "delete") {
@@ -1150,6 +1407,61 @@ export default {
           allComments = allComments.filter(c => c.id !== commentId);
         }
         await env.DECLARATION_KV.put("blog_comments_all", JSON.stringify(allComments));
+
+        // Send reply notification if this is an approved reply
+        if (action === "approve" && approvedComment && approvedComment.replyTo) {
+          const parentComment = allComments.find(c => c.id === approvedComment.replyTo);
+          if (parentComment && parentComment.notifyReplies && parentComment.email) {
+            const unsubscribeUrl = `https://declaration-signatures.theedenwatcher.workers.dev/api/blog/unsubscribe?token=${encodeURIComponent(parentComment.unsubscribeToken)}&commentId=${encodeURIComponent(parentComment.id)}`;
+            const postUrl = `https://thompson2026.com/blog/${sanitizedSlug}#comment-${approvedComment.id}`;
+            
+            const notifySubject = `${approvedComment.name} replied to your comment on Thompson 2026`;
+            const notifyHtml = `
+              <div style="font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+                <h2 style="color: #fed000;">New Reply to Your Comment</h2>
+                <p>Hi ${parentComment.name},</p>
+                <p><strong>${approvedComment.name}</strong> replied to your comment on my blog:</p>
+                
+                <div style="background: #f5f5f5; padding: 15px; border-radius: 8px; margin: 20px 0;">
+                  <p style="margin: 0; color: #333;">${escapeHTML(approvedComment.comment)}</p>
+                </div>
+                
+                <p><a href="${postUrl}" style="display: inline-block; background: #fed000; color: #1a1a2e; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 600;">View Reply</a></p>
+                
+                <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
+                
+                <p style="color: #666; font-size: 12px;">
+                  You're receiving this because you left a comment and opted in to reply notifications.<br>
+                  <a href="${unsubscribeUrl}" style="color: #666;">Unsubscribe from reply notifications</a>
+                </p>
+              </div>
+            `;
+            const notifyText = `${approvedComment.name} replied to your comment: "${approvedComment.comment}"\n\nView reply: ${postUrl}\n\nUnsubscribe: ${unsubscribeUrl}`;
+            
+            // Send to the parent comment author
+            try {
+              if (env.BREVO_API_KEY) {
+                await fetch("https://api.brevo.com/v3/smtp/email", {
+                  method: "POST",
+                  headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "api-key": env.BREVO_API_KEY
+                  },
+                  body: JSON.stringify({
+                    sender: { name: "Nicholas A. Thompson", email: "blog@thompson2026.com" },
+                    to: [{ email: parentComment.email, name: parentComment.name }],
+                    subject: notifySubject,
+                    htmlContent: notifyHtml,
+                    textContent: notifyText
+                  })
+                });
+              }
+            } catch (notifyError) {
+              console.error("Reply notification error:", notifyError);
+            }
+          }
+        }
 
         return new Response(
           JSON.stringify({ success: true, comments: allComments }),

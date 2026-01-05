@@ -167,7 +167,15 @@ og_type: article
         </section>
 
         <section class="comments-section" id="comments">
-            <h2><i class="fas fa-comments"></i> Comments <span class="comments-count js-only">(<span id="comments-count">0</span>)</span></h2>
+            <div class="comments-header">
+                <h2><i class="fas fa-comments"></i> Comments <span class="comments-count js-only">(<span id="comments-count">0</span>)</span></h2>
+                <div class="comments-sort js-only">
+                    <span class="sort-label">Sort by:</span>
+                    <button class="sort-btn active" data-sort="newest">Newest</button>
+                    <button class="sort-btn" data-sort="oldest">Oldest</button>
+                    <button class="sort-btn" data-sort="top">Top Rated</button>
+                </div>
+            </div>
             
             <div id="comments-list" class="comments-list js-only">
                 <p class="comments-loading"><span class="spinner"></span> Loading comments...</p>
@@ -185,7 +193,10 @@ og_type: article
 
             <div class="comment-form-container js-only">
                 <h3>Leave a Comment</h3>
-                <p class="comment-form-note">Your email address will not be published or shared. Comments are moderated before appearing.</p>
+                <div class="comment-form-info">
+                    <p class="comment-form-note">Your email address will not be published. Comments are moderated before appearing.</p>
+                    <p class="comment-format-hint">Supports: <code>**bold**</code>, <code>*italic*</code>, <code>`code`</code>, <code>[links](url)</code></p>
+                </div>
                 
                 <form id="comment-form" class="comment-form">
                     <div class="form-row">
@@ -196,7 +207,7 @@ og_type: article
                         <div class="form-group">
                             <label for="comment-email">Email <span class="required">*</span></label>
                             <input type="email" id="comment-email" name="email" required placeholder="your@email.com" autocomplete="email" maxlength="254">
-                            <span class="field-note">Only visible to me, never published</span>
+                            <span class="field-note">Private - only used for reply notifications and moderation</span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -204,8 +215,17 @@ og_type: article
                         <textarea id="comment-text" name="comment" required placeholder="Share your thoughts..." rows="5" maxlength="2000" minlength="10"></textarea>
                         <span class="char-count" id="comment-char-count">0/2000</span>
                     </div>
+                    <div class="form-group form-group-checkbox">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="notifyReplies" checked>
+                            <span>Email me when someone replies to my comment</span>
+                        </label>
+                    </div>
                     <div id="comment-form-message" class="form-message" style="display: none;"></div>
-                    <button type="submit" class="comment-submit-btn">Post Comment</button>
+                    <div class="comment-form-actions">
+                        <button type="submit" class="comment-submit-btn">Post Comment</button>
+                        <p class="privacy-note">By commenting, you agree to our <a href="/privacy">Privacy Policy</a>.</p>
+                    </div>
                 </form>
             </div>
         </section>
