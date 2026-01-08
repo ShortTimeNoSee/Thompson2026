@@ -211,7 +211,7 @@ class DeclarationComponent {
                         <div class="char-count">0/280</div>
                     </div>
                     <div class="form-group email-group" style="display: none;">
-                        <input type="email" id="signer-email" name="email" placeholder="Email (required for updates)" maxlength="254">
+                        <input type="email" id="signer-email" name="email" placeholder="Email (required for updates)" maxlength="254" spellcheck="false">
                         <p class="field-note">Your email is private and never shown publicly.</p>
                     </div>
                     <div class="subscription-options">

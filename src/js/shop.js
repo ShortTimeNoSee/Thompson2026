@@ -510,7 +510,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     <div class="form-group">
                         <label for="checkout-email">Email *</label>
-                        <input type="email" id="checkout-email" name="email" required>
+                        <input type="email" id="checkout-email" name="email" required spellcheck="false">
                     </div>
                     <div class="form-group">
                         <label for="checkout-phone">Phone</label>

@@ -365,7 +365,7 @@ class BlogComments {
                 <div class="form-row">
                     <input type="text" name="name" placeholder="Your name" required maxlength="100" 
                            value="${localStorage.getItem('blog_commenter_name') || ''}">
-                    <input type="email" name="email" placeholder="Your email (private)" required maxlength="254"
+                    <input type="email" name="email" placeholder="Your email (private)" required maxlength="254" spellcheck="false"
                            value="${localStorage.getItem('blog_commenter_email') || ''}">
                 </div>
                 <textarea name="comment" placeholder="Write your reply... (Supports **bold**, *italic*, \`code\`, [links](url))" 
