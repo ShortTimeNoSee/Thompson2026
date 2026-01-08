@@ -276,20 +276,33 @@ export default {
       });
     }
 
+    // Security: Only allow secure origins for admin and sensitive operations
+    const secureOrigins = [
+      "https://thompson2026.com",
+      "https://www.thompson2026.com",
+      "https://shop.thompson2026.com",
+      "http://localhost:5500",
+      "http://127.0.0.1:5500",
+      "http://localhost:8083",
+      "http://127.0.0.1:8083"
+    ];
+    const isSecureOrigin = origin && secureOrigins.includes(origin);
+
     // Verify admin authentication for endpoints under /api/admin/
     const isAdminRequest = url.pathname.includes("/api/admin/");
     if (isAdminRequest) {
-      if (!isAllowed) {
+      // Block null/file:// origins for admin requests - prevents phishing attacks
+      if (!isSecureOrigin) {
         return new Response(
-          JSON.stringify({ error: "Forbidden" }),
-          { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
+          JSON.stringify({ error: "Forbidden - Admin requests must come from secure origins" }),
+          { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders, 'Vary': 'Origin' } }
         );
       }
       const authHeader = request.headers.get("Authorization");
       if (!authHeader || authHeader !== `Bearer ${env.ADMIN_KEY}`) {
         return new Response(
           JSON.stringify({ error: "Unauthorized" }),
-          { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
+          { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isSecureOrigin ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
         );
       }
     }
@@ -1902,12 +1915,114 @@ export default {
       }
     }
 
+    // Admin: Clean up PII from signatures older than 7 days
+    // Can be triggered by Cloudflare Cron or manually via admin dashboard
+    if (url.pathname === "/api/admin/cleanup-pii") {
+      if (request.method !== "POST") {
+        return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isSecureOrigin ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
+      }
+      try {
+        const sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
+        let cleanedCount = 0;
+
+        // Clean PII from signatures
+        let signaturesList = [];
+        try {
+          signaturesList = JSON.parse(await env.DECLARATION_KV.get("signatures_list") || "[]");
+        } catch (e) {
+          signaturesList = [];
+        }
+
+        const updatedSignatures = signaturesList.map(sig => {
+          const sigTimestamp = parseInt(sig.timestamp);
+          if (sigTimestamp < sevenDaysAgo && sig.metadata) {
+            cleanedCount++;
+            return {
+              ...sig,
+              metadata: {
+                ...sig.metadata,
+                ip: "[REDACTED]",
+                userAgent: "[REDACTED]",
+                city: "[REDACTED]",
+                country: sig.metadata.country // Keep country for stats
+              }
+            };
+          }
+          return sig;
+        });
+
+        if (cleanedCount > 0) {
+          await env.DECLARATION_KV.put("signatures_list", JSON.stringify(updatedSignatures));
+          await logKVOperation(env, "pii_cleanup", "signatures_list", { cleanedCount }, { automated: true });
+        }
+
+        // Clean old KV log entries (beyond 7 days)
+        // Note: Individual log entries have TTL of 7 days, so they auto-expire
+        // But we can clean up any rate limit keys too
+
+        return new Response(
+          JSON.stringify({ 
+            success: true, 
+            message: `Cleaned PII from ${cleanedCount} signatures older than 7 days`,
+            cleanedCount
+          }),
+          { headers: { "Content-Type": "application/json", ...corsHeaders, ...(isSecureOrigin ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      } catch (error) {
+        console.error("PII cleanup error:", error);
+        return new Response(
+          JSON.stringify({ error: "Failed to clean PII", details: error.message }),
+          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isSecureOrigin ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
+        );
+      }
+    }
+
     return new Response(
       JSON.stringify({ 
         error: "Worker Route Not Found", 
-        pathname: url.pathname // This will show us the exact path it's trying to match
+        pathname: url.pathname
       }),
       { status: 404, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
     );
+  },
+
+  // Cloudflare Cron Trigger for scheduled PII cleanup
+  async scheduled(event, env, ctx) {
+    try {
+      const sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
+      let cleanedCount = 0;
+
+      let signaturesList = [];
+      try {
+        signaturesList = JSON.parse(await env.DECLARATION_KV.get("signatures_list") || "[]");
+      } catch (e) {
+        signaturesList = [];
+      }
+
+      const updatedSignatures = signaturesList.map(sig => {
+        const sigTimestamp = parseInt(sig.timestamp);
+        if (sigTimestamp < sevenDaysAgo && sig.metadata && sig.metadata.ip !== "[REDACTED]") {
+          cleanedCount++;
+          return {
+            ...sig,
+            metadata: {
+              ...sig.metadata,
+              ip: "[REDACTED]",
+              userAgent: "[REDACTED]",
+              city: "[REDACTED]",
+              country: sig.metadata.country
+            }
+          };
+        }
+        return sig;
+      });
+
+      if (cleanedCount > 0) {
+        await env.DECLARATION_KV.put("signatures_list", JSON.stringify(updatedSignatures));
+        console.log(`PII cleanup: Cleaned ${cleanedCount} signatures`);
+      }
+    } catch (e) {
+      console.error("Scheduled PII cleanup error:", e);
+    }
   }
 };
