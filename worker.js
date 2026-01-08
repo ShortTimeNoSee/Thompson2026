@@ -12,8 +12,7 @@ export default {
       "http://127.0.0.1:5500",
       "http://localhost:8083",
       "http://127.0.0.1:8083",
-      "null",
-      "file://"
+      "http://0.0.0.0:8083"
     ];
 
     const corsHeaders = {
@@ -284,7 +283,8 @@ export default {
       "http://localhost:5500",
       "http://127.0.0.1:5500",
       "http://localhost:8083",
-      "http://127.0.0.1:8083"
+      "http://127.0.0.1:8083",
+      "http://0.0.0.0:8083"
     ];
     const isSecureOrigin = origin && secureOrigins.includes(origin);
 
@@ -331,7 +331,7 @@ export default {
         // Sanitize all text inputs.
         const sanitizedName = escapeHTML(name?.trim() || "Citizen");
         const sanitizedCounty = escapeHTML(county);
-        const sanitizedComment = escapeHTML(comment?.trim() || "");
+        const sanitizedComment = escapeHTML((comment?.trim() || "").substring(0, 280));
 
         // Get and update signatures list.
         let signaturesList = [];
@@ -472,7 +472,7 @@ export default {
         // Sanitize inputs
         const sanitizedCounty = escapeHTML(county);
         const sanitizedName = escapeHTML(name?.trim() || "Citizen");
-        const sanitizedComment = escapeHTML(comment?.trim() || "");
+        const sanitizedComment = escapeHTML((comment?.trim() || "").substring(0, 280));
         const sanitizedEmail = email ? email.trim().toLowerCase().substring(0, 254) : "";
 
         // Store signing time for rate limiting
