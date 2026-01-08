@@ -165,8 +165,8 @@
     align-items: center;
     gap: 12px;
     padding: 18px 35px;
-    background: #f45800;
-    color: white;
+    background: var(--etsy-orange);
+    color: var(--white);
     border-radius: 8px;
     font-weight: 700;
     font-size: 1.2em;
@@ -175,7 +175,7 @@
 }
 
 .etsy-button:hover {
-    background: #d14d00;
+    background: var(--etsy-orange-dark);
     transform: translateY(-2px);
     box-shadow: 0 8px 20px var(--shadow-med);
 }

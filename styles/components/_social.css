@@ -98,18 +98,18 @@
 }
 
 .twitter {
-    background-color: #1DA1F2;
-    color: white;
+    background-color: var(--twitter-blue);
+    color: var(--white);
 }
 
 .facebook {
-    background-color: #4267B2;
-    color: white;
+    background-color: var(--facebook-blue);
+    color: var(--white);
 }
 
 .copy {
-    background-color: #666;
-    color: white;
+    background-color: var(--muted-color);
+    color: var(--white);
 }
 
 .twitter:hover,

@@ -59,7 +59,7 @@ footer a:hover {
     text-decoration: underline;
 }
 .dev-links a.rss-link {
-    color: #ffa044;
+    color: var(--rss-orange);
 }
 .dev-links a:hover {
     text-decoration: underline;
@@ -67,7 +67,7 @@ footer a:hover {
 
 .dev-links .link-text { text-underline-offset: 2px; }
 
-.dev-links a.json-link { color: #fff; font-weight: 600; }
+.dev-links a.json-link { color: var(--white); font-weight: 600; }
 
 .dev-links a:focus-visible { outline: 2px solid var(--accent-color); outline-offset: 2px; }
 
@@ -81,12 +81,14 @@ footer a:hover {
     text-align: center;
     box-shadow: 0 -4px 8px var(--shadow-color);
     z-index: 1001;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;
     font-size: 1.6vh;
 }
 
 .sticky-footer.hidden {
     transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
 }
 
 .sticky-footer a {

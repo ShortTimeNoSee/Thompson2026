@@ -67,7 +67,7 @@
 .future-scene:hover {
     transform: translateY(-5px);
     border-color: var(--accent-color);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 20px 40px var(--shadow-strong);
 }
 
 .scene-number {
@@ -115,7 +115,7 @@
 
 .contrast-column {
     padding: 40px;
-    background: rgba(0, 0, 0, 0.2);
+    background: var(--shadow-med);
     border-radius: 4px;
     border: 1px solid var(--accent-alpha);
 }
@@ -219,7 +219,7 @@
 
 #vision_page .action-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 20px var(--shadow-med);
     background: transparent;
     color: var(--accent-color);
 }

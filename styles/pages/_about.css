@@ -38,13 +38,13 @@
 .hero-image img {
     border-radius: 50%;
     border: 4px solid var(--accent-color);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 20px var(--shadow-strong);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .hero-image img:hover {
     transform: scale(1.05);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 15px 30px var(--shadow-heavy);
 }
 
 /* Story Section */
@@ -81,7 +81,7 @@
 
 .story-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 15px 30px var(--shadow-med);
 }
 
 .story-card i,
@@ -135,7 +135,7 @@
 
 .principle-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 15px 30px var(--shadow-strong);
     border-color: var(--accent-color);
 }
 
@@ -249,7 +249,7 @@
 
 .cta-button:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 20px var(--shadow-med);
 }
 
 .social-links {

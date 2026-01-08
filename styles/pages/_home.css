@@ -71,7 +71,7 @@
     background: transparent;
     color: var(--accent-color);
     transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 15px var(--shadow-soft);
 }
 
 .hero-buttons .cta-button.secondary {
@@ -84,7 +84,7 @@
     color: var(--primary-color);
     background: var(--accent-color);
     transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 15px var(--shadow-soft);
 }
 
 .hero-image img {
@@ -92,13 +92,13 @@
     height: 250px;
     border-radius: 50%;
     object-fit: cover;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 15px 35px var(--shadow-strong);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .hero-image img:hover {
     transform: scale(1.03);
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 20px 45px var(--shadow-heavy);
 }
 
 
@@ -135,7 +135,7 @@
 .reality-card:hover {
     transform: translateY(-3px);
     border-color: var(--accent-color);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 12px 25px var(--shadow-med);
 }
 
 .reality-card i,
@@ -171,7 +171,7 @@
 
 .vision-point {
     padding: 25px;
-    background: rgba(0, 0, 0, 0.2);
+    background: var(--shadow-med);
     border: 1px solid var(--accent-alpha);
     border-radius: 4px;
     text-align: center;
@@ -221,7 +221,7 @@
     background: transparent;
     color: var(--accent-color);
     transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 15px var(--shadow-soft);
 }
 
 .cta-button.secondary {
@@ -234,7 +234,7 @@
     color: var(--primary-color);
     background: var(--accent-color);
     transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 15px var(--shadow-soft);
 }
 
 .cta-button.tertiary {
@@ -411,7 +411,7 @@
     background: var(--primary-color);
     border-radius: 12px;
     min-width: 160px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 20px var(--shadow-med);
 }
 
 .ballot-stat .stat-value {
@@ -452,7 +452,7 @@
 
 .ballot-action-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 30px var(--shadow-strong);
 }
 
 .ballot-action-card.featured {
@@ -505,13 +505,13 @@
 
 .card-deadline {
     font-size: 1em;
-    color: #ff6b35;
+    color: var(--warning-orange-solid);
     margin-top: 10px;
     margin-bottom: 20px;
 }
 
 .card-deadline strong {
-    color: #ff6b35;
+    color: var(--warning-orange-solid);
 }
 
 .ballot-action-card > .action-btn {

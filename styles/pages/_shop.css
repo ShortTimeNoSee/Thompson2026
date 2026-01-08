@@ -67,7 +67,7 @@ Shop Page Styles
 
 .product-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 12px 24px var(--shadow-very-heavy);
 }
 
 .product-image {
@@ -108,15 +108,15 @@ Shop Page Styles
 }
 
 .add-to-cart-btn:disabled {
-    background-color: #555;
-    color: #999;
+    background-color: var(--muted-dark);
+    color: var(--muted-light);
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
 }
 
 .add-to-cart-btn:disabled:hover {
-    background-color: #555;
+    background-color: var(--muted-dark);
     transform: none;
     box-shadow: none;
 }
@@ -125,7 +125,7 @@ Shop Page Styles
 .cart-container {
     flex: 1;
     min-width: 320px;
-    background-color: #1a1a1a;
+    background-color: var(--dark-bg);
     border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 2rem;
@@ -181,7 +181,7 @@ Shop Page Styles
 .remove-from-cart-btn {
     background: none;
     border: none;
-    color: #ff6b6b;
+    color: var(--error-red-light);
     font-size: 1.6rem;
     font-weight: bold;
     cursor: pointer;
@@ -191,7 +191,7 @@ Shop Page Styles
 }
 
 .remove-from-cart-btn:hover {
-    color: #ff4757;
+    color: var(--error-red-bright);
     transform: scale(1.1);
 }
 
@@ -214,7 +214,7 @@ Shop Page Styles
 }
 
 .loading-spinner {
-    border: 4px solid rgba(255, 255, 255, 0.2);
+    border: 4px solid var(--white-shine);
     border-left-color: var(--gold-accent);
     border-radius: 50%;
     width: 50px;
@@ -335,8 +335,8 @@ Product Detail Page Styles
     padding: 0.8rem;
     border-radius: 5px;
     border: 1px solid var(--border-color);
-    background-color: #2a2a2a !important;
-    color: #ffffff !important;
+    background-color: var(--dark-surface) !important;
+    color: var(--white) !important;
     font-size: 1rem;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -351,8 +351,8 @@ Product Detail Page Styles
     padding: 0.8rem;
     border-radius: 5px;
     border: 1px solid var(--border-color);
-    background-color: #2a2a2a !important;
-    color: #ffffff !important;
+    background-color: var(--dark-surface) !important;
+    color: var(--white) !important;
     font-size: 1rem;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -363,8 +363,8 @@ Product Detail Page Styles
 }
 
 .product-variants select option, .product-quantity select option {
-    background-color: #2a2a2a !important;
-    color: #ffffff !important;
+    background-color: var(--dark-surface) !important;
+    color: var(--white) !important;
     padding: 0.5rem;
 }
 
@@ -423,7 +423,7 @@ Product Detail Page Styles
 
 /* Product detail cart sidebar */
 .product-detail-cart {
-    background-color: #1a1a1a;
+    background-color: var(--dark-bg);
     border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 2rem;
@@ -465,8 +465,8 @@ Product Detail Page Styles
 .add-to-cart-tooltip {
     visibility: hidden;
     opacity: 0;
-    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-    color: #fff;
+    background: linear-gradient(135deg, var(--error-red-light), var(--warning-orange-bright));
+    color: var(--white);
     text-align: center;
     border-radius: 8px;
     padding: 12px 16px;
@@ -481,8 +481,8 @@ Product Detail Page Styles
     font-weight: 600;
     transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
     pointer-events: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 12px var(--shadow-strong);
+    border: 1px solid var(--white-shine);
     white-space: nowrap;
 }
 
@@ -494,7 +494,7 @@ Product Detail Page Styles
     margin-left: -6px;
     border-width: 6px;
     border-style: solid;
-    border-color: #ff6b6b transparent transparent transparent;
+    border-color: var(--error-red-light) transparent transparent transparent;
 }
 
 /* Tooltip below when positioned at bottom */
@@ -506,7 +506,7 @@ Product Detail Page Styles
 .add-to-cart-tooltip.tooltip-below::after {
     top: auto;
     bottom: 100%;
-    border-color: transparent transparent #ff6b6b transparent;
+    border-color: transparent transparent var(--error-red-light) transparent;
 }
 
 .add-to-cart-wrapper:hover .add-to-cart-tooltip,

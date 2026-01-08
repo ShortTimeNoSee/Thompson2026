@@ -57,6 +57,69 @@ export default {
       return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
     }
 
+    // KV Operation Logger - Append-only log to prevent data loss from race conditions
+    // Each log entry is stored with a timestamp key, so parallel writes can't overwrite each other
+    async function logKVOperation(env, operation, key, data, metadata = {}) {
+      try {
+        const logEntry = {
+          timestamp: Date.now(),
+          operation,
+          key,
+          data,
+          metadata: {
+            ...metadata,
+            requestId: crypto.randomUUID(),
+            clientIP: metadata.clientIP || "unknown"
+          }
+        };
+        // Use timestamp + random suffix as key to prevent collisions
+        const logKey = `kv_log:${Date.now()}_${crypto.randomUUID().slice(0, 8)}`;
+        await env.DECLARATION_KV.put(logKey, JSON.stringify(logEntry), { expirationTtl: 604800 }); // 7 days
+      } catch (e) {
+        console.error("KV logging error:", e);
+      }
+    }
+
+    // Safe KV list append - logs the operation separately from the list update
+    async function safeListAppend(env, listKey, newItem, metadata = {}) {
+      // First, log the new item to the append-only log
+      await logKVOperation(env, "append", listKey, newItem, metadata);
+      
+      // Then update the list (may have race conditions, but log preserves data)
+      let list = [];
+      try {
+        list = JSON.parse(await env.DECLARATION_KV.get(listKey) || "[]");
+      } catch (e) {
+        list = [];
+      }
+      list.push(newItem);
+      await env.DECLARATION_KV.put(listKey, JSON.stringify(list));
+      return list;
+    }
+
+    // Safe KV list update - logs before modifying
+    async function safeListUpdate(env, listKey, updateFn, metadata = {}) {
+      let list = [];
+      try {
+        list = JSON.parse(await env.DECLARATION_KV.get(listKey) || "[]");
+      } catch (e) {
+        list = [];
+      }
+      
+      const originalList = JSON.parse(JSON.stringify(list));
+      const newList = updateFn(list);
+      
+      // Log the update operation
+      await logKVOperation(env, "update", listKey, { 
+        before: originalList, 
+        after: newList,
+        diff: { added: newList.length - originalList.length }
+      }, metadata);
+      
+      await env.DECLARATION_KV.put(listKey, JSON.stringify(newList));
+      return newList;
+    }
+
     // Cart handoff endpoint (frontend -> worker -> WP)
     if (url.pathname === "/api/cart-handoff") {
       if (!isAllowed) {
@@ -456,15 +519,8 @@ export default {
           return parseInt(count) + 1;
         }
 
-        let signaturesList = [];
-        try {
-          signaturesList = JSON.parse(await env.DECLARATION_KV.get("signatures_list") || "[]");
-        } catch (e) {
-          console.error("Error parsing signatures list:", e);
-          signaturesList = [];
-        }
-        signaturesList.push(signature);
-        await env.DECLARATION_KV.put("signatures_list", JSON.stringify(signaturesList));
+        // Use safe append to log the signature (prevents data loss from race conditions)
+        const signaturesList = await safeListAppend(env, "signatures_list", signature, { clientIP });
 
         const currentSignatures = parseInt(await env.DECLARATION_KV.get("total_signatures") || "0");
         await env.DECLARATION_KV.put("total_signatures", (currentSignatures + 1).toString());
@@ -619,6 +675,12 @@ export default {
     // BLOG COMMENTS & NEWSLETTER SUBSCRIPTION
     // ============================================
 
+    // Helper: Convert newlines to <br> for HTML emails
+    function nl2br(str) {
+      if (!str) return "";
+      return str.replace(/\n/g, "<br>\n");
+    }
+
     // Helper: Send email notification via Brevo
     async function sendBrevoNotification(env, subject, htmlContent, textContent, replyTo = null) {
       if (!env.BREVO_API_KEY) {
@@ -737,26 +799,12 @@ export default {
           }
         };
 
-        // Get existing comments for this post
+        // Get existing comments for this post (using safe append for logging)
         const commentsKey = `blog_comments:${sanitizedSlug}`;
-        let comments = [];
-        try {
-          comments = JSON.parse(await env.DECLARATION_KV.get(commentsKey) || "[]");
-        } catch (e) {
-          comments = [];
-        }
-        comments.push(commentObj);
-        await env.DECLARATION_KV.put(commentsKey, JSON.stringify(comments));
+        await safeListAppend(env, commentsKey, commentObj, { clientIP, postSlug: sanitizedSlug });
 
         // Also add to global comments list for admin
-        let allComments = [];
-        try {
-          allComments = JSON.parse(await env.DECLARATION_KV.get("blog_comments_all") || "[]");
-        } catch (e) {
-          allComments = [];
-        }
-        allComments.push(commentObj);
-        await env.DECLARATION_KV.put("blog_comments_all", JSON.stringify(allComments));
+        await safeListAppend(env, "blog_comments_all", commentObj, { clientIP, postSlug: sanitizedSlug });
 
         // Send email notification
         const emailSubject = `New Blog Comment on "${sanitizedSlug}"`;
@@ -766,11 +814,11 @@ export default {
           <p><strong>From:</strong> ${sanitizedName} (${sanitizedEmail})</p>
           <p><strong>Location:</strong> ${request.cf?.city || "Unknown"}, ${request.cf?.country || "Unknown"}</p>
           <p><strong>Comment:</strong></p>
-          <blockquote style="border-left: 3px solid #ccc; padding-left: 10px; margin: 10px 0;">${sanitizedComment}</blockquote>
+          <blockquote style="border-left: 3px solid #ccc; padding-left: 10px; margin: 10px 0; white-space: pre-wrap;">${nl2br(sanitizedComment)}</blockquote>
           <p><a href="https://thompson2026.com/blog/${sanitizedSlug}">View Post</a></p>
           <p style="color: #666; font-size: 12px;">Use the admin dashboard to approve or delete this comment.</p>
         `;
-        const emailText = `New comment on "${sanitizedSlug}" from ${sanitizedName} (${sanitizedEmail}): ${sanitizedComment}`;
+        const emailText = `New comment on "${sanitizedSlug}" from ${sanitizedName} (${sanitizedEmail}):\n\n${sanitizedComment}`;
         await sendBrevoNotification(env, emailSubject, emailHtml, emailText);
 
         return new Response(
@@ -952,13 +1000,13 @@ export default {
           <p><strong>Post:</strong> ${sanitizedSlug}</p>
           <p><strong>Comment by:</strong> ${comment.name}</p>
           <p><strong>Comment:</strong></p>
-          <blockquote style="border-left: 3px solid #f44336; padding-left: 10px; margin: 10px 0;">${escapeHTML(comment.comment)}</blockquote>
-          <p><strong>Reason:</strong> ${escapeHTML(reason || "No reason provided")}</p>
+          <blockquote style="border-left: 3px solid #f44336; padding-left: 10px; margin: 10px 0; white-space: pre-wrap;">${nl2br(escapeHTML(comment.comment))}</blockquote>
+          <p><strong>Reason:</strong> ${nl2br(escapeHTML(reason || "No reason provided"))}</p>
           <p><strong>Reporter IP:</strong> ${clientIP}</p>
           <p><a href="https://thompson2026.com/blog/${sanitizedSlug}#comment-${commentId}">View Comment</a></p>
           <p style="color: #666; font-size: 12px;">Use the admin dashboard to review and take action.</p>
         `;
-        const emailText = `Comment reported on "${sanitizedSlug}" by ${comment.name}. Reason: ${reason || "No reason provided"}`;
+        const emailText = `Comment reported on "${sanitizedSlug}" by ${comment.name}.\n\nComment:\n${comment.comment}\n\nReason:\n${reason || "No reason provided"}`;
         await sendBrevoNotification(env, emailSubject, emailHtml, emailText);
 
         return new Response(

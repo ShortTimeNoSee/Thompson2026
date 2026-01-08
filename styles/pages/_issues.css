@@ -3,7 +3,7 @@
 #issues-hero {
     padding: 200px 0 100px;
     background: 
-        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(254, 208, 0, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 80% 50% at 50% 0%, var(--accent-glow-light) 0%, transparent 50%),
         linear-gradient(180deg, var(--secondary-color) 0%, var(--primary-color) 100%);
     text-align: center;
     position: relative;
@@ -22,8 +22,8 @@
             90deg,
             transparent,
             transparent 100px,
-            rgba(254, 208, 0, 0.02) 100px,
-            rgba(254, 208, 0, 0.02) 101px
+            var(--accent-glow-subtle) 100px,
+            var(--accent-glow-subtle) 101px
         );
     pointer-events: none;
 }
@@ -64,7 +64,7 @@
 #issues-feature {
     padding: 80px 0;
     background: var(--secondary-color);
-    border-bottom: 1px solid rgba(254, 208, 0, 0.1);
+    border-bottom: 1px solid var(--accent-glow-med);
 }
 
 .feature-issue {
@@ -79,12 +79,12 @@
 .feature-icon {
     width: 100px;
     height: 100px;
-    background: linear-gradient(135deg, rgba(254, 208, 0, 0.15) 0%, rgba(254, 208, 0, 0.05) 100%);
+    background: linear-gradient(135deg, var(--accent-glow-strong) 0%, var(--accent-glow-soft) 100%);
     border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(254, 208, 0, 0.2);
+    border: 1px solid var(--accent-shadow-light);
 }
 
 .feature-icon i,
@@ -176,13 +176,13 @@
     padding: 40px 36px;
     color: var(--text-color);
     transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
-    border: 1px solid rgba(254, 208, 0, 0.12);
+    border: 1px solid var(--accent-glow-dim);
     overflow: hidden;
 }
 
 .issue-card .front {
     background: 
-        linear-gradient(135deg, rgba(254, 208, 0, 0.03) 0%, transparent 50%),
+        linear-gradient(135deg, var(--accent-glow-faint) 0%, transparent 50%),
         var(--secondary-color);
     transform: rotateY(0deg);
     z-index: 2;
@@ -222,10 +222,10 @@
 
 .issue-card:hover .front,
 .issue-card:hover .back {
-    border-color: rgba(254, 208, 0, 0.35);
+    border-color: var(--accent-glow-bright);
     box-shadow: 
-        0 20px 50px rgba(0, 0, 0, 0.4),
-        0 0 0 1px rgba(254, 208, 0, 0.1);
+        0 20px 50px var(--shadow-heavy),
+        0 0 0 1px var(--accent-glow-med);
 }
 
 
@@ -267,7 +267,7 @@
     padding: 120px 0;
     text-align: center;
     background: 
-        radial-gradient(ellipse 60% 40% at 50% 100%, rgba(254, 208, 0, 0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 50% 100%, var(--accent-glow-soft) 0%, transparent 60%),
         linear-gradient(180deg, var(--primary-color) 0%, var(--secondary-color) 100%);
 }
 
@@ -320,7 +320,7 @@
     background: transparent;
     color: var(--accent-color);
     transform: translateY(-3px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 12px 24px var(--shadow-dark);
 }
 
 .cta-button.secondary {
@@ -333,7 +333,7 @@
     color: var(--primary-color);
     background: var(--accent-color);
     transform: translateY(-3px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 12px 24px var(--shadow-dark);
 }
 
 

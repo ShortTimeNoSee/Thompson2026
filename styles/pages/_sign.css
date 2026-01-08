@@ -52,7 +52,7 @@
     grid-template-columns: auto 1fr;
     gap: 20px;
     align-items: center;
-    box-shadow: 0 4px 12px rgba(254, 208, 0, 0.3);
+    box-shadow: 0 4px 12px var(--accent-shadow);
 }
 
 .no-notary-icon {
@@ -232,7 +232,7 @@
 }
 
 .why-details summary:hover {
-    background: rgba(254, 208, 0, 0.05);
+    background: var(--accent-glow-soft);
 }
 
 .why-details[open] summary {
@@ -371,7 +371,7 @@
 
 /* Voter Registration Check */
 .voter-reg-check {
-    background: linear-gradient(135deg, rgba(254, 208, 0, 0.08) 0%, rgba(254, 208, 0, 0.03) 100%);
+    background: linear-gradient(135deg, var(--accent-glow-light) 0%, var(--accent-glow-faint) 100%);
     border: 2px solid var(--accent-color);
     border-radius: 6px;
     padding: 35px 40px;
@@ -440,7 +440,7 @@
 .section .check-button:hover,
 #sign_page .check-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(254, 208, 0, 0.3);
+    box-shadow: 0 8px 20px var(--accent-shadow);
 }
 
 .section .check-button svg,
@@ -734,7 +734,7 @@
 
 .download-option-card.primary {
     border-color: var(--accent-color);
-    background: linear-gradient(135deg, rgba(254, 208, 0, 0.05) 0%, rgba(254, 208, 0, 0.02) 100%);
+    background: linear-gradient(135deg, var(--accent-glow-soft) 0%, var(--accent-glow-subtle) 100%);
 }
 
 .download-option-header {
@@ -811,8 +811,8 @@
 }
 
 .warning-box {
-    background: rgba(255, 100, 0, 0.1);
-    border: 2px solid rgba(255, 100, 0, 0.4);
+    background: var(--warning-orange);
+    border: 2px solid var(--warning-orange-border);
     border-radius: 4px;
     padding: 20px;
     margin: 20px 0;
@@ -820,12 +820,12 @@
 }
 
 .warning-box.critical {
-    background: rgba(255, 50, 0, 0.15);
-    border-color: rgba(255, 50, 0, 0.6);
+    background: var(--critical-red);
+    border-color: var(--critical-red-border);
 }
 
 .warning-box h4 {
-    color: #ff6b35;
+    color: var(--warning-orange-solid);
     font-size: 1.3em;
     margin-bottom: 15px;
 }
@@ -838,12 +838,12 @@
 }
 
 .warning-box strong {
-    color: #ff6b35;
+    color: var(--warning-orange-solid);
 }
 
 .duplex-instructions {
     background: var(--secondary-color);
-    border-left: 4px solid #ff6b35;
+    border-left: 4px solid var(--warning-orange-solid);
     padding: 15px;
     margin-top: 15px;
 }
@@ -895,7 +895,7 @@ button.download-button {
     background: transparent;
     color: var(--accent-color);
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 20px var(--shadow-med);
 }
 
 .download-button svg {
@@ -1006,7 +1006,7 @@ button.download-button {
 }
 
 .warning-text {
-    color: #ff6b35;
+    color: var(--warning-orange-solid);
     font-weight: 600;
     margin-top: 10px;
 }
@@ -1025,12 +1025,12 @@ button.download-button {
 }
 
 .no-mail-warning {
-    background: rgba(255, 100, 0, 0.1);
-    border: 1px solid rgba(255, 100, 0, 0.4);
+    background: var(--warning-orange);
+    border: 1px solid var(--warning-orange-border);
     border-radius: 4px;
     padding: 10px 15px;
     margin-top: 15px;
-    color: #ff6b35;
+    color: var(--warning-orange-solid);
     font-weight: 600;
 }
 
@@ -1337,7 +1337,7 @@ button.download-button {
     border-radius: 12px;
     padding: 40px;
     text-align: center;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px var(--shadow-light);
 }
 
 .upsell-header {
@@ -1405,7 +1405,7 @@ button.download-button {
     background: transparent;
     color: var(--accent-color);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(254, 208, 0, 0.3);
+    box-shadow: 0 6px 20px var(--accent-shadow);
 }
 
 @media (max-width: 768px) {
@@ -1452,7 +1452,7 @@ button.download-button {
     align-items: center;
     gap: 15px;
     padding: 20px 25px;
-    background: linear-gradient(135deg, rgba(254, 208, 0, 0.15), rgba(254, 208, 0, 0.05));
+    background: linear-gradient(135deg, var(--accent-glow-strong), var(--accent-glow-soft));
     border: 2px solid var(--accent-color);
     border-radius: 8px;
     margin-bottom: 30px;
@@ -1532,8 +1532,8 @@ button.download-button {
     align-items: center;
     justify-content: center;
     gap: 15px;
-    background: linear-gradient(135deg, rgba(255, 50, 0, 0.2) 0%, rgba(255, 100, 0, 0.15) 100%);
-    border: 2px solid rgba(255, 100, 0, 0.6);
+    background: linear-gradient(135deg, var(--critical-red-soft) 0%, var(--warning-orange-soft) 100%);
+    border: 2px solid var(--warning-orange-glow);
     border-radius: 8px;
     padding: 20px 30px;
     margin-bottom: 40px;
@@ -1552,7 +1552,7 @@ button.download-button {
 
 .deadline-text strong {
     font-size: 1.4rem;
-    color: #ff6b35;
+    color: var(--warning-orange-solid);
 }
 
 .deadline-text span {
@@ -1562,8 +1562,8 @@ button.download-button {
 
 /* Info-style warning box (for printing options) */
 .warning-box.info {
-    background: rgba(254, 208, 0, 0.1);
-    border-color: rgba(254, 208, 0, 0.4);
+    background: var(--accent-glow-med);
+    border-color: var(--accent-shadow-strong);
 }
 
 .warning-box.info h4 {
@@ -1579,7 +1579,7 @@ button.download-button {
 }
 
 .warning-box.info .file-specs {
-    background: rgba(254, 208, 0, 0.15);
+    background: var(--accent-glow-strong);
     padding: 12px 15px;
     border-radius: 4px;
     margin-bottom: 15px;
@@ -1594,7 +1594,7 @@ button.download-button {
     color: var(--primary-color);
     padding: 25px 30px;
     margin: 20px 0;
-    box-shadow: 0 4px 12px rgba(254, 208, 0, 0.3);
+    box-shadow: 0 4px 12px var(--accent-shadow);
     text-align: left;
 }
 
@@ -1650,7 +1650,7 @@ button.download-button {
 
 .mail-option {
     border-color: var(--accent-color);
-    background: linear-gradient(135deg, rgba(254, 208, 0, 0.08) 0%, rgba(254, 208, 0, 0.03) 100%);
+    background: linear-gradient(135deg, var(--accent-glow-light) 0%, var(--accent-glow-faint) 100%);
 }
 
 .walkin-option {
@@ -1658,8 +1658,8 @@ button.download-button {
 }
 
 .deadline-warning {
-    background: rgba(255, 50, 0, 0.15);
-    border: 1px solid rgba(255, 100, 0, 0.4);
+    background: var(--critical-red);
+    border: 1px solid var(--warning-orange-border);
     border-radius: 6px;
     padding: 15px;
     margin-top: 15px;
@@ -1668,7 +1668,7 @@ button.download-button {
 }
 
 .deadline-warning strong {
-    color: #ff6b35;
+    color: var(--warning-orange-solid);
 }
 
 @media (max-width: 768px) {

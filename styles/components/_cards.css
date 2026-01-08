@@ -46,7 +46,7 @@
     color: var(--text-color);
     transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55),
                 box-shadow 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 15px 25px var(--shadow-strong);
 }
 
 .issue-card .front {
@@ -63,18 +63,18 @@
 /* Flip Card Functionality */
 .issue-card.flipped .front {
     transform: rotateY(180deg);
-    box-shadow: 0 -15px 25px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 -15px 25px var(--shadow-strong);
 }
 
 .issue-card.flipped .back {
     transform: rotateY(0deg);
-    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 15px 25px var(--shadow-strong);
 }
 
 /* Hover Glow */
 .issue-card:hover .front,
 .issue-card:hover .back {
-    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 20px 35px var(--shadow-heavy);
 }
 
 /* Front/Back Content Styles */
@@ -87,7 +87,7 @@
 
 .card-content p {
     font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--white-transparent);
     line-height: 1.6;
 }
 

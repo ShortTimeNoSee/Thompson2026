@@ -2,6 +2,7 @@
 /* CSS Variables and Theming */
 
 :root {
+    /* Primary theme colors */
     --primary-color: #113;
     --primary-alpha: #113B;
     --primary-transparent-light: rgba(17, 17, 51, 0.8);
@@ -10,43 +11,124 @@
     --secondary-transparent-high: rgba(34, 34, 68, 0.98);
     --secondary-transparent-med: rgba(34, 34, 68, 0.95);
     --tertiary-color: #002;
+    
+    /* Accent/gold colors */
     --accent-color: #FED000;
+    --accent-hover: #e6bc00;
     --accent-alpha: #FED00022;
     --accent-shadow: rgba(254, 208, 0, 0.3);
+    --accent-shadow-light: rgba(254, 208, 0, 0.2);
     --accent-shadow-strong: rgba(254, 208, 0, 0.4);
-    --accent-glow-subtle: rgba(254, 208, 0, 0.05);
+    --accent-glow-subtle: rgba(254, 208, 0, 0.02);
+    --accent-glow-faint: rgba(254, 208, 0, 0.03);
+    --accent-glow-soft: rgba(254, 208, 0, 0.05);
     --accent-glow-light: rgba(254, 208, 0, 0.08);
     --accent-glow-med: rgba(254, 208, 0, 0.1);
     --accent-glow-strong: rgba(254, 208, 0, 0.15);
+    --accent-glow-bright: rgba(254, 208, 0, 0.35);
+    
+    /* Text colors */
     --text-color: #CCB;
     --text-transparent-high: rgba(170, 170, 204, 0.6);
     --text-transparent-low: rgba(170, 170, 204, 0.4);
     --highlight-color: #998;
+    --muted-color: #666;
+    --muted-light: #999;
+    --muted-dark: #555;
+    
+    /* Shadows */
     --shadow-color: #0003;
     --shadow-light: rgba(0, 0, 0, 0.1);
+    --shadow-soft: rgba(0, 0, 0, 0.15);
     --shadow-med: rgba(0, 0, 0, 0.2);
+    --shadow-dark: rgba(0, 0, 0, 0.25);
     --shadow-strong: rgba(0, 0, 0, 0.3);
     --shadow-heavy: rgba(0, 0, 0, 0.4);
     --shadow-very-heavy: rgba(0, 0, 0, 0.5);
     --overlay-dark: rgba(0, 0, 0, 0.85);
     --transparent: #1130;
+    
+    /* Blog/red theme */
     --blog-red: #ff4444;
     --blog-red-hover: #ff5555;
     --blog-red-alpha: rgba(255, 68, 68, 0.1);
     --blog-red-glow: rgba(255, 68, 68, 0.5);
     --blog-red-glow-strong: rgba(255, 68, 68, 0.6);
     --blog-red-glow-hover: rgba(255, 85, 85, 0.7);
+    
+    /* Status colors */
+    --success-green: #4caf50;
+    --success-green-light: #81c784;
+    --success-green-glow: rgba(76, 175, 80, 0.15);
+    --success-green-glow-soft: rgba(76, 175, 80, 0.1);
+    --success-green-glow-faint: rgba(76, 175, 80, 0.05);
+    --success-green-glow-strong: rgba(76, 175, 80, 0.3);
+    --success-green-border: rgba(76, 175, 80, 0.4);
+    --error-red-border: rgba(244, 67, 54, 0.4);
+    --error-red: #f44336;
+    --error-red-light: #ff6b6b;
+    --error-red-bright: #ff4757;
+    --error-red-deep: #ef5350;
+    --error-red-glow: rgba(244, 67, 54, 0.15);
+    --error-red-glow-soft: rgba(244, 67, 54, 0.1);
+    --error-red-glow-faint: rgba(244, 67, 54, 0.05);
+    --error-red-glow-strong: rgba(244, 67, 54, 0.3);
+    
+    /* Warning colors */
     --warning-orange: rgba(255, 100, 0, 0.1);
+    --warning-orange-solid: #ff6b35;
+    --warning-orange-bright: #ee5a24;
+    --warning-orange-soft: rgba(255, 100, 0, 0.15);
     --warning-orange-border: rgba(255, 100, 0, 0.4);
     --warning-orange-glow: rgba(255, 100, 0, 0.6);
     --critical-red: rgba(255, 50, 0, 0.15);
+    --critical-red-soft: rgba(255, 50, 0, 0.2);
     --critical-red-border: rgba(255, 50, 0, 0.6);
-    --success-green: #4caf50;
-    --success-green-glow: rgba(76, 175, 80, 0.15);
-    --error-red: #f44336;
-    --error-red-glow: rgba(244, 67, 54, 0.15);
+    --warning-orange-border-strong: rgba(255, 100, 0, 0.3);
+    --info-orange: #ffa500;
+    --rss-orange: #ffa044;
+    
+    /* Pure red (for delete/danger) */
+    --danger-red-glow: rgba(255, 0, 0, 0.1);
+    --danger-red-border: rgba(255, 0, 0, 0.3);
+    
+    /* White variations */
+    --white: #ffffff;
     --white-transparent: rgba(255, 255, 255, 0.9);
     --white-shine: rgba(255, 255, 255, 0.2);
+    
+    /* Dark variations */
+    --dark-bg: #1a1a1a;
+    --dark-surface: #2a2a2a;
+    
+    /* Link colors */
+    --link-blue: #07b;
+    --link-blue-dark: #058;
+    --link-green: #0a6;
+    --link-green-dark: #085;
+    
+    /* Social media brand colors */
+    --twitter-blue: #1DA1F2;
+    --facebook-blue: #4267B2;
+    --linkedin-blue: #0077b5;
+    --whatsapp-green: #25d366;
+    --whatsapp-dark: #128c7e;
+    
+    /* Etsy brand colors */
+    --etsy-orange: #f45800;
+    --etsy-orange-dark: #d14d00;
+    
+    /* Additional accent variations */
+    --accent-glow-very-faint: rgba(254, 208, 0, 0.04);
+    --accent-glow-dim: rgba(254, 208, 0, 0.12);
+    --accent-glow-bright-alt: rgba(254, 208, 0, 0.45);
+    --accent-glow-very-bright: rgba(254, 208, 0, 0.5);
+    
+    /* Additional shadow variations */
+    --shadow-very-light: rgba(0, 0, 0, 0.05);
+    --shadow-subtle: rgba(0, 0, 0, 0.12);
+    --shadow-subtle-hover: rgba(0, 0, 0, 0.18);
+    --overlay-modal: rgba(0, 0, 0, 0.7);
 }
 
 html, body {

@@ -93,7 +93,7 @@
 .contact-method:hover {
     border-color: var(--accent-color);
     transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 15px var(--shadow-light);
 }
 
 .contact-method i,
@@ -168,7 +168,7 @@
     background: var(--accent-color);
     color: var(--primary-color);
     transform: translateY(-2px);
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px var(--shadow-med);
 }
 
 
@@ -286,7 +286,7 @@
     background: var(--primary-color);
     padding: 30px;
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 20px var(--shadow-med);
 }
 
 .circulator-requirements h3,
@@ -384,7 +384,7 @@
     background: var(--primary-color);
     padding: 25px;
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 20px var(--shadow-med);
 }
 
 .circulator-impact p {
@@ -412,10 +412,10 @@
 
 @keyframes pulse-border {
     0%, 100% {
-        box-shadow: 0 0 0 0 rgba(254, 208, 0, 0.4);
+        box-shadow: 0 0 0 0 var(--accent-shadow-strong);
     }
     50% {
-        box-shadow: 0 0 0 8px rgba(254, 208, 0, 0);
+        box-shadow: 0 0 0 8px transparent;
     }
 }
 
@@ -571,7 +571,7 @@
 }
 
 .native-contact-form label .required {
-    color: #ff6b6b;
+    color: var(--error-red-light);
 }
 
 .native-contact-form label .optional {
@@ -623,19 +623,19 @@
 }
 
 .native-contact-form .char-count.warning {
-    color: #ffa500;
+    color: var(--info-orange);
     opacity: 1;
 }
 
 .native-contact-form .char-count.error {
-    color: #ff6b6b;
+    color: var(--error-red-light);
     opacity: 1;
 }
 
 /* Subscription checkbox in contact form */
 .native-contact-form .subscription-option {
     padding: 16px;
-    background: rgba(254, 208, 0, 0.05);
+    background: var(--accent-glow-soft);
     border: 1px solid var(--accent-alpha);
     border-radius: 6px;
     margin-bottom: 20px;
@@ -706,22 +706,22 @@
 }
 
 .native-contact-form .form-message.success {
-    background: rgba(76, 175, 80, 0.15);
-    border: 1px solid rgba(76, 175, 80, 0.4);
-    color: #81c784;
+    background: var(--success-green-glow);
+    border: 1px solid var(--success-green-border);
+    color: var(--success-green-light);
 }
 
 .native-contact-form .form-message.error {
-    background: rgba(244, 67, 54, 0.15);
-    border: 1px solid rgba(244, 67, 54, 0.4);
-    color: #ef5350;
+    background: var(--error-red-glow);
+    border: 1px solid var(--error-red-border);
+    color: var(--error-red-deep);
 }
 
 /* Submit button */
 .native-contact-form .submit-button {
     width: 100%;
     padding: 16px 30px;
-    background: linear-gradient(135deg, var(--accent-color), #e6bc00);
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
     color: var(--primary-color);
     border: none;
     border-radius: 6px;
@@ -739,7 +739,7 @@
 
 .native-contact-form .submit-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(254, 208, 0, 0.3);
+    box-shadow: 0 8px 20px var(--accent-shadow);
 }
 
 .native-contact-form .submit-button:active {

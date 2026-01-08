@@ -356,10 +356,10 @@
 .error-message {
     padding: 1rem;
     margin: 1rem 0;
-    background: rgba(255, 0, 0, 0.1);
-    border: 1px solid rgba(255, 0, 0, 0.3);
+    background: var(--danger-red-glow);
+    border: 1px solid var(--danger-red-border);
     border-radius: 4px;
-    color: #ff6b6b;
+    color: var(--error-red-light);
     text-align: center;
 }
 
@@ -388,7 +388,7 @@
 .subscription-options {
     margin: 1.5rem 0;
     padding: 1.25rem;
-    background: rgba(254, 208, 0, 0.05);
+    background: var(--accent-glow-soft);
     border: 1px solid var(--accent-alpha);
     border-radius: 6px;
 }
@@ -489,7 +489,7 @@
 
 .sign-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 20px var(--shadow-med);
     background: transparent;
     color: var(--accent-color);
 }
@@ -526,7 +526,7 @@
     background: var(--accent-color);
     color: var(--primary-color);
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 20px var(--shadow-med);
 }
 
 .join-movement-button:hover i {
@@ -774,7 +774,7 @@
     border: 2px solid var(--accent-color);
     border-radius: 8px;
     padding: 20px 25px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 20px var(--shadow-very-heavy);
     z-index: 900;
     max-width: 450px;
     opacity: 0;
@@ -883,17 +883,17 @@
 
 .deadline-note {
     font-size: 1.1em;
-    color: #ff6b35;
+    color: var(--warning-orange-solid);
     margin-top: 20px;
     padding: 12px 20px;
-    background: rgba(255, 100, 0, 0.1);
-    border: 1px solid rgba(255, 100, 0, 0.3);
+    background: var(--warning-orange);
+    border: 1px solid var(--warning-orange-border-strong);
     border-radius: 6px;
     display: inline-block;
 }
 
 .deadline-note strong {
-    color: #ff6b35;
+    color: var(--warning-orange-solid);
 }
 
 .ballot-cta-button {
@@ -916,7 +916,7 @@
     background: transparent;
     color: var(--accent-color);
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 20px var(--shadow-med);
 }
 
 @media (max-width: 600px) {
@@ -945,7 +945,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.85);
+    background: var(--overlay-dark);
     backdrop-filter: blur(8px);
     z-index: 9999;
     display: flex;
@@ -967,7 +967,7 @@
     padding: 50px 40px;
     max-width: 650px;
     width: 100%;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 100px rgba(254, 208, 0, 0.3);
+    box-shadow: 0 20px 60px var(--overlay-modal), 0 0 100px var(--accent-shadow);
     transform: scale(0.9);
     transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     position: relative;
@@ -1121,8 +1121,8 @@
     justify-content: center;
     gap: 10px;
     padding: 15px 20px;
-    background: rgba(255, 100, 0, 0.15);
-    border: 1px solid rgba(255, 100, 0, 0.4);
+    background: var(--warning-orange-soft);
+    border: 1px solid var(--warning-orange-border);
     border-radius: 8px;
     margin: 20px 0;
     font-size: 1.1em;
@@ -1133,7 +1133,7 @@
 }
 
 .modal-deadline strong {
-    color: #ff6b35;
+    color: var(--warning-orange-solid);
 }
 
 .ballot-modal-actions {
@@ -1156,14 +1156,14 @@
     text-decoration: none;
     text-align: center;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(254, 208, 0, 0.3);
+    box-shadow: 0 4px 15px var(--accent-shadow);
 }
 
 .modal-primary-btn:hover {
     background: transparent;
     color: var(--accent-color);
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(254, 208, 0, 0.5);
+    box-shadow: 0 8px 25px var(--accent-glow-very-bright);
 }
 
 .modal-secondary-btn {
