@@ -12,7 +12,7 @@ export default {
       "http://127.0.0.1:5500",
       "http://localhost:8083",
       "http://127.0.0.1:8083",
-      "http://0.0.0.0:8083"
+      "http://0.0.0.0:8083" // python -m http.server 8083
     ];
 
     const corsHeaders = {
@@ -442,14 +442,13 @@ export default {
           { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
         );
       }
-      const jsonError = requireJSON(request);
-      if (jsonError) return jsonError;
-
+      
+      // RATE LIMITING: Check FIRST before any JSON parsing or KV operations
+      // This prevents DoS attacks that could spam KV writes via logKVOperation
+      const rateLimitKey = `rate_limit:${clientIP}`;
+      const now = Date.now();
       try {
-        // Rate limiting check.
-        const rateLimitKey = `rate_limit:${clientIP}`;
         const lastSignTime = await env.DECLARATION_KV.get(rateLimitKey);
-        const now = Date.now();
         if (lastSignTime) {
           const timeSinceLastSign = now - parseInt(lastSignTime);
           if (timeSinceLastSign < 86400000) { // 24-hour cooldown
@@ -459,6 +458,15 @@ export default {
             );
           }
         }
+      } catch (rateLimitError) {
+        // If rate limit check fails, still allow the request (fail open for availability)
+        console.error("Rate limit check error:", rateLimitError);
+      }
+      
+      const jsonError = requireJSON(request);
+      if (jsonError) return jsonError;
+
+      try {
 
         const { county, name, comment, email, subscribeBlog, volunteerInterest } = await request.json();
 
@@ -741,14 +749,12 @@ export default {
       if (request.method !== "POST") {
         return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } });
       }
-      const jsonError = requireJSON(request);
-      if (jsonError) return jsonError;
-
+      
+      // RATE LIMITING: Check FIRST before any JSON parsing or KV operations
+      // This prevents DoS attacks that could spam KV writes via logKVOperation
+      const now = Date.now();
+      const commentRateKey = `comment_rate:${clientIP}`;
       try {
-        const now = Date.now();
-        
-        // Rate limiting: 1 comment per 2 minutes per IP
-        const commentRateKey = `comment_rate:${clientIP}`;
         const lastCommentTime = await env.DECLARATION_KV.get(commentRateKey);
         if (lastCommentTime && (now - parseInt(lastCommentTime)) < 120000) {
           return new Response(
@@ -756,6 +762,15 @@ export default {
             { status: 429, headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { "Access-Control-Allow-Origin": origin } : {}), "Vary": "Origin" } }
           );
         }
+      } catch (rateLimitError) {
+        // If rate limit check fails, still allow the request (fail open for availability)
+        console.error("Rate limit check error:", rateLimitError);
+      }
+      
+      const jsonError = requireJSON(request);
+      if (jsonError) return jsonError;
+
+      try {
 
         const { name, email, comment, postSlug, replyTo, notifyReplies } = await request.json();
 
