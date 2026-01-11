@@ -12,7 +12,7 @@ excerpt: "Tuition is up. Student debt is at a crisis point. Yet professors are s
 description: Nicholas Thompson analyzes the administrative bloat in California's university systems, arguing that the cost of education is being inflated by a non-teaching class of bureaucrats.
 keywords: CSU, administrative bloat, higher education, student debt, deanlings, university budget, California Faculty Association, tuition costs
 og_title: "The Administrator's Tax: Why Higher Ed is Failing Both Students and Teachers"
-og_image: /resources/blog/butte_college_contrast.jpg
+og_image: /resources/blog/butte_college_contrast.webp
 og_image_alt: Aerial view of Butte College featuring the modern, multi-story Student Administrative building on the right, rendered in vibrant colors with polished metal siding and large windows. To the left, the older Business Education building appears in muted, darker tones with a low-profile brown roof
 og_description: "Tuition is up. Professors are underpaid. Where is the money going? It's funding a bureaucracy that suffocates learning."
 cta_text: "We need to audit the system and cut the fat so students can afford to learn. Help me force Sacramento to open the books."

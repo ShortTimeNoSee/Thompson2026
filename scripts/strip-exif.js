@@ -84,9 +84,27 @@ async function walk(dir) {
     await collect(TARGET_DIR);
     for (const src of toWebp) {
       const webpPath = src.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+      const isBlogImage = src.includes('blog' + path.sep) || src.includes('blog/');
+      
       if (!fs.existsSync(webpPath)) {
-        await sharp(src, { failOnError: false }).webp({ quality: 75 }).toFile(webpPath);
-        console.log('Created WebP:', path.relative(TARGET_DIR, webpPath));
+        const meta = await sharp(src, { failOnError: false }).metadata();
+        
+        if (isBlogImage && meta.width) {
+          const targetWidths = [320, 640, 960, 1200].filter(w => w <= meta.width);
+          for (const w of targetWidths) {
+            const sizedPath = src.replace(/\.(jpg|jpeg|png)$/i, `-${w}.webp`);
+            if (!fs.existsSync(sizedPath)) {
+              await sharp(src, { failOnError: false }).resize({ width: w }).webp({ quality: 75 }).toFile(sizedPath);
+              console.log('Created WebP:', path.relative(TARGET_DIR, sizedPath));
+            }
+          }
+          const largest = targetWidths[targetWidths.length - 1] || meta.width;
+          await sharp(src, { failOnError: false }).resize({ width: largest }).webp({ quality: 75 }).toFile(webpPath);
+          console.log('Created WebP:', path.relative(TARGET_DIR, webpPath));
+        } else {
+          await sharp(src, { failOnError: false }).webp({ quality: 75 }).toFile(webpPath);
+          console.log('Created WebP:', path.relative(TARGET_DIR, webpPath));
+        }
       }
     }
   } catch (e) {
