@@ -1,6 +1,9 @@
 const { DateTime } = require("luxon");
 
 module.exports = function(eleventyConfig) {
+  // Add global data for dev mode detection
+  eleventyConfig.addGlobalData("isDev", process.env.NODE_ENV === "development");
+  
   // Passthrough copy for static assets
   eleventyConfig.addPassthroughCopy("src/js");
   eleventyConfig.addPassthroughCopy("dist");

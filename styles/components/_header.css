@@ -110,7 +110,6 @@ header.scrolled {
 .header-center .nav-item[href="/blog/"],
 .header-center .nav-item[href*="/blog/"] {
     color: var(--blog-red) !important;
-    text-decoration: underline;
     text-decoration-color: var(--blog-red);
     text-underline-offset: 4px;
     text-shadow: 0 0 8px var(--blog-red-glow);
@@ -134,7 +133,6 @@ header.scrolled {
 .header-center .nav-item[href="/blog/"].active,
 .header-center .nav-item[href*="/blog/"].active {
     color: var(--blog-red) !important;
-    text-decoration: underline;
     text-decoration-color: var(--blog-red);
     text-shadow: 0 0 10px var(--blog-red-glow-strong);
 }
@@ -463,7 +461,6 @@ header.scrolled {
 .mobile-nav-section a[href="/blog/"],
 .mobile-nav-section a[href*="/blog/"] {
     color: var(--blog-red);
-    text-decoration: underline;
     text-decoration-color: var(--blog-red);
     text-underline-offset: 3px;
 }

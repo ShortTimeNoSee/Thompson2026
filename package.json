@@ -9,7 +9,7 @@
     "build:check": "node scripts/build-check.js",
     "build:css": "postcss styles/main.css -o dist/styles.min.css",
     "build:eleventy": "npx @11ty/eleventy",
-    "dev": "set NODE_ENV=development&& postcss styles/main.css -o dist/styles.min.css && npx @11ty/eleventy --serve",
+    "dev": "NODE_ENV=development postcss styles/main.css -o dist/styles.min.css && NODE_ENV=development npx @11ty/eleventy --serve",
     "serve": "postcss styles/main.css -o dist/styles.min.css && npx @11ty/eleventy --serve",
     "serve:built": "npm run build && npx http-server _site -p 8082 -c-1",
     "watch": "postcss styles/main.css -o dist/styles.min.css --watch",
