@@ -483,8 +483,24 @@ export default {
         const sanitizedComment = escapeHTML((comment?.trim() || "").substring(0, 280));
         const sanitizedEmail = email ? email.trim().toLowerCase().substring(0, 254) : "";
 
-        // Store signing time for rate limiting
+        // Store signing time for rate limiting (before filtering to prevent spam)
         await env.DECLARATION_KV.put(rateLimitKey, now.toString(), { expirationTtl: 86400 });
+
+        // Reject signatures containing "SEO" as a whole word (case-insensitive)
+        const seoWordRegex = /\bSEO\b/i;
+        if (seoWordRegex.test(sanitizedName) || seoWordRegex.test(sanitizedComment) || seoWordRegex.test(sanitizedEmail)) {
+          const currentSignatures = parseInt(await env.DECLARATION_KV.get("total_signatures") || "0");
+          let countiesList = [];
+          try {
+            countiesList = JSON.parse(await env.DECLARATION_KV.get("counties_list") || "[]");
+          } catch (e) {
+            countiesList = [];
+          }
+          return new Response(
+            JSON.stringify({ success: true, signatures: currentSignatures, counties: countiesList.length }),
+            { headers: { "Content-Type": "application/json", ...corsHeaders, ...(isAllowed ? { 'Access-Control-Allow-Origin': origin } : {}), 'Vary': 'Origin' } }
+          );
+        }
 
         // Track IP to county mapping.
         const ipCountyKey = `ip_county:${clientIP}`;
