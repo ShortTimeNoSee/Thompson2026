@@ -19,6 +19,17 @@ function loadPdfLib() {
     });
 }
 
+// Convert Uint8Array to base64 without stack overflow (chunked approach)
+function uint8ArrayToBase64(bytes) {
+    const chunkSize = 0x8000; // 32KB chunks
+    let binary = '';
+    for (let i = 0; i < bytes.length; i += chunkSize) {
+        const chunk = bytes.subarray(i, i + chunkSize);
+        binary += String.fromCharCode.apply(null, chunk);
+    }
+    return btoa(binary);
+}
+
 async function generatePersonalizedPetition(countyName) {
     try {
         const PDFLib = await loadPdfLib();
@@ -57,8 +68,8 @@ async function generatePersonalizedPetition(countyName) {
         
         const pdfBytes = await pdfDoc.save();
         
-        // Convert to base64 data URL (works everywhere, no sandbox issues)
-        const base64 = btoa(String.fromCharCode(...new Uint8Array(pdfBytes)));
+        // Convert to base64 using chunked approach (avoids stack overflow on large PDFs)
+        const base64 = uint8ArrayToBase64(new Uint8Array(pdfBytes));
         const dataUrl = `data:application/pdf;base64,${base64}`;
         
         const safeCountyName = countyName.replace(/\s+/g, '-').toLowerCase();

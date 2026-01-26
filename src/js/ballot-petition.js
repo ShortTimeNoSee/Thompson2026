@@ -139,7 +139,14 @@ class BallotPetitionComponent {
 
         } catch (error) {
             console.error('Failed to generate personalized PDF:', error);
-            alert('Failed to generate personalized PDF. Please try the blank form instead.');
+            // Show error inline (alert blocked by sandbox CSP)
+            const btn = document.getElementById('download-personalized');
+            const errorMsg = document.createElement('div');
+            errorMsg.className = 'pdf-error-msg';
+            errorMsg.style.cssText = 'color: #f44336; margin-top: 10px; font-size: 14px;';
+            errorMsg.textContent = 'Failed to generate PDF. Please try the blank form instead.';
+            btn.parentNode.appendChild(errorMsg);
+            setTimeout(() => errorMsg.remove(), 5000);
         } finally {
             btn.disabled = false;
             btn.innerHTML = originalText;
