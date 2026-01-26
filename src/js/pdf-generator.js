@@ -19,7 +19,7 @@ function loadPdfLib() {
     });
 }
 
-async function generatePersonalizedPetition(countyName, pdfWindow = null) {
+async function generatePersonalizedPetition(countyName) {
     try {
         const PDFLib = await loadPdfLib();
         const { PDFDocument, rgb, StandardFonts } = PDFLib;
@@ -57,37 +57,26 @@ async function generatePersonalizedPetition(countyName, pdfWindow = null) {
         
         const pdfBytes = await pdfDoc.save();
         
-        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        // Convert to base64 data URL (works everywhere, no sandbox issues)
+        const base64 = btoa(String.fromCharCode(...new Uint8Array(pdfBytes)));
+        const dataUrl = `data:application/pdf;base64,${base64}`;
+        
         const safeCountyName = countyName.replace(/\s+/g, '-').toLowerCase();
         const filename = `ballot-petition-${safeCountyName}-county.pdf`;
-        const url = URL.createObjectURL(blob);
         
-        // If we have a pre-opened window, navigate it to the PDF
-        if (pdfWindow && !pdfWindow.closed) {
-            pdfWindow.location.href = url;
-        } else {
-            // Fallback: try download link (works in most browsers)
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = filename;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-        
-        // Clean up after delay
-        setTimeout(() => URL.revokeObjectURL(url), 30000);
+        // Create download link and trigger
+        const link = document.createElement('a');
+        link.href = dataUrl;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
         
         return true;
     } catch (error) {
         console.error('PDF generation failed:', error);
-        // Close the pre-opened window if generation failed
-        if (pdfWindow && !pdfWindow.closed) {
-            pdfWindow.close();
-        }
         return false;
     }
 }
 
 window.generatePersonalizedPetition = generatePersonalizedPetition;
-

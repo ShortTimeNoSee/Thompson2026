@@ -96,11 +96,8 @@ class BallotPetitionComponent {
         }
 
         if (personalizedDownloadBtn) {
-            personalizedDownloadBtn.addEventListener('click', async (e) => {
-                // Open window SYNCHRONOUSLY during click (required for Safari sandbox)
-                // Must happen before any async work or Safari blocks it as a popup
-                const pdfWindow = window.open('about:blank', '_blank');
-                await this.downloadPersonalizedPDF(pdfWindow);
+            personalizedDownloadBtn.addEventListener('click', async () => {
+                await this.downloadPersonalizedPDF();
                 this.updateSteps(3);
             });
         }
@@ -112,7 +109,7 @@ class BallotPetitionComponent {
         }
     }
 
-    async downloadPersonalizedPDF(pdfWindow = null) {
+    async downloadPersonalizedPDF() {
         if (!this.selectedCounty) return;
 
         const btn = document.getElementById('download-personalized');
@@ -134,7 +131,7 @@ class BallotPetitionComponent {
                 });
             }
 
-            const success = await window.generatePersonalizedPetition(this.selectedCounty, pdfWindow);
+            const success = await window.generatePersonalizedPetition(this.selectedCounty);
             
             if (!success) {
                 throw new Error('PDF generation failed');
@@ -142,10 +139,6 @@ class BallotPetitionComponent {
 
         } catch (error) {
             console.error('Failed to generate personalized PDF:', error);
-            // Close pre-opened window on error
-            if (pdfWindow && !pdfWindow.closed) {
-                pdfWindow.close();
-            }
             alert('Failed to generate personalized PDF. Please try the blank form instead.');
         } finally {
             btn.disabled = false;
