@@ -19,7 +19,7 @@ function loadPdfLib() {
     });
 }
 
-async function generatePersonalizedPetition(countyName) {
+async function generatePersonalizedPetition(countyName, pdfWindow = null) {
     try {
         const PDFLib = await loadPdfLib();
         const { PDFDocument, rgb, StandardFonts } = PDFLib;
@@ -58,30 +58,33 @@ async function generatePersonalizedPetition(countyName) {
         const pdfBytes = await pdfDoc.save();
         
         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
         const safeCountyName = countyName.replace(/\s+/g, '-').toLowerCase();
         const filename = `ballot-petition-${safeCountyName}-county.pdf`;
+        const url = URL.createObjectURL(blob);
         
-        // Try download with link element attached to DOM (for sandboxed contexts)
-        try {
+        // If we have a pre-opened window, navigate it to the PDF
+        if (pdfWindow && !pdfWindow.closed) {
+            pdfWindow.location.href = url;
+        } else {
+            // Fallback: try download link (works in most browsers)
             const link = document.createElement('a');
             link.href = url;
             link.download = filename;
-            link.style.display = 'none';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-        } catch (e) {
-            // Fallback: open in new tab (user can save from there)
-            console.warn('Direct download failed, opening in new tab:', e);
-            window.open(url, '_blank');
         }
         
-        setTimeout(() => URL.revokeObjectURL(url), 5000);
+        // Clean up after delay
+        setTimeout(() => URL.revokeObjectURL(url), 30000);
         
         return true;
     } catch (error) {
         console.error('PDF generation failed:', error);
+        // Close the pre-opened window if generation failed
+        if (pdfWindow && !pdfWindow.closed) {
+            pdfWindow.close();
+        }
         return false;
     }
 }
