@@ -59,13 +59,25 @@ async function generatePersonalizedPetition(countyName) {
         
         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
         const safeCountyName = countyName.replace(/\s+/g, '-').toLowerCase();
-        link.download = `ballot-petition-${safeCountyName}-county.pdf`;
-        link.click();
+        const filename = `ballot-petition-${safeCountyName}-county.pdf`;
         
-        setTimeout(() => URL.revokeObjectURL(url), 100);
+        // Try download with link element attached to DOM (for sandboxed contexts)
+        try {
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (e) {
+            // Fallback: open in new tab (user can save from there)
+            console.warn('Direct download failed, opening in new tab:', e);
+            window.open(url, '_blank');
+        }
+        
+        setTimeout(() => URL.revokeObjectURL(url), 5000);
         
         return true;
     } catch (error) {
