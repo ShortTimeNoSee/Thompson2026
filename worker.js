@@ -7,13 +7,21 @@ export default {
     const allowedOrigins = [
       "https://thompson2026.com",
       "https://www.thompson2026.com",
-      "https://shop.thompson2026.com",
-      "http://localhost:5500",
-      "http://127.0.0.1:5500",
-      "http://localhost:8083",
-      "http://127.0.0.1:8083",
-      "http://0.0.0.0:8083" // python -m http.server 8083
+      "https://shop.thompson2026.com"
     ];
+
+    function isLocalDev(origin) {
+      if (!origin) return false;
+      try {
+        const url = new URL(origin);
+        const host = url.hostname;
+        if (host === "localhost" || host === "127.0.0.1" || host === "0.0.0.0") return true;
+        if (host.startsWith("192.168.") || host.startsWith("10.")) return true;
+        if (/^172\.(1[6-9]|2[0-9]|3[0-1])\./.test(host)) return true;
+        if (host.startsWith("100.")) return true; // Tailscale
+        return false;
+      } catch { return false; }
+    }
 
     const corsHeaders = {
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS, DELETE",
@@ -21,7 +29,7 @@ export default {
     };
 
     const origin = request.headers.get("Origin");
-    const isAllowed = origin && allowedOrigins.includes(origin);
+    const isAllowed = origin && (allowedOrigins.includes(origin) || isLocalDev(origin));
 
     if (request.method === "OPTIONS") {
       const headers = { ...corsHeaders, "Vary": "Origin" };
