@@ -35,35 +35,27 @@ This eliminates unused CSS on every page, reducing payload sizes significantly.
 ### JavaScript
 Vanilla JavaScript with no framework dependencies:
 - `src/js/script.js` - global utilities, dark mode, navigation
-- `src/js/ballot-petition.js` - petition signature collection
-- `src/js/declaration-interactive.js` - declaration signing interface
 - `src/js/shop.js` - e-commerce frontend (cart, checkout handoff)
+
+*Archived (in `archive/`): `ballot-petition.js`, `declaration-interactive.js`, `pdf-generator.js`*
 
 ### Edge Runtime (Cloudflare Workers)
 `worker.js` handles server-side logic:
 
 **API Endpoints**:
-- `/api/sign-declaration` - Signature collection with rate limiting (24h/IP), sanitization, metadata capture
-- `/api/declaration-stats` - Public stats retrieval (signature count, counties, list)
-- `/api/admin/edit-signature` - Admin signature editing (requires Bearer auth)
-- `/api/admin/remove-signature` - Admin signature removal (requires Bearer auth)
 - `/api/cart-handoff` - Cart data handoff to WooCommerce with HMAC signature
 - `/api/shop/*` - Proxy to WooCommerce REST API with Basic auth
 - `/api/shop/printful/order` - Proxy to Printful API with Bearer auth
+- `/api/contact` - Contact form submission
+- `/api/subscribe` - Newsletter subscription
+- `/api/comments/*` - Blog comment system
 
-**Storage**: Cloudflare KV for:
-- Signature data (`signatures_list`, `total_signatures`)
-- County tracking (`counties_list`, `counties_represented`)
-- Rate limiting (`rate_limit:{ip}`)
-- IP tracking (`ip_county:{ip}`, `ip_sign_count:{ip}`)
+*Legacy endpoints (still in worker, no longer called by frontend): `/api/sign-declaration`, `/api/declaration-stats`, `/api/admin/edit-signature`, `/api/admin/remove-signature`*
 
 **Security**:
 - CORS with strict origin whitelist
 - XSS prevention via HTML escaping on all user input
-- Rate limiting (1 signature per IP per 24h)
-- County consistency enforcement (IP can't sign for multiple counties)
 - Admin endpoints require Bearer token authentication
-- Metadata logging (IP, user-agent, geolocation, device type) for fraud detection
 
 ### Build Pipeline
 
@@ -204,8 +196,6 @@ npm run clean         # Remove _site/
 - Shop functionality integrates with external WooCommerce instance via API proxy
 - Worker acts as middleware for authentication and CORS
 - All user-generated content is sanitized server-side to prevent XSS
-- IP-based rate limiting prevents spam/abuse on signature collection
-- Geolocation and device fingerprinting via Cloudflare's request object
 - Blog post dates handled in UTC via Luxon
 - Responsive design without CSS frameworks (custom grid/flexbox)
 - Dark mode toggle persists via localStorage

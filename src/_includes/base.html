@@ -148,15 +148,6 @@
                 margin-bottom: 40px !important;
             }
             
-            /* Canvas: hide decorative canvases */
-            #ballotParticleCanvas { display: none !important; }
-            .canvas-hint { display: none !important; }
-            
-            /* Declaration interactive: hide JS container */
-            #declaration-interactive { display: none !important; }
-            #signatures-list { display: none !important; }
-            .floating-ballot-cta { display: none !important; }
-            
             /* Blog: hide JS-only elements */
             .share-copy { display: none !important; }
             #comments-list .comments-loading { display: none !important; }
@@ -164,8 +155,6 @@
             /* Char counters: hide */
             .char-count { display: none !important; }
             
-            /* Circulator section: show by default */
-            #circulator-info.hidden { display: block !important; }
         </style>
     </noscript>
 </head>
@@ -189,14 +178,6 @@
     </footer>
     
     
-    
-    {% if need_declaration_script %}
-    <script src="/js/declaration-interactive.js" defer></script>
-    {% endif %}
-    
-    {% if need_sign_script %}
-    <script src="/js/ballot-petition.js" defer></script>
-    {% endif %}
     
     <script src="/js/script.js" defer></script>
 </body>

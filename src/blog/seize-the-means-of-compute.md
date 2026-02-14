@@ -18,8 +18,8 @@ og_image_alt: A high-contrast, black-and-white photograph of a laptop in a dark 
 og_description: "The critics are right: massive data centers are a waste. But the solution isn't to ban the math. It is to run it on your own metal."
 medium_url: ""
 cta_text: "Technological freedom requires political defense. Help me protect the right to compute and keep open-source software free from government caps."
-cta_button_text: "Get Me On the Ballot"
-cta_button_link: "/sign"
+cta_button_text: "Read the Declaration of War"
+cta_button_link: "/declaration_of_war"
 ---
 
 I find myself in an uncomfortable position lately. I am agreeing with people who usually stand against everything I believe in.

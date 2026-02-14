@@ -81,61 +81,6 @@
     text-align: left;
 }
 
-.no-js-sign-box,
-.no-js-action-box {
-    background: var(--primary-color);
-    padding: 25px;
-    border-radius: 8px;
-    text-align: center;
-}
-
-.no-js-sign-box h3,
-.no-js-action-box h3 {
-    color: var(--accent-color);
-    margin-bottom: 15px;
-}
-
-.no-js-sign-box p,
-.no-js-action-box p {
-    color: var(--text-color);
-    margin-bottom: 15px;
-}
-
-@media (max-width: 768px) {
-    .no-js-declaration-fallback {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* Ballot visual fallback */
-.ballot-visual-fallback {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
-
-.ballot-visual-fallback img {
-    width: 350px;
-    height: 250px;
-    object-fit: contain;
-    opacity: 0.8;
-}
-
-@media (max-width: 768px) {
-    .ballot-visual-fallback img {
-        width: 100%;
-        max-width: 350px;
-        height: 200px;
-    }
-}
-
-@media (max-width: 600px) {
-    .ballot-visual-fallback img {
-        width: 100%;
-        height: 150px;
-    }
-}
 
 /* Shop fallback */
 .no-js-shop-fallback {

@@ -16,8 +16,8 @@ og_image: /resources/blog/butte_college_contrast.webp
 og_image_alt: Aerial view of Butte College featuring the modern, multi-story Student Administrative building on the right, rendered in vibrant colors with polished metal siding and large windows. To the left, the older Business Education building appears in muted, darker tones with a low-profile brown roof
 og_description: "Tuition is up. Professors are underpaid. Where is the money going? It's funding a bureaucracy that suffocates learning."
 cta_text: "We need to audit the system and cut the fat so students can afford to learn. Help me force Sacramento to open the books."
-cta_button_text: "Get Me On the Ballot"
-cta_button_link: "/sign"
+cta_button_text: "Read the Declaration of War"
+cta_button_link: "/declaration_of_war"
 ---
 
 I recently received an invitation from the California Faculty Association to interview for their endorsement.

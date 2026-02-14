@@ -11,7 +11,7 @@ eleventyExcludeFromCollections: true
     {% if page.url == '/' %}
         {% set pagePriority = '1.0' %}
         {% set pageChangefreq = 'weekly' %}
-    {% elif page.url == '/sign/' or page.url == '/issues/' or page.url == '/blog/' %}
+    {% elif page.url == '/declaration_of_war/' or page.url == '/issues/' or page.url == '/blog/' %}
         {% set pagePriority = '0.9' %}
         {% set pageChangefreq = 'weekly' %}
     {% elif '/blog/' in page.url %}

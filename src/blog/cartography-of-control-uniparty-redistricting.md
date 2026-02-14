@@ -17,8 +17,8 @@ og_image: /resources/blog/gerrymander-padded.webp
 og_image_alt: Original 1812 political cartoon depicting "The Gerry-Mander." the salamander-shaped Massachusetts electoral district that coined the term gerrymander, created by Governor Elbridge Gerry's legislature to favor Democratic-Republicans over Federalists.
 og_description: "The 2025 redistricting cycle wasn't about fairness. It was a synchronized weaponization of maps by both parties to ensure they never have to listen to you again."
 cta_text: "They rigged the map to make sure an outsider like me never stands a chance. Let's prove them wrong. Help me force the conversation."
-cta_button_text: "Sign the Petition"
-cta_button_link: "/sign"
+cta_button_text: "Read the Declaration of War"
+cta_button_link: "/declaration_of_war"
 ---
 
 The facade of "good governance" collapsed this year.
